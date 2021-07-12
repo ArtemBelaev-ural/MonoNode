@@ -9,16 +9,21 @@ using Sirenix.OdinInspector.Editor;
 #endif
 
 namespace XNodeEditor.Internal {
-	/// <summary> Handles caching of custom editor classes and their target types. Accessible with GetEditor(Type type) </summary>
-	/// <typeparam name="T">Editor Type. Should be the type of the deriving script itself (eg. NodeEditor) </typeparam>
-	/// <typeparam name="A">Attribute Type. The attribute used to connect with the runtime type (eg. CustomNodeEditorAttribute) </typeparam>
-	/// <typeparam name="K">Runtime Type. The ScriptableObject this can be an editor for (eg. Node) </typeparam>
-	public abstract class NodeEditorBase<T, A, K> where A : Attribute, NodeEditorBase<T, A, K>.INodeEditorAttrib where T : NodeEditorBase<T, A, K> where K : ScriptableObject {
+    /// <summary> Handles caching of custom editor classes and their target types. Accessible with GetEditor(Type type) </summary>
+    /// <typeparam name="T">Editor Type. Should be the type of the deriving script itself (eg. NodeEditor) </typeparam>
+    /// <typeparam name="A">Attribute Type. The attribute used to connect with the runtime type (eg. CustomNodeEditorAttribute) </typeparam>
+    /// <typeparam name="K">Runtime Type. The UnityEngine.Object this can be an editor for (eg. Node) </typeparam>
+    public abstract class NodeEditorBase<T, A, K> where A : Attribute, NodeEditorBase<T, A, K>.INodeEditorAttrib where T : NodeEditorBase<T, A, K> where K : class {
 		/// <summary> Custom editors defined with [CustomNodeEditor] </summary>
 		private static Dictionary<Type, Type> editorTypes;
 		private static Dictionary<K, T> editors = new Dictionary<K, T>();
-		public NodeEditorWindow window;
-		public K target;
+
+        public K Target
+        {
+            get; set;
+        }
+
+        public NodeEditorWindow window;
 		public SerializedObject serializedObject;
 #if ODIN_INSPECTOR
 		private PropertyTree _objectTree;
@@ -42,19 +47,21 @@ namespace XNodeEditor.Internal {
 		public static T GetEditor(K target, NodeEditorWindow window) {
 			if (target == null) return null;
 			T editor;
-			if (!editors.TryGetValue(target, out editor)) {
+            UnityEngine.Object obj = target as UnityEngine.Object;
+            
+            if (!editors.TryGetValue(target, out editor)) {
 				Type type = target.GetType();
-				Type editorType = GetEditorType(type);
+                Type editorType = GetEditorType(type);
 				editor = Activator.CreateInstance(editorType) as T;
-				editor.target = target;
-				editor.serializedObject = new SerializedObject(target);
+				editor.Target = target;
+				editor.serializedObject = obj != null ? new SerializedObject(obj) : null;
 				editor.window = window;
 				editor.OnCreate();
 				editors.Add(target, editor);
 			}
-			if (editor.target == null) editor.target = target;
+			if (editor.Target == null) editor.Target = target;
 			if (editor.window != window) editor.window = window;
-			if (editor.serializedObject == null) editor.serializedObject = new SerializedObject(target);
+			if (editor.serializedObject == null) editor.serializedObject = obj != null ? new SerializedObject(obj) : null;
 			return editor;
 		}
 
@@ -69,13 +76,30 @@ namespace XNodeEditor.Internal {
         }
 
 		private static Type GetEditorType(Type type) {
-			if (type == null) return null;
-			if (editorTypes == null) CacheCustomEditors();
-			Type result;
+            if (type == null) return null;
+            if (editorTypes == null) CacheCustomEditors();
+            Type result;
 			if (editorTypes.TryGetValue(type, out result)) return result;
-			//If type isn't found, try base type
-			return GetEditorType(type.BaseType);
-		}
+            //If type isn't found, try base type
+            var baseTypeEditor = GetEditorType(type.BaseType);
+            if (baseTypeEditor != null)
+            {
+                return baseTypeEditor;
+            }
+
+            //If base type isn't found, try interfaces
+            var interfaces = type.GetInterfaces();
+            for (int i = 0; i < interfaces.Length; i++)
+            {
+                var editorType = GetEditorType(interfaces[i]);
+                if (editorType != null)
+                {
+                    return editorType;
+                }
+            }
+
+            return null;
+        }
 
 		private static void CacheCustomEditors() {
 			editorTypes = new Dictionary<Type, Type>();

@@ -10,7 +10,7 @@ namespace XNodeEditor {
     public partial class NodeEditorWindow {
         public NodeGraphEditor graphEditor;
         private List<UnityEngine.Object> selectionCache;
-        private List<XNode.Node> culledNodes;
+        private List<XNode.INode> culledNodes;
         /// <summary> 19 if docked, 22 if not </summary>
         private int topPadding { get { return isDocked() ? 19 : 22; } }
         /// <summary> Executed after all other window GUI. Useful if Zoom is ruining your day. Automatically resets after being run.</summary>
@@ -113,7 +113,7 @@ namespace XNodeEditor {
         void ShowPortContextMenu(XNode.NodePort hoveredPort) {
             GenericMenu contextMenu = new GenericMenu();
             foreach (var port in hoveredPort.GetConnections()) {
-                var name = port.node.name;
+                var name = port.node.Name;
                 var index = hoveredPort.GetConnectionIndex(port);
                 contextMenu.AddItem(new GUIContent(string.Format("Disconnect({0})", name)), false, () => hoveredPort.Disconnect(index));
             }
@@ -332,7 +332,8 @@ namespace XNodeEditor {
             List<Vector2> gridPoints = new List<Vector2>(2);
 
             Color col = GUI.color;
-            foreach (XNode.Node node in graph.nodes) {
+            XNode.INode[] nodes = (graph as XNode.INodeGraph).GetNodes();
+            foreach (XNode.INode node in nodes) {
                 //If a null node is found, return. This can happen if the nodes associated script is deleted. It is currently not possible in Unity to delete a null asset.
                 if (node == null) continue;
 
@@ -401,7 +402,7 @@ namespace XNodeEditor {
             }
 
             System.Reflection.MethodInfo onValidate = null;
-            if (Selection.activeObject != null && Selection.activeObject is XNode.Node) {
+            if (Selection.activeObject != null && Selection.activeObject is XNode.INode) {
                 onValidate = Selection.activeObject.GetType().GetMethod("OnValidate");
                 if (onValidate != null) EditorGUI.BeginChangeCheck();
             }
@@ -429,17 +430,18 @@ namespace XNodeEditor {
 
             List<XNode.NodePort> removeEntries = new List<XNode.NodePort>();
 
-            if (e.type == EventType.Layout) culledNodes = new List<XNode.Node>();
-            for (int n = 0; n < graph.nodes.Count; n++) {
+            if (e.type == EventType.Layout) culledNodes = new List<XNode.INode>();
+            XNode.INode[] nodes = (graph as XNode.INodeGraph).GetNodes();
+            for (int n = 0; n < nodes.Length; n++) {
                 // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
-                if (graph.nodes[n] == null) continue;
-                if (n >= graph.nodes.Count) return;
-                XNode.Node node = graph.nodes[n];
+                if (nodes[n] == null) continue;
+                if (n >= nodes.Length) return;
+                XNode.INode node = nodes[n];
 
                 // Culling
                 if (e.type == EventType.Layout) {
                     // Cull unselected nodes outside view
-                    if (!Selection.Contains(node) && ShouldBeCulled(node)) {
+                    if (!Selection.Contains(node as UnityEngine.Object) && ShouldBeCulled(node)) {
                         culledNodes.Add(node);
                         continue;
                     }
@@ -460,11 +462,11 @@ namespace XNodeEditor {
                 EditorGUIUtility.labelWidth = 84;
 
                 //Get node position
-                Vector2 nodePos = GridToWindowPositionNoClipped(node.position);
+                Vector2 nodePos = GridToWindowPositionNoClipped(node.Position);
 
                 GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeEditor.GetWidth(), 4000)));
 
-                bool selected = selectionCache.Contains(graph.nodes[n]);
+                bool selected = selectionCache.Contains(nodes[n] as UnityEngine.Object);
 
                 if (selected) {
                     GUIStyle style = new GUIStyle(nodeEditor.GetBodyStyle());
@@ -491,8 +493,8 @@ namespace XNodeEditor {
                 //If user changed a value, notify other scripts through onUpdateNode
                 if (EditorGUI.EndChangeCheck()) {
                     if (NodeEditor.onUpdateNode != null) NodeEditor.onUpdateNode(node);
-                    EditorUtility.SetDirty(node);
-                    nodeEditor.serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(node as UnityEngine.Object);
+                    nodeEditor?.serializedObject.ApplyModifiedProperties();
                 }
 
                 GUILayout.EndVertical();
@@ -505,7 +507,7 @@ namespace XNodeEditor {
 
                     foreach (var kvp in NodeEditor.portPositions) {
                         Vector2 portHandlePos = kvp.Value;
-                        portHandlePos += node.position;
+                        portHandlePos += node.Position;
                         Rect rect = new Rect(portHandlePos.x - 8, portHandlePos.y - 8, 16, 16);
                         portConnectionPoints[kvp.Key] = rect;
                     }
@@ -521,7 +523,7 @@ namespace XNodeEditor {
 
                     //If dragging a selection box, add nodes inside to selection
                     if (currentActivity == NodeActivity.DragGrid) {
-                        if (windowRect.Overlaps(selectionBox)) preSelection.Add(node);
+                        if (windowRect.Overlaps(selectionBox)) preSelection.Add(node as UnityEngine.Object);
                     }
 
                     //Check if we are hovering any of this nodes ports
@@ -553,9 +555,9 @@ namespace XNodeEditor {
             if (onValidate != null && EditorGUI.EndChangeCheck()) onValidate.Invoke(Selection.activeObject, null);
         }
 
-        private bool ShouldBeCulled(XNode.Node node) {
+        private bool ShouldBeCulled(XNode.INode node) {
 
-            Vector2 nodePos = GridToWindowPositionNoClipped(node.position);
+            Vector2 nodePos = GridToWindowPositionNoClipped(node.Position);
             if (nodePos.x / _zoom > position.width) return true; // Right
             else if (nodePos.y / _zoom > position.height) return true; // Bottom
             else if (nodeSizes.ContainsKey(node)) {

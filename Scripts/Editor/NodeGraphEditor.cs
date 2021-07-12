@@ -5,12 +5,20 @@ using UnityEngine;
 
 namespace XNodeEditor {
     /// <summary> Base class to derive custom Node Graph editors from. Use this to override how graphs are drawn in the editor. </summary>
-    [CustomNodeGraphEditor(typeof(XNode.NodeGraph))]
-    public class NodeGraphEditor : XNodeEditor.Internal.NodeEditorBase<NodeGraphEditor, NodeGraphEditor.CustomNodeGraphEditorAttribute, XNode.NodeGraph> {
+    [CustomNodeGraphEditor(typeof(XNode.INodeGraph))]
+    public class NodeGraphEditor : XNodeEditor.Internal.NodeEditorBase<NodeGraphEditor, NodeGraphEditor.CustomNodeGraphEditorAttribute, XNode.INodeGraph> {
         [Obsolete("Use window.position instead")]
         public Rect position { get { return window.position; } set { window.position = value; } }
         /// <summary> Are we currently renaming a node? </summary>
         protected bool isRenaming;
+
+        public UnityEngine.Object target
+        {
+            get
+            {
+                return Target as UnityEngine.Object;
+            }
+        }
 
         public virtual void OnGUI() { }
 
@@ -39,7 +47,7 @@ namespace XNodeEditor {
         /// <summary> Returns context node menu path. Null or empty strings for hidden nodes. </summary>
         public virtual string GetNodeMenuName(Type type) {
             //Check if type has the CreateNodeMenuAttribute
-            XNode.Node.CreateNodeMenuAttribute attrib;
+            XNode.CreateNodeMenuAttribute attrib;
             if (NodeEditorUtilities.GetAttrib(type, out attrib)) // Return custom path
                 return attrib.menuName;
             else // Return generated path
@@ -49,7 +57,7 @@ namespace XNodeEditor {
         /// <summary> The order by which the menu items are displayed. </summary>
         public virtual int GetNodeMenuOrder(Type type) {
             //Check if type has the CreateNodeMenuAttribute
-            XNode.Node.CreateNodeMenuAttribute attrib;
+            XNode.CreateNodeMenuAttribute attrib;
             if (NodeEditorUtilities.GetAttrib(type, out attrib)) // Return custom path
                 return attrib.order;
             else
@@ -74,25 +82,32 @@ namespace XNodeEditor {
                 nodeTypes = NodeEditorReflection.nodeTypes.OrderBy(GetNodeMenuOrder).ToArray();
             }
 
+            Type nodeBaseType = Target.getNodeType();
+
             for (int i = 0; i < nodeTypes.Length; i++) {
                 Type type = nodeTypes[i];
+
+                if (!type.IsSubclassOf(nodeBaseType))
+                {
+                    continue;
+                }
 
                 //Get node context menu path
                 string path = GetNodeMenuName(type);
                 if (string.IsNullOrEmpty(path)) continue;
 
                 // Check if user is allowed to add more of given node type
-                XNode.Node.DisallowMultipleNodesAttribute disallowAttrib;
+                XNode.DisallowMultipleNodesAttribute disallowAttrib;
                 bool disallowed = false;
                 if (NodeEditorUtilities.GetAttrib(type, out disallowAttrib)) {
-                    int typeCount = target.nodes.Count(x => x.GetType() == type);
+                    int typeCount = Target.GetNodes().Count(x => x.GetType() == type);
                     if (typeCount >= disallowAttrib.max) disallowed = true;
                 }
 
                 // Add node entry to context menu
                 if (disallowed) menu.AddItem(new GUIContent(path), false, null);
                 else menu.AddItem(new GUIContent(path), false, () => {
-                    XNode.Node node = CreateNode(type, pos);
+                    XNode.INode node = CreateNode(type, pos);
                     NodeEditorWindow.current.AutoConnect(node);
                 });
             }
@@ -200,37 +215,37 @@ namespace XNodeEditor {
         }
 
         /// <summary> Create a node and save it in the graph asset </summary>
-        public virtual XNode.Node CreateNode(Type type, Vector2 position) {
+        public virtual XNode.INode CreateNode(Type type, Vector2 position) {
             Undo.RecordObject(target, "Create Node");
-            XNode.Node node = target.AddNode(type);
-            Undo.RegisterCreatedObjectUndo(node, "Create Node");
-            node.position = position;
-            if (node.name == null || node.name.Trim() == "") node.name = NodeEditorUtilities.NodeDefaultName(type);
-            if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(target))) AssetDatabase.AddObjectToAsset(node, target);
+            XNode.INode node = Target.AddNode(type);
+            Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Create Node");
+            node.Position = position;
+            if (node.Name == null || node.Name.Trim() == "") node.Name = NodeEditorUtilities.NodeDefaultName(type);
+            if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(target))) AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
             NodeEditorWindow.RepaintAll();
             return node;
         }
 
         /// <summary> Creates a copy of the original node in the graph </summary>
-        public virtual XNode.Node CopyNode(XNode.Node original) {
+        public virtual XNode.INode CopyNode(XNode.INode original) {
             Undo.RecordObject(target, "Duplicate Node");
-            XNode.Node node = target.CopyNode(original);
-            Undo.RegisterCreatedObjectUndo(node, "Duplicate Node");
-            node.name = original.name;
-            AssetDatabase.AddObjectToAsset(node, target);
+            XNode.INode node = Target.CopyNode(original);
+            Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Duplicate Node");
+            node.Name = original.Name;
+            AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
             return node;
         }
 
         /// <summary> Return false for nodes that can't be removed </summary>
-        public virtual bool CanRemove(XNode.Node node) {
+        public virtual bool CanRemove(XNode.INode node) {
             // Check graph attributes to see if this node is required
             Type graphType = target.GetType();
-            XNode.NodeGraph.RequireNodeAttribute[] attribs = Array.ConvertAll(
-                graphType.GetCustomAttributes(typeof(XNode.NodeGraph.RequireNodeAttribute), true), x => x as XNode.NodeGraph.RequireNodeAttribute);
+            XNode.RequireNodeAttribute[] attribs = Array.ConvertAll(
+                graphType.GetCustomAttributes(typeof(XNode.RequireNodeAttribute), true), x => x as XNode.RequireNodeAttribute);
             if (attribs.Any(x => x.Requires(node.GetType()))) {
-                if (target.nodes.Count(x => x.GetType() == node.GetType()) <= 1) {
+                if (Target.GetNodes().Count(x => x.GetType() == node.GetType()) <= 1) {
                     return false;
                 }
             }
@@ -238,23 +253,23 @@ namespace XNodeEditor {
         }
 
         /// <summary> Safely remove a node and all its connections. </summary>
-        public virtual void RemoveNode(XNode.Node node) {
+        public virtual void RemoveNode(XNode.INode node) {
             if (!CanRemove(node)) return;
 
             // Remove the node
-            Undo.RecordObject(node, "Delete Node");
+            Undo.RecordObject(node as UnityEngine.Object, "Delete Node");
             Undo.RecordObject(target, "Delete Node");
             foreach (var port in node.Ports)
                 foreach (var conn in port.GetConnections())
-                    Undo.RecordObject(conn.node, "Delete Node");
-            target.RemoveNode(node);
-            Undo.DestroyObjectImmediate(node);
+                    Undo.RecordObject(conn.node as UnityEngine.Object, "Delete Node");
+            Target.RemoveNode(node);
+            Undo.DestroyObjectImmediate(node as UnityEngine.Object);
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
         }
 
         [AttributeUsage(AttributeTargets.Class)]
         public class CustomNodeGraphEditorAttribute : Attribute,
-        XNodeEditor.Internal.NodeEditorBase<NodeGraphEditor, NodeGraphEditor.CustomNodeGraphEditorAttribute, XNode.NodeGraph>.INodeEditorAttrib {
+        XNodeEditor.Internal.NodeEditorBase<NodeGraphEditor, NodeGraphEditor.CustomNodeGraphEditorAttribute, XNode.INodeGraph>.INodeEditorAttrib {
             private Type inspectedType;
             public string editorPrefsKey;
             /// <summary> Tells a NodeGraphEditor which Graph type it is an editor for </summary>

@@ -25,13 +25,13 @@ namespace XNodeEditor {
 
         public static Type[] GetNodeTypes() {
             //Get all classes deriving from Node via reflection
-            return GetDerivedTypes(typeof(XNode.Node));
+            return GetDerivedTypes(typeof(XNode.INode));
         }
 
         /// <summary> Custom node tint colors defined with [NodeColor(r, g, b)] </summary>
         public static bool TryGetAttributeTint(this Type nodeType, out Color tint) {
             if (nodeTint == null) {
-                CacheAttributes<Color, XNode.Node.NodeTintAttribute>(ref nodeTint, x => x.color);
+                CacheAttributes<Color, XNode.NodeTintAttribute>(ref nodeTint, x => x.color);
             }
             return nodeTint.TryGetValue(nodeType, out tint);
         }
@@ -39,7 +39,7 @@ namespace XNodeEditor {
         /// <summary> Get custom node widths defined with [NodeWidth(width)] </summary>
         public static bool TryGetAttributeWidth(this Type nodeType, out int width) {
             if (nodeWidth == null) {
-                CacheAttributes<int, XNode.Node.NodeWidthAttribute>(ref nodeWidth, x => x.width);
+                CacheAttributes<int, XNode.NodeWidthAttribute>(ref nodeWidth, x => x.width);
             }
             return nodeWidth.TryGetValue(nodeType, out width);
         }
@@ -59,7 +59,7 @@ namespace XNodeEditor {
             // If we can't find field in the first run, it's probably a private field in a base class.
             FieldInfo field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             // Search base classes for private fields only. Public fields are found above
-            while (field == null && (type = type.BaseType) != typeof(XNode.Node)) field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            while (field == null && (type = type.BaseType) != typeof(XNode.INode)) field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
             return field;
         }
 

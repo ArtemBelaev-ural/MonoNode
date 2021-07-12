@@ -23,11 +23,11 @@ namespace XNode {
             get { return _direction; }
             internal set { _direction = value; }
         }
-        public Node.ConnectionType connectionType {
+        public ConnectionType connectionType {
             get { return _connectionType; }
             internal set { _connectionType = value; }
         }
-        public Node.TypeConstraint typeConstraint {
+        public TypeConstraint typeConstraint {
             get { return _typeConstraint; }
             internal set { _typeConstraint = value; }
         }
@@ -38,7 +38,7 @@ namespace XNode {
         public bool IsOutput { get { return direction == IO.Output; } }
 
         public string fieldName { get { return _fieldName; } }
-        public Node node { get { return _node; } }
+        public INode node { get { return _node as INode; } }
         public bool IsDynamic { get { return _dynamic; } }
         public bool IsStatic { get { return !_dynamic; } }
         public Type ValueType {
@@ -54,12 +54,12 @@ namespace XNode {
         private Type valueType;
 
         [SerializeField] private string _fieldName;
-        [SerializeField] private Node _node;
+        [SerializeField] private UnityEngine.Object _node;
         [SerializeField] private string _typeQualifiedName;
         [SerializeField] private List<PortConnection> connections = new List<PortConnection>();
         [SerializeField] private IO _direction;
-        [SerializeField] private Node.ConnectionType _connectionType;
-        [SerializeField] private Node.TypeConstraint _typeConstraint;
+        [SerializeField] private ConnectionType _connectionType;
+        [SerializeField] private TypeConstraint _typeConstraint;
         [SerializeField] private bool _dynamic;
 
         /// <summary> Construct a static targetless nodeport. Used as a template. </summary>
@@ -69,53 +69,65 @@ namespace XNode {
             _dynamic = false;
             var attribs = fieldInfo.GetCustomAttributes(false);
             for (int i = 0; i < attribs.Length; i++) {
-                if (attribs[i] is Node.InputAttribute) {
+                if (attribs[i] is InputAttribute) {
                     _direction = IO.Input;
-                    _connectionType = (attribs[i] as Node.InputAttribute).connectionType;
-                    _typeConstraint = (attribs[i] as Node.InputAttribute).typeConstraint;
-                } else if (attribs[i] is Node.OutputAttribute) {
+                    _connectionType = (attribs[i] as InputAttribute).connectionType;
+                    _typeConstraint = (attribs[i] as InputAttribute).typeConstraint;
+                } else if (attribs[i] is OutputAttribute) {
                     _direction = IO.Output;
-                    _connectionType = (attribs[i] as Node.OutputAttribute).connectionType;
-                    _typeConstraint = (attribs[i] as Node.OutputAttribute).typeConstraint;
+                    _connectionType = (attribs[i] as OutputAttribute).connectionType;
+                    _typeConstraint = (attribs[i] as OutputAttribute).typeConstraint;
                 }
             }
         }
 
         /// <summary> Copy a nodePort but assign it to another node. </summary>
-        public NodePort(NodePort nodePort, Node node) {
+        public NodePort(NodePort nodePort, INode node) {
             _fieldName = nodePort._fieldName;
             ValueType = nodePort.valueType;
             _direction = nodePort.direction;
             _dynamic = nodePort._dynamic;
             _connectionType = nodePort._connectionType;
             _typeConstraint = nodePort._typeConstraint;
-            _node = node;
+            var serializableNode = node as UnityEngine.Object;
+            if (serializableNode == null)
+            {
+                throw new ArgumentNullException("Nodes should be UnityEngine Objects to be able to serialize");
+            }
+            _node = serializableNode;
         }
 
         /// <summary> Construct a dynamic port. Dynamic ports are not forgotten on reimport, and is ideal for runtime-created ports. </summary>
-        public NodePort(string fieldName, Type type, IO direction, Node.ConnectionType connectionType, Node.TypeConstraint typeConstraint, Node node) {
+        public NodePort(string fieldName, Type type, IO direction, ConnectionType connectionType, TypeConstraint typeConstraint, INode node) {
             _fieldName = fieldName;
             this.ValueType = type;
             _direction = direction;
-            _node = node;
             _dynamic = true;
             _connectionType = connectionType;
             _typeConstraint = typeConstraint;
+            var serializableNode = node as UnityEngine.Object;
+            if (serializableNode == null)
+            {
+                throw new ArgumentNullException("Nodes should be UnityEngine Objects to be able to serialize");
+            }
+            _node = serializableNode;
         }
 
         /// <summary> Checks all connections for invalid references, and removes them. </summary>
         public void VerifyConnections() {
             for (int i = connections.Count - 1; i >= 0; i--) {
-                if (connections[i].node != null &&
-                    !string.IsNullOrEmpty(connections[i].fieldName) &&
-                    connections[i].node.GetPort(connections[i].fieldName) != null)
+                PortConnection connection = connections[i];
+                INode castedNode = connection.node as INode;
+                if (castedNode != null &&
+                    !string.IsNullOrEmpty(connection.fieldName) &&
+                    castedNode.GetPort(connection.fieldName) != null)
                     continue;
                 connections.RemoveAt(i);
             }
         }
 
         /// <summary> Return the output value of this node through its parent nodes GetValue override method. </summary>
-        /// <returns> <see cref="Node.GetValue(NodePort)"/> </returns>
+        /// <returns> <see cref="INode.GetValue(NodePort)"/> </returns>
         public object GetOutputValue() {
             if (direction == IO.Input) return null;
             return node.GetValue(this);
@@ -209,11 +221,11 @@ namespace XNode {
             if (IsConnectedTo(port)) { Debug.LogWarning("Port already connected. "); return; }
             if (direction == port.direction) { Debug.LogWarning("Cannot connect two " + (direction == IO.Input ? "input" : "output") + " connections"); return; }
 #if UNITY_EDITOR
-            UnityEditor.Undo.RecordObject(node, "Connect Port");
-            UnityEditor.Undo.RecordObject(port.node, "Connect Port");
+            UnityEditor.Undo.RecordObject(node as UnityEngine.Object, "Connect Port");
+            UnityEditor.Undo.RecordObject(port.node as UnityEngine.Object, "Connect Port");
 #endif
-            if (port.connectionType == Node.ConnectionType.Override && port.ConnectionCount != 0) { port.ClearConnections(); }
-            if (connectionType == Node.ConnectionType.Override && ConnectionCount != 0) { ClearConnections(); }
+            if (port.connectionType == ConnectionType.Override && port.ConnectionCount != 0) { port.ClearConnections(); }
+            if (connectionType == ConnectionType.Override && ConnectionCount != 0) { ClearConnections(); }
             connections.Add(new PortConnection(port));
             if (port.connections == null) port.connections = new List<PortConnection>();
             if (!port.IsConnectedTo(this)) port.connections.Add(new PortConnection(this));
@@ -236,7 +248,8 @@ namespace XNode {
                 connections.RemoveAt(i);
                 return null;
             }
-            NodePort port = connections[i].node.GetPort(connections[i].fieldName);
+            INode castedNode = connections[i].node as INode;
+            NodePort port = castedNode.GetPort(connections[i].fieldName);
             if (port == null) {
                 connections.RemoveAt(i);
                 return null;
@@ -270,15 +283,15 @@ namespace XNode {
             // If there isn't one of each, they can't connect
             if (input == null || output == null) return false;
             // Check input type constraints
-            if (input.typeConstraint == XNode.Node.TypeConstraint.Inherited && !input.ValueType.IsAssignableFrom(output.ValueType)) return false;
-            if (input.typeConstraint == XNode.Node.TypeConstraint.Strict && input.ValueType != output.ValueType) return false;
-            if (input.typeConstraint == XNode.Node.TypeConstraint.InheritedInverse && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
-            if (input.typeConstraint == XNode.Node.TypeConstraint.InheritedAny && !input.ValueType.IsAssignableFrom(output.ValueType) && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
+            if (input.typeConstraint == XNode.TypeConstraint.Inherited && !input.ValueType.IsAssignableFrom(output.ValueType)) return false;
+            if (input.typeConstraint == XNode.TypeConstraint.Strict && input.ValueType != output.ValueType) return false;
+            if (input.typeConstraint == XNode.TypeConstraint.InheritedInverse && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
+            if (input.typeConstraint == XNode.TypeConstraint.InheritedAny && !input.ValueType.IsAssignableFrom(output.ValueType) && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
             // Check output type constraints
-            if (output.typeConstraint == XNode.Node.TypeConstraint.Inherited && !input.ValueType.IsAssignableFrom(output.ValueType)) return false;
-            if (output.typeConstraint == XNode.Node.TypeConstraint.Strict && input.ValueType != output.ValueType) return false;
-            if (output.typeConstraint == XNode.Node.TypeConstraint.InheritedInverse && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
-            if (output.typeConstraint == XNode.Node.TypeConstraint.InheritedAny && !input.ValueType.IsAssignableFrom(output.ValueType) && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
+            if (output.typeConstraint == XNode.TypeConstraint.Inherited && !input.ValueType.IsAssignableFrom(output.ValueType)) return false;
+            if (output.typeConstraint == XNode.TypeConstraint.Strict && input.ValueType != output.ValueType) return false;
+            if (output.typeConstraint == XNode.TypeConstraint.InheritedInverse && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
+            if (output.typeConstraint == XNode.TypeConstraint.InheritedAny && !input.ValueType.IsAssignableFrom(output.ValueType) && !output.ValueType.IsAssignableFrom(input.ValueType)) return false;
             // Success
             return true;
         }
@@ -383,17 +396,18 @@ namespace XNode {
         }
 
         /// <summary> Swap connected nodes from the old list with nodes from the new list </summary>
-        public void Redirect(List<Node> oldNodes, List<Node> newNodes) {
+        public void Redirect(List<INode> oldNodes, List<INode> newNodes) {
             foreach (PortConnection connection in connections) {
-                int index = oldNodes.IndexOf(connection.node);
-                if (index >= 0) connection.node = newNodes[index];
+                INode castedNode = connection.node as INode;
+                int index = oldNodes.IndexOf(castedNode);
+                if (index >= 0) connection.node = newNodes[index] as UnityEngine.Object;
             }
         }
 
         [Serializable]
         private class PortConnection {
             [SerializeField] public string fieldName;
-            [SerializeField] public Node node;
+            [SerializeField] public UnityEngine.Object node;
             public NodePort Port { get { return port != null ? port : port = GetPort(); } }
 
             [NonSerialized] private NodePort port;
@@ -402,14 +416,15 @@ namespace XNode {
 
             public PortConnection(NodePort port) {
                 this.port = port;
-                node = port.node;
+                node = port.node as UnityEngine.Object;
                 fieldName = port.fieldName;
             }
 
             /// <summary> Returns the port that this <see cref="PortConnection"/> points to </summary>
             private NodePort GetPort() {
-                if (node == null || string.IsNullOrEmpty(fieldName)) return null;
-                return node.GetPort(fieldName);
+                INode castedNode = (node as INode);
+                if (castedNode == null || string.IsNullOrEmpty(fieldName)) return null;
+                return castedNode.GetPort(fieldName);
             }
         }
     }

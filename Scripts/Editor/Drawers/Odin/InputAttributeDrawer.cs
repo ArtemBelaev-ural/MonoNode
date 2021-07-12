@@ -6,18 +6,18 @@ using UnityEngine;
 using XNode;
 
 namespace XNodeEditor {
-	public class InputAttributeDrawer : OdinAttributeDrawer<XNode.Node.InputAttribute> {
+	public class InputAttributeDrawer : OdinAttributeDrawer<XNode.InputAttribute> {
 		protected override bool CanDrawAttributeProperty(InspectorProperty property) {
-			Node node = property.Tree.WeakTargets[0] as Node;
+			INode node = property.Tree.WeakTargets[0] as INode;
 			return node != null;
 		}
 
 		protected override void DrawPropertyLayout(GUIContent label) {
-			Node node = Property.Tree.WeakTargets[0] as Node;
+			INode node = Property.Tree.WeakTargets[0] as INode;
 			NodePort port = node.GetInputPort(Property.Name);
 
 			if (!NodeEditor.inNodeEditor) {
-				if (Attribute.backingValue == XNode.Node.ShowBackingValue.Always || Attribute.backingValue == XNode.Node.ShowBackingValue.Unconnected && !port.IsConnected)
+				if (Attribute.backingValue == XNode.ShowBackingValue.Always || Attribute.backingValue == XNode.ShowBackingValue.Unconnected && !port.IsConnected)
 					CallNextDrawer(label);
 				return;
 			}

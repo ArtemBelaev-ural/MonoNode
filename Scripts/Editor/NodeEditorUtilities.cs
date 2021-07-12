@@ -135,9 +135,9 @@ namespace XNodeEditor {
         /// <param name="direction"></param>
         /// <returns>True if NodeType has some port with value type compatible</returns>
         public static bool HasCompatiblePortType(Type nodeType, Type compatibleType, XNode.NodePort.IO direction = XNode.NodePort.IO.Input) {
-            Type findType = typeof(XNode.Node.InputAttribute);
+            Type findType = typeof(XNode.InputAttribute);
             if (direction == XNode.NodePort.IO.Output)
-                findType = typeof(XNode.Node.OutputAttribute);
+                findType = typeof(XNode.OutputAttribute);
 
             //Get All fields from node type and we go filter only field with portAttribute.
             //This way is possible to know the values of the all ports and if have some with compatible value tue

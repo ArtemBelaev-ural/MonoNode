@@ -25,11 +25,11 @@ namespace XNodeEditor {
         private Func<bool> _isDocked;
 
         [System.Serializable] private class NodePortReference {
-            [SerializeField] private XNode.Node _node;
+            [SerializeField] private UnityEngine.Object _node;
             [SerializeField] private string _name;
 
             public NodePortReference(XNode.NodePort nodePort) {
-                _node = nodePort.node;
+                _node = nodePort.node as UnityEngine.Object;
                 _name = nodePort.fieldName;
             }
 
@@ -37,7 +37,7 @@ namespace XNodeEditor {
                 if (_node == null) {
                     return null;
                 }
-                return _node.GetPort(_name);
+                return (_node as XNode.INode).GetPort(_name);
             }
         }
 
@@ -66,9 +66,9 @@ namespace XNodeEditor {
             }
         }
 
-        public Dictionary<XNode.Node, Vector2> nodeSizes { get { return _nodeSizes; } }
-        private Dictionary<XNode.Node, Vector2> _nodeSizes = new Dictionary<XNode.Node, Vector2>();
-        public XNode.NodeGraph graph;
+        public Dictionary<XNode.INode, Vector2> nodeSizes { get { return _nodeSizes; } }
+        private Dictionary<XNode.INode, Vector2> _nodeSizes = new Dictionary<XNode.INode, Vector2>();
+        public UnityEngine.Object graph;
         public Vector2 panOffset { get { return _panOffset; } set { _panOffset = value; Repaint(); } }
         private Vector2 _panOffset;
         public float zoom { get { return _zoom; } set { _zoom = Mathf.Clamp(value, NodeEditorPreferences.GetSettings().minZoom, NodeEditorPreferences.GetSettings().maxZoom); Repaint(); } }
@@ -97,15 +97,15 @@ namespace XNodeEditor {
 
         /// <summary> Handle Selection Change events</summary>
         private static void OnSelectionChanged() {
-            XNode.NodeGraph nodeGraph = Selection.activeObject as XNode.NodeGraph;
-            if (nodeGraph && !AssetDatabase.Contains(nodeGraph)) {
+            XNode.INodeGraph nodeGraph = Selection.activeObject as XNode.INodeGraph;
+            if (nodeGraph != null && !AssetDatabase.Contains(nodeGraph as UnityEngine.Object)) {
                 if (NodeEditorPreferences.GetSettings().openOnCreate) Open(nodeGraph);
             }
         }
 
         /// <summary> Make sure the graph editor is assigned and to the right object </summary>
         private void ValidateGraphEditor() {
-            NodeGraphEditor graphEditor = NodeGraphEditor.GetEditor(graph, this);
+            NodeGraphEditor graphEditor = NodeGraphEditor.GetEditor(graph as XNode.INodeGraph, this);
             if (this.graphEditor != graphEditor && graphEditor != null) {
                 this.graphEditor = graphEditor;
                 graphEditor.OnOpen();
@@ -171,17 +171,17 @@ namespace XNodeEditor {
             return new Vector2(xOffset, yOffset);
         }
 
-        public void SelectNode(XNode.Node node, bool add) {
+        public void SelectNode(XNode.INode node, bool add) {
             if (add) {
                 List<Object> selection = new List<Object>(Selection.objects);
-                selection.Add(node);
+                selection.Add(node as UnityEngine.Object);
                 Selection.objects = selection.ToArray();
-            } else Selection.objects = new Object[] { node };
+            } else Selection.objects = new Object[] { node as UnityEngine.Object };
         }
 
-        public void DeselectNode(XNode.Node node) {
+        public void DeselectNode(XNode.INode node) {
             List<Object> selection = new List<Object>(Selection.objects);
-            selection.Remove(node);
+            selection.Remove(node as UnityEngine.Object);
             Selection.objects = selection.ToArray();
         }
 
@@ -196,12 +196,12 @@ namespace XNodeEditor {
         }
 
         /// <summary>Open the provided graph in the NodeEditor</summary>
-        public static NodeEditorWindow Open(XNode.NodeGraph graph) {
-            if (!graph) return null;
+        public static NodeEditorWindow Open(XNode.INodeGraph graph) {
+            if (graph == null) return null;
 
             NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, "xNode", true) as NodeEditorWindow;
             w.wantsMouseMove = true;
-            w.graph = graph;
+            w.graph = graph as UnityEngine.Object;
             return w;
         }
 

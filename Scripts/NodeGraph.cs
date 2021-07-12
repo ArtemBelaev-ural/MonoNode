@@ -5,19 +5,52 @@ using UnityEngine;
 namespace XNode {
     /// <summary> Base class for all node graphs </summary>
     [Serializable]
-    public abstract class NodeGraph : ScriptableObject {
+    public abstract class NodeGraph : ScriptableObject, INodeGraph
+    {
 
         /// <summary> All nodes in the graph. <para/>
         /// See: <see cref="AddNode{T}"/> </summary>
         [SerializeField] public List<Node> nodes = new List<Node>();
 
+        public int NodesCount
+        {
+            get
+            {
+                return nodes.Count;
+            }
+        }
+
+        public INode[] GetNodes()
+        {
+            var result = new INode[nodes.Count];
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                result[i] = nodes[i];
+            }
+            return result;
+        }
+
         /// <summary> Add a node to the graph by type (convenience method - will call the System.Type version) </summary>
-        public T AddNode<T>() where T : Node {
+        public T AddNode<T>() where T : Node
+        {
             return AddNode(typeof(T)) as T;
         }
 
+        /// <summary> Placing it last in the nodes list </summary>
+        public void MoveNodeToTop(INode node)
+        {
+            var castedNode = node as Node;
+            int index;
+            while ((index = nodes.IndexOf(castedNode)) != NodesCount - 1)
+            {
+                nodes[index] = nodes[index + 1];
+                nodes[index + 1] = castedNode;
+            }
+        }
+
         /// <summary> Add a node to the graph by type </summary>
-        public virtual Node AddNode(Type type) {
+        public virtual INode AddNode(Type type)
+        {
             Node.graphHotfix = this;
             Node node = ScriptableObject.CreateInstance(type) as Node;
             node.graph = this;
@@ -26,9 +59,15 @@ namespace XNode {
         }
 
         /// <summary> Creates a copy of the original node in the graph </summary>
-        public virtual Node CopyNode(Node original) {
+        public virtual INode CopyNode(INode original)
+        {
+            Node castedNode = original as Node;
+            if (castedNode == null)
+            {
+                throw new ArgumentException("NodeGraph can only copy nodes scriptable objects");
+            }
             Node.graphHotfix = this;
-            Node node = ScriptableObject.Instantiate(original);
+            Node node = ScriptableObject.Instantiate(castedNode);
             node.graph = this;
             node.ClearConnections();
             nodes.Add(node);
@@ -37,16 +76,21 @@ namespace XNode {
 
         /// <summary> Safely remove a node and all its connections </summary>
         /// <param name="node"> The node to remove </param>
-        public virtual void RemoveNode(Node node) {
+        public virtual void RemoveNode(INode node)
+        {
             node.ClearConnections();
-            nodes.Remove(node);
-            if (Application.isPlaying) Destroy(node);
+            nodes.Remove(node as Node);
+            if (Application.isPlaying)
+                Destroy(node as UnityEngine.Object);
         }
 
         /// <summary> Remove all nodes and connections from the graph </summary>
-        public virtual void Clear() {
-            if (Application.isPlaying) {
-                for (int i = 0; i < nodes.Count; i++) {
+        public virtual void Clear()
+        {
+            if (Application.isPlaying)
+            {
+                for (int i = 0; i < nodes.Count; i++)
+                {
                     Destroy(nodes[i]);
                 }
             }
@@ -54,71 +98,47 @@ namespace XNode {
         }
 
         /// <summary> Create a new deep copy of this graph </summary>
-        public virtual XNode.NodeGraph Copy() {
+        public virtual XNode.INodeGraph Copy()
+        {
             // Instantiate a new nodegraph instance
             NodeGraph graph = Instantiate(this);
             // Instantiate all nodes inside the graph
-            for (int i = 0; i < nodes.Count; i++) {
-                if (nodes[i] == null) continue;
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i] == null)
+                    continue;
                 Node.graphHotfix = graph;
                 Node node = Instantiate(nodes[i]) as Node;
                 node.graph = graph;
                 graph.nodes[i] = node;
             }
 
+            var oldNodes = new List<INode>(nodes);
+            var newNodes = new List<INode>(graph.nodes);
+
             // Redirect all connections
-            for (int i = 0; i < graph.nodes.Count; i++) {
-                if (graph.nodes[i] == null) continue;
-                foreach (NodePort port in graph.nodes[i].Ports) {
-                    port.Redirect(nodes, graph.nodes);
+            for (int i = 0; i < graph.nodes.Count; i++)
+            {
+                if (graph.nodes[i] == null)
+                    continue;
+                foreach (NodePort port in graph.nodes[i].Ports)
+                {
+                    port.Redirect(oldNodes, newNodes);
                 }
             }
 
             return graph;
         }
 
-        protected virtual void OnDestroy() {
+        protected virtual void OnDestroy()
+        {
             // Remove all nodes prior to graph destruction
             Clear();
         }
 
-#region Attributes
-        /// <summary> Automatically ensures the existance of a certain node type, and prevents it from being deleted. </summary>
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-        public class RequireNodeAttribute : Attribute {
-            public Type type0;
-            public Type type1;
-            public Type type2;
-
-            /// <summary> Automatically ensures the existance of a certain node type, and prevents it from being deleted </summary>
-            public RequireNodeAttribute(Type type) {
-                this.type0 = type;
-                this.type1 = null;
-                this.type2 = null;
-            }
-
-            /// <summary> Automatically ensures the existance of a certain node type, and prevents it from being deleted </summary>
-            public RequireNodeAttribute(Type type, Type type2) {
-                this.type0 = type;
-                this.type1 = type2;
-                this.type2 = null;
-            }
-
-            /// <summary> Automatically ensures the existance of a certain node type, and prevents it from being deleted </summary>
-            public RequireNodeAttribute(Type type, Type type2, Type type3) {
-                this.type0 = type;
-                this.type1 = type2;
-                this.type2 = type3;
-            }
-
-            public bool Requires(Type type) {
-                if (type == null) return false;
-                if (type == type0) return true;
-                else if (type == type1) return true;
-                else if (type == type2) return true;
-                return false;
-            }
+        public System.Type getNodeType()
+        {
+            return typeof(Node);
         }
-#endregion
     }
 }

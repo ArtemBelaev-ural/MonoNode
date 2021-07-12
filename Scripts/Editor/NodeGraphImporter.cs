@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
-using XNode;
 
 namespace XNodeEditor {
     /// <summary> Deals with modified assets </summary>
@@ -15,16 +14,16 @@ namespace XNodeEditor {
                 if (Path.GetExtension(path) != ".asset") continue;
 
                 // Get the object that is requested for deletion
-                NodeGraph graph = AssetDatabase.LoadAssetAtPath<NodeGraph>(path);
+                XNode.NodeGraph graph = AssetDatabase.LoadAssetAtPath<XNode.NodeGraph>(path);
                 if (graph == null) continue;
 
                 // Get attributes
                 Type graphType = graph.GetType();
-                NodeGraph.RequireNodeAttribute[] attribs = Array.ConvertAll(
-                    graphType.GetCustomAttributes(typeof(NodeGraph.RequireNodeAttribute), true), x => x as NodeGraph.RequireNodeAttribute);
+                XNode.RequireNodeAttribute[] attribs = Array.ConvertAll(
+                    graphType.GetCustomAttributes(typeof(XNode.RequireNodeAttribute), true), x => x as XNode.RequireNodeAttribute);
 
                 Vector2 position = Vector2.zero;
-                foreach (NodeGraph.RequireNodeAttribute attrib in attribs) {
+                foreach (XNode.RequireNodeAttribute attrib in attribs) {
                     if (attrib.type0 != null) AddRequired(graph, attrib.type0, ref position);
                     if (attrib.type1 != null) AddRequired(graph, attrib.type1, ref position);
                     if (attrib.type2 != null) AddRequired(graph, attrib.type2, ref position);
@@ -32,13 +31,13 @@ namespace XNodeEditor {
             }
         }
 
-        private static void AddRequired(NodeGraph graph, Type type, ref Vector2 position) {
-            if (!graph.nodes.Any(x => x.GetType() == type)) {
-                XNode.Node node = graph.AddNode(type);
-                node.position = position;
+        private static void AddRequired(XNode.INodeGraph graph, Type type, ref Vector2 position) {
+            if (!graph.GetNodes().Any(x => x.GetType() == type)) {
+                XNode.INode node = graph.AddNode(type);
+                node.Position = position;
                 position.x += 200;
-                if (node.name == null || node.name.Trim() == "") node.name = NodeEditorUtilities.NodeDefaultName(type);
-                if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(graph))) AssetDatabase.AddObjectToAsset(node, graph);
+                if (node.Name == null || node.Name.Trim() == "") node.Name = NodeEditorUtilities.NodeDefaultName(type);
+                if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(graph as UnityEngine.Object))) AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, graph as UnityEngine.Object);
             }
         }
     }
