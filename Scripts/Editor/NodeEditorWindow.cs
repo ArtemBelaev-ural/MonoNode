@@ -9,7 +9,7 @@ namespace XNodeEditor {
     [InitializeOnLoad]
     public partial class NodeEditorWindow : EditorWindow {
         public static NodeEditorWindow current;
-
+        
         /// <summary> Stores node positions for all nodePorts. </summary>
         public Dictionary<XNode.NodePort, Rect> portConnectionPoints { get { return _portConnectionPoints; } }
         private Dictionary<XNode.NodePort, Rect> _portConnectionPoints = new Dictionary<XNode.NodePort, Rect>();
@@ -53,7 +53,6 @@ namespace XNodeEditor {
                 index++;
             }
         }
-
         private void OnEnable() {
             // Reload portConnectionPoints if there are any
             int length = _references.Length;
@@ -197,7 +196,7 @@ namespace XNodeEditor {
 
         /// <summary>Open the provided graph in the NodeEditor</summary>
         public static NodeEditorWindow Open(XNode.INodeGraph graph) {
-            if (graph == null) return null;
+            if ((graph as UnityEngine.Object) == null) return null;
 
             NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, "xNode", true) as NodeEditorWindow;
             w.wantsMouseMove = true;

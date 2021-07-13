@@ -45,7 +45,7 @@ namespace XNodeEditor.Internal {
 #endif
 
 		public static T GetEditor(K target, NodeEditorWindow window) {
-			if (target == null) return null;
+			if ((target as UnityEngine.Object) == null) return null;
 			T editor;
             UnityEngine.Object obj = target as UnityEngine.Object;
             
@@ -59,7 +59,7 @@ namespace XNodeEditor.Internal {
 				editor.OnCreate();
 				editors.Add(target, editor);
 			}
-			if (editor.Target == null) editor.Target = target;
+			if ((editor.Target as UnityEngine.Object) == null) editor.Target = target;
 			if (editor.window != window) editor.window = window;
 			if (editor.serializedObject == null) editor.serializedObject = obj != null ? new SerializedObject(obj) : null;
 			return editor;
@@ -67,7 +67,7 @@ namespace XNodeEditor.Internal {
 
         public static void DestroyEditor( K target )
         {
-            if ( target == null ) return;
+            if ((target as UnityEngine.Object) == null ) return;
             T editor;
             if ( editors.TryGetValue( target, out editor ) )
             {

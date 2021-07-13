@@ -255,16 +255,21 @@ namespace XNodeEditor {
         /// <summary> Safely remove a node and all its connections. </summary>
         public virtual void RemoveNode(XNode.INode node) {
             if (!CanRemove(node)) return;
-
+           
             // Remove the node
             Undo.RecordObject(node as UnityEngine.Object, "Delete Node");
             Undo.RecordObject(target, "Delete Node");
             foreach (var port in node.Ports)
                 foreach (var conn in port.GetConnections())
                     Undo.RecordObject(conn.node as UnityEngine.Object, "Delete Node");
+   
+       
             Target.RemoveNode(node);
+
             Undo.DestroyObjectImmediate(node as UnityEngine.Object);
-            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+
+            if (NodeEditorPreferences.GetSettings().autoSave)
+                AssetDatabase.SaveAssets();
         }
 
         [AttributeUsage(AttributeTargets.Class)]

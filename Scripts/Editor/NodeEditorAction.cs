@@ -455,7 +455,7 @@ namespace XNodeEditor {
             Dictionary<XNode.INode, XNode.INode> substitutes = new Dictionary<XNode.INode, XNode.INode>();
             for (int i = 0; i < nodes.Length; i++) {
                 XNode.INode srcNode = nodes[i];
-                if (srcNode == null) continue;
+                if ((srcNode as UnityEngine.Object) == null) continue;
 
                 // Check if user is allowed to add more of given node type
                 XNode.DisallowMultipleNodesAttribute disallowAttrib;
@@ -474,7 +474,7 @@ namespace XNodeEditor {
             // Walk through the selected nodes again, recreate connections, using the new nodes
             for (int i = 0; i < nodes.Length; i++) {
                 XNode.INode srcNode = nodes[i];
-                if (srcNode == null) continue;
+                if ((srcNode as UnityEngine.Object) == null) continue;
                 foreach (XNode.NodePort port in srcNode.Ports) {
                     for (int c = 0; c < port.ConnectionCount; c++) {
                         XNode.NodePort inputPort = port.direction == XNode.NodePort.IO.Input ? port : port.GetConnection(c);

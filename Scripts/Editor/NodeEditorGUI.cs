@@ -335,7 +335,7 @@ namespace XNodeEditor {
             XNode.INode[] nodes = (graph as XNode.INodeGraph).GetNodes();
             foreach (XNode.INode node in nodes) {
                 //If a null node is found, return. This can happen if the nodes associated script is deleted. It is currently not possible in Unity to delete a null asset.
-                if (node == null) continue;
+                if ((node as UnityEngine.Object) == null) continue;
 
                 // Draw full connections and output > reroute
                 foreach (XNode.NodePort output in node.Outputs) {
@@ -431,10 +431,12 @@ namespace XNodeEditor {
             List<XNode.NodePort> removeEntries = new List<XNode.NodePort>();
 
             if (e.type == EventType.Layout) culledNodes = new List<XNode.INode>();
+
             XNode.INode[] nodes = (graph as XNode.INodeGraph).GetNodes();
+
             for (int n = 0; n < nodes.Length; n++) {
                 // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
-                if (nodes[n] == null) continue;
+                if ((nodes[n] as UnityEngine.Object) == null) continue;
                 if (n >= nodes.Length) return;
                 XNode.INode node = nodes[n];
 
