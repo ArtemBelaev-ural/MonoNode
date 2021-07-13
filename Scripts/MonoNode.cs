@@ -87,11 +87,11 @@ namespace XNode {
         }
 
         /// <summary> Parent <see cref="MonoNodeGraph"/> </summary>
-        [SerializeField] public MonoNodeGraph graph;
+        [SerializeField, HideInInspector] public MonoNodeGraph graph;
         /// <summary> Position on the <see cref="MonoNodeGraph"/> </summary>
         [SerializeField] public Vector2 position;
         /// <summary> It is recommended not to modify these at hand. Instead, see <see cref="InputAttribute"/> and <see cref="OutputAttribute"/> </summary>
-        [SerializeField] private NodePortDictionary ports = new NodePortDictionary();
+        [SerializeField, HideInInspector] private NodePortDictionary ports = new NodePortDictionary();
         [SerializeField, HideInInspector] private string _name;
 
         /// <summary> Used during node instantiation to fix null/misconfigured graph during OnEnable/Init. Set it before instantiating a node. Will automatically be unset during OnEnable </summary>

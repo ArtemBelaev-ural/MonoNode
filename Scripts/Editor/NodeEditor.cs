@@ -149,7 +149,7 @@ namespace XNodeEditor {
                 XNode.INode node = Selection.activeObject as XNode.INode;
                 menu.AddItem(new GUIContent("Move To Top"), false, () => NodeEditorWindow.current.MoveNodeToTop(node));
                 menu.AddItem(new GUIContent("Rename"), false, NodeEditorWindow.current.RenameSelectedNode);
-
+                
                 canRemove = NodeGraphEditor.GetEditor(node.Graph, NodeEditorWindow.current).CanRemove(node);
             }
 
