@@ -8,7 +8,7 @@ namespace XNode {
     public class MonoNodeGraph : MonoBehaviour, INodeGraph, ISerializationCallbackReceiver {
         /// <summary> All nodes in the graph. <para/>
         /// See: <see cref="AddNode{T}"/> </summary>
-        [SerializeField] public MonoNode[] nodes;
+        [SerializeField, HideInInspector] public MonoNode[] nodes = new MonoNode[0];
 
         public int NodesCount { get { return nodes.Length; } }
 

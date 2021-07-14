@@ -233,7 +233,11 @@ namespace XNodeEditor {
             XNode.INode node = Target.CopyNode(original);
             Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Duplicate Node");
             node.Name = original.Name;
-            AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
+            if (target is ScriptableObject)
+            {
+                AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
+            }
+            
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
             return node;
         }

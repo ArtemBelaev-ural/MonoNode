@@ -11,11 +11,15 @@ namespace XNodeEditor {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if(GUILayout.Button("Open graph", GUILayout.Height(50)))
+            if(GUILayout.Button("Open graph", GUILayout.Height(40)))
             {
-                NodeEditorWindow.Open(target as INodeGraph);
+                OpenGraph();
             }
         }
-       
+
+        public void OpenGraph()
+        {
+            NodeEditorWindow.Open(target as INodeGraph);
+        }
     }
 }
