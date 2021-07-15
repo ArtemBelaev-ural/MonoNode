@@ -34,7 +34,7 @@ namespace XNodeEditor {
             }
 
             public XNode.NodePort GetNodePort() {
-                if (_node == null) {
+                if ((_node as UnityEngine.Object) == null) {
                     return null;
                 }
                 return (_node as XNode.INode).GetPort(_name);
@@ -58,6 +58,8 @@ namespace XNodeEditor {
             int length = _references.Length;
             if (length == _rects.Length) {
                 for (int i = 0; i < length; i++) {
+                    if (_references[i] == null)
+                        continue;
                     XNode.NodePort nodePort = _references[i].GetNodePort();
                     if (nodePort != null)
                         _portConnectionPoints.Add(nodePort, _rects[i]);

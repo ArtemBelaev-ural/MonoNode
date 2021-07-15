@@ -100,6 +100,7 @@ namespace XNode {
             nodes = GetComponents<MonoNode>();
             for (int i = 0; i < nodes.Length; i++) {
                 nodes[i].UpdatePorts();
+                nodes[i].graph = this;
             }
         }
 
