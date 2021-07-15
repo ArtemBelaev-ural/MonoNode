@@ -10,7 +10,7 @@ namespace XNode
         public int order;
         /// <summary> Manually supply node class with a context menu path </summary>
         /// <param name="menuName"> Path to this node in the context menu. Null or empty hides it. </param>
-        public CreateNodeMenuAttribute(string menuName)
+        public CreateNodeMenuAttribute(string menuName, params object[] parameters)
         {
             this.menuName = menuName;
             this.order = 0;
