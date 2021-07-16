@@ -62,7 +62,9 @@ namespace XNodeEditor {
                         continue;
                     XNode.NodePort nodePort = _references[i].GetNodePort();
                     if (nodePort != null)
-                        _portConnectionPoints.Add(nodePort, _rects[i]);
+                    {
+                        _portConnectionPoints[nodePort] = _rects[i];
+                    }
                 }
             }
         }
