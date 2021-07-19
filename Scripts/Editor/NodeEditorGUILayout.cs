@@ -40,7 +40,7 @@ namespace XNodeEditor {
             if (port == null) EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
             else {
                 Rect rect = new Rect();
-
+                
                 List<PropertyAttribute> propertyAttributes = NodeEditorUtilities.GetCachedPropertyAttribs(port.node.GetType(), property.name);
 
                 // If property is an input, display a regular property field and put a port handle on the left side
@@ -52,6 +52,7 @@ namespace XNodeEditor {
                     if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out inputAttribute)) {
                         dynamicPortList = inputAttribute.dynamicPortList;
                         showBacking = inputAttribute.backingValue;
+                        label = new GUIContent(ObjectNames.NicifyVariableName(port.label));
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||
@@ -112,6 +113,7 @@ namespace XNodeEditor {
                     if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out outputAttribute)) {
                         dynamicPortList = outputAttribute.dynamicPortList;
                         showBacking = outputAttribute.backingValue;
+                        label = new GUIContent(ObjectNames.NicifyVariableName(port.label));
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||
@@ -194,7 +196,7 @@ namespace XNodeEditor {
             if (port == null) return;
             if (options == null) options = new GUILayoutOption[] { GUILayout.MinWidth(30) };
             Vector2 position = Vector3.zero;
-            GUIContent content = label != null ? label : new GUIContent(ObjectNames.NicifyVariableName(port.fieldName));
+            GUIContent content = label != null ? label : new GUIContent(ObjectNames.NicifyVariableName(port.label));
 
             // If property is an input, display a regular property field and put a port handle on the left side
             if (port.direction == XNode.NodePort.IO.Input) {

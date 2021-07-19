@@ -38,6 +38,17 @@ namespace XNode {
         public bool IsOutput { get { return direction == IO.Output; } }
 
         public string fieldName { get { return _fieldName; } }
+        public string label
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_label) ? _fieldName : _label;
+            }
+            set
+            {
+                _label = value;
+            }
+        }
         public INode node { get { return _node as INode; } }
         public bool IsDynamic { get { return _dynamic; } }
         public bool IsStatic { get { return !_dynamic; } }
@@ -54,6 +65,7 @@ namespace XNode {
         private Type valueType;
 
         [SerializeField] private string _fieldName;
+        [SerializeField] private string _label;
         [SerializeField] private UnityEngine.Object _node;
         [SerializeField] private string _typeQualifiedName;
         [SerializeField] private List<PortConnection> connections = new List<PortConnection>();
@@ -73,10 +85,12 @@ namespace XNode {
                     _direction = IO.Input;
                     _connectionType = (attribs[i] as InputAttribute).connectionType;
                     _typeConstraint = (attribs[i] as InputAttribute).typeConstraint;
+                    _label = (attribs[i] as InputAttribute).label;
                 } else if (attribs[i] is OutputAttribute) {
                     _direction = IO.Output;
                     _connectionType = (attribs[i] as OutputAttribute).connectionType;
                     _typeConstraint = (attribs[i] as OutputAttribute).typeConstraint;
+                    _label = (attribs[i] as OutputAttribute).label;
                 }
             }
         }
@@ -84,6 +98,7 @@ namespace XNode {
         /// <summary> Copy a nodePort but assign it to another node. </summary>
         public NodePort(NodePort nodePort, INode node) {
             _fieldName = nodePort._fieldName;
+            _label = nodePort._label;
             ValueType = nodePort.valueType;
             _direction = nodePort.direction;
             _dynamic = nodePort._dynamic;
