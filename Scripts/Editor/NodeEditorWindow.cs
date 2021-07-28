@@ -25,7 +25,7 @@ namespace XNodeEditor {
         private Func<bool> _isDocked;
 
         [System.Serializable] private class NodePortReference {
-            [SerializeField] private UnityEngine.Object _node;
+            [SerializeField] private Object _node;
             [SerializeField] private string _name;
 
             public NodePortReference(XNode.NodePort nodePort) {
@@ -34,7 +34,7 @@ namespace XNodeEditor {
             }
 
             public XNode.NodePort GetNodePort() {
-                if ((_node as UnityEngine.Object) == null) {
+                if (_node == null) {
                     return null;
                 }
                 return (_node as XNode.INode).GetPort(_name);
