@@ -19,7 +19,7 @@ namespace XMonoNode
         [Output] public Flow onEnd;
 
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
-        public AudioSources audioInput;
+        public AudioSources audioInput = new AudioSources();
         [Output(typeConstraint: TypeConstraint.Inherited)]
         public AudioSources Playing;
 
@@ -100,7 +100,7 @@ namespace XMonoNode
             }
 
             AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput), audioInput);
-            if (sources == null || (sources == audioInput && sources.List.Count == 0)) // только нуллы - ошибка. Пустой контейнер (sources.List.Count == 0) - это нормально
+            if (sources == null /*|| (sources == audioInput && sources.List.Count == 0)*/) // только нуллы - ошибка. Пустой контейнер (sources.List.Count == 0) - это нормально
             {
                 Debug.LogErrorFormat(this, "Лёха!!! У ноды play не задан источник! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
                 return;

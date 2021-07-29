@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Возвращает GameObject, переданный в метод XSoundNodeGraph.Play()
+    /// Возвращает GameObject, переданный в метод FlowNodeGraph.Execute()
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter//GameObject", 2)]
     [CreateNodeMenu("Parameter/GameObject", 2)]

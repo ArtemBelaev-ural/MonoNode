@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Возвращает Vector3, переданный в метод XSoundNodeGraph.Play()
+    /// Возвращает Vector3, переданный в метод FlowNodeGraph.Execute()
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/Vector3", 0)]
     [CreateNodeMenu("Parameter/Vector3", 0)]

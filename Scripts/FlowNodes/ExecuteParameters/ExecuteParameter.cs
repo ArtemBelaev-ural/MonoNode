@@ -14,10 +14,10 @@ namespace XMonoNode
     }
 
     /// <summary>
-    /// ¬озвращает параметр, переданный в метод XSoundNodeGraph.Play()
+    /// ¬озвращает параметр, переданный в метод FlowNodeGraph.Execute()
     /// </summary>
     [NodeTint(50, 70, 105)]
-    [NodeWidth(220)]
+    [NodeWidth(200)]
     public abstract class ExecuteParameter<T> : ExecuteParameter
     {
         [Output] public T   output;

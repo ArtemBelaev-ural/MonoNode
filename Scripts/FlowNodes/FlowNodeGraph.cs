@@ -81,6 +81,11 @@ namespace XMonoNode
 
         public const string ALL_NODES = ":- all nodes";
 
+        public void Execute(params object[] parameters)
+        {
+            Execute(null, parameters);
+        }
+
         /// <summary>
         /// Plays sound graph
         /// </summary>
