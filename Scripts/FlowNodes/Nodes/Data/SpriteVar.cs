@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Variables/" + nameof(SpriteVar))]
     public class SpriteVar : MonoNode

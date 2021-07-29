@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [Serializable] public class Flow { }
 }

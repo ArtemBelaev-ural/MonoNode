@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Variables/Actions/" + nameof(ConcatString))]
     public class ConcatString : FlowNode

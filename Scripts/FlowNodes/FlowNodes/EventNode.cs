@@ -1,6 +1,6 @@
-﻿using XNode;
+﻿using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     public abstract class EventNode : MonoNode {
         [Output] public Flow FlowOutput;

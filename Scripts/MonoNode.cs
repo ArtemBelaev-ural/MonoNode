@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XNode {
+namespace XMonoNode {
     /// <summary>
     /// Base class for all nodes
     /// </summary>

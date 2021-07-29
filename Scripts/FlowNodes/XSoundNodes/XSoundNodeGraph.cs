@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [ExecuteInEditMode]
     [AddComponentMenu("X Sound Node/SoundNodeGraph", 1)]

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using XNode;
-using XNodeEditor;
-using FlowNodes;
+using XMonoNode;
+using XMonoNodeEditor;
+using XMonoNode;
 
 namespace FlowNodesEditor
 {
@@ -55,7 +55,7 @@ namespace FlowNodesEditor
                 return;
             }
 
-            GUILayout.Label(new GUIContent("=== Test ===".Color(Color.green), "test float parameter of Execute()"), GUIStyle.none);
+            GUILayout.Label(new GUIContent("<color=green>=== Test ===</color>", "test float parameter of Execute()"), GUIStyle.none);
 
             // Play nodes popup
 

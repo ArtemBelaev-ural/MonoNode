@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     public static class ResourcesLoader
     {
@@ -210,6 +210,11 @@ namespace FlowNodes
 
         private void OnEnable()
         {
+            if (soundsByID != null)
+            {
+                soundsByID.Clear();
+                soundsByID = null;
+            }
             IXSoundsLibraryInstance.Set(this);
         }
     }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using XNodeEditor.Internal;
+using XMonoNodeEditor.Internal;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     public partial class NodeEditorWindow {
         public enum NodeActivity { Idle, HoldNode, DragNode, HoldGrid, DragGrid }
         public static NodeActivity currentActivity = NodeActivity.Idle;
         public static bool isPanning { get; private set; }
         public static Vector2[] dragOffset;
 
-        public static XNode.INode[] copyBuffer = null;
+        public static XMonoNode.INode[] copyBuffer = null;
 
         public bool IsDraggingPort { get { return draggedOutput != null; } }
         public bool IsHoveringPort { get { return hoveredPort != null; } }
@@ -20,17 +20,17 @@ namespace XNodeEditor {
         public bool IsHoveringReroute { get { return hoveredReroute.port != null; } }
 
         /// <summary> Return the dragged port or null if not exist </summary>
-        public XNode.NodePort DraggedOutputPort { get { XNode.NodePort result = draggedOutput; return result; } }
+        public XMonoNode.NodePort DraggedOutputPort { get { XMonoNode.NodePort result = draggedOutput; return result; } }
         /// <summary> Return the Hovered port or null if not exist </summary>
-        public XNode.NodePort HoveredPort { get { XNode.NodePort result = hoveredPort; return result; } }
+        public XMonoNode.NodePort HoveredPort { get { XMonoNode.NodePort result = hoveredPort; return result; } }
         /// <summary> Return the Hovered node or null if not exist </summary>
-        public XNode.INode HoveredNode { get { XNode.INode result = hoveredNode; return result; } }
+        public XMonoNode.INode HoveredNode { get { XMonoNode.INode result = hoveredNode; return result; } }
 
-        private XNode.INode hoveredNode = null;
-        [NonSerialized] public XNode.NodePort hoveredPort = null;
-        [NonSerialized] private XNode.NodePort draggedOutput = null;
-        [NonSerialized] private XNode.NodePort draggedOutputTarget = null;
-        [NonSerialized] private XNode.NodePort autoConnectOutput = null;
+        private XMonoNode.INode hoveredNode = null;
+        [NonSerialized] public XMonoNode.NodePort hoveredPort = null;
+        [NonSerialized] private XMonoNode.NodePort draggedOutput = null;
+        [NonSerialized] private XMonoNode.NodePort draggedOutputTarget = null;
+        [NonSerialized] private XMonoNode.NodePort autoConnectOutput = null;
         [NonSerialized] private List<Vector2> draggedOutputReroutes = new List<Vector2>();
 
         private RerouteReference hoveredReroute = new RerouteReference();
@@ -88,8 +88,8 @@ namespace XNodeEditor {
                             Vector2 mousePos = WindowToGridPosition(e.mousePosition);
                             // Move selected nodes with offset
                             for (int i = 0; i < Selection.objects.Length; i++) {
-                                if (Selection.objects[i] is XNode.INode) {
-                                    XNode.INode node = Selection.objects[i] as XNode.INode;
+                                if (Selection.objects[i] is XMonoNode.INode) {
+                                    XMonoNode.INode node = Selection.objects[i] as XMonoNode.INode;
                                     Undo.RecordObject(node as UnityEngine.Object, "Moved Node");
                                     Vector2 initial = node.Position;
                                     node.Position = mousePos + dragOffset[i];
@@ -103,7 +103,7 @@ namespace XNodeEditor {
                                     // Offset portConnectionPoints instantly if a node is dragged so they aren't delayed by a frame.
                                     Vector2 offset = node.Position - initial;
                                     if (offset.sqrMagnitude > 0) {
-                                        foreach (XNode.NodePort output in node.Outputs) {
+                                        foreach (XMonoNode.NodePort output in node.Outputs) {
                                             Rect rect;
                                             if (portConnectionPoints.TryGetValue(output, out rect)) {
                                                 rect.position += offset;
@@ -111,7 +111,7 @@ namespace XNodeEditor {
                                             }
                                         }
 
-                                        foreach (XNode.NodePort input in node.Inputs) {
+                                        foreach (XMonoNode.NodePort input in node.Inputs) {
                                             Rect rect;
                                             if (portConnectionPoints.TryGetValue(input, out rect)) {
                                                 rect.position += offset;
@@ -166,8 +166,8 @@ namespace XNodeEditor {
                                 hoveredPort.VerifyConnections();
                                 autoConnectOutput = null;
                                 if (hoveredPort.IsConnected) {
-                                    XNode.INode node = hoveredPort.node;
-                                    XNode.NodePort output = hoveredPort.Connection;
+                                    XMonoNode.INode node = hoveredPort.node;
+                                    XMonoNode.NodePort output = hoveredPort.Connection;
                                     int outputConnectionIndex = output.GetConnectionIndex(hoveredPort);
                                     draggedOutputReroutes = output.GetReroutePoints(outputConnectionIndex);
                                     hoveredPort.Disconnect(output);
@@ -221,8 +221,8 @@ namespace XNodeEditor {
                         if (IsDraggingPort) {
                             // If connection is valid, save it
                             if (draggedOutputTarget != null && draggedOutput.CanConnectTo(draggedOutputTarget)) {
-                                XNode.INode node = draggedOutputTarget.node;
-                                if ((graph as XNode.INodeGraph).NodesCount != 0) draggedOutput.Connect(draggedOutputTarget);
+                                XMonoNode.INode node = draggedOutputTarget.node;
+                                if ((graph as XMonoNode.INodeGraph).NodesCount != 0) draggedOutput.Connect(draggedOutputTarget);
 
                                 // ConnectionIndex can be -1 if the connection is removed instantly after creation
                                 int connectionIndex = draggedOutput.GetConnectionIndex(draggedOutputTarget);
@@ -244,8 +244,8 @@ namespace XNodeEditor {
                             EditorUtility.SetDirty(graph);
                             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
                         } else if (currentActivity == NodeActivity.DragNode) {
-                            IEnumerable<XNode.INode> nodes = Selection.objects.Where(x => x is XNode.INode).Select(x => x as XNode.INode);
-                            foreach (XNode.INode node in nodes) EditorUtility.SetDirty(node as UnityEngine.Object);
+                            IEnumerable<XMonoNode.INode> nodes = Selection.objects.Where(x => x is XMonoNode.INode).Select(x => x as XMonoNode.INode);
+                            foreach (XMonoNode.INode node in nodes) EditorUtility.SetDirty(node as UnityEngine.Object);
                             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
                         } else if (!IsHoveringNode) {
                             // If click outside node, release field focus
@@ -315,14 +315,14 @@ namespace XNodeEditor {
                         if (e.keyCode == KeyCode.F2) RenameSelectedNode();
                     }
                     if (e.keyCode == KeyCode.A) {
-                        XNode.INode[] nodes = (graph as XNode.INodeGraph).GetNodes();
-                        if (Selection.objects.Any(x => nodes.Contains(x as XNode.INode))) {
+                        XMonoNode.INode[] nodes = (graph as XMonoNode.INodeGraph).GetNodes();
+                        if (Selection.objects.Any(x => nodes.Contains(x as XMonoNode.INode))) {
 
-                            foreach (XNode.INode node in nodes) {
+                            foreach (XMonoNode.INode node in nodes) {
                                 DeselectNode(node);
                             }
                         } else {
-                            foreach (XNode.INode node in nodes) {
+                            foreach (XMonoNode.INode node in nodes) {
                                 SelectNode(node, true);
                             }
                         }
@@ -367,8 +367,8 @@ namespace XNodeEditor {
             dragOffset = new Vector2[Selection.objects.Length + selectedReroutes.Count];
             // Selected nodes
             for (int i = 0; i < Selection.objects.Length; i++) {
-                if (Selection.objects[i] is XNode.INode) {
-                    XNode.INode node = Selection.objects[i] as XNode.INode;
+                if (Selection.objects[i] is XMonoNode.INode) {
+                    XMonoNode.INode node = Selection.objects[i] as XMonoNode.INode;
                     dragOffset[i] = node.Position - WindowToGridPosition(current.mousePosition);
                 }
             }
@@ -381,7 +381,7 @@ namespace XNodeEditor {
 
         /// <summary> Puts all selected nodes in focus. If no nodes are present, resets view and zoom to to origin </summary>
         public void Home() {
-            var nodes = Selection.objects.Where(o => o is XNode.INode).Cast<XNode.INode>().ToList();
+            var nodes = Selection.objects.Where(o => o is XMonoNode.INode).Cast<XMonoNode.INode>().ToList();
             if (nodes.Count > 0) {
                 Vector2 minPos = nodes.Select(x => x.Position).Aggregate((x, y) => new Vector2(Mathf.Min(x.x, y.x), Mathf.Min(x.y, y.y)));
                 Vector2 maxPos = nodes.Select(x => x.Position + (nodeSizes.ContainsKey(x) ? nodeSizes[x] : Vector2.zero)).Aggregate((x, y) => new Vector2(Mathf.Max(x.x, y.x), Mathf.Max(x.y, y.y)));
@@ -401,8 +401,8 @@ namespace XNodeEditor {
             }
             selectedReroutes.Clear();
             foreach (UnityEngine.Object item in Selection.objects) {
-                if (item is XNode.INode) {
-                    XNode.INode node = item as XNode.INode;
+                if (item is XMonoNode.INode) {
+                    XMonoNode.INode node = item as XMonoNode.INode;
                     graphEditor.RemoveNode(node);
                 }
             }
@@ -410,8 +410,8 @@ namespace XNodeEditor {
 
         /// <summary> Initiate a rename on the currently selected node </summary>
         public void RenameSelectedNode() {
-            if (Selection.objects.Length == 1 && Selection.activeObject is XNode.INode) {
-                XNode.INode node = Selection.activeObject as XNode.INode;
+            if (Selection.objects.Length == 1 && Selection.activeObject is XMonoNode.INode) {
+                XMonoNode.INode node = Selection.activeObject as XMonoNode.INode;
                 Vector2 size;
                 if (nodeSizes.TryGetValue(node, out size)) {
                     RenamePopup.Show(Selection.activeObject, size.x);
@@ -422,14 +422,14 @@ namespace XNodeEditor {
         }
 
         /// <summary> Draw this node on top of other nodes by placing it last in the graph.nodes list </summary>
-        public void MoveNodeToTop(XNode.INode node) {
-            (graph as XNode.INodeGraph).MoveNodeToTop(node);
+        public void MoveNodeToTop(XMonoNode.INode node) {
+            (graph as XMonoNode.INodeGraph).MoveNodeToTop(node);
         }
 
         /// <summary> Duplicate selected nodes and select the duplicates </summary>
         public void DuplicateSelectedNodes() {
             // Get selected nodes which are part of this graph
-            XNode.INode[] selectedNodes = Selection.objects.Select(x => x as XNode.INode).Where(x => x != null && (x.Graph as UnityEngine.Object) == graph).ToArray();
+            XMonoNode.INode[] selectedNodes = Selection.objects.Select(x => x as XMonoNode.INode).Where(x => x != null && (x.Graph as UnityEngine.Object) == graph).ToArray();
             if (selectedNodes == null || selectedNodes.Length == 0) return;
             // Get top left node position
             Vector2 topLeftNode = selectedNodes.Select(x => x.Position).Aggregate((x, y) => new Vector2(Mathf.Min(x.x, y.x), Mathf.Min(x.y, y.y)));
@@ -437,14 +437,14 @@ namespace XNodeEditor {
         }
 
         public void CopySelectedNodes() {
-            copyBuffer = Selection.objects.Select(x => x as XNode.INode).Where(x => x != null && (x.Graph as UnityEngine.Object) == graph).ToArray();
+            copyBuffer = Selection.objects.Select(x => x as XMonoNode.INode).Where(x => x != null && (x.Graph as UnityEngine.Object) == graph).ToArray();
         }
 
         public void PasteNodes(Vector2 pos) {
             InsertDuplicateNodes(copyBuffer, pos);
         }
 
-        private void InsertDuplicateNodes(XNode.INode[] nodes, Vector2 topLeft) {
+        private void InsertDuplicateNodes(XMonoNode.INode[] nodes, Vector2 topLeft) {
             if (nodes == null || nodes.Length == 0) return;
 
             // Get top-left node
@@ -452,20 +452,20 @@ namespace XNodeEditor {
             Vector2 offset = topLeft - topLeftNode;
 
             UnityEngine.Object[] newNodes = new UnityEngine.Object[nodes.Length];
-            Dictionary<XNode.INode, XNode.INode> substitutes = new Dictionary<XNode.INode, XNode.INode>();
+            Dictionary<XMonoNode.INode, XMonoNode.INode> substitutes = new Dictionary<XMonoNode.INode, XMonoNode.INode>();
             for (int i = 0; i < nodes.Length; i++) {
-                XNode.INode srcNode = nodes[i];
+                XMonoNode.INode srcNode = nodes[i];
                 if ((srcNode as UnityEngine.Object) == null) continue;
 
                 // Check if user is allowed to add more of given node type
-                XNode.DisallowMultipleNodesAttribute disallowAttrib;
+                XMonoNode.DisallowMultipleNodesAttribute disallowAttrib;
                 Type nodeType = srcNode.GetType();
                 if (NodeEditorUtilities.GetAttrib(nodeType, out disallowAttrib)) {
-                    int typeCount = (graph as XNode.INodeGraph).GetNodes().Count(x => x.GetType() == nodeType);
+                    int typeCount = (graph as XMonoNode.INodeGraph).GetNodes().Count(x => x.GetType() == nodeType);
                     if (typeCount >= disallowAttrib.max) continue;
                 }
 
-                XNode.INode newNode = graphEditor.CopyNode(srcNode);
+                XMonoNode.INode newNode = graphEditor.CopyNode(srcNode);
                 substitutes.Add(srcNode, newNode);
                 newNode.Position = srcNode.Position + offset;
                 newNodes[i] = newNode as UnityEngine.Object;
@@ -473,14 +473,14 @@ namespace XNodeEditor {
 
             // Walk through the selected nodes again, recreate connections, using the new nodes
             for (int i = 0; i < nodes.Length; i++) {
-                XNode.INode srcNode = nodes[i];
+                XMonoNode.INode srcNode = nodes[i];
                 if ((srcNode as UnityEngine.Object) == null) continue;
-                foreach (XNode.NodePort port in srcNode.Ports) {
+                foreach (XMonoNode.NodePort port in srcNode.Ports) {
                     for (int c = 0; c < port.ConnectionCount; c++) {
-                        XNode.NodePort inputPort = port.direction == XNode.NodePort.IO.Input ? port : port.GetConnection(c);
-                        XNode.NodePort outputPort = port.direction == XNode.NodePort.IO.Output ? port : port.GetConnection(c);
+                        XMonoNode.NodePort inputPort = port.direction == XMonoNode.NodePort.IO.Input ? port : port.GetConnection(c);
+                        XMonoNode.NodePort outputPort = port.direction == XMonoNode.NodePort.IO.Output ? port : port.GetConnection(c);
 
-                        XNode.INode newNodeIn, newNodeOut;
+                        XMonoNode.INode newNodeIn, newNodeOut;
                         if (substitutes.TryGetValue(inputPort.node, out newNodeIn) && substitutes.TryGetValue(outputPort.node, out newNodeOut)) {
                             newNodeIn.UpdatePorts();
                             newNodeOut.UpdatePorts();
@@ -534,7 +534,7 @@ namespace XNodeEditor {
             }
         }
 
-        bool IsHoveringTitle(XNode.INode node) {
+        bool IsHoveringTitle(XMonoNode.INode node) {
             Vector2 mousePos = Event.current.mousePosition;
             //Get node position
             Vector2 nodePos = GridToWindowPosition(node.Position);
@@ -547,11 +547,11 @@ namespace XNodeEditor {
         }
 
         /// <summary> Attempt to connect dragged output to target node </summary>
-        public void AutoConnect(XNode.INode node) {
+        public void AutoConnect(XMonoNode.INode node) {
             if (autoConnectOutput == null) return;
 
             // Find input port of same type
-            XNode.NodePort inputPort = node.Ports.FirstOrDefault(x => x.IsInput && x.ValueType == autoConnectOutput.ValueType);
+            XMonoNode.NodePort inputPort = node.Ports.FirstOrDefault(x => x.IsInput && x.ValueType == autoConnectOutput.ValueType);
             // Fallback to input port
             if (inputPort == null) inputPort = node.Ports.FirstOrDefault(x => x.IsInput);
             // Autoconnect if connection is compatible

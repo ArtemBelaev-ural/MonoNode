@@ -1,7 +1,7 @@
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Utils/"+nameof(GetUniqueDeviceIdentifier))]
     public class GetUniqueDeviceIdentifier : MonoNode

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XNode {
+namespace XMonoNode {
     /// <summary> Base class for all node graphs </summary>
     [Serializable]
     public abstract class NodeGraph : ScriptableObject, INodeGraph
@@ -98,7 +98,7 @@ namespace XNode {
         }
 
         /// <summary> Create a new deep copy of this graph </summary>
-        public virtual XNode.INodeGraph Copy()
+        public virtual XMonoNode.INodeGraph Copy()
         {
             // Instantiate a new nodegraph instance
             NodeGraph graph = Instantiate(this);

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [ExecuteInEditMode]
     [CreateNodeMenu("Events/" + nameof(OnUpdate), "Update")]

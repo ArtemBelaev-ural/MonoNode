@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Animation/"+nameof(PlayAnimation), 1)]
     public class PlayAnimation : FlowNode 

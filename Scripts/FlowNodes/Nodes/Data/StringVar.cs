@@ -1,6 +1,6 @@
-﻿using XNode;
+﻿using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Variables/" + nameof(StringVar))]
     public class StringVar : MonoNode

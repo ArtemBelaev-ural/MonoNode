@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using XNodeEditor;
+using XMonoNodeEditor;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CustomNodeEditor(typeof(XSoundNodePlay))]
     public class XSoundNodePlayEditor : NodeEditor

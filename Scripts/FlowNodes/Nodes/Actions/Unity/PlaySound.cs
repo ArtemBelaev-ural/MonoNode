@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Sound/Play Clip", 10001)]
     public class PlaySound : FlowNode 

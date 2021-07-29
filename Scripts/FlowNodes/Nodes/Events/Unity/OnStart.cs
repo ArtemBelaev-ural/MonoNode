@@ -1,6 +1,6 @@
-﻿using XNode;
+﻿using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Events/OnStart")]
     public class OnStart : EventNode

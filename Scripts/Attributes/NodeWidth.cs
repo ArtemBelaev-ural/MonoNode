@@ -1,6 +1,6 @@
 using System;
 
-namespace XNode
+namespace XMonoNode
 {
     /// <summary> Specify a width for this node type </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace XNode
+namespace XMonoNode
 {
     /// <summary> Specify a color for this node type </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

@@ -1,7 +1,7 @@
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(SetSprite))]
     public class SetSprite : FlowNode

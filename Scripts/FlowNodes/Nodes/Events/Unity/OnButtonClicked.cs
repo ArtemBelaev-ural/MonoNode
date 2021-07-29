@@ -1,7 +1,7 @@
 ﻿using UnityEngine.UI;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(OnButtonClicked))]
     public class OnButtonClicked : EventNode

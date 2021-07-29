@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(ReadInputFieldText), "Input", "Field")]
     public class ReadInputFieldText : MonoNode

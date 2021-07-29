@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Math/"+nameof(CompareFloat), "float", "compare")]
     public class CompareFloat : MonoNode {

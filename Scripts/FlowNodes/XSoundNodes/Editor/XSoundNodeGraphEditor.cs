@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using XNodeEditor;
-using FlowNodes;
+using XMonoNodeEditor;
 using FlowNodesEditor;
 
-namespace BoGD
+namespace XMonoNode
 {
     /// <summary>
     /// ќкно звукового графа
@@ -20,7 +19,7 @@ namespace BoGD
             window.titleContent = new GUIContent("Graph: " + (target as XSoundNodeGraph).gameObject.name);
         }
 
-        public override string GetPortTooltip(XNode.NodePort port)
+        public override string GetPortTooltip(XMonoNode.NodePort port)
         {
             // ”бираем выт€гивание звуков при формировании подсказки, чтобы звуки не по€вл€лись в сцене
             Type portType = port.ValueType;

@@ -1,6 +1,6 @@
 using System;
 
-namespace XNode
+namespace XMonoNode
 {
     /// <summary> Prevents Node of the same type to be added more than once (configurable) to a NodeGraph </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

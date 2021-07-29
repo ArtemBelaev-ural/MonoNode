@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     /// <summary> Utility for renaming assets </summary>
     public class RenamePopup : EditorWindow {
         private const string inputControlName = "nameInput";
@@ -18,7 +18,7 @@ namespace XNodeEditor {
             if (current != null) current.Close();
             current = window;
             window.target = target;
-            XNode.INode node = target as XNode.INode;
+            XMonoNode.INode node = target as XMonoNode.INode;
             window.input = node.Name;
             window.minSize = new Vector2(100, 44);
             window.position = new Rect(0, 0, width, 44);
@@ -73,7 +73,7 @@ namespace XNodeEditor {
         private void RenameNode(string name)
         {
             Undo.RecordObject(target, "Rename node");
-            XNode.INode node = target as XNode.INode;
+            XMonoNode.INode node = target as XMonoNode.INode;
             node.Name = name;
             NodeEditor.GetEditor(node, NodeEditorWindow.current).OnRename();
             string assetPath = AssetDatabase.GetAssetPath(target);

@@ -1,7 +1,7 @@
 ﻿using UnityEngine.UI;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Variables/" + nameof(ButtonVar))]
     public class ButtonVar : MonoNode

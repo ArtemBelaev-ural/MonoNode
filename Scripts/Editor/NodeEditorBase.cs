@@ -8,7 +8,7 @@ using UnityEngine;
 using Sirenix.OdinInspector.Editor;
 #endif
 
-namespace XNodeEditor.Internal {
+namespace XMonoNodeEditor.Internal {
     /// <summary> Handles caching of custom editor classes and their target types. Accessible with GetEditor(Type type) </summary>
     /// <typeparam name="T">Editor Type. Should be the type of the deriving script itself (eg. NodeEditor) </typeparam>
     /// <typeparam name="A">Attribute Type. The attribute used to connect with the runtime type (eg. CustomNodeEditorAttribute) </typeparam>

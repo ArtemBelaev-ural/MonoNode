@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using FlowNodes;
-using XNodeEditor;
+using XMonoNode;
+using XMonoNodeEditor;
 
-namespace BoGD
+namespace XMonoNode
 {
     [CustomNodeEditor(typeof(ExecuteParameterFloat))]
     public class XSoundNodeFloatParameterEditor : NodeEditor

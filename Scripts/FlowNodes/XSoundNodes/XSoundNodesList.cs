@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     /// <summary>
     /// Базовый класс для нодов, которые принимают несколько источников звуков и возвращают один

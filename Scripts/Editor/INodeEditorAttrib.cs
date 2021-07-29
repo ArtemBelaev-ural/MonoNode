@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     public interface INodeEditorAttrib {
         Type GetInspectedType();
     }

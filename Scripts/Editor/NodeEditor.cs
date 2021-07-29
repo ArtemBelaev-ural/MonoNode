@@ -9,14 +9,14 @@ using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 #endif
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     /// <summary> Base class to derive custom Node editors from. Use this to create your own custom inspectors and editors for your nodes. </summary>
-    [CustomNodeEditor(typeof(XNode.INode))]
-    public class NodeEditor : XNodeEditor.Internal.NodeEditorBase<NodeEditor, NodeEditor.CustomNodeEditorAttribute, XNode.INode> {
+    [CustomNodeEditor(typeof(XMonoNode.INode))]
+    public class NodeEditor : XMonoNodeEditor.Internal.NodeEditorBase<NodeEditor, NodeEditor.CustomNodeEditorAttribute, XMonoNode.INode> {
 
         /// <summary> Fires every whenever a node was modified through the editor </summary>
-        public static Action<XNode.INode> onUpdateNode;
-        public readonly static Dictionary<XNode.NodePort, Vector2> portPositions = new Dictionary<XNode.NodePort, Vector2>();
+        public static Action<XMonoNode.INode> onUpdateNode;
+        public readonly static Dictionary<XMonoNode.NodePort, Vector2> portPositions = new Dictionary<XMonoNode.NodePort, Vector2>();
 
         //public XNode.INode Target
         //{
@@ -91,7 +91,7 @@ namespace XNodeEditor {
 #endif
 
             // Iterate through dynamic ports and draw them in the order in which they are serialized
-            foreach (XNode.NodePort dynamicPort in Target.DynamicPorts) {
+            foreach (XMonoNode.NodePort dynamicPort in Target.DynamicPorts) {
                 if (NodeEditorGUILayout.IsDynamicPortListPort(dynamicPort)) continue;
                 NodeEditorGUILayout.PortField(dynamicPort);
             }
@@ -145,8 +145,8 @@ namespace XNodeEditor {
         public virtual void AddContextMenuItems(GenericMenu menu) {
             bool canRemove = true;
             // Actions if only one node is selected
-            if (Selection.objects.Length == 1 && Selection.activeObject is XNode.INode) {
-                XNode.INode node = Selection.activeObject as XNode.INode;
+            if (Selection.objects.Length == 1 && Selection.activeObject is XMonoNode.INode) {
+                XMonoNode.INode node = Selection.activeObject as XMonoNode.INode;
                 menu.AddItem(new GUIContent("Move To Top"), false, () => NodeEditorWindow.current.MoveNodeToTop(node));
                 menu.AddItem(new GUIContent("Rename"), false, NodeEditorWindow.current.RenameSelectedNode);
                 
@@ -161,8 +161,8 @@ namespace XNodeEditor {
             else menu.AddItem(new GUIContent("Remove"), false, null);
 
             // Custom sctions if only one node is selected
-            if (Selection.objects.Length == 1 && Selection.activeObject is XNode.INode) {
-                XNode.INode node = Selection.activeObject as XNode.INode;
+            if (Selection.objects.Length == 1 && Selection.activeObject is XMonoNode.INode) {
+                XMonoNode.INode node = Selection.activeObject as XMonoNode.INode;
                 menu.AddCustomContextMenuItems(node);
             }
         }
@@ -180,7 +180,7 @@ namespace XNodeEditor {
 
         [AttributeUsage(AttributeTargets.Class)]
         public class CustomNodeEditorAttribute : Attribute,
-        XNodeEditor.Internal.NodeEditorBase<NodeEditor, NodeEditor.CustomNodeEditorAttribute, XNode.INode>.INodeEditorAttrib {
+        XMonoNodeEditor.Internal.NodeEditorBase<NodeEditor, NodeEditor.CustomNodeEditorAttribute, XMonoNode.INode>.INodeEditorAttrib {
             private Type inspectedType;
             /// <summary> Tells a NodeEditor which Node type it is an editor for </summary>
             /// <param name="inspectedType">Type that this editor can edit</param>

@@ -1,9 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System;
-using XNode;
+using XMonoNode;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     [UnityEditor.CustomEditor(typeof(MonoNodeGraph), true)]
     public class MonoNodeInspector : Editor
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace XNode
+namespace XMonoNode
 {
     /// <summary> Manually supply node class with a context menu path </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Random/" + nameof(GetRandomFloat), "Random", "Float")]
     public class GetRandomFloat : MonoNode {

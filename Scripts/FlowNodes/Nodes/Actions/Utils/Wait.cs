@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Utils/Wait")]
     public class Wait : FlowNode

@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using XNode;
-using XNodeEditor;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
 	[CustomPropertyDrawer(typeof(NodeEnumAttribute))]
 	public class NodeEnumDrawer : PropertyDrawer {
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {

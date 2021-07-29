@@ -1,6 +1,6 @@
-﻿using XNode;
+﻿using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [NodeWidth(300)]
     [CreateNodeMenu("Events/" + nameof(OnAnimationEvent))]

@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     /// <summary>
     /// Плеер. Обязательная конечная нода, отвечающая за проигрывание звуков

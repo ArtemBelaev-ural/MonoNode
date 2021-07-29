@@ -5,14 +5,14 @@ using UnityEngine;
 using System;
 using Object = UnityEngine.Object;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     [InitializeOnLoad]
     public partial class NodeEditorWindow : EditorWindow {
         public static NodeEditorWindow current;
         
         /// <summary> Stores node positions for all nodePorts. </summary>
-        public Dictionary<XNode.NodePort, Rect> portConnectionPoints { get { return _portConnectionPoints; } }
-        private Dictionary<XNode.NodePort, Rect> _portConnectionPoints = new Dictionary<XNode.NodePort, Rect>();
+        public Dictionary<XMonoNode.NodePort, Rect> portConnectionPoints { get { return _portConnectionPoints; } }
+        private Dictionary<XMonoNode.NodePort, Rect> _portConnectionPoints = new Dictionary<XMonoNode.NodePort, Rect>();
         [SerializeField] private NodePortReference[] _references = new NodePortReference[0];
         [SerializeField] private Rect[] _rects = new Rect[0];
 
@@ -28,16 +28,16 @@ namespace XNodeEditor {
             [SerializeField] private Object _node;
             [SerializeField] private string _name;
 
-            public NodePortReference(XNode.NodePort nodePort) {
+            public NodePortReference(XMonoNode.NodePort nodePort) {
                 _node = nodePort.node as UnityEngine.Object;
                 _name = nodePort.fieldName;
             }
 
-            public XNode.NodePort GetNodePort() {
+            public XMonoNode.NodePort GetNodePort() {
                 if (_node == null) {
                     return null;
                 }
-                return (_node as XNode.INode).GetPort(_name);
+                return (_node as XMonoNode.INode).GetPort(_name);
             }
         }
 
@@ -60,7 +60,7 @@ namespace XNodeEditor {
                 for (int i = 0; i < length; i++) {
                     if (_references[i] == null)
                         continue;
-                    XNode.NodePort nodePort = _references[i].GetNodePort();
+                    XMonoNode.NodePort nodePort = _references[i].GetNodePort();
                     if (nodePort != null)
                     {
                         _portConnectionPoints[nodePort] = _rects[i];
@@ -69,8 +69,8 @@ namespace XNodeEditor {
             }
         }
 
-        public Dictionary<XNode.INode, Vector2> nodeSizes { get { return _nodeSizes; } }
-        private Dictionary<XNode.INode, Vector2> _nodeSizes = new Dictionary<XNode.INode, Vector2>();
+        public Dictionary<XMonoNode.INode, Vector2> nodeSizes { get { return _nodeSizes; } }
+        private Dictionary<XMonoNode.INode, Vector2> _nodeSizes = new Dictionary<XMonoNode.INode, Vector2>();
         public UnityEngine.Object graph;
         public Vector2 panOffset { get { return _panOffset; } set { _panOffset = value; Repaint(); } }
         private Vector2 _panOffset;
@@ -100,7 +100,7 @@ namespace XNodeEditor {
 
         /// <summary> Handle Selection Change events</summary>
         private static void OnSelectionChanged() {
-            XNode.INodeGraph nodeGraph = Selection.activeObject as XNode.INodeGraph;
+            XMonoNode.INodeGraph nodeGraph = Selection.activeObject as XMonoNode.INodeGraph;
             if (nodeGraph != null && !AssetDatabase.Contains(nodeGraph as UnityEngine.Object)) {
                 if (NodeEditorPreferences.GetSettings().openOnCreate) Open(nodeGraph);
             }
@@ -108,7 +108,7 @@ namespace XNodeEditor {
 
         /// <summary> Make sure the graph editor is assigned and to the right object </summary>
         private void ValidateGraphEditor() {
-            NodeGraphEditor graphEditor = NodeGraphEditor.GetEditor(graph as XNode.INodeGraph, this);
+            NodeGraphEditor graphEditor = NodeGraphEditor.GetEditor(graph as XMonoNode.INodeGraph, this);
             if (this.graphEditor != graphEditor && graphEditor != null) {
                 this.graphEditor = graphEditor;
                 graphEditor.OnOpen();
@@ -135,7 +135,7 @@ namespace XNodeEditor {
             string path = EditorUtility.SaveFilePanelInProject("Save NodeGraph", "NewNodeGraph", "asset", "");
             if (string.IsNullOrEmpty(path)) return;
             else {
-                XNode.NodeGraph existingGraph = AssetDatabase.LoadAssetAtPath<XNode.NodeGraph>(path);
+                XMonoNode.NodeGraph existingGraph = AssetDatabase.LoadAssetAtPath<XMonoNode.NodeGraph>(path);
                 if (existingGraph != null) AssetDatabase.DeleteAsset(path);
                 AssetDatabase.CreateAsset(graph, path);
                 EditorUtility.SetDirty(graph);
@@ -174,7 +174,7 @@ namespace XNodeEditor {
             return new Vector2(xOffset, yOffset);
         }
 
-        public void SelectNode(XNode.INode node, bool add) {
+        public void SelectNode(XMonoNode.INode node, bool add) {
             if (add) {
                 List<Object> selection = new List<Object>(Selection.objects);
                 selection.Add(node as UnityEngine.Object);
@@ -182,7 +182,7 @@ namespace XNodeEditor {
             } else Selection.objects = new Object[] { node as UnityEngine.Object };
         }
 
-        public void DeselectNode(XNode.INode node) {
+        public void DeselectNode(XMonoNode.INode node) {
             List<Object> selection = new List<Object>(Selection.objects);
             selection.Remove(node as UnityEngine.Object);
             Selection.objects = selection.ToArray();
@@ -190,7 +190,7 @@ namespace XNodeEditor {
 
         [OnOpenAsset(0)]
         public static bool OnOpen(int instanceID, int line) {
-            XNode.NodeGraph nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as XNode.NodeGraph;
+            XMonoNode.NodeGraph nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as XMonoNode.NodeGraph;
             if (nodeGraph != null) {
                 Open(nodeGraph);
                 return true;
@@ -199,7 +199,7 @@ namespace XNodeEditor {
         }
 
         /// <summary>Open the provided graph in the NodeEditor</summary>
-        public static NodeEditorWindow Open(XNode.INodeGraph graph) {
+        public static NodeEditorWindow Open(XMonoNode.INodeGraph graph) {
             if ((graph as UnityEngine.Object) == null) return null;
 
             NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, "xNode", true) as NodeEditorWindow;

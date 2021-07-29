@@ -1,6 +1,6 @@
 using System;
 
-namespace XNode
+namespace XMonoNode
 {
     /// <summary> Automatically ensures the existance of a certain node type, and prevents it from being deleted. </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]

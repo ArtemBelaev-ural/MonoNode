@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Events;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [NodeWidth(400)]
     [CreateNodeMenu("Events/" + nameof(UnityEventNode), "Event", "Unity")]

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XNode {
+namespace XMonoNode {
     [Serializable]
     public class NodePortDictionary : Dictionary<string, NodePort>, ISerializationCallbackReceiver {
         [SerializeField] private List<string> keys = new List<string>();

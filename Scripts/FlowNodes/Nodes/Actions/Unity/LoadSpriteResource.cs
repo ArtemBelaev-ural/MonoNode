@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(LoadSpriteResource), "Load", "Image", "Sprite")]
     public class LoadSpriteResource : FlowNode {

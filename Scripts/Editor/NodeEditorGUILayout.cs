@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     /// <summary> xNode-specific version of <see cref="EditorGUILayout"/> </summary>
     public static class NodeEditorGUILayout {
 
@@ -22,18 +22,18 @@ namespace XNodeEditor {
         /// <summary> Make a field for a serialized property. Automatically displays relevant node port. </summary>
         public static void PropertyField(SerializedProperty property, GUIContent label, bool includeChildren = true, params GUILayoutOption[] options) {
             if (property == null) throw new NullReferenceException();
-            XNode.INode node = property.serializedObject.targetObject as XNode.INode;
-            XNode.NodePort port = node.GetPort(property.name);
+            XMonoNode.INode node = property.serializedObject.targetObject as XMonoNode.INode;
+            XMonoNode.NodePort port = node.GetPort(property.name);
             PropertyField(property, label, port, includeChildren);
         }
 
         /// <summary> Make a field for a serialized property. Manual node port override. </summary>
-        public static void PropertyField(SerializedProperty property, XNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options) {
+        public static void PropertyField(SerializedProperty property, XMonoNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options) {
             PropertyField(property, null, port, includeChildren, options);
         }
 
         /// <summary> Make a field for a serialized property. Manual node port override. </summary>
-        public static void PropertyField(SerializedProperty property, GUIContent label, XNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options) {
+        public static void PropertyField(SerializedProperty property, GUIContent label, XMonoNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options) {
             if (property == null) throw new NullReferenceException();
 
             // If property is not a port, display a regular property field
@@ -44,10 +44,10 @@ namespace XNodeEditor {
                 List<PropertyAttribute> propertyAttributes = NodeEditorUtilities.GetCachedPropertyAttribs(port.node.GetType(), property.name);
 
                 // If property is an input, display a regular property field and put a port handle on the left side
-                if (port.direction == XNode.NodePort.IO.Input) {
+                if (port.direction == XMonoNode.NodePort.IO.Input) {
                     // Get data from [Input] attribute
-                    XNode.ShowBackingValue showBacking = XNode.ShowBackingValue.Unconnected;
-                    XNode.InputAttribute inputAttribute;
+                    XMonoNode.ShowBackingValue showBacking = XMonoNode.ShowBackingValue.Unconnected;
+                    XMonoNode.InputAttribute inputAttribute;
                     bool dynamicPortList = false;
                     if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out inputAttribute)) {
                         dynamicPortList = inputAttribute.dynamicPortList;
@@ -56,8 +56,8 @@ namespace XNodeEditor {
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||
-                        showBacking == XNode.ShowBackingValue.Never ||
-                        (showBacking == XNode.ShowBackingValue.Unconnected && port.IsConnected);
+                        showBacking == XMonoNode.ShowBackingValue.Never ||
+                        (showBacking == XMonoNode.ShowBackingValue.Unconnected && port.IsConnected);
 
                     float spacePadding = 0;
                     string tooltip = null;
@@ -80,22 +80,22 @@ namespace XNodeEditor {
 
                     if (dynamicPortList) {
                         Type type = GetType(property);
-                        XNode.ConnectionType connectionType = inputAttribute != null ? inputAttribute.connectionType : XNode.ConnectionType.Multiple;
+                        XMonoNode.ConnectionType connectionType = inputAttribute != null ? inputAttribute.connectionType : XMonoNode.ConnectionType.Multiple;
                         DynamicPortList(property.name, type, property.serializedObject, port.direction, connectionType);
                         return;
                     }
                     switch (showBacking) {
-                        case XNode.ShowBackingValue.Unconnected:
+                        case XMonoNode.ShowBackingValue.Unconnected:
                             // Display a label if port is connected
                             if (port.IsConnected) EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
                             // Display an editable property field if port is not connected
                             else EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
                             break;
-                        case XNode.ShowBackingValue.Never:
+                        case XMonoNode.ShowBackingValue.Never:
                             // Display a label
                             EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
                             break;
-                        case XNode.ShowBackingValue.Always:
+                        case XMonoNode.ShowBackingValue.Always:
                             // Display an editable property field
                             EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
                             break;
@@ -105,10 +105,10 @@ namespace XNodeEditor {
                     float paddingLeft = NodeEditorWindow.current.graphEditor.GetPortStyle(port).padding.left;
                     rect.position = rect.position - new Vector2(16 + paddingLeft, -spacePadding);
                     // If property is an output, display a text label and put a port handle on the right side
-                } else if (port.direction == XNode.NodePort.IO.Output) {
+                } else if (port.direction == XMonoNode.NodePort.IO.Output) {
                     // Get data from [Output] attribute
-                    XNode.ShowBackingValue showBacking = XNode.ShowBackingValue.Unconnected;
-                    XNode.OutputAttribute outputAttribute;
+                    XMonoNode.ShowBackingValue showBacking = XMonoNode.ShowBackingValue.Unconnected;
+                    XMonoNode.OutputAttribute outputAttribute;
                     bool dynamicPortList = false;
                     if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out outputAttribute)) {
                         dynamicPortList = outputAttribute.dynamicPortList;
@@ -117,8 +117,8 @@ namespace XNodeEditor {
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||
-                        showBacking == XNode.ShowBackingValue.Never ||
-                        (showBacking == XNode.ShowBackingValue.Unconnected && port.IsConnected);
+                        showBacking == XMonoNode.ShowBackingValue.Never ||
+                        (showBacking == XMonoNode.ShowBackingValue.Unconnected && port.IsConnected);
 
                     float spacePadding = 0;
                     string tooltip = null;
@@ -141,22 +141,22 @@ namespace XNodeEditor {
 
                     if (dynamicPortList) {
                         Type type = GetType(property);
-                        XNode.ConnectionType connectionType = outputAttribute != null ? outputAttribute.connectionType : XNode.ConnectionType.Multiple;
+                        XMonoNode.ConnectionType connectionType = outputAttribute != null ? outputAttribute.connectionType : XMonoNode.ConnectionType.Multiple;
                         DynamicPortList(property.name, type, property.serializedObject, port.direction, connectionType);
                         return;
                     }
                     switch (showBacking) {
-                        case XNode.ShowBackingValue.Unconnected:
+                        case XMonoNode.ShowBackingValue.Unconnected:
                             // Display a label if port is connected
                             if (port.IsConnected) EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
                             // Display an editable property field if port is not connected
                             else EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
                             break;
-                        case XNode.ShowBackingValue.Never:
+                        case XMonoNode.ShowBackingValue.Never:
                             // Display a label
                             EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
                             break;
-                        case XNode.ShowBackingValue.Always:
+                        case XMonoNode.ShowBackingValue.Always:
                             // Display an editable property field
                             EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
                             break;
@@ -187,19 +187,19 @@ namespace XNodeEditor {
         }
 
         /// <summary> Make a simple port field. </summary>
-        public static void PortField(XNode.NodePort port, params GUILayoutOption[] options) {
+        public static void PortField(XMonoNode.NodePort port, params GUILayoutOption[] options) {
             PortField(null, port, options);
         }
 
         /// <summary> Make a simple port field. </summary>
-        public static void PortField(GUIContent label, XNode.NodePort port, params GUILayoutOption[] options) {
+        public static void PortField(GUIContent label, XMonoNode.NodePort port, params GUILayoutOption[] options) {
             if (port == null) return;
             if (options == null) options = new GUILayoutOption[] { GUILayout.MinWidth(30) };
             Vector2 position = Vector3.zero;
             GUIContent content = label != null ? label : new GUIContent(ObjectNames.NicifyVariableName(port.label));
 
             // If property is an input, display a regular property field and put a port handle on the left side
-            if (port.direction == XNode.NodePort.IO.Input) {
+            if (port.direction == XMonoNode.NodePort.IO.Input) {
                 // Display a label
                 EditorGUILayout.LabelField(content, options);
 
@@ -208,7 +208,7 @@ namespace XNodeEditor {
                 position = rect.position - new Vector2(16 + paddingLeft, 0);
             }
             // If property is an output, display a text label and put a port handle on the right side
-            else if (port.direction == XNode.NodePort.IO.Output) {
+            else if (port.direction == XMonoNode.NodePort.IO.Output) {
                 // Display a label
                 EditorGUILayout.LabelField(content, NodeEditorResources.OutputPort, options);
 
@@ -220,7 +220,7 @@ namespace XNodeEditor {
         }
 
         /// <summary> Make a simple port field. </summary>
-        public static void PortField(Vector2 position, XNode.NodePort port) {
+        public static void PortField(Vector2 position, XMonoNode.NodePort port) {
             if (port == null) return;
 
             Rect rect = new Rect(position, new Vector2(16, 16));
@@ -237,17 +237,17 @@ namespace XNodeEditor {
         }
 
         /// <summary> Add a port field to previous layout element. </summary>
-        public static void AddPortField(XNode.NodePort port) {
+        public static void AddPortField(XMonoNode.NodePort port) {
             if (port == null) return;
             Rect rect = new Rect();
 
             // If property is an input, display a regular property field and put a port handle on the left side
-            if (port.direction == XNode.NodePort.IO.Input) {
+            if (port.direction == XMonoNode.NodePort.IO.Input) {
                 rect = GUILayoutUtility.GetLastRect();
                 float paddingLeft = NodeEditorWindow.current.graphEditor.GetPortStyle(port).padding.left;
                 rect.position = rect.position - new Vector2(16 + paddingLeft, 0);
                 // If property is an output, display a text label and put a port handle on the right side
-            } else if (port.direction == XNode.NodePort.IO.Output) {
+            } else if (port.direction == XMonoNode.NodePort.IO.Output) {
                 rect = GUILayoutUtility.GetLastRect();
                 rect.width += NodeEditorWindow.current.graphEditor.GetPortStyle(port).padding.right;
                 rect.position = rect.position + new Vector2(rect.width, 0);
@@ -267,7 +267,7 @@ namespace XNodeEditor {
         }
 
         /// <summary> Draws an input and an output port on the same line </summary>
-        public static void PortPair(XNode.NodePort input, XNode.NodePort output) {
+        public static void PortPair(XMonoNode.NodePort input, XMonoNode.NodePort output) {
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PortField(input, GUILayout.MinWidth(0));
             NodeEditorGUILayout.PortField(output, GUILayout.MinWidth(0));
@@ -294,18 +294,18 @@ namespace XNodeEditor {
 
         #region Obsolete
         [Obsolete("Use IsDynamicPortListPort instead")]
-        public static bool IsInstancePortListPort(XNode.NodePort port) {
+        public static bool IsInstancePortListPort(XMonoNode.NodePort port) {
             return IsDynamicPortListPort(port);
         }
 
         [Obsolete("Use DynamicPortList instead")]
-        public static void InstancePortList(string fieldName, Type type, SerializedObject serializedObject, XNode.NodePort.IO io, XNode.ConnectionType connectionType = XNode.ConnectionType.Multiple, XNode.TypeConstraint typeConstraint = XNode.TypeConstraint.None, Action<ReorderableList> onCreation = null) {
+        public static void InstancePortList(string fieldName, Type type, SerializedObject serializedObject, XMonoNode.NodePort.IO io, XMonoNode.ConnectionType connectionType = XMonoNode.ConnectionType.Multiple, XMonoNode.TypeConstraint typeConstraint = XMonoNode.TypeConstraint.None, Action<ReorderableList> onCreation = null) {
             DynamicPortList(fieldName, type, serializedObject, io, connectionType, typeConstraint, onCreation);
         }
         #endregion
 
         /// <summary> Is this port part of a DynamicPortList? </summary>
-        public static bool IsDynamicPortListPort(XNode.NodePort port) {
+        public static bool IsDynamicPortListPort(XMonoNode.NodePort port) {
             string[] parts = port.fieldName.Split(' ');
             if (parts.Length != 2) return false;
             Dictionary<string, ReorderableList> cache;
@@ -322,8 +322,8 @@ namespace XNodeEditor {
         /// <param name="serializedObject">The serializedObject of the node</param>
         /// <param name="connectionType">Connection type of added dynamic ports</param>
         /// <param name="onCreation">Called on the list on creation. Use this if you want to customize the created ReorderableList</param>
-        public static void DynamicPortList(string fieldName, Type type, SerializedObject serializedObject, XNode.NodePort.IO io, XNode.ConnectionType connectionType = XNode.ConnectionType.Multiple, XNode.TypeConstraint typeConstraint = XNode.TypeConstraint.None, Action<ReorderableList> onCreation = null) {
-            XNode.INode node = serializedObject.targetObject as XNode.INode;
+        public static void DynamicPortList(string fieldName, Type type, SerializedObject serializedObject, XMonoNode.NodePort.IO io, XMonoNode.ConnectionType connectionType = XMonoNode.ConnectionType.Multiple, XMonoNode.TypeConstraint typeConstraint = XMonoNode.TypeConstraint.None, Action<ReorderableList> onCreation = null) {
+            XMonoNode.INode node = serializedObject.targetObject as XMonoNode.INode;
 
             var indexedPorts = node.DynamicPorts.Select(x => {
                 string[] split = x.fieldName.Split(' ');
@@ -333,9 +333,9 @@ namespace XNodeEditor {
                         return new { index = i, port = x };
                     }
                 }
-                return new { index = -1, port = (XNode.NodePort)null };
+                return new { index = -1, port = (XMonoNode.NodePort)null };
             }).Where(x => x.port != null);
-            List<XNode.NodePort> dynamicPorts = indexedPorts.OrderBy(x => x.index).Select(x => x.port).ToList();
+            List<XMonoNode.NodePort> dynamicPorts = indexedPorts.OrderBy(x => x.index).Select(x => x.port).ToList();
 
             node.UpdatePorts();
 
@@ -356,15 +356,15 @@ namespace XNodeEditor {
 
         }
 
-        private static ReorderableList CreateReorderableList(string fieldName, List<XNode.NodePort> dynamicPorts, SerializedProperty arrayData, Type type, SerializedObject serializedObject, XNode.NodePort.IO io, XNode.ConnectionType connectionType, XNode.TypeConstraint typeConstraint, Action<ReorderableList> onCreation) {
+        private static ReorderableList CreateReorderableList(string fieldName, List<XMonoNode.NodePort> dynamicPorts, SerializedProperty arrayData, Type type, SerializedObject serializedObject, XMonoNode.NodePort.IO io, XMonoNode.ConnectionType connectionType, XMonoNode.TypeConstraint typeConstraint, Action<ReorderableList> onCreation) {
             bool hasArrayData = arrayData != null && arrayData.isArray;
-            XNode.INode node = serializedObject.targetObject as XNode.INode;
+            XMonoNode.INode node = serializedObject.targetObject as XMonoNode.INode;
             ReorderableList list = new ReorderableList(dynamicPorts, null, true, true, true, true);
             string label = arrayData != null ? arrayData.displayName : ObjectNames.NicifyVariableName(fieldName);
 
             list.drawElementCallback =
                 (Rect rect, int index, bool isActive, bool isFocused) => {
-                    XNode.NodePort port = node.GetPort(fieldName + " " + index);
+                    XMonoNode.NodePort port = node.GetPort(fieldName + " " + index);
                     if (hasArrayData && arrayData.propertyType != SerializedPropertyType.String) {
                         if (arrayData.arraySize <= index) {
                             EditorGUI.LabelField(rect, "Array[" + index + "] data out of range");
@@ -403,8 +403,8 @@ namespace XNodeEditor {
                     // Move up
                     if (rl.index > reorderableListIndex) {
                         for (int i = reorderableListIndex; i < rl.index; ++i) {
-                            XNode.NodePort port = node.GetPort(fieldName + " " + i);
-                            XNode.NodePort nextPort = node.GetPort(fieldName + " " + (i + 1));
+                            XMonoNode.NodePort port = node.GetPort(fieldName + " " + i);
+                            XMonoNode.NodePort nextPort = node.GetPort(fieldName + " " + (i + 1));
                             port.SwapConnections(nextPort);
 
                             // Swap cached positions to mitigate twitching
@@ -417,8 +417,8 @@ namespace XNodeEditor {
                     // Move down
                     else {
                         for (int i = reorderableListIndex; i > rl.index; --i) {
-                            XNode.NodePort port = node.GetPort(fieldName + " " + i);
-                            XNode.NodePort nextPort = node.GetPort(fieldName + " " + (i - 1));
+                            XMonoNode.NodePort port = node.GetPort(fieldName + " " + i);
+                            XMonoNode.NodePort nextPort = node.GetPort(fieldName + " " + (i - 1));
                             port.SwapConnections(nextPort);
 
                             // Swap cached positions to mitigate twitching
@@ -450,7 +450,7 @@ namespace XNodeEditor {
                     int i = 0;
                     while (node.HasPort(newName)) newName = fieldName + " " + (++i);
 
-                    if (io == XNode.NodePort.IO.Output) node.AddDynamicOutput(type, connectionType, XNode.TypeConstraint.None, newName);
+                    if (io == XMonoNode.NodePort.IO.Output) node.AddDynamicOutput(type, connectionType, XMonoNode.TypeConstraint.None, newName);
                     else node.AddDynamicInput(type, connectionType, typeConstraint, newName);
                     serializedObject.Update();
                     EditorUtility.SetDirty(node as UnityEngine.Object);
@@ -470,7 +470,7 @@ namespace XNodeEditor {
                                 return new { index = i, port = x };
                             }
                         }
-                        return new { index = -1, port = (XNode.NodePort)null };
+                        return new { index = -1, port = (XMonoNode.NodePort)null };
                     }).Where(x => x.port != null);
                     dynamicPorts = indexedPorts.OrderBy(x => x.index).Select(x => x.port).ToList();
 
@@ -487,7 +487,7 @@ namespace XNodeEditor {
                         // Move following connections one step up to replace the missing connection
                         for (int k = index + 1; k < dynamicPorts.Count(); k++) {
                             for (int j = 0; j < dynamicPorts[k].ConnectionCount; j++) {
-                                XNode.NodePort other = dynamicPorts[k].GetConnection(j);
+                                XMonoNode.NodePort other = dynamicPorts[k].GetConnection(j);
                                 dynamicPorts[k].Disconnect(other);
                                 dynamicPorts[k - 1].Connect(other);
                             }
@@ -524,7 +524,7 @@ namespace XNodeEditor {
                     string newName = arrayData.name + " 0";
                     int i = 0;
                     while (node.HasPort(newName)) newName = arrayData.name + " " + (++i);
-                    if (io == XNode.NodePort.IO.Output) node.AddDynamicOutput(type, connectionType, typeConstraint, newName);
+                    if (io == XMonoNode.NodePort.IO.Output) node.AddDynamicOutput(type, connectionType, typeConstraint, newName);
                     else node.AddDynamicInput(type, connectionType, typeConstraint, newName);
                     EditorUtility.SetDirty(node as UnityEngine.Object);
                     dynamicPortCount++;

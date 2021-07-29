@@ -1,6 +1,6 @@
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Variables/" + nameof(IsStringNullOrEmpty), "string", "null", "empty")]
     public class IsStringNullOrEmpty : MonoNode

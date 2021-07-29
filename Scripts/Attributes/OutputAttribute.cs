@@ -1,6 +1,6 @@
 using System;
 
-namespace XNode
+namespace XMonoNode
 {
     /// <summary> Mark a serializable field as an output port. You can access this through <see cref="GetOutputPort(string)"/> </summary>
     [AttributeUsage(AttributeTargets.Field)]

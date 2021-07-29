@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-namespace XNodeEditor.Internal {
+namespace XMonoNodeEditor.Internal {
 	public struct RerouteReference {
-		public XNode.NodePort port;
+		public XMonoNode.NodePort port;
 		public int connectionIndex;
 		public int pointIndex;
 
-		public RerouteReference(XNode.NodePort port, int connectionIndex, int pointIndex) {
+		public RerouteReference(XMonoNode.NodePort port, int connectionIndex, int pointIndex) {
 			this.port = port;
 			this.connectionIndex = connectionIndex;
 			this.pointIndex = pointIndex;

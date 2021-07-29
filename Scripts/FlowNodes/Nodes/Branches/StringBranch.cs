@@ -1,6 +1,6 @@
-﻿using XNode;
+﻿using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [NodeWidth(250)]
     [CreateNodeMenu("Branch/" + nameof(StringBranch), "if", "bool", "branch", "switch")]

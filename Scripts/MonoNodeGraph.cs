@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XNode {
+namespace XMonoNode {
     /// <summary> Base class for all node graphs </summary>
     [Serializable]
     public class MonoNodeGraph : MonoBehaviour, INodeGraph, ISerializationCallbackReceiver {
@@ -85,7 +85,7 @@ namespace XNode {
         }
 
         /// <summary> Create a new deep copy of this graph </summary>
-        public XNode.INodeGraph Copy() {
+        public XMonoNode.INodeGraph Copy() {
             // Instantiate a new nodegraph instance
             MonoNodeGraph graph = Instantiate(this);
             return graph;

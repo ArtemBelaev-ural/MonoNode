@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     public static class FlowUtils {
         public static void TriggerFlow(IEnumerable<NodePort> Outputs, string outputTriggerName) {

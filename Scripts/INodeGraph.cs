@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XNode
+namespace XMonoNode
 {
     public interface INodeGraph
     {

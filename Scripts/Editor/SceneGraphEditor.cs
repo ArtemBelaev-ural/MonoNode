@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace XNodeEditor {
+namespace XMonoNodeEditor {
     [CustomEditor(typeof(SceneGraph), true)]
     public class SceneGraphEditor : Editor {
         private SceneGraph sceneGraph;

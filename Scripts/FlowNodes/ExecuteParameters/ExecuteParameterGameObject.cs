@@ -1,7 +1,7 @@
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     /// <summary>
     /// Возвращает GameObject, переданный в метод XSoundNodeGraph.Play()
