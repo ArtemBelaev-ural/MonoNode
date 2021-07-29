@@ -2,8 +2,7 @@
     "name": "FlowNodes",
     "rootNamespace": "",
     "references": [
-        "GUID:bd063b9bc23387d46b85caaff7ad43dc",
-        "GUID:0636a627877790b4ea7f7d761b55b4f3"
+        "XMonoNode"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

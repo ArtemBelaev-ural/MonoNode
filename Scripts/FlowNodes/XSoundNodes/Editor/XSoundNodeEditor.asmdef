@@ -2,11 +2,11 @@
     "name": "XSoundNodeEditor",
     "rootNamespace": "",
     "references": [
-        "GUID:bd063b9bc23387d46b85caaff7ad43dc",
-        "GUID:0636a627877790b4ea7f7d761b55b4f3",
-        "GUID:ab2bb5cea9b640f49b877ffa3773dd58",
-        "GUID:a70e208c8dbf6124294a77a8abf753f0",
-        "GUID:7132fb263ce24b74b8d2987f9c91cb33"
+        "XMonoNode",
+        "XMonoNodeEditor",
+        "FlowNodesEditor",
+        "FlowNodes",
+        "XSoundNodes"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
