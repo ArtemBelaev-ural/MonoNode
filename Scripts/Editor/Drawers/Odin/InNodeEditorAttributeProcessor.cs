@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Sirenix.OdinInspector.Editor;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
 namespace XNodeEditor {
 	internal class OdinNodeInGraphAttributeProcessor<T> : OdinAttributeProcessor<T> where T : Node {
