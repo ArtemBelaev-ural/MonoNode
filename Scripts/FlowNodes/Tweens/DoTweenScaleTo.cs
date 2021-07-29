@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using XNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Animation/Tween/Scale")]
     public class DoTweenScaleTo : BaseDoTween

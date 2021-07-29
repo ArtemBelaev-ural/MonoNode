@@ -2,7 +2,7 @@
 using DG.Tweening;
 using XNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     public abstract class BaseDoTween : FlowNode
     {

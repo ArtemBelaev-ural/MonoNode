@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using XMonoNode;
 using XMonoNodeEditor;
-using XMonoNode;
 
 namespace FlowNodesEditor
 {

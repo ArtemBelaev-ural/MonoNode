@@ -3,7 +3,8 @@ using DG.Tweening;
 using UnityEngine;
 using XNode;
 
-namespace FlowNodes {
+namespace XMonoNode
+{
     [CreateNodeMenu("Animation/Tween/Rotate")]
     public class DoTweenRotate : BaseDoTween
     {

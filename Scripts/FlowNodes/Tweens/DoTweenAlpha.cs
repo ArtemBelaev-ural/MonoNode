@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using XNode;
 
-namespace FlowNodes
+namespace XMonoNode
 {
     [CreateNodeMenu("Animation/Tween/Alpha")]
     public class DoTweenAlpha : BaseDoTween
