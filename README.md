@@ -1,6 +1,6 @@
 <img align="right" width="100" height="100" src="https://user-images.githubusercontent.com/37786733/41541140-71602302-731a-11e8-9434-79b3a57292b6.png">
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/ArtemBelaev-ural/XMonoNode/blob/master/LICENSE.md)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/ArtemBelaev-ural/XMonoNode/master/LICENSE.md)
 [![GitHub Wiki](https://img.shields.io/badge/wiki-available-brightgreen.svg)](https://github.com/Siccity/xNode/wiki)
 
 <!-- [Downloads](https://github.com/Siccity/xNode/releases) / [Asset Store](http://u3d.as/108S) / -->
@@ -86,7 +86,7 @@ public class MathNode : Node
     
     // GetValue should be overridden to return a value for any specified output port
     public override object GetValue(NodePort port) 
-	{
+    {
         // Get new a and b values from input connections. Fallback to field values if input is not connected
         float a = GetInputValue<float>("a", this.a);
         float b = GetInputValue<float>("b", this.b);
@@ -94,7 +94,7 @@ public class MathNode : Node
         // After you've gotten your input values, you can perform your calculations and return a value
         if (port.fieldName == "result")
             switch(mathType) 
-			{
+            {
                 case MathType.Add: default: return a + b;
                 case MathType.Subtract: return a - b;
                 case MathType.Multiply: return a * b;
