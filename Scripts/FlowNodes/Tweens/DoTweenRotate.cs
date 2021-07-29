@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿#if DOTWEEN_SUPPORTED
+using DG.Tweening;
 using UnityEngine;
 using XNode;
 
@@ -26,3 +27,4 @@ namespace FlowNodes {
         }
     }
 }
+#endif
