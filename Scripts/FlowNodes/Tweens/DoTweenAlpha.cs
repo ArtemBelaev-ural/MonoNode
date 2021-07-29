@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using XNode;
+using XMonoNode;
 
 namespace XMonoNode
 {

@@ -1,6 +1,6 @@
 ﻿#if DOTWEEN_SUPPORTED
 using DG.Tweening;
-using XNode;
+using XMonoNode;
 
 namespace XMonoNode
 {

@@ -1,7 +1,7 @@
 ﻿#if DOTWEEN_SUPPORTED
 using DG.Tweening;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
 namespace XMonoNode
 {

@@ -3,10 +3,10 @@ using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using UnityEngine;
-using XNode;
+using XMonoNode;
 
 namespace XNodeEditor {
-	public class OutputAttributeDrawer : OdinAttributeDrawer<XNode.OutputAttribute> {
+	public class OutputAttributeDrawer : OdinAttributeDrawer<XMonoNode.OutputAttribute> {
 		protected override bool CanDrawAttributeProperty(InspectorProperty property) {
 			INode node = property.Tree.WeakTargets[0] as INode;
 			return node != null;
@@ -17,7 +17,7 @@ namespace XNodeEditor {
 			NodePort port = node.GetOutputPort(Property.Name);
 
 			if (!NodeEditor.inNodeEditor) {
-				if (Attribute.backingValue == XNode.ShowBackingValue.Always || Attribute.backingValue == XNode.ShowBackingValue.Unconnected && !port.IsConnected)
+				if (Attribute.backingValue == XMonoNode.ShowBackingValue.Always || Attribute.backingValue == XMonoNode.ShowBackingValue.Unconnected && !port.IsConnected)
 					CallNextDrawer(label);
 				return;
 			}
