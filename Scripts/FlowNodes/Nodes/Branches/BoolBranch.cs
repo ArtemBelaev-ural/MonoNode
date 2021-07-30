@@ -3,7 +3,7 @@
 namespace XMonoNode
 {
     [NodeWidth(150)]
-    [CreateNodeMenu("Branch/" + nameof(BoolBranch), "if", "bool", "branch", "switch")]
+    [CreateNodeMenu("Branch/" + nameof(BoolBranch), 11)]
     public class BoolBranch : FlowNode
     {
         [Input] public bool Bool;

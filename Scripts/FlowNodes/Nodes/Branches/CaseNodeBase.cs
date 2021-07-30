@@ -3,15 +3,14 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Unity/Case")]
     [NodeWidth(280)]
-    public class CaseNode : FlowNode
+    public abstract class CaseNodeBase<T> : FlowNode
     {
         [Input(connectionType: ConnectionType.Override)]
-        public UnityEngine.Object    Switch = null;
+        public T    Switch = default(T);
 
         [Output(dynamicPortList: true)]
-        public UnityEngine.Object[]  Case;
+        public T[]  Case;
 
         public override void OnEnable()
         {
@@ -47,7 +46,7 @@ namespace XMonoNode
             bool caseDefault = true;
             for (int i = 0; i < Case.Length; i++)
             {
-                if (Switch == Case[i])
+                if (Switch.Equals(Case[i]))
                 {
                     FlowUtils.TriggerFlow(Outputs, $"{nameof(Case)} {i}");
                     caseDefault = false;

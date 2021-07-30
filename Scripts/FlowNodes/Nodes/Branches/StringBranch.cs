@@ -3,7 +3,7 @@
 namespace XMonoNode
 {
     [NodeWidth(250)]
-    [CreateNodeMenu("Branch/" + nameof(StringBranch), "if", "bool", "branch", "switch")]
+    [CreateNodeMenu("Branch/" + nameof(StringBranch), 12)]
     public class StringBranch : FlowNode
     {
         [Input] public string StringA;
