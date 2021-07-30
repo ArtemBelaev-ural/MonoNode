@@ -97,8 +97,14 @@ namespace XMonoNode {
         }
 
         public void OnBeforeSerialize() {
-            nodes = GetComponents<MonoNode>();
-            for (int i = 0; i < nodes.Length; i++) {
+            try // GetComponents() causes NullreferenceException in reset()
+            {
+                nodes = GetComponents<MonoNode>();
+            }
+            catch {}
+
+            for (int i = 0; i < nodes.Length; i++)
+            {
                 nodes[i].UpdatePorts();
                 nodes[i].graph = this;
             }

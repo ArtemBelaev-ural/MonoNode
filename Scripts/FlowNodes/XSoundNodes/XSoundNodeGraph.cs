@@ -8,12 +8,25 @@ namespace XMonoNode
 {
     [ExecuteInEditMode]
     [AddComponentMenu("X Sound Node/SoundNodeGraph", 1)]
-    [RequireNode(typeof(XSoundNodePlay))]
-    [RequireComponent(typeof(XSoundNodePlay))]
+    [RequireNode(typeof(ExecuteEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
+    [RequireComponent(typeof(ExecuteEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
     public class XSoundNodeGraph : FlowNodeGraph
     {
         private void Reset()
         {
+            // Execute добавлен автоматически
+            ExecuteEventNode start = GetComponent<ExecuteEventNode>();
+            if (start != null)
+            {
+                start.graph = this;
+                if (start.Name == null || start.Name.Trim() == "")
+                {
+                    start.Name = "Execute Event";
+                }
+                start.Position = new Vector2(-300.0f, -100.0f);
+                EventToTestExecute = start.Name;
+            }
+
             // Play добавлен автоматически
             XSoundNodePlay play = GetComponent<XSoundNodePlay>();
             if (play != null)
@@ -26,28 +39,35 @@ namespace XMonoNode
                 play.Position = new Vector2(100.0f, -50.0f);
             }
 
-            // ƒобавить Source и соединить с Play
-            if (GetComponent<XSoundNodeSource>() == null)
+            XSoundNodeSource source = GetComponent<XSoundNodeSource>();
+            // ƒобавить Source и соединить с Play, а Play с Execute
+            if (source != null)
             {
-                MonoNode.graphHotfix = this;
-                var source = AddNode<XSoundNodeSource>();
-                MonoNode.graphHotfix = null;
                 source.Name = "Source";
-                source.Position = new Vector2(-400.0f, -50.0f);
+                source.Position = new Vector2(-400.0f, 50.0f);
 
                 OnBeforeSerialize();
-                if (NodesCount == 2)
+                if (play != null)
                 {
-                    NodePort output = source.GetOutputPort(nameof(source.audioOutput));
-                    NodePort input = play.GetInputPort(nameof(play.audioInput));
-                    if (output != null && input != null)
+                    NodePort sourceOutput = source.GetOutputPort(nameof(source.audioOutput));
+                    NodePort playInput = play.GetInputPort(nameof(play.audioInput));
+                    if (sourceOutput != null && playInput != null)
                     {
-                        output.Connect(input);
+                        sourceOutput.Connect(playInput);
                     }
+                    if (start != null)
+                    {
+                        NodePort startFlowOutput = start.GetOutputPort(nameof(start.FlowOutput));
+                        NodePort playFlowInput = play.GetInputPort(nameof(play.FlowInput));
+                        if (startFlowOutput != null && playFlowInput != null)
+                        {
+                            startFlowOutput.Connect(playFlowInput);
+                        }
+                    }
+
 
                 }
             }
-            NodeToTestExecute = ALL_NODES;
         } 
     }
 }

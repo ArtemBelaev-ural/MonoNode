@@ -66,30 +66,8 @@ namespace XMonoNode
 
             
 
-            // TODO
+            // TODO playing information
         }
 
-
-        protected override string[] GetFlowNodeNames(out int current)
-        {
-            current = 0;
-            if (soundNodeGraph == null)
-            {
-                return new string[] { FlowNodeGraph.ALL_NODES };
-            }
-            XSoundNodePlay[] nodes = soundNodeGraph.GetComponents<XSoundNodePlay>();
-            string[] result = new string[nodes.Length + 1];
-            result[0] = FlowNodeGraph.ALL_NODES;
-            for (int i = 0; i < nodes.Length; ++i)
-            {
-                result[i+1] = nodes[i].Name;
-                if (string.IsNullOrWhiteSpace(soundNodeGraph.NodeToTestExecute) == false &&
-                    soundNodeGraph.NodeToTestExecute.Equals(nodes[i].Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    current = i+1;
-                }
-            }
-            return result;
-        }
     }
 }

@@ -10,6 +10,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("Flow Nodes/FlowNodeGraph", 1)]
     [ExecuteInEditMode]
+    [RequireComponent(typeof(ExecuteEventNode))]
     public class FlowNodeGraph : MonoNodeGraph
     {
         /// <summary>
@@ -37,14 +38,14 @@ namespace XMonoNode
 
         private object[]     executeParameters = new object[0];
         [SerializeField, HideInInspector]
-        public string NodeToTestExecute = "-";
+        public string EventToTestExecute = "-";
 
         [ContextMenu("Execute")]
         public void TestExecute()
         {
             UpdateTestParameters();
 
-            Execute(NodeToTestExecute, executeParameters);
+            Execute(EventToTestExecute, executeParameters);
         }
 
         public virtual void UpdateParameters(params object[] parameters)
@@ -67,11 +68,11 @@ namespace XMonoNode
             }
         }
 
-        private bool hasNodeWithName(FlowNode[] flowNodes, string name)
+        private bool hasNodeWithName(ExecuteEventNode[] eventNodes, string name)
         {
-            foreach (var play in flowNodes)
+            foreach (var eventNode in eventNodes)
             {
-                if (play.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (eventNode.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
@@ -79,7 +80,7 @@ namespace XMonoNode
             return false;
         }
 
-        public const string ALL_NODES = ":- all nodes";
+        public const string ALL_EXECUTE_NODES = ":- all execute nodes";
 
         public void Execute(params object[] parameters)
         {
@@ -89,33 +90,40 @@ namespace XMonoNode
         /// <summary>
         /// Plays sound graph
         /// </summary>
-        /// <param name="flowNodeName">Name of node wich will execute. If empty all nodes will playing. If there is no such name, all nodes are played. </param>
+        /// <param name="eventNodeName">Name of node wich will execute. If empty all nodes will playing. If there is no such name, all nodes are played. </param>
         /// <param name="parameters">Custom graph parameters<seealso cref="ExecuteParameter"/></param>
-        public void Execute(string flowNodeName = null, params object[] parameters)
+        private void Execute(string eventNodeName = null, params object[] parameters)
         {
-            if (flowNodeName == null)
-            {
-                flowNodeName = NodeToTestExecute;
-            }
 
             UpdateParameters(parameters);
-            FlowNode[] flowNodes = GetComponents<FlowNode>();
-            if (flowNodes.Length == 0)
+            ExecuteEventNode[] eventNodes = GetComponents<ExecuteEventNode>();
+            if (eventNodes.Length == 0)
             {
-                Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't FlowNode");
+                Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't OnExecute nodes");
             }
 
-            if (flowNodeName != ALL_NODES && !hasNodeWithName(flowNodes, flowNodeName)) 
+            if (eventNodeName == null)
             {
-                Debug.LogError(gameObject.name + ": there is no node named \"" +flowNodeName+"\" in the graph");
-            }
-
-            foreach (var node in flowNodes)
-            {
-                if (flowNodeName == ALL_NODES ||
-                    node.Name.Equals(flowNodeName, StringComparison.OrdinalIgnoreCase))
+                foreach (var node in eventNodes)
                 {
-                    node.ExecuteNode();
+                    node.TriggerFlow();
+                }
+            }
+            else // TEST mode
+            {
+
+                if (eventNodeName != ALL_EXECUTE_NODES && !hasNodeWithName(eventNodes, eventNodeName))
+                {
+                    Debug.LogError(gameObject.name + ": there is no node named \"" + eventNodeName + "\" in the graph");
+                }
+
+                foreach (var node in eventNodes)
+                {
+                    if (eventNodeName == ALL_EXECUTE_NODES ||
+                        node.Name.Equals(eventNodeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        node.TriggerFlow();
+                    }
                 }
             }
         }
