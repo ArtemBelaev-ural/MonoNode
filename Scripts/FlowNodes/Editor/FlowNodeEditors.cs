@@ -5,7 +5,7 @@ using UnityEditor;
 using XMonoNode;
 using XMonoNodeEditor;
 
-namespace XMonoNode
+namespace FlowNodesEditor
 {
     [CustomNodeEditor(typeof(ExecuteParameterFloat))]
     public class XSoundNodeFloatParameterEditor : NodeEditor

@@ -4,50 +4,6 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    public static class ResourcesLoader
-    {
-        private static Dictionary<string, Object>  dictionary = new Dictionary<string, Object>();
-
-        public static T Load<T>(string resourcePath) where T : Object
-        {
-            if (dictionary.TryGetValue(resourcePath, out Object result))
-            {
-                return (T)result;
-            }
-            else
-            {
-                result = Resources.Load<T>(resourcePath);
-
-                if (result != null)
-                {
-                    dictionary[resourcePath] = result;
-                    return (T)result;
-                }
-            }
-
-            return default(T);
-        }
-        public static void Unload(string resourcePath)
-        {
-            Object result = null;
-            if (dictionary.TryGetValue(resourcePath, out result))
-            {
-                Resources.UnloadAsset(result);
-                dictionary.Remove(resourcePath);
-            }
-        }
-
-        public static void UnloadAll()
-        {
-            foreach (var pair in dictionary)
-            {
-                Resources.UnloadAsset(pair.Value);
-            }
-            dictionary.Clear();
-            Resources.UnloadUnusedAssets();
-        }
-    }
-
     [System.Serializable]
     public class XAudioClipResource
     {
@@ -153,6 +109,9 @@ namespace XMonoNode
         {
             AudioSource source = new GameObject(name).AddComponent<AudioSource>();
             source.playOnAwake = false;
+#if UNITY_EDITOR
+            source.gameObject.hideFlags = HideFlags.HideAndDontSave;
+#endif
             //source.transform.SetParent(transform);
             return source;
         }

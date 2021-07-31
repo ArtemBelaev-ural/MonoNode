@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Random/" + nameof(RandomBranch), "Random", "branch")]
+    [CreateNodeMenu("Branch/" + nameof(RandomBranch), "Random", "branch")]
     public class RandomBranch : FlowNode
     {
         [Output(dynamicPortList: true)] public int[] FlowOutputWeights;

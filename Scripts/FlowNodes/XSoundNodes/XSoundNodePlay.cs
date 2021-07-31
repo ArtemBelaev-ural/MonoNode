@@ -100,7 +100,7 @@ namespace XMonoNode
             }
 
             AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput), audioInput);
-            if (sources == null /*|| (sources == audioInput && sources.List.Count == 0)*/) // только нуллы - ошибка. Пустой контейнер (sources.List.Count == 0) - это нормально
+            if (sources == null) // только нуллы - ошибка. Пустой контейнер (sources.List.Count == 0) - это нормально
             {
                 Debug.LogErrorFormat(this, "Лёха!!! У ноды play не задан источник! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
                 return;
@@ -115,10 +115,10 @@ namespace XMonoNode
 
                 source.Play();
                 
-                if (Application.isPlaying == false && source.transform.parent == null) // в режиме редактора звуки появятся на плеере
-                {
-                    source.transform.SetParent(transform);
-                }
+                //if (Application.isPlaying == false && source.transform.parent == null) // в режиме редактора звуки появятся на плеере
+                //{
+                //    source.transform.SetParent(transform);
+                //}
             }
             
             
