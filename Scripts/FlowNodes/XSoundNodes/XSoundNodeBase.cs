@@ -76,7 +76,15 @@ namespace XMonoNode
     {
         public XSoundNodeGraph      SoundGraph => graph as XSoundNodeGraph;
 
-        public object[]             PlayParameters => SoundGraph?.ExecuteParameters;
+        public FlowNodeGraph        FlowGraph => graph as FlowNodeGraph;
+
+        public object[] PlayParameters
+        {
+            get
+            {
+                return FlowGraph ? FlowGraph.ExecuteParameters : new object[0];
+            }
+        }
 
         public override object GetValue(NodePort port)
         {

@@ -114,13 +114,7 @@ namespace XMonoNode
                 }
 
                 source.Play();
-                
-                //if (Application.isPlaying == false && source.transform.parent == null) // в режиме редактора звуки появятся на плеере
-                //{
-                //    source.transform.SetParent(transform);
-                //}
             }
-            
             
             if (Application.isPlaying == false)
             {// В режиме редактора мы удаляем не играющие звуки
@@ -130,18 +124,21 @@ namespace XMonoNode
             // Удаляем все, кроме зацикленных
             playing.List.RemoveAll(s => s == null || (!s.loop && !s.isPlaying));
             playing.List.AddRange(sources.List);
-
         }
 
         [ContextMenu("Play")]
         public void TestPlay()
         {
-            if (Application.isPlaying == false)
+            FlowNodeGraph flowGraph = graph as FlowNodeGraph;
+            if (flowGraph != null)
             {
-                SoundGraph.Stop();
+                if (Application.isPlaying == false)
+                {
+                    flowGraph.Stop();
+                }
+                flowGraph.UpdateTestParameters();
+                Play(flowGraph.ExecuteParameters);
             }
-            SoundGraph.UpdateTestParameters();
-            Play(SoundGraph.ExecuteParameters);
         }
 
         [ContextMenu("Stop")]

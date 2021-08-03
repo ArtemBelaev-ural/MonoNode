@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [ExecuteInEditMode]
-    [CreateNodeMenu("Events/" + nameof(OnUpdate), "Update")]
+    [CreateNodeMenu("Events/" + nameof(OnUpdate), 12)]
     public class OnUpdate : EventNode
     {
         public int Milliseconds;

@@ -2,7 +2,7 @@
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Events/OnStart")]
+    [CreateNodeMenu("Events/OnStart", 11)]
     public class OnStart : EventNode
     {
         private void Start()

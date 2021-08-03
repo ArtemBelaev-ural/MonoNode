@@ -56,19 +56,6 @@ namespace FlowNodesEditor
 
             GUILayout.Label(new GUIContent("<color=green>=== Test ===</color>", "test float parameter of Execute()"), GUIStyle.none);
 
-            // Play nodes popup
-
-            string[] nodeNames = GetExecuteNodeNames(out int current);
-            int newCurrent = EditorGUILayout.Popup(new GUIContent("Execute", "Name of node to execute in editor mode"),
-                current, nodeNames);
-
-            if (nodeNames.Length > 0 && nodeNames[newCurrent] != flowNodeGraph.EventToTestExecute)
-            {
-                flowNodeGraph.EventToTestExecute = nodeNames[newCurrent];
-                Undo.RecordObject(flowNodeGraph, "NodeToTestExecute");
-                EditorUtility.SetDirty(flowNodeGraph);
-            }
-
             // Start/Stop buttons
 
             GUILayout.BeginHorizontal();
@@ -87,28 +74,6 @@ namespace FlowNodesEditor
             GUILayout.EndHorizontal();
 
             GUILayout.Space(10);
-        }
-
-        protected virtual string[] GetExecuteNodeNames(out int current)
-        {
-            current = 0;
-            if (flowNodeGraph == null)
-            {
-                return new string[] {"-"};
-            }
-            ExecuteEventNode[] nodes = flowNodeGraph.GetComponents<ExecuteEventNode>();
-            string[] result = new string[nodes.Length + 1];
-            result[0] = FlowNodeGraph.ALL_EXECUTE_NODES;
-            for (int i = 0; i < nodes.Length; ++i)
-            {
-                result[i+1] = nodes[i].Name;
-                if (string.IsNullOrWhiteSpace(flowNodeGraph.EventToTestExecute) == false &&
-                    flowNodeGraph.EventToTestExecute.Equals(nodes[i].Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    current = i+1;
-                }
-            }
-            return result;
         }
     }
 }

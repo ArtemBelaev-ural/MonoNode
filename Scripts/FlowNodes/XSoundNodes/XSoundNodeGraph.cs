@@ -24,7 +24,6 @@ namespace XMonoNode
                     start.Name = "Execute Event";
                 }
                 start.Position = new Vector2(-300.0f, -100.0f);
-                EventToTestExecute = start.Name;
             }
 
             // Play добавлен автоматически

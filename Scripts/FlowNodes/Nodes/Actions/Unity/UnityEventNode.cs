@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [NodeWidth(400)]
-    [CreateNodeMenu("Events/" + nameof(UnityEventNode), "Event", "Unity")]
+    [CreateNodeMenu("Events/" + nameof(UnityEventNode), 14)]
     public class UnityEventNode : FlowNode
     {
         public UnityEvent Target;
