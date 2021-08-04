@@ -41,7 +41,8 @@ namespace XMonoNodeEditor {
             }
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             // Cache portConnectionPoints before serialization starts
             int count = portConnectionPoints.Count;
             _references = new NodePortReference[count];
@@ -53,7 +54,9 @@ namespace XMonoNodeEditor {
                 index++;
             }
         }
-        private void OnEnable() {
+
+        private void OnEnable()
+        {
             // Reload portConnectionPoints if there are any
             int length = _references.Length;
             if (length == _rects.Length) {

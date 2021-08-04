@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Variables/Actions/" + nameof(ConcatString))]
+    [CreateNodeMenu("String/" + nameof(ConcatString))]
     public class ConcatString : FlowNode
     {
         [Input] public string First;

@@ -17,7 +17,8 @@ namespace XMonoNodeEditor {
         public event Action onLateGUI;
         private static readonly Vector3[] polyLineTempArray = new Vector3[2];
 
-        protected virtual void OnGUI() {
+        protected virtual void OnGUI()
+        {
             Event e = Event.current;
             Matrix4x4 m = GUI.matrix;
             if (graph == null) return;
@@ -32,6 +33,8 @@ namespace XMonoNodeEditor {
             DrawTooltip();
             graphEditor.OnGUI();
 
+            DrawNodePalette();
+
             // Run and reset onLateGUI
             if (onLateGUI != null) {
                 onLateGUI();
@@ -39,6 +42,257 @@ namespace XMonoNodeEditor {
             }
 
             GUI.matrix = m;
+        }
+
+        private bool showNodePalette = false;
+        private string nodeNameFilter = "";
+        Vector2 nodePaletteScrollPosition;
+
+        void DrawNodePalette()
+        {
+            if (NodeEditorPreferences.GetSettings().showNodePalette == false)
+            {
+                return;
+            }
+
+            int toggleButtonHeight = 20;
+
+            GUILayout.BeginArea(new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, toggleButtonHeight), GUI.skin.box);
+            bool showNodePaletteNew = EditorGUILayout.Foldout(showNodePalette, "Node palette", true);
+            GUILayout.EndArea();
+
+            if (showNodePaletteNew)
+            {
+                GUIStyle windowStyle = new GUIStyle(GUI.skin.window);
+                windowStyle.padding.top = 6;
+                GUILayout.BeginArea(new Rect(0, toggleButtonHeight+1, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height - toggleButtonHeight), windowStyle);
+
+                GUI.SetNextControlName("search field");
+                if (showNodePalette == false)
+                {
+                    EditorGUI.FocusTextInControl("search field");
+                }
+
+
+                GUILayout.BeginHorizontal();
+
+                GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+
+                if (GUILayout.Button(new GUIContent("+", "Expand all"), GUILayout.MaxWidth(20)))
+                {
+                    Root.SetExpanded(true);
+                }
+                if (GUILayout.Button(new GUIContent("-", "Collapse all"), GUILayout.MaxWidth(20)))
+                {
+                    Root.SetExpanded(false);
+                }
+
+                nodeNameFilter = GUILayout.TextField(nodeNameFilter);
+
+                buttonStyle.fontSize = 10;
+                if (GUILayout.Button(new GUIContent("clear", "Clear the search field"),/* buttonStyle,*/ GUILayout.MaxWidth(40)))
+                {
+                    nodeNameFilter = "";
+                }
+                GUILayout.EndHorizontal();
+
+                DrawNodePaletteMenu(nodeNameFilter);
+
+                GUILayout.EndArea();
+            }
+            else
+            {
+                if (showNodePalette == true)
+                {
+                    //Debug.Log("NodePalette closed");
+                }
+            }
+            EditorGUILayout.EndFadeGroup();
+
+            showNodePalette = showNodePaletteNew;    
+        }
+
+        private class NodeTree
+        {
+            public string Caption => caption;
+            public Type NodeType => nodeType;
+            public List<NodeTree> SubTreeList = new List<NodeTree>();
+            public bool IsSubTree => nodeType == null;
+            public string Path => path;
+            public bool Expanded
+            {
+                get;
+                set;
+            } = false;
+
+            private string caption;
+            private Type nodeType = null;
+            private string path;
+
+            public NodeTree(string caption, Type nodeType = null, string path = "")
+            {
+                this.caption = caption;
+                this.nodeType = nodeType;
+                this.path = path;
+            }
+
+            public void AddNode(string path, Type nodeType, int startsWith = 0)
+            {
+                if (path.Length == 0 || startsWith >= path.Length)
+                {
+                    return; // на всякий случай
+                }
+
+                int slashPos = path.IndexOf('/', startsWith);
+                if (slashPos == -1) // leaf
+                {
+                    string name = path.Substring(startsWith);
+                    SubTreeList.Add(new NodeTree(name, nodeType, path));
+                }
+                else                // sub tree
+                {
+                    string subTreeCaption = path.Substring(startsWith, slashPos - startsWith);
+                    NodeTree subTree = GetSubTree(subTreeCaption);
+                    subTree.AddNode(path, nodeType, slashPos + 1);                    
+                }
+            }
+
+            private NodeTree GetSubTree(string caption)
+            {
+                foreach (var tree in SubTreeList)
+                {
+                    if (tree.caption == caption && tree.IsSubTree)
+                    {
+                        return tree;
+                    }
+                }
+                NodeTree newTree = new NodeTree(caption);
+                SubTreeList.Add(newTree);
+                return newTree;
+            }
+
+            public bool CaptionContains(string str)
+            {
+                if (string.IsNullOrEmpty(str))
+                    return true;
+
+                if (!IsSubTree && Path.ToLower().Contains(str.ToLower()))
+                {
+                    return true;
+                }
+
+                foreach (var tree in SubTreeList)
+                {
+                    if (tree.CaptionContains(str))
+                        return true;
+                }
+                
+                return false;
+            }
+
+            public void SetExpanded(bool expanded)
+            {
+                Expanded = expanded;
+                foreach (NodeTree tree in SubTreeList)
+                {
+                    tree.SetExpanded(expanded);
+                }
+            }
+        }
+
+        void DrawNodeTree(NodeTree tree, string filter, int level = 0)
+        {
+            if (tree.CaptionContains(filter) == false)
+            {
+                return;
+            }
+
+            int indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = level;
+            if (tree.IsSubTree)
+            {
+                // BeginFoldoutHeaderGroup can't be nested
+                if (level == 0)
+                    tree.Expanded = EditorGUILayout.BeginFoldoutHeaderGroup(tree.Expanded, tree.Caption);
+                else
+                    tree.Expanded = EditorGUILayout.Foldout(tree.Expanded, tree.Caption, true);
+
+                if (tree.Expanded)
+                {
+                    int nestedLevel = level + 1;
+                    foreach (NodeTree subTree in tree.SubTreeList)
+                    {
+                        DrawNodeTree(subTree, filter, nestedLevel);
+                    }
+                }
+                if (level == 0)
+                    EditorGUILayout.EndFoldoutHeaderGroup();
+            }
+            else
+            {
+                int margin = EditorStyles.linkLabel.padding.left;
+                EditorStyles.linkLabel.padding.left = level * 20;
+
+                if (EditorGUILayout.LinkButton(tree.Caption))
+                {
+                    XMonoNode.INode node = graphEditor.CreateNode(tree.NodeType, new Vector2(UnityEngine.Random.Range(-300f, 300f), UnityEngine.Random.Range(-300f, 300f)));
+                }
+                EditorStyles.linkLabel.padding.left = margin;
+            }
+            EditorGUI.indentLevel = indent;
+        }
+
+        private NodeTree root = null;
+        private NodeTree Root
+        {
+            get
+            {
+                if (root == null)
+                {
+                    Type[]  nodeTypes = GetNodeTypesForPalette();
+                    root = new NodeTree("");
+
+                    foreach (Type type in nodeTypes)
+                    {
+                        string path = graphEditor.GetNodeMenuName(type);
+
+                        if (string.IsNullOrEmpty(path) /*|| !path.ToLower().Contains(nodeNameFilter.ToLower())*/)
+                        {
+                            continue;
+                        }
+
+                        XMonoNode.DisallowMultipleNodesAttribute disallowAttrib;
+                        if (NodeEditorUtilities.GetAttrib(type, out disallowAttrib))
+                        {
+                            int typeCount = graphEditor.Target.GetNodes().Count(x => x.GetType() == type);
+                            if (typeCount >= disallowAttrib.max)
+                            {
+                                continue;
+                            }
+                        }
+                        root.AddNode(path, type);
+                    }
+                }
+                return root;
+            }
+        }
+
+        private void DrawNodePaletteMenu(string filter)
+        {
+            nodePaletteScrollPosition = GUILayout.BeginScrollView(nodePaletteScrollPosition, GUI.skin.box);
+
+            foreach (NodeTree tree in Root.SubTreeList)
+            {
+                DrawNodeTree(tree, filter);
+            }
+
+            GUILayout.EndScrollView();
+        }
+
+        Type[] GetNodeTypesForPalette()
+        {
+            Type nodeBaseType = graphEditor.Target.getNodeType();
+            return NodeEditorReflection.nodeTypes.Where(t => t.IsSubclassOf(nodeBaseType)).OrderBy(graphEditor.GetNodeMenuOrder).ToArray();
         }
 
         public static void BeginZoomed(Rect rect, float zoom, float topPadding) {
@@ -151,7 +405,8 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Draw a bezier from output to input in grid coordinates </summary>
-        public void DrawNoodle(Gradient gradient, NoodlePath path, NoodleStroke stroke, float thickness, List<Vector2> gridPoints) {
+        public void DrawNoodle(Gradient gradient, NoodlePath path, NoodleStroke stroke, float thickness, List<Vector2> gridPoints)
+        {
             // convert grid points to window points
             for (int i = 0; i < gridPoints.Count; ++i)
                 gridPoints[i] = GridToWindowPosition(gridPoints[i]);
@@ -162,7 +417,8 @@ namespace XMonoNodeEditor {
             switch (path) {
                 case NoodlePath.Curvy:
                     Vector2 outputTangent = Vector2.right;
-                    for (int i = 0; i < length - 1; i++) {
+                    for (int i = 0; i < length - 1; i++)
+                    {
                         Vector2 inputTangent;
                         // Cached most variables that repeat themselves here to avoid so many indexer calls :p
                         Vector2 point_a = gridPoints[i];
@@ -324,7 +580,8 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Draws all connections </summary>
-        public void DrawConnections() {
+        public void DrawConnections()
+        {
             Vector2 mousePos = Event.current.mousePosition;
             List<RerouteReference> selection = preBoxSelectionReroute != null ? new List<RerouteReference>(preBoxSelectionReroute) : new List<RerouteReference>();
             hoveredReroute = new RerouteReference();
@@ -338,7 +595,8 @@ namespace XMonoNodeEditor {
                 if ((node as UnityEngine.Object) == null) continue;
 
                 // Draw full connections and output > reroute
-                foreach (XMonoNode.NodePort output in node.Outputs) {
+                foreach (XMonoNode.NodePort output in node.Outputs)
+                {
                     //Needs cleanup. Null checks are ugly
                     Rect fromRect;
                     if (!_portConnectionPoints.TryGetValue(output, out fromRect)) continue;

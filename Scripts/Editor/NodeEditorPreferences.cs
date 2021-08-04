@@ -41,6 +41,8 @@ namespace XMonoNodeEditor {
             public bool createFilter = true;
             public bool zoomToMouse = true;
             public bool portTooltips = true;
+            public bool showNodePalette = true;
+            public int nodePaletteWidth = 200;
             [SerializeField] private string typeColorsData = "";
             [NonSerialized] public Dictionary<string, Color> typeColors = new Dictionary<string, Color>();
             [FormerlySerializedAs("noodleType")] public NoodlePath noodlePath = NoodlePath.Curvy;
@@ -170,7 +172,8 @@ namespace XMonoNodeEditor {
             settings.portTooltips = EditorGUILayout.Toggle("Port Tooltips", settings.portTooltips);
             settings.dragToCreate = EditorGUILayout.Toggle(new GUIContent("Drag to Create", "Drag a port connection anywhere on the grid to create and connect a node"), settings.dragToCreate);
             settings.createFilter = EditorGUILayout.Toggle(new GUIContent("Create Filter", "Only show nodes that are compatible with the selected port"), settings.createFilter);
-
+            settings.showNodePalette = EditorGUILayout.Toggle(new GUIContent("Node Palette", "Show Node Palette button in left up corner"), settings.showNodePalette);
+            settings.nodePaletteWidth = EditorGUILayout.IntField(new GUIContent("Node Palette width", "Width of Node Palette when it is shown"), settings.nodePaletteWidth);
             //END
             if (GUI.changed) {
                 SavePrefs(key, settings);
