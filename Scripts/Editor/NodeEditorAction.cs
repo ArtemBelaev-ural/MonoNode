@@ -7,7 +7,7 @@ using XMonoNodeEditor.Internal;
 
 namespace XMonoNodeEditor {
     public partial class NodeEditorWindow {
-        public enum NodeActivity { Idle, HoldNode, DragNode, HoldGrid, DragGrid }
+        public enum NodeActivity { Idle, HoldNode, DragNode, HoldGrid, DragGrid, HoldNodeType, DragNodeType}
         public static NodeActivity currentActivity = NodeActivity.Idle;
         public static bool isPanning { get; private set; }
         private bool IsCursorInToolWindow = false;
@@ -19,6 +19,8 @@ namespace XMonoNodeEditor {
         public bool IsHoveringPort { get { return hoveredPort != null; } }
         public bool IsHoveringNode { get { return hoveredNode != null; } }
         public bool IsHoveringReroute { get { return hoveredReroute.port != null; } }
+        public bool IsHoveringNodeType => hoveredNodeType != null;
+        public bool IsDraggingNodeType => draggedNodeType != null;
 
         /// <summary> Return the dragged port or null if not exist </summary>
         public XMonoNode.NodePort DraggedOutputPort { get { XMonoNode.NodePort result = draggedOutput; return result; } }
@@ -27,7 +29,11 @@ namespace XMonoNodeEditor {
         /// <summary> Return the Hovered node or null if not exist </summary>
         public XMonoNode.INode HoveredNode { get { XMonoNode.INode result = hoveredNode; return result; } }
 
+        public Type HoveredNodeType => hoveredNodeType;
+        
         private XMonoNode.INode hoveredNode = null;
+        private Type hoveredNodeType = null;
+        private Type draggedNodeType = null;
         [NonSerialized] public XMonoNode.NodePort hoveredPort = null;
         [NonSerialized] private XMonoNode.NodePort draggedOutput = null;
         [NonSerialized] private XMonoNode.NodePort draggedOutputTarget = null;
@@ -43,11 +49,23 @@ namespace XMonoNodeEditor {
         private bool isDoubleClick = false;
         private Vector2 lastMousePosition;
         private float dragThreshold = 1f;
-        private bool mouseHoverPanel = false;
 
-        public void Controls() {
+        public void Controls()
+        {
             wantsMouseMove = true;
             Event e = Event.current;
+
+            Rect paletteRect = new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height);
+            IsCursorInToolWindow = (showNodePalette && paletteRect.Contains(e.mousePosition));
+
+            if (IsDraggingNodeType)
+            {
+                EditorGUIUtility.AddCursorRect(position, MouseCursor.ArrowPlus);
+            }
+            else
+            {
+                EditorGUIUtility.AddCursorRect(position, MouseCursor.Arrow);
+            }
             switch (e.type)
             {
                 case EventType.DragUpdated:
@@ -60,10 +78,9 @@ namespace XMonoNodeEditor {
                     }
                     break;
                 case EventType.MouseMove:
+                    
                     //Keyboard commands will not get correct mouse position from Event
                     lastMousePosition = e.mousePosition;
-                    Rect paletteRect = new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height);
-                    IsCursorInToolWindow = (showNodePalette && paletteRect.Contains(e.mousePosition));
                     break;
                 case EventType.ScrollWheel:
                     if (!IsCursorInToolWindow)
@@ -83,9 +100,12 @@ namespace XMonoNodeEditor {
                         if (IsDraggingPort)
                         {
                             // Set target even if we can't connect, so as to prevent auto-conn menu from opening erroneously
-                            if (IsHoveringPort && hoveredPort.IsInput && !draggedOutput.IsConnectedTo(hoveredPort)) {
+                            if (IsHoveringPort && hoveredPort.IsInput && !draggedOutput.IsConnectedTo(hoveredPort))
+                            {
                                 draggedOutputTarget = hoveredPort;
-                            } else {
+                            }
+                            else
+                            {
                                 draggedOutputTarget = null;
                             }
                             Repaint();
@@ -187,7 +207,15 @@ namespace XMonoNodeEditor {
                     break;
                 case EventType.MouseDown:
                     Repaint();
-                    if (e.button == 0 && !IsCursorInToolWindow)
+                    if (e.button == 0 && IsCursorInToolWindow)
+                    {
+                        if (IsHoveringNodeType)
+                        {
+                            currentActivity = NodeActivity.DragNodeType;
+                            draggedNodeType = hoveredNodeType;
+                        }
+                    }
+                    else if (e.button == 0 && !IsCursorInToolWindow)
                     {
                         draggedOutputReroutes.Clear();
 
@@ -279,8 +307,17 @@ namespace XMonoNodeEditor {
                 case EventType.MouseUp:
                     if (e.button == 0)
                     {
+                        if (IsDraggingNodeType)
+                        {
+                            if (!IsCursorInToolWindow)
+                            {
+                                Vector2 pos = WindowToGridPosition(Event.current.mousePosition);
+                                graphEditor.CreateNode(draggedNodeType, pos);
+                            }
+                            
+                        }
                         //Port drag release
-                        if (IsDraggingPort && !IsCursorInToolWindow)
+                        else if (IsDraggingPort && !IsCursorInToolWindow)
                         {
                             // If connection is valid, save it
                             if (draggedOutputTarget != null && draggedOutput.CanConnectTo(draggedOutputTarget))
@@ -316,8 +353,10 @@ namespace XMonoNodeEditor {
                         else if (currentActivity == NodeActivity.DragNode)
                         {
                             IEnumerable<XMonoNode.INode> nodes = Selection.objects.Where(x => x is XMonoNode.INode).Select(x => x as XMonoNode.INode);
-                            foreach (XMonoNode.INode node in nodes) EditorUtility.SetDirty(node as UnityEngine.Object);
-                            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+                            foreach (XMonoNode.INode node in nodes)
+                                EditorUtility.SetDirty(node as UnityEngine.Object);
+                            if (NodeEditorPreferences.GetSettings().autoSave)
+                                AssetDatabase.SaveAssets();
                         }
                         else if (!IsHoveringNode)
                         {
@@ -327,7 +366,8 @@ namespace XMonoNodeEditor {
                             //    EditorGUI.FocusTextInControl(null);
                             //    EditorGUIUtility.editingTextField = false;
                             //}
-                            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+                            if (NodeEditorPreferences.GetSettings().autoSave)
+                                AssetDatabase.SaveAssets();
                         }
 
                         // If click node header, select it.
@@ -351,6 +391,7 @@ namespace XMonoNodeEditor {
 
                         Repaint();
                         currentActivity = NodeActivity.Idle;
+                        draggedNodeType = null;
                     }
                     else if (e.button == 1 || e.button == 2)
                     {

@@ -37,7 +37,7 @@ namespace XMonoNodeEditor {
 
             // Run and reset onLateGUI
             if (onLateGUI != null) {
-                onLateGUI();
+               onLateGUI();
                 onLateGUI = null;
             }
 
@@ -46,7 +46,8 @@ namespace XMonoNodeEditor {
 
         private bool showNodePalette = false;
         private string nodeNameFilter = "";
-        Vector2 nodePaletteScrollPosition;
+        private Vector2 nodePaletteScrollPosition;
+        
 
         void DrawNodePalette()
         {
@@ -54,9 +55,7 @@ namespace XMonoNodeEditor {
             {
                 return;
             }
-
             int toggleButtonHeight = 20;
-
             GUILayout.BeginArea(new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, toggleButtonHeight), GUI.skin.box);
             bool showNodePaletteNew = EditorGUILayout.Foldout(showNodePalette, "Node palette", true);
             GUILayout.EndArea();
@@ -72,7 +71,6 @@ namespace XMonoNodeEditor {
                 {
                     EditorGUI.FocusTextInControl("search field");
                 }
-
 
                 GUILayout.BeginHorizontal();
 
@@ -100,13 +98,7 @@ namespace XMonoNodeEditor {
 
                 GUILayout.EndArea();
             }
-            else
-            {
-                if (showNodePalette == true)
-                {
-                    //Debug.Log("NodePalette closed");
-                }
-            }
+
             EditorGUILayout.EndFadeGroup();
 
             showNodePalette = showNodePaletteNew;    
@@ -235,8 +227,18 @@ namespace XMonoNodeEditor {
 
                 if (EditorGUILayout.LinkButton(tree.Caption))
                 {
-                    XMonoNode.INode node = graphEditor.CreateNode(tree.NodeType, new Vector2(UnityEngine.Random.Range(-300f, 300f), UnityEngine.Random.Range(-300f, 300f)));
+                    //XMonoNode.INode node = graphEditor.CreateNode(tree.NodeType, new Vector2(UnityEngine.Random.Range(-300f, 300f), UnityEngine.Random.Range(-300f, 300f)));
                 }
+
+                if (Event.current.type == EventType.Repaint)
+                {
+                    Rect rect = GUILayoutUtility.GetLastRect();
+                    if (rect.Contains(Event.current.mousePosition))
+                    {
+                        hoveredNodeType = tree.NodeType;
+                    }                   
+                }
+     
                 EditorStyles.linkLabel.padding.left = margin;
             }
             EditorGUI.indentLevel = indent;
@@ -280,6 +282,10 @@ namespace XMonoNodeEditor {
         private void DrawNodePaletteMenu(string filter)
         {
             nodePaletteScrollPosition = GUILayout.BeginScrollView(nodePaletteScrollPosition, GUI.skin.box);
+            if (Event.current.type == EventType.Repaint)
+            {
+                hoveredNodeType = null;
+            }
 
             foreach (NodeTree tree in Root.SubTreeList)
             {
@@ -828,16 +834,21 @@ namespace XMonoNodeEditor {
             return false;
         }
 
-        private void DrawTooltip() {
-            if (!NodeEditorPreferences.GetSettings().portTooltips || graphEditor == null)
+        private void DrawTooltip()
+        {
+            if (!NodeEditorPreferences.GetSettings().portTooltips || graphEditor == null || IsCursorInToolWindow)
                 return;
             string tooltip = null;
-            if (hoveredPort != null) {
+            if (hoveredPort != null)
+            {
                 tooltip = graphEditor.GetPortTooltip(hoveredPort);
-            } else if (hoveredNode != null && IsHoveringNode && IsHoveringTitle(hoveredNode)) {
+            }
+            else if (hoveredNode != null && IsHoveringNode && IsHoveringTitle(hoveredNode))
+            {
                 tooltip = NodeEditor.GetEditor(hoveredNode, this).GetHeaderTooltip();
             }
-            if (string.IsNullOrEmpty(tooltip)) return;
+            if (string.IsNullOrEmpty(tooltip))
+                return;
             GUIContent content = new GUIContent(tooltip);
             Vector2 size = NodeEditorResources.styles.tooltip.CalcSize(content);
             size.x += 8;
