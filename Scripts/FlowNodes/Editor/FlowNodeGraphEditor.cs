@@ -30,6 +30,18 @@ namespace FlowNodesEditor
             }
         }
 
+        public override float GetNoodleThickness(XMonoNode.NodePort output, XMonoNode.NodePort input)
+        {
+            float coef =  1.0f;
+            if (output != null && output.ValueType == typeof(Flow) ||
+                input != null && input.ValueType == typeof(Flow))
+            {
+                coef = 2.0f;
+            }
+
+            return NodeEditorPreferences.GetSettings().noodleThickness * coef;
+        }
+
     }
 
     /// <summary>

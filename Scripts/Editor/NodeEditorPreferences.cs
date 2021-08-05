@@ -7,6 +7,11 @@ using UnityEngine.Serialization;
 namespace XMonoNodeEditor {
     public enum NoodlePath { Curvy, Straight, Angled, ShaderLab }
     public enum NoodleStroke { Full, Dashed }
+    public enum DrawingSequence
+    {
+        NodesOverConnections,
+        ConnectionsOverNodes,
+    }
 
     public static class NodeEditorPreferences {
 
@@ -47,6 +52,7 @@ namespace XMonoNodeEditor {
             [NonSerialized] public Dictionary<string, Color> typeColors = new Dictionary<string, Color>();
             [FormerlySerializedAs("noodleType")] public NoodlePath noodlePath = NoodlePath.Curvy;
             public float noodleThickness = 2f;
+            public DrawingSequence drawingSequence = DrawingSequence.NodesOverConnections;
 
             public NoodleStroke noodleStroke = NoodleStroke.Full;
 
@@ -169,6 +175,7 @@ namespace XMonoNodeEditor {
             settings.noodlePath = (NoodlePath) EditorGUILayout.EnumPopup("Noodle path", (Enum) settings.noodlePath);
             settings.noodleThickness = EditorGUILayout.FloatField(new GUIContent("Noodle thickness", "Noodle Thickness of the node connections"), settings.noodleThickness);
             settings.noodleStroke = (NoodleStroke) EditorGUILayout.EnumPopup("Noodle stroke", (Enum) settings.noodleStroke);
+            settings.drawingSequence = (DrawingSequence)EditorGUILayout.EnumPopup("Drawing Sequence", (Enum)settings.drawingSequence);
             settings.portTooltips = EditorGUILayout.Toggle("Port Tooltips", settings.portTooltips);
             settings.dragToCreate = EditorGUILayout.Toggle(new GUIContent("Drag to Create", "Drag a port connection anywhere on the grid to create and connect a node"), settings.dragToCreate);
             settings.createFilter = EditorGUILayout.Toggle(new GUIContent("Create Filter", "Only show nodes that are compatible with the selected port"), settings.createFilter);

@@ -26,9 +26,18 @@ namespace XMonoNodeEditor {
             Controls();
 
             DrawGrid(position, zoom, panOffset);
-            DrawConnections();
+
+            if (NodeEditorPreferences.GetSettings().drawingSequence == DrawingSequence.NodesOverConnections)
+            {
+                DrawConnections();
+                DrawNodes();
+            }
+            else
+            {
+                DrawNodes();
+                DrawConnections();
+            }
             DrawDraggedConnection();
-            DrawNodes();
             DrawSelectionBox();
             DrawTooltip();
             graphEditor.OnGUI();

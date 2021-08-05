@@ -11,14 +11,8 @@ namespace XMonoNode
     /// ќкно звукового графа
     /// </summary>
     [CustomNodeGraphEditor(typeof(XSoundNodeGraph))]
-    public class XSoundNodeGraphEditor : NodeGraphEditor
+    public class XSoundNodeGraphEditor : FlowNodeGraphGraphEditor
     {
-        public override void OnOpen()
-        {
-            base.OnOpen();
-            window.titleContent = new GUIContent("Graph: " + (target as XSoundNodeGraph).gameObject.name);
-        }
-
         public override string GetPortTooltip(XMonoNode.NodePort port)
         {
             // ”бираем выт€гивание звуков при формировании подсказки, чтобы звуки не по€вл€лись в сцене
