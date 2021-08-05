@@ -11,6 +11,7 @@ namespace XMonoNode
     [AddComponentMenu("Math/LerpFloat")]
     [CreateNodeMenu("Math/LerpFloat")]
     [NodeWidth(170)]
+    [ExecuteInEditMode]
     public class LerpFloat : FlowNode
     {
 
