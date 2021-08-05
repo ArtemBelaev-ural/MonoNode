@@ -267,8 +267,6 @@ namespace XMonoNodeEditor {
                 GUILayout.EndArea();
             }
 
-            EditorGUILayout.EndFadeGroup();
-
             showNodePalette = showNodePaletteNew;
         }
 
