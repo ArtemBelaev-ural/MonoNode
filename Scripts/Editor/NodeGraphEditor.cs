@@ -215,7 +215,8 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Create a node and save it in the graph asset </summary>
-        public virtual XMonoNode.INode CreateNode(Type type, Vector2 position) {
+        public virtual XMonoNode.INode CreateNode(Type type, Vector2 position)
+        {
             Undo.RecordObject(target, "Create Node");
             XMonoNode.INode node = Target.AddNode(type);
             Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Create Node");

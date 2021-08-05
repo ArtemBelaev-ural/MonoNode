@@ -34,6 +34,8 @@ namespace XMonoNodeEditor {
         private XMonoNode.INode hoveredNode = null;
         private Type hoveredNodeType = null;
         private Type draggedNodeType = null;
+        private string hoveredNodeTypeName = "";
+        private string draggedNodeTypeName = "";
         [NonSerialized] public XMonoNode.NodePort hoveredPort = null;
         [NonSerialized] private XMonoNode.NodePort draggedOutput = null;
         [NonSerialized] private XMonoNode.NodePort draggedOutputTarget = null;
@@ -58,14 +60,6 @@ namespace XMonoNodeEditor {
             Rect paletteRect = new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height);
             IsCursorInToolWindow = (showNodePalette && paletteRect.Contains(e.mousePosition));
 
-            if (IsDraggingNodeType)
-            {
-                EditorGUIUtility.AddCursorRect(position, MouseCursor.ArrowPlus);
-            }
-            else
-            {
-                EditorGUIUtility.AddCursorRect(position, MouseCursor.Arrow);
-            }
             switch (e.type)
             {
                 case EventType.DragUpdated:
@@ -110,7 +104,8 @@ namespace XMonoNodeEditor {
                             }
                             Repaint();
                         }
-                        else if (currentActivity == NodeActivity.HoldNode) {
+                        else if (currentActivity == NodeActivity.HoldNode)
+                        {
                             RecalculateDragOffsets(e);
                             currentActivity = NodeActivity.DragNode;
                             Repaint();
@@ -213,6 +208,7 @@ namespace XMonoNodeEditor {
                         {
                             currentActivity = NodeActivity.DragNodeType;
                             draggedNodeType = hoveredNodeType;
+                            draggedNodeTypeName = hoveredNodeTypeName;
                         }
                     }
                     else if (e.button == 0 && !IsCursorInToolWindow)
@@ -312,7 +308,10 @@ namespace XMonoNodeEditor {
                             if (!IsCursorInToolWindow)
                             {
                                 Vector2 pos = WindowToGridPosition(Event.current.mousePosition);
-                                graphEditor.CreateNode(draggedNodeType, pos);
+                                pos.x -= NodeEditor.GetWidth(draggedNodeType) / 2;
+                                pos.y -= 15;
+                                XMonoNode.INode node = graphEditor.CreateNode(draggedNodeType, pos);
+                                
                             }
                             
                         }

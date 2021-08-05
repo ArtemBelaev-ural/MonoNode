@@ -113,19 +113,34 @@ namespace XMonoNodeEditor {
 
         public virtual int GetWidth() {
             Type type = target.GetType();
+            return GetWidth(type);
+        }
+
+        static public int GetWidth(Type type)
+        {
             int width;
-            if (type.TryGetAttributeWidth(out width)) return width;
-            else return 208;
+            if (type.TryGetAttributeWidth(out width))
+                return width;
+            else
+                return 208;
         }
 
         /// <summary> Returns color for target node </summary>
-        public virtual Color GetTint() {
+        public virtual Color GetTint()
+        {
             // Try get color from [NodeTint] attribute
             Type type = target.GetType();
+            return GetTint(type);
+        }
+
+        public static Color GetTint(Type type)
+        {
             Color color;
-            if (type.TryGetAttributeTint(out color)) return color;
+            if (type.TryGetAttributeTint(out color))
+                return color;
             // Return default color (grey)
-            else return NodeEditorPreferences.GetSettings().tintColor;
+            else
+                return NodeEditorPreferences.GetSettings().tintColor;
         }
 
         public virtual GUIStyle GetBodyStyle() {

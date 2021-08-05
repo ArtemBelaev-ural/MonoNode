@@ -35,6 +35,8 @@ namespace XMonoNodeEditor {
 
             DrawNodePalette();
 
+            DrawDraggedNodeType();
+
             // Run and reset onLateGUI
             if (onLateGUI != null) {
                onLateGUI();
@@ -44,66 +46,44 @@ namespace XMonoNodeEditor {
             GUI.matrix = m;
         }
 
+        private void DrawDraggedNodeType()
+        {
+            if (!IsDraggingNodeType)
+            {
+                return;
+            }
+
+            //Save guiColor so we can revert it
+            Color guiColor = GUI.color;
+
+            Vector2 mousePos = Event.current.mousePosition;
+
+            int nodeWidth = NodeEditor.GetWidth(draggedNodeType);
+            Vector2 nodePos = mousePos -= new Vector2(nodeWidth / 2, 15);
+            GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeWidth, 500)));
+
+            GUIStyle style = new GUIStyle(NodeEditorResources.styles.nodeBody);
+            style.padding.top = 8;
+            GUI.color = NodeEditor.GetTint(draggedNodeType);
+            GUILayout.BeginVertical(style);
+
+            GUI.color = guiColor;
+
+            GUILayout.Label(draggedNodeTypeName, NodeEditorResources.styles.nodeHeader/*GUI.skin.label*/);
+            GUILayout.Space(10);
+            GUILayout.Label("Drag it to editor area");
+
+            GUILayout.EndVertical();
+
+            GUILayout.EndArea();
+
+            Repaint();
+        }
+
         private bool showNodePalette = false;
         private string nodeNameFilter = "";
         private Vector2 nodePaletteScrollPosition;
         
-
-        void DrawNodePalette()
-        {
-            if (NodeEditorPreferences.GetSettings().showNodePalette == false)
-            {
-                return;
-            }
-            int toggleButtonHeight = 20;
-            GUILayout.BeginArea(new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, toggleButtonHeight), GUI.skin.box);
-            bool showNodePaletteNew = EditorGUILayout.Foldout(showNodePalette, "Node palette", true);
-            GUILayout.EndArea();
-
-            if (showNodePaletteNew)
-            {
-                GUIStyle windowStyle = new GUIStyle(GUI.skin.window);
-                windowStyle.padding.top = 6;
-                GUILayout.BeginArea(new Rect(0, toggleButtonHeight+1, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height - toggleButtonHeight), windowStyle);
-
-                GUI.SetNextControlName("search field");
-                if (showNodePalette == false)
-                {
-                    EditorGUI.FocusTextInControl("search field");
-                }
-
-                GUILayout.BeginHorizontal();
-
-                GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
-
-                if (GUILayout.Button(new GUIContent("+", "Expand all"), GUILayout.MaxWidth(20)))
-                {
-                    Root.SetExpanded(true);
-                }
-                if (GUILayout.Button(new GUIContent("-", "Collapse all"), GUILayout.MaxWidth(20)))
-                {
-                    Root.SetExpanded(false);
-                }
-
-                nodeNameFilter = GUILayout.TextField(nodeNameFilter);
-
-                buttonStyle.fontSize = 10;
-                if (GUILayout.Button(new GUIContent("clear", "Clear the search field"),/* buttonStyle,*/ GUILayout.MaxWidth(40)))
-                {
-                    nodeNameFilter = "";
-                }
-                GUILayout.EndHorizontal();
-
-                DrawNodePaletteMenu(nodeNameFilter);
-
-                GUILayout.EndArea();
-            }
-
-            EditorGUILayout.EndFadeGroup();
-
-            showNodePalette = showNodePaletteNew;    
-        }
-
         private class NodeTree
         {
             public string Caption => caption;
@@ -116,6 +96,8 @@ namespace XMonoNodeEditor {
                 get;
                 set;
             } = false;
+
+            public Rect rect;
 
             private string caption;
             private Type nodeType = null;
@@ -192,58 +174,6 @@ namespace XMonoNodeEditor {
             }
         }
 
-        void DrawNodeTree(NodeTree tree, string filter, int level = 0)
-        {
-            if (tree.CaptionContains(filter) == false)
-            {
-                return;
-            }
-
-            int indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = level;
-            if (tree.IsSubTree)
-            {
-                // BeginFoldoutHeaderGroup can't be nested
-                if (level == 0)
-                    tree.Expanded = EditorGUILayout.BeginFoldoutHeaderGroup(tree.Expanded, tree.Caption);
-                else
-                    tree.Expanded = EditorGUILayout.Foldout(tree.Expanded, tree.Caption, true);
-
-                if (tree.Expanded)
-                {
-                    int nestedLevel = level + 1;
-                    foreach (NodeTree subTree in tree.SubTreeList)
-                    {
-                        DrawNodeTree(subTree, filter, nestedLevel);
-                    }
-                }
-                if (level == 0)
-                    EditorGUILayout.EndFoldoutHeaderGroup();
-            }
-            else
-            {
-                int margin = EditorStyles.linkLabel.padding.left;
-                EditorStyles.linkLabel.padding.left = level * 20;
-
-                if (EditorGUILayout.LinkButton(tree.Caption))
-                {
-                    //XMonoNode.INode node = graphEditor.CreateNode(tree.NodeType, new Vector2(UnityEngine.Random.Range(-300f, 300f), UnityEngine.Random.Range(-300f, 300f)));
-                }
-
-                if (Event.current.type == EventType.Repaint)
-                {
-                    Rect rect = GUILayoutUtility.GetLastRect();
-                    if (rect.Contains(Event.current.mousePosition))
-                    {
-                        hoveredNodeType = tree.NodeType;
-                    }                   
-                }
-     
-                EditorStyles.linkLabel.padding.left = margin;
-            }
-            EditorGUI.indentLevel = indent;
-        }
-
         private NodeTree root = null;
         private NodeTree Root
         {
@@ -279,10 +209,124 @@ namespace XMonoNodeEditor {
             }
         }
 
+        private Type[] GetNodeTypesForPalette()
+        {
+            Type nodeBaseType = graphEditor.Target.getNodeType();
+            return NodeEditorReflection.nodeTypes.Where(t => t.IsSubclassOf(nodeBaseType)).OrderBy(graphEditor.GetNodeMenuOrder).ToArray();
+        }
+
+        int toggleButtonHeight = 20;
+
+        private void DrawNodePalette()
+        {
+            if (NodeEditorPreferences.GetSettings().showNodePalette == false)
+            {
+                return;
+            }
+            
+            GUILayout.BeginArea(new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, toggleButtonHeight), GUI.skin.box);
+            bool showNodePaletteNew = EditorGUILayout.Foldout(showNodePalette, "Node palette", true);
+            GUILayout.EndArea();
+
+            if (showNodePaletteNew)
+            {
+                GUIStyle windowStyle = new GUIStyle(GUI.skin.window);
+                windowStyle.padding.top = 6;
+                GUILayout.BeginArea(new Rect(0, toggleButtonHeight + 1, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height - toggleButtonHeight), windowStyle);
+
+                GUI.SetNextControlName("search field");
+                if (showNodePalette == false)
+                {
+                    EditorGUI.FocusTextInControl("search field");
+                }
+
+                GUILayout.BeginHorizontal();
+
+                GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+
+                if (GUILayout.Button(new GUIContent("+", "Expand all"), GUILayout.MaxWidth(20)))
+                {
+                    Root.SetExpanded(true);
+                }
+                if (GUILayout.Button(new GUIContent("-", "Collapse all"), GUILayout.MaxWidth(20)))
+                {
+                    Root.SetExpanded(false);
+                }
+
+                nodeNameFilter = GUILayout.TextField(nodeNameFilter);
+
+                buttonStyle.fontSize = 10;
+                if (GUILayout.Button(new GUIContent("clear", "Clear the search field"),/* buttonStyle,*/ GUILayout.MaxWidth(40)))
+                {
+                    nodeNameFilter = "";
+                }
+                GUILayout.EndHorizontal();
+
+                DrawNodePaletteMenu(nodeNameFilter);
+
+                GUILayout.EndArea();
+            }
+
+            EditorGUILayout.EndFadeGroup();
+
+            showNodePalette = showNodePaletteNew;
+        }
+
+        private void DrawNodeTree(NodeTree tree, string filter, int level = 0)
+        {
+            if (tree.CaptionContains(filter) == false)
+            {
+                return;
+            }
+
+            int indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = level;
+            if (tree.IsSubTree)
+            {
+                // BeginFoldoutHeaderGroup can't be nested
+                if (level == 0)
+                    tree.Expanded = EditorGUILayout.BeginFoldoutHeaderGroup(tree.Expanded, tree.Caption);
+                else
+                    tree.Expanded = EditorGUILayout.Foldout(tree.Expanded, tree.Caption, true);
+
+                if (tree.Expanded)
+                {
+                    int nestedLevel = level + 1;
+                    foreach (NodeTree subTree in tree.SubTreeList)
+                    {
+                        DrawNodeTree(subTree, filter, nestedLevel);
+                    }
+                }
+                if (level == 0)
+                    EditorGUILayout.EndFoldoutHeaderGroup();
+            }
+            else
+            {
+                EditorGUILayout.LabelField(tree.Caption);
+
+                if (Event.current.type == EventType.Repaint)
+                {
+                    tree.rect = GUILayoutUtility.GetLastRect(); // works in Repaint only 
+                }
+
+                if (Event.current.type == EventType.Layout)
+                {
+                    Rect rect = tree.rect;
+                    rect.position += Vector2.up * (toggleButtonHeight + 8); // magic! rect in Repaint differs from rect in Layout
+                    if (rect.Contains(Event.current.mousePosition))
+                    {
+                        hoveredNodeType = tree.NodeType;
+                        hoveredNodeTypeName = tree.Caption;
+                    }
+                }
+            }
+            EditorGUI.indentLevel = indent;
+        }
+
         private void DrawNodePaletteMenu(string filter)
         {
             nodePaletteScrollPosition = GUILayout.BeginScrollView(nodePaletteScrollPosition, GUI.skin.box);
-            if (Event.current.type == EventType.Repaint)
+            if (Event.current.type == EventType.Layout)
             {
                 hoveredNodeType = null;
             }
@@ -293,12 +337,6 @@ namespace XMonoNodeEditor {
             }
 
             GUILayout.EndScrollView();
-        }
-
-        Type[] GetNodeTypesForPalette()
-        {
-            Type nodeBaseType = graphEditor.Target.getNodeType();
-            return NodeEditorReflection.nodeTypes.Where(t => t.IsSubclassOf(nodeBaseType)).OrderBy(graphEditor.GetNodeMenuOrder).ToArray();
         }
 
         public static void BeginZoomed(Rect rect, float zoom, float topPadding) {
