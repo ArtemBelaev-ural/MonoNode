@@ -60,6 +60,15 @@ namespace XMonoNodeEditor {
             Rect paletteRect = new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height);
             IsCursorInToolWindow = (showNodePalette && paletteRect.Contains(e.mousePosition));
 
+            if (isPanning)
+            {
+                EditorGUIUtility.AddCursorRect(position, MouseCursor.Pan);
+            }
+            else
+            {
+                EditorGUIUtility.AddCursorRect(position, MouseCursor.Arrow);
+            }
+
             switch (e.type)
             {
                 case EventType.DragUpdated:
@@ -311,9 +320,8 @@ namespace XMonoNodeEditor {
                                 pos.x -= NodeEditor.GetWidth(draggedNodeType) / 2;
                                 pos.y -= 15;
                                 XMonoNode.INode node = graphEditor.CreateNode(draggedNodeType, pos);
-                                
+                                Selection.objects = new UnityEngine.Object[1] {node as UnityEngine.Object};
                             }
-                            
                         }
                         //Port drag release
                         else if (IsDraggingPort && !IsCursorInToolWindow)

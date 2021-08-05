@@ -93,7 +93,7 @@ namespace XMonoNodeEditor {
                 }
 
                 //Get node context menu path
-                string path = GetNodeMenuName(type);
+                string path = "Create/" + GetNodeMenuName(type);
                 if (string.IsNullOrEmpty(path)) continue;
 
                 // Check if user is allowed to add more of given node type
@@ -109,6 +109,7 @@ namespace XMonoNodeEditor {
                 else menu.AddItem(new GUIContent(path), false, () => {
                     XMonoNode.INode node = CreateNode(type, pos);
                     NodeEditorWindow.current.AutoConnect(node);
+                    Selection.objects = new UnityEngine.Object[1] { node as UnityEngine.Object };
                 });
             }
             menu.AddSeparator("");
