@@ -77,7 +77,7 @@ namespace XMonoNodeEditor {
             node.Name = name;
             NodeEditor.GetEditor(node, NodeEditorWindow.current).OnRename();
             string assetPath = AssetDatabase.GetAssetPath(target);
-            if (assetPath.Length != 0)
+            if (assetPath.Length != 0 && EditorUtility.IsPersistent(node.Graph as Object) == false)
             {
                 AssetDatabase.SetMainObject(node.Graph as Object, assetPath);
                 AssetDatabase.ImportAsset(assetPath);

@@ -89,7 +89,7 @@ namespace XMonoNode
             }
             else
             {
-                Debug.LogErrorFormat("Graph Events Kit {0} hasn't Id \"{1}\"", name, id);
+                Debug.LogErrorFormat("FlowNode Graph Container {0} hasn't Id \"{1}\"", name, id);
                 return null;
             }
         }
