@@ -12,7 +12,7 @@ namespace XMonoNode
     {
         private void Reset()
         {
-            Name = "PlayParam: float"; // в оригинале получается single
+            Name = "Parameter: float"; // в оригинале получается single
         }
     }
 }

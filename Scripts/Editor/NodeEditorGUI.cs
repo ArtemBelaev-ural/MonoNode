@@ -236,10 +236,11 @@ namespace XMonoNodeEditor {
             GUILayout.Label(new GUIContent((graphEditor.Target as UnityEngine.Object).name, NodeEditorResources.graph));
 
             GUILayout.Space(30);
-            GUILayout.Label("zoom:");
+            
+            
+            GUILayout.Label("Zoom");
             zoom = GUILayout.HorizontalSlider(zoom, NodeEditorPreferences.GetSettings().minZoom, NodeEditorPreferences.GetSettings().maxZoom, GUILayout.Width(100));
             GUILayout.Label(Math.Round(zoom, 2).ToString());
-
 
             GUILayout.FlexibleSpace();
             graphEditor.OnToolBarGUI();

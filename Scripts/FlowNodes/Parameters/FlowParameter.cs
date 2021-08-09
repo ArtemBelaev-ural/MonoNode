@@ -39,7 +39,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "PlayParam: " + typeof(T).Name;
+            Name = "Parameter: " + typeof(T).Name;
         }
 
         public override object GetValue(NodePort port)
