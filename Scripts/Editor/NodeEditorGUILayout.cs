@@ -89,7 +89,7 @@ namespace XMonoNodeEditor {
                             // Display a label if port is connected
                             if (port.IsConnected) EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
                             // Display an editable property field if port is not connected
-                            else EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+                            else PropertyField(property, label, includeChildren);
                             break;
                         case XMonoNode.ShowBackingValue.Never:
                             // Display a label
@@ -97,7 +97,7 @@ namespace XMonoNodeEditor {
                             break;
                         case XMonoNode.ShowBackingValue.Always:
                             // Display an editable property field
-                            EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+                            PropertyField(property, label, includeChildren);
                             break;
                     }
 
@@ -177,6 +177,20 @@ namespace XMonoNodeEditor {
                 // Register the handle position
                 Vector2 portPos = rect.center;
                 NodeEditor.portPositions[port] = portPos;
+            }
+        }
+
+        private static void PropertyField(SerializedProperty property, GUIContent label, bool includeChildren)
+        {
+            if (/*property.propertyType == SerializedPropertyType.Enum &&*/ 
+                                            NodeEditorWindow.current != null &&
+                                            NodeEditorWindow.current.zoom >= 0.9f && NodeEditorWindow.current.zoom <= 1.3f)
+            {
+                EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+            }
+            else
+            {
+                EditorGUILayout.LabelField(label, new GUIContent("zoom out..."), GUILayout.MinWidth(30));
             }
         }
 

@@ -38,7 +38,8 @@ namespace XMonoNode
     [CustomPropertyDrawer(typeof(XSoundSelectorAttribute))]
     public class XSoundSelectorDrawer: PropertyDrawer
     {
-        protected string[]  values = null;
+        private string[]  values = null;
+
         protected List<int> identificators = null;
 
         protected void AddItem(int id, string value)
@@ -49,11 +50,6 @@ namespace XMonoNode
 
         private void Init(Dictionary<int, string> soundsDict)
         {
-            if (soundsDict.Count == 0)
-            {
-                return;
-            }
-
             values = new string[soundsDict.Count + 1];
             identificators = new List<int>(values.Length);
 
@@ -78,16 +74,26 @@ namespace XMonoNode
 
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-            int indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 0;
-
             // Calculate rects
             Rect pathRect = new Rect(position.x + 0 * position.width / 2 + 0 * 4, position.y, position.width - 6, position.height);
 
-            int intValue = property.intValue;
-            intValue = identificators[EditorGUI.Popup(pathRect, Mathf.Max(0, identificators.IndexOf(intValue)), values)];
-            property.intValue = intValue;
+            int indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
 
+            int intValue = property.intValue;
+            
+
+            if (NodeEditorWindow.current != null &&
+                NodeEditorWindow.current.zoom >= 0.9f && NodeEditorWindow.current.zoom <= 1.3f)
+            {
+                int popupValue = EditorGUI.Popup(pathRect, Mathf.Max(0, identificators.IndexOf(intValue)), values);
+                intValue = identificators[popupValue];
+                property.intValue = intValue;
+            }
+            else
+            {
+                GUI.Label(pathRect, new GUIContent(values[Mathf.Max(0, identificators.IndexOf(intValue))]));
+            }
             EditorGUI.indentLevel = indent;
 
             EditorGUI.EndProperty();

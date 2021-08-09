@@ -9,7 +9,7 @@ namespace XMonoNode
         [Input] public Transform Parent;
         [Output] public GameObject Instance;
 
-        public override void ExecuteNode() {
+        public override void Flow() {
             var prefab = GetInputValue(nameof(Prefab), Prefab);
             var parent = GetInputValue(nameof(Parent), Parent);
             if(parent != null) {

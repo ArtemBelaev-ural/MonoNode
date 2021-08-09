@@ -4,11 +4,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Возвращает Transform, переданный в метод FlowNodeGraph.Execute()
+    /// Возвращает Transform, переданный в метод FlowNodeGraph.Flow()
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/Transform", 1)]
     [CreateNodeMenu("Parameter/Transform", 1)]
-    public class ExecuteParameterTransform : ExecuteParameter<Transform>
+    public class FlowParameterTransform : FlowParameter<Transform>
     {
     }
 }

@@ -22,8 +22,17 @@ namespace XMonoNodeEditor {
 
         public virtual void OnGUI() { }
 
+        /// <summary> We can draw </summary>
+        public virtual void OnToolBarGUI()
+        {
+
+        }
+
         /// <summary> Called when opened by NodeEditorWindow </summary>
-        public virtual void OnOpen() { }
+        public virtual void OnOpen()
+        {
+            window.titleContent = new GUIContent("Node Graph", NodeEditorResources.graph);
+        }
 
         /// <summary> Called when NodeEditorWindow gains focus </summary>
         public virtual void OnWindowFocus() { }
@@ -223,7 +232,12 @@ namespace XMonoNodeEditor {
             Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Create Node");
             node.Position = position;
             if (node.Name == null || node.Name.Trim() == "") node.Name = NodeEditorUtilities.NodeDefaultName(type);
-            if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(target))) AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
+         
+            if (!EditorUtility.IsPersistent(target))
+            {
+                if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(target))) AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
+            }
+            
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
             NodeEditorWindow.RepaintAll();
             return node;
@@ -235,7 +249,7 @@ namespace XMonoNodeEditor {
             XMonoNode.INode node = Target.CopyNode(original);
             Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Duplicate Node");
             node.Name = original.Name;
-            if (target is ScriptableObject)
+            if (!EditorUtility.IsPersistent(target))
             {
                 AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
             }

@@ -71,12 +71,12 @@ namespace XMonoNode
 
         private List<FlowNodeGraph>         instanciated = new List<FlowNodeGraph>();
 
-        public FlowNodeGraph Execute(string id, params object[] parameters)
+        public FlowNodeGraph Flow(string id, params object[] parameters)
         {
             FlowNodeGraph graph = Get(id);
             if (graph != null)
             {
-                graph.Execute(parameters);
+                graph.Flow(parameters);
             }
             return graph;
         }

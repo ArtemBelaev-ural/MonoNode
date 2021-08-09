@@ -5,7 +5,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    public abstract class ExecuteParameter : MonoNode
+    public abstract class FlowParameter : MonoNode
     {
         /// <summary>
         /// Значение параметра
@@ -14,11 +14,11 @@ namespace XMonoNode
     }
 
     /// <summary>
-    /// Возвращает параметр, переданный в метод FlowNodeGraph.Execute()
+    /// Возвращает параметр, переданный в метод FlowNodeGraph.Flow()
     /// </summary>
     [NodeTint(50, 70, 105)]
     [NodeWidth(200)]
-    public abstract class ExecuteParameter<T> : ExecuteParameter
+    public abstract class FlowParameter<T> : FlowParameter
     {
         [Output] public T   output;
 
@@ -49,7 +49,7 @@ namespace XMonoNode
                 FlowNodeGraph flowGraph = graph as FlowNodeGraph;
                 if (flowGraph != null)
                 {
-                    return flowGraph.ExecuteParameters.Get<T>();
+                    return flowGraph.FlowParameters.Get<T>();
                 }
             }
             return null;

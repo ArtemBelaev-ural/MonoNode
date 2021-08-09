@@ -8,7 +8,7 @@ namespace XMonoNode
         [Input]
         public GameObject Target;
 
-        public override void ExecuteNode() {
+        public override void Flow() {
             var toDestroy = GetInputValue<GameObject>(nameof(Target), Target);
             Destroy(toDestroy);
         }

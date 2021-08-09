@@ -8,20 +8,20 @@ namespace XMonoNode
 {
     [ExecuteInEditMode]
     [AddComponentMenu("X Sound Node/SoundNodeGraph", 1)]
-    [RequireNode(typeof(ExecuteEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
-    [RequireComponent(typeof(ExecuteEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
+    [RequireNode(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
+    [RequireComponent(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
     public class XSoundNodeGraph : FlowNodeGraph
     {
         private void Reset()
         {
             // Execute добавлен автоматически
-            ExecuteEventNode start = GetComponent<ExecuteEventNode>();
+            OnFlowEventNode start = GetComponent<OnFlowEventNode>();
             if (start != null)
             {
                 start.graph = this;
                 if (start.Name == null || start.Name.Trim() == "")
                 {
-                    start.Name = "Execute Event";
+                    start.Name = "OnFlow";
                 }
                 start.Position = new Vector2(-300.0f, -100.0f);
             }
@@ -39,7 +39,7 @@ namespace XMonoNode
             }
 
             XSoundNodeSource source = GetComponent<XSoundNodeSource>();
-            // ƒобавить Source и соединить с Play, а Play с Execute
+            // ƒобавить Source и соединить с Play, а Play с Flow
             if (source != null)
             {
                 source.Name = "Source";

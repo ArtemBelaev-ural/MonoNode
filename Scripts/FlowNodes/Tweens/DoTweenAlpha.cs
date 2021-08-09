@@ -24,7 +24,7 @@ namespace XMonoNode
             }
         }
 
-        public override void ExecuteNode()
+        public override void FlowNode()
         {
             StartTween(GetInputValue(nameof(TargetValue), TargetValue));
         }

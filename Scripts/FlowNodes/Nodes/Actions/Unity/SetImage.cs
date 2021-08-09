@@ -10,7 +10,7 @@ namespace XMonoNode
         [Input] public Image Target;
         [Input] public Sprite MySprite;
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             var target = GetInputValue(nameof(Target), Target);
             var sprite = GetInputValue(nameof(MySprite), MySprite);

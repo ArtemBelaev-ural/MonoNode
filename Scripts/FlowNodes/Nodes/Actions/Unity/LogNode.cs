@@ -8,7 +8,7 @@ namespace XMonoNode
     {
         [Input] public string Text;
 
-        public override void ExecuteNode() 
+        public override void Flow() 
         {
             NodePort port = GetInputPort(nameof(Text));
             int count = port.ConnectionCount;

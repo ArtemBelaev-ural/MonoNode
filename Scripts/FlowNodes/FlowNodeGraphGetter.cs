@@ -67,7 +67,7 @@ namespace XMonoNode
             return instanciatedContainer;
         }
 
-        public FlowNodeGraph Execute(params object[] parameters)
+        public FlowNodeGraph Flow(params object[] parameters)
         {
             if (GetContainer() == null)
             {
@@ -75,7 +75,7 @@ namespace XMonoNode
                 return null;
             }
 
-            return GetContainer().Execute(graphId, parameters);
+            return GetContainer().Flow(graphId, parameters);
         }
 
         public void UpdateParameters(params object[] parameters)

@@ -13,13 +13,27 @@ namespace FlowNodesEditor
     [CustomNodeGraphEditor(typeof(FlowNodeGraph))]
     public class FlowNodeGraphGraphEditor : NodeGraphEditor
     {
+        private FlowNodeGraph graph = null;
+
+        private FlowNodeGraph Graph
+        {
+            get
+            {
+                if (graph == null)
+                {
+                    graph = Target as FlowNodeGraph;
+                }
+                return graph;
+            }
+        }
+
         public override void OnOpen()
         {
             base.OnOpen();
-            window.titleContent = new GUIContent("Graph: " + (target as FlowNodeGraph).gameObject.name);
+            window.titleContent = new GUIContent("Flow Node Graph", NodeEditorResources.graph);
         }
 
-        [MenuItem("GameObject/FlowNodes/Graph", false, 1)]
+        [MenuItem("GameObject/xMonoNode/FlowNodeGraph", false, 2)]
         public static void CreateFlowNodeGraph()
         {
             GameObject current = Selection.activeGameObject;
@@ -30,7 +44,20 @@ namespace FlowNodesEditor
             }
         }
 
-        public override float GetNoodleThickness(XMonoNode.NodePort output, XMonoNode.NodePort input)
+        public override void OnToolBarGUI()
+        {
+            if (GUILayout.Button(new GUIContent("Flow"), EditorStyles.toolbarButton))
+            {
+                Graph.TestFlow();
+            }
+
+            if (GUILayout.Button(new GUIContent("Stop"), EditorStyles.toolbarButton))
+            {
+                Graph.Stop();
+            }
+        }
+
+        public override float GetNoodleThickness(NodePort output, NodePort input)
         {
             float coef =  1.0f;
             if (output != null && output.ValueType == typeof(Flow) ||
@@ -40,6 +67,33 @@ namespace FlowNodesEditor
             }
 
             return NodeEditorPreferences.GetSettings().noodleThickness * coef;
+        }
+
+        public override GUIStyle GetPortStyle(NodePort port)
+        {
+            if (port.ValueType != typeof(Flow))
+            {
+                return base.GetPortStyle(port);
+            }
+            
+            if (port.direction == NodePort.IO.Input)
+                return NodeEditorResources.styles.inputPortFlow;
+
+            return NodeEditorResources.styles.outputPortFlow;
+        }
+
+        public override string GetPortTooltip(NodePort port)
+        {
+            // ”бираем выт€гивание звуков при формировании подсказки, чтобы звуки не по€вл€лись в сцене
+            Type portType = port.ValueType;
+            if (portType == typeof(Flow))
+            {
+                return (port.direction == NodePort.IO.Input ? "Input " : "Output ") + portType.Name + ": " + port.label;
+            }
+            else
+            {
+                return base.GetPortTooltip(port);
+            }
         }
 
     }
@@ -71,13 +125,13 @@ namespace FlowNodesEditor
             // Start/Stop buttons
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Execute", GUILayout.Height(40)))
+            if (GUILayout.Button("Flow", GUILayout.Height(40)))
             {
                 if (Application.isPlaying == false)
                 {
                     OpenGraph();
                 }
-                flowNodeGraph.TestExecute();
+                flowNodeGraph.TestFlow();
             }
             if (GUILayout.Button("Stop", GUILayout.Height(40)))
             {

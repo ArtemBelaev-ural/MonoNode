@@ -22,7 +22,7 @@ namespace XMonoNode
             base.Init();
         }
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             var targets = GetInputValue(nameof(Target), Target);
             for (int i = 0; i < targets.Length; i++)

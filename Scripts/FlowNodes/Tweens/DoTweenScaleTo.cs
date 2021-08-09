@@ -11,7 +11,7 @@ namespace XMonoNode
         [Input] public GameObject Target;
         [Input] public Vector3 TargetValue;
 
-        public override void ExecuteNode()
+        public override void FlowNode()
         {
             StartTween(GetInputValue(nameof(TargetValue), TargetValue));
         }

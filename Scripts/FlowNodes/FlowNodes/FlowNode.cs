@@ -12,7 +12,10 @@ namespace XMonoNode
             FlowUtils.TriggerFlow(Outputs, nameof(FlowOutput));
         }
 
-        public abstract void ExecuteNode();
+        /// <summary>
+        /// Handle input stream
+        /// </summary>
+        public abstract void Flow();
 
         /// <summary>
         /// Stop execution of this flow node

@@ -58,7 +58,9 @@ namespace XMonoNodeEditor {
             Event e = Event.current;
 
             Rect paletteRect = new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height);
-            IsCursorInToolWindow = (showNodePalette && paletteRect.Contains(e.mousePosition));
+            Rect toolbarRect = new Rect(0, 0, position.width, toolbarHeight);
+            IsCursorInToolWindow = (NodeEditorPreferences.GetSettings().showNodePalette && paletteRect.Contains(e.mousePosition) ||
+                toolbarRect.Contains(e.mousePosition));
 
             if (isPanning)
             {

@@ -38,7 +38,7 @@ namespace XMonoNode
             Name = "Volume";
         }
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             changeVolume();
         }

@@ -10,7 +10,7 @@ namespace XMonoNode
         [Input] public string Second;
         [Output] public string Result;
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             var first = GetInputValue(nameof(First), First);
             var second = GetInputValue(nameof(Second), Second);

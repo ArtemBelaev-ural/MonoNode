@@ -9,8 +9,6 @@ namespace FlowNodesEditor
     [CustomPropertyDrawer(typeof(FlowNodeGraphGetter), true)]
     public class FlowNodeGraphGetterDrawer : PropertyDrawer
     {
-        private FlowNodeGraphContainer      container = null;
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (property == null)
@@ -76,7 +74,7 @@ namespace FlowNodesEditor
                 if (GUI.Button(position, new GUIContent(">", "Play")))
                 {
                     EditorGUIUtility.PingObject(container.GetPrefab(id));
-                    container.Execute(id);
+                    container.Flow(id);
                 }
 
                 position.x += position.width;

@@ -10,48 +10,46 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("Flow Nodes/FlowNodeGraph", 1)]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(ExecuteEventNode))]
-    [RequireNode(typeof(ExecuteEventNode))]
+    [RequireComponent(typeof(OnFlowEventNode))]
+    [RequireNode(typeof(OnFlowEventNode))]
     public class FlowNodeGraph : MonoNodeGraph
     {
         /// <summary>
-        /// Параметры, передаваемые в метод XSoundNodeGraph.Play() или XSoundNodePlay.Play()
+        /// Параметры, передаваемые в метод FlowNodeGraph.Flow()
         /// </summary>
-        public object[] ExecuteParameters
+        public object[] FlowParameters
         {
             get
             {
-                if (executeParameters == null)
+                if (flowParameters == null)
                 {
-                    executeParameters = new object[0];
+                    flowParameters = new object[0];
                 }
-                return executeParameters;
+                return flowParameters;
             }
             set
             {
-                if (executeParameters != value)
+                if (flowParameters != value)
                 {
-                    executeParameters = value;
+                    flowParameters = value;
                 }
             }
 
         }
 
-        private object[]     executeParameters = new object[0];
-        [SerializeField, HideInInspector]
-        public string EventToTestExecute = "-";
+        private object[]     flowParameters = new object[0];
 
-        [ContextMenu("Execute")]
-        public void TestExecute()
+        [ContextMenu("Flow")]
+        public void TestFlow()
         {
             UpdateTestParameters();
 
-            Execute(executeParameters);
+            Flow(flowParameters);
         }
 
         public virtual void UpdateParameters(params object[] parameters)
         {
-            ExecuteParameters = parameters;
+            FlowParameters = parameters;
         }
 
         /// <summary>
@@ -60,12 +58,12 @@ namespace XMonoNode
 
         public virtual void UpdateTestParameters()
         {
-            ExecuteParameter[] paramNodes = GetComponents<ExecuteParameter>();
-            ExecuteParameters = new object[paramNodes.Length];
+            FlowParameter[] paramNodes = GetComponents<FlowParameter>();
+            FlowParameters = new object[paramNodes.Length];
 
             for (int i = 0; i < paramNodes.Length; ++i)
             {
-                ExecuteParameters[i] = paramNodes[i].GetTestValue();
+                FlowParameters[i] = paramNodes[i].GetTestValue();
             }
         }
 
@@ -74,11 +72,11 @@ namespace XMonoNode
         /// <summary>
         /// Execute the graph
         /// </summary>
-        /// <param name="parameters">Custom graph parameters<seealso cref="ExecuteParameter"/></param>
-        public void Execute(params object[] parameters)
+        /// <param name="parameters">Custom graph parameters<seealso cref="FlowParameter"/></param>
+        public virtual void Flow(params object[] parameters)
         {
             UpdateParameters(parameters);
-            ExecuteEventNode[] eventNodes = GetComponents<ExecuteEventNode>();
+            OnFlowEventNode[] eventNodes = GetComponents<OnFlowEventNode>();
             if (eventNodes.Length == 0)
             {
                 Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't OnExecute nodes");

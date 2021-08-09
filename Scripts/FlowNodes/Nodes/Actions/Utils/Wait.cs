@@ -16,7 +16,7 @@ namespace XMonoNode
             //base.TriggerFlow();
         }
 
-        public override async void ExecuteNode()
+        public override async void Flow()
         {
             var secondsToWait = GetInputValue(nameof(WaitSeconds), WaitSeconds);
             if (secondsToWait > 0)

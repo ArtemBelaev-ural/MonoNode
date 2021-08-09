@@ -34,7 +34,7 @@ namespace XMonoNode
     public class SimpleXSoundsLibrary : MonoBehaviour, IXSoundsLibrary
     {       
         [SerializeField]
-        XAudioClipResource[] sounds;
+        XAudioClipResource[] sounds = new XAudioClipResource[0];
 
         private List<AudioSource> sourcesPool = null;
 

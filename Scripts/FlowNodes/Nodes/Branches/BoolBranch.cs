@@ -15,7 +15,7 @@ namespace XMonoNode
             FlowUtils.TriggerFlow(Outputs, outputTriggerName);
         }
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
         }
 

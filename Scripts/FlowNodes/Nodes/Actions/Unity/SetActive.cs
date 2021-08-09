@@ -22,7 +22,7 @@ namespace XMonoNode
             base.Init();
         }
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             var target = GetInputValue<GameObject>(nameof(Target), Target);
             var isActive = Options == ActiveOptions.Enable ? true : Options == ActiveOptions.Disable ? false : !target.activeSelf;

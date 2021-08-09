@@ -4,11 +4,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Возвращает float, переданный в метод FlowNodeGraph.Execute()
+    /// Возвращает float, переданный в метод FlowNodeGraph.Flow()
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/float", 4)]
     [CreateNodeMenu("Parameter/float", 4)]
-    public class ExecuteParameterFloat : ExecuteParameter<float>
+    public class FlowParameterFloat : FlowParameter<float>
     {
         private void Reset()
         {

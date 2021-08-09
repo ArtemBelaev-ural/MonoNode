@@ -89,7 +89,6 @@ namespace XMonoNodeEditor {
             Repaint();
         }
 
-        private bool showNodePalette = false;
         private string nodeNameFilter = "";
         private Vector2 nodePaletteScrollPosition;
         
@@ -224,27 +223,39 @@ namespace XMonoNodeEditor {
             return NodeEditorReflection.nodeTypes.Where(t => t.IsSubclassOf(nodeBaseType)).OrderBy(graphEditor.GetNodeMenuOrder).ToArray();
         }
 
-        int toggleButtonHeight = 20;
+        int toolbarHeight = 20;
 
         private void DrawNodePalette()
         {
-            if (NodeEditorPreferences.GetSettings().showNodePalette == false)
-            {
-                return;
-            }
-            
-            GUILayout.BeginArea(new Rect(0, 0, NodeEditorPreferences.GetSettings().nodePaletteWidth, toggleButtonHeight), GUI.skin.box);
-            bool showNodePaletteNew = EditorGUILayout.Foldout(showNodePalette, "Node palette", true);
+            GUILayout.BeginArea(new Rect(0, 0, position.width, toolbarHeight), EditorStyles.toolbar);
+
+            GUILayout.BeginHorizontal();
+
+            bool showNodePalette = GUILayout.Toggle(NodeEditorPreferences.GetSettings().showNodePalette, "Palette", EditorStyles.toolbarButton);
+
+            GUILayout.Label(new GUIContent((graphEditor.Target as UnityEngine.Object).name, NodeEditorResources.graph));
+
+            GUILayout.Space(30);
+            GUILayout.Label("zoom:");
+            zoom = GUILayout.HorizontalSlider(zoom, NodeEditorPreferences.GetSettings().minZoom, NodeEditorPreferences.GetSettings().maxZoom, GUILayout.Width(100));
+            GUILayout.Label(Math.Round(zoom, 2).ToString());
+
+
+            GUILayout.FlexibleSpace();
+            graphEditor.OnToolBarGUI();
+            maximized = GUILayout.Toggle(maximized, maximized ? "Minimize" : "Maximize", EditorStyles.toolbarButton);
+            GUILayout.EndHorizontal();
             GUILayout.EndArea();
 
-            if (showNodePaletteNew)
+
+            if (showNodePalette)
             {
                 GUIStyle windowStyle = new GUIStyle(GUI.skin.window);
                 windowStyle.padding.top = 6;
-                GUILayout.BeginArea(new Rect(0, toggleButtonHeight + 1, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height - toggleButtonHeight), windowStyle);
+                GUILayout.BeginArea(new Rect(0, toolbarHeight + 1, NodeEditorPreferences.GetSettings().nodePaletteWidth, position.height - toolbarHeight), windowStyle);
 
                 GUI.SetNextControlName("search field");
-                if (showNodePalette == false)
+                if (NodeEditorPreferences.GetSettings().showNodePalette == false)
                 {
                     EditorGUI.FocusTextInControl("search field");
                 }
@@ -276,7 +287,7 @@ namespace XMonoNodeEditor {
                 GUILayout.EndArea();
             }
 
-            showNodePalette = showNodePaletteNew;
+            NodeEditorPreferences.GetSettings().showNodePalette = showNodePalette;
         }
 
         private void DrawNodeTree(NodeTree tree, string filter, int level = 0)
@@ -309,7 +320,16 @@ namespace XMonoNodeEditor {
             }
             else
             {
+                EditorGUILayout.BeginHorizontal();
+                
                 EditorGUILayout.LabelField(tree.Caption);
+                Color color = GUI.color;
+                GUI.color = NodeEditor.GetTint(tree.NodeType);
+                var preview = NodeEditorResources.nodeBodySmall;
+                GUILayout.Label(new GUIContent(preview), GUILayout.MaxWidth(20));
+                
+                GUI.color = color;
+                EditorGUILayout.EndHorizontal();
 
                 if (Event.current.type == EventType.Repaint)
                 {
@@ -319,7 +339,7 @@ namespace XMonoNodeEditor {
                 if (Event.current.type == EventType.Layout)
                 {
                     Rect rect = tree.rect;
-                    rect.position += Vector2.up * (toggleButtonHeight + 8); // magic! rect in Repaint differs from rect in Layout
+                    rect.position += Vector2.up * (toolbarHeight + 8); // magic! rect in Repaint differs from rect in Layout
                     if (rect.Contains(Event.current.mousePosition))
                     {
                         hoveredNodeType = tree.NodeType;

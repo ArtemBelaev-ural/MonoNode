@@ -82,7 +82,7 @@ namespace XMonoNode
         {
             get
             {
-                return FlowGraph ? FlowGraph.ExecuteParameters : new object[0];
+                return FlowGraph ? FlowGraph.FlowParameters : new object[0];
             }
         }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using XMonoNode;
 
 [CreateAssetMenu]
-public class #SCRIPTNAME# : NodeGraph { 
-	#NOTRIM#
+public class #SCRIPTNAME# : NodeGraph 
+{ 
+    #NOTRIM#
 }

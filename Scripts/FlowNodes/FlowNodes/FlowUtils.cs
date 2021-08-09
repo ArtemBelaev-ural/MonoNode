@@ -23,7 +23,7 @@ namespace XMonoNode
 
             for (int i = 0; i < connectedInputPorts.Count; i++) {
                 var flowNode = connectedInputPorts[i];
-                flowNode.ExecuteNode();
+                flowNode.Flow();
             }
 
             for (int i = 0; i < connectedInputPorts.Count; i++) {

@@ -45,7 +45,7 @@ namespace XMonoNode
             }
         }
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             lerpOutput = Default;
         }

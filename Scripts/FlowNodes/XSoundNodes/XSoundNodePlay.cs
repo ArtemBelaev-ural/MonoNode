@@ -25,14 +25,14 @@ namespace XMonoNode
 
         public XSoundNodeGraph SoundGraph => graph as XSoundNodeGraph;
 
-        public object[] PlayParameters => SoundGraph?.ExecuteParameters;
+        public object[] PlayParameters => SoundGraph?.FlowParameters;
 
         private AudioSources playing = new AudioSources();
 
         // Вспомогательный признак, позволяющий определить, что нода запустила сама себя
         bool playingState = false;
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             Play(PlayParameters);
         }
@@ -96,7 +96,7 @@ namespace XMonoNode
 
             if (SoundGraph != null)
             {
-                SoundGraph.ExecuteParameters = parameters;
+                SoundGraph.FlowParameters = parameters;
             }
 
             AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput), audioInput);
@@ -137,7 +137,7 @@ namespace XMonoNode
                     flowGraph.Stop();
                 }
                 flowGraph.UpdateTestParameters();
-                Play(flowGraph.ExecuteParameters);
+                Play(flowGraph.FlowParameters);
             }
         }
 

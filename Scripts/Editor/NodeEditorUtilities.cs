@@ -234,7 +234,7 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary>Creates a new C# Class.</summary>
-        [MenuItem("Assets/Create/xNode/Node C# Script", false, 89)]
+        [MenuItem("Assets/Create/xMonoNode/Node C# Script", false, 87)]
         private static void CreateNode() {
             string[] guids = AssetDatabase.FindAssets("xNode_NodeTemplate.cs");
             if (guids.Length == 0) {
@@ -249,7 +249,7 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary>Creates a new C# Class.</summary>
-        [MenuItem("Assets/Create/xNode/NodeGraph C# Script", false, 89)]
+        [MenuItem("Assets/Create/xMonoNode/NodeGraph C# Script", false, 88)]
         private static void CreateGraph() {
             string[] guids = AssetDatabase.FindAssets("xNode_NodeGraphTemplate.cs");
             if (guids.Length == 0) {
@@ -259,6 +259,73 @@ namespace XMonoNodeEditor {
             string path = AssetDatabase.GUIDToAssetPath(guids[0]);
             CreateFromTemplate(
                 "NewNodeGraph.cs",
+                path
+            );
+        }
+
+        /// <summary>Creates a new C# Class.</summary>
+        [MenuItem("Assets/Create/xMonoNode/MonoNode C# Script", false, 89)]
+        private static void CreateMonoNode()
+        {
+            string[] guids = AssetDatabase.FindAssets("xMonoNode_MonoNodeTemplate.cs");
+            if (guids.Length == 0)
+            {
+                Debug.LogWarning("xMonoNode_MonoNodeTemplate.cs.txt not found in asset database");
+                return;
+            }
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            CreateFromTemplate(
+                "NewMonoNode.cs",
+                path
+            );
+        }
+
+        /// <summary>Creates a new C# Class.</summary>
+        [MenuItem("Assets/Create/xMonoNode/MonoNodeGraph C# Script", false, 90)]
+        private static void CreateMonoNodeGraph()
+        {
+            string[] guids = AssetDatabase.FindAssets("xMonoNode_MonoNodeGraphTemplate.cs");
+            if (guids.Length == 0)
+            {
+                Debug.LogWarning("xMonoNode_MonoNodeGraphTemplate.cs.txt not found in asset database");
+                return;
+            }
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            CreateFromTemplate(
+                "NewMonoNodeGraph.cs",
+                path
+            );
+        }
+
+        [MenuItem("Assets/Create/xMonoNode/FlowNode C# Script", false, 91)]
+        private static void CreateFlowNode()
+        {
+            string[] guids = AssetDatabase.FindAssets("xMonoNode_FlowNodeTemplate.cs");
+            if (guids.Length == 0)
+            {
+                Debug.LogWarning("xMonoNode_FlowNodeTemplate.cs.txt not found in asset database");
+                return;
+            }
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            CreateFromTemplate(
+                "NewFlowNode.cs",
+                path
+            );
+        }
+
+        /// <summary>Creates a new C# Class.</summary>
+        [MenuItem("Assets/Create/xMonoNode/FlowNodeGraph C# Script", false, 92)]
+        private static void CreateFlowNodeGraph()
+        {
+            string[] guids = AssetDatabase.FindAssets("xMonoNode_FlowNodeGraphTemplate.cs");
+            if (guids.Length == 0)
+            {
+                Debug.LogWarning("xMonoNode_FlowNodeGraphTemplate.cs.txt not found in asset database");
+                return;
+            }
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            CreateFromTemplate(
+                "NewFlowNodeGraph.cs",
                 path
             );
         }

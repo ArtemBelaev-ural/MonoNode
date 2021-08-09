@@ -9,7 +9,7 @@ namespace XMonoNode
     {
         public UnityEvent Target;
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             Target.Invoke();
         }

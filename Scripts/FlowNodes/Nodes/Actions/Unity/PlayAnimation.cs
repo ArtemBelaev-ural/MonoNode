@@ -9,7 +9,7 @@ namespace XMonoNode
         [Input] public Animator Target;
         [Input] public string StateName;
 
-        public override void ExecuteNode() 
+        public override void Flow() 
         {
             var animator = GetInputValue(nameof(Target), Target);
             var stateName = GetInputValue(nameof(StateName), StateName);

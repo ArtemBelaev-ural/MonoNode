@@ -37,7 +37,7 @@ namespace XMonoNode
             Name = "Pitch";
         }
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             changePitch();
         }

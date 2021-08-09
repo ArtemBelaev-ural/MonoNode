@@ -8,7 +8,7 @@ namespace XMonoNode
     {
         [Output(dynamicPortList: true)] public int[] FlowOutputWeights;
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
         }
 

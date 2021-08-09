@@ -4,11 +4,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Возвращает TransformPhysicMaterial, переданный в метод FlowNodeGraph.Execute()
+    /// Возвращает TransformPhysicMaterial, переданный в метод FlowNodeGraph.Flow()
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/PhysicMaterial", 3)]
     [CreateNodeMenu("Parameter/PhysicMaterial", 3)]
-    public class ExecuteParameterPhysicMaterial : ExecuteParameter<PhysicMaterial>
+    public class FlowParameterPhysicMaterial : FlowParameter<PhysicMaterial>
     {
     }
 }

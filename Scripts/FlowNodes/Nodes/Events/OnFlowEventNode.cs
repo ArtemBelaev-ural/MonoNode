@@ -4,10 +4,10 @@ namespace XMonoNode
 {
     [ExecuteInEditMode]
     [NodeWidth(150)]
-    [CreateNodeMenu("Events/Execute Event", 0)]
-    [AddComponentMenu("Mono Node/Execute Event", 0)]
+    [CreateNodeMenu("Events/OnFlow", 0)]
+    [AddComponentMenu("Mono Node/OnFlow", 0)]
     [NodeTint(40, 60, 105)]
-    public class ExecuteEventNode : EventNode
+    public class OnFlowEventNode : EventNode
     {
         public override void OnEnable()
         {
@@ -17,13 +17,13 @@ namespace XMonoNode
             NodePort portIn = GetOutputPort(nameof(FlowOutput));
             if (portIn != null)
             {
-                portIn.label = "Execute";
+                portIn.label = "OnFlow";
             }
         }
 
         private void Reset()
         {
-            Name = "Execute Event";
+            Name = "OnFlow";
         }
 
         public override object GetValue(NodePort port)

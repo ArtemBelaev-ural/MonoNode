@@ -120,7 +120,7 @@ namespace XMonoNodeEditor {
         /// <summary> Create editor window </summary>
         public static NodeEditorWindow Init() {
             NodeEditorWindow w = CreateInstance<NodeEditorWindow>();
-            w.titleContent = new GUIContent("xNode");
+            w.titleContent = new GUIContent("Node Graph Editor", NodeEditorResources.graph);
             w.wantsMouseMove = true;
             w.Show();
             return w;
@@ -204,7 +204,7 @@ namespace XMonoNodeEditor {
         public static NodeEditorWindow Open(XMonoNode.INodeGraph graph) {
             if ((graph as UnityEngine.Object) == null) return null;
 
-            NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, "xNode", true) as NodeEditorWindow;
+            NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, "Node Editor", true) as NodeEditorWindow;
             w.wantsMouseMove = true;
             w.graph = graph as UnityEngine.Object;
             return w;

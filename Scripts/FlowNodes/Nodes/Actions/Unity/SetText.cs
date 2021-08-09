@@ -10,7 +10,7 @@ namespace XMonoNode
         [Input] public Text Target;
         [Input] public string Text;
 
-        public override void ExecuteNode()
+        public override void Flow()
         {
             var target = GetInputValue(nameof(Target), Target);
             var text = GetInputValue<object>(nameof(Text), Text);

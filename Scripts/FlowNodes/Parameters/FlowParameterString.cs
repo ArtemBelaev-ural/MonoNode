@@ -8,7 +8,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/string", 6)]
     [CreateNodeMenu("Parameter/string", 6)]
-    public class ExecuteParameterString : ExecuteParameter<string>
+    public class FlowParameterString : FlowParameter<string>
     {
     }
 }

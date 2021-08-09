@@ -6,19 +6,58 @@ namespace XMonoNodeEditor {
         // Textures
         public static Texture2D dot { get { return _dot != null ? _dot : _dot = Resources.Load<Texture2D>("xnode_dot"); } }
         private static Texture2D _dot;
+
         public static Texture2D dotOuter { get { return _dotOuter != null ? _dotOuter : _dotOuter = Resources.Load<Texture2D>("xnode_dot_outer"); } }
         private static Texture2D _dotOuter;
+
+        public static Texture2D flow
+        {
+            get
+            {
+                return _flow != null ? _flow : _flow = Resources.Load<Texture2D>("xnode_flow");
+            }
+        }
+        private static Texture2D _flow;
+
+        public static Texture2D flowOuter
+        {
+            get
+            {
+                return _flowOuter != null ? _flowOuter : _flowOuter = Resources.Load<Texture2D>("xnode_flow_outer");
+            }
+        }
+        private static Texture2D _flowOuter;
+
         public static Texture2D nodeBody { get { return _nodeBody != null ? _nodeBody : _nodeBody = Resources.Load<Texture2D>("xnode_node"); } }
         private static Texture2D _nodeBody;
+
+        public static Texture2D nodeBodySmall
+        {
+            get
+            {
+                return _nodeBodySmall != null ? _nodeBodySmall : _nodeBodySmall = Resources.Load<Texture2D>("xnode_node_small");
+            }
+        }
+        private static Texture2D _nodeBodySmall;
+
         public static Texture2D nodeHighlight { get { return _nodeHighlight != null ? _nodeHighlight : _nodeHighlight = Resources.Load<Texture2D>("xnode_node_highlight"); } }
         private static Texture2D _nodeHighlight;
+
+        public static Texture2D graph
+        {
+            get
+            {
+                return _graph != null ? _graph : _graph = Resources.Load<Texture2D>("graph");
+            }
+        }
+        static Texture2D _graph = null;
 
         // Styles
         public static Styles styles { get { return _styles != null ? _styles : _styles = new Styles(); } }
         public static Styles _styles = null;
         public static GUIStyle OutputPort { get { return new GUIStyle(EditorStyles.label) { alignment = TextAnchor.UpperRight }; } }
         public class Styles {
-            public GUIStyle inputPort, outputPort, nodeHeader, nodeBody, tooltip, nodeHighlight;
+            public GUIStyle inputPort, outputPort, inputPortFlow, outputPortFlow, nodeHeader, nodeBody, tooltip, nodeHighlight;
 
             public Styles() {
                 GUIStyle baseStyle = new GUIStyle("Label");
@@ -35,6 +74,18 @@ namespace XMonoNodeEditor {
                 outputPort.padding.right = 0;
                 outputPort.active.background = dot;
                 outputPort.normal.background = dotOuter;
+
+                inputPortFlow = new GUIStyle(baseStyle);
+                inputPortFlow.alignment = TextAnchor.UpperLeft;
+                inputPortFlow.padding.left = 0;
+                inputPortFlow.active.background = flow;
+                inputPortFlow.normal.background = flowOuter;
+
+                outputPortFlow = new GUIStyle(baseStyle);
+                outputPortFlow.alignment = TextAnchor.UpperRight;
+                outputPortFlow.padding.right = 0;
+                outputPortFlow.active.background = flow;
+                outputPortFlow.normal.background = flowOuter;
 
                 nodeHeader = new GUIStyle();
                 nodeHeader.alignment = TextAnchor.MiddleCenter;
