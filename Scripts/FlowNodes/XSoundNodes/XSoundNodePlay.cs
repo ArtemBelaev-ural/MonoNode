@@ -25,7 +25,7 @@ namespace XMonoNode
 
         public XSoundNodeGraph SoundGraph => graph as XSoundNodeGraph;
 
-        public object[] PlayParameters => SoundGraph?.FlowParameters;
+        public object[] PlayParameters => SoundGraph?.FlowParametersArray;
 
         private AudioSources playing = new AudioSources();
 
@@ -96,7 +96,7 @@ namespace XMonoNode
 
             if (SoundGraph != null)
             {
-                SoundGraph.FlowParameters = parameters;
+                SoundGraph.FlowParametersArray = parameters;
             }
 
             AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput), audioInput);
@@ -137,7 +137,7 @@ namespace XMonoNode
                     flowGraph.Stop();
                 }
                 flowGraph.UpdateTestParameters();
-                Play(flowGraph.FlowParameters);
+                Play(flowGraph.FlowParametersArray);
             }
         }
 

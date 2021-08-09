@@ -44,7 +44,7 @@ namespace XMonoNode
     }
 
 
-    [AddComponentMenu("X Mono Node/Graph Events Kit", 701)]
+    [AddComponentMenu("X Mono Node/FlowNodeGraphContainer", 701)]
     public class FlowNodeGraphContainer : MonoBehaviour
     {
         [SerializeField]

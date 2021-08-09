@@ -4,9 +4,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Math/AddFloat")]
-    [NodeWidth(160)]
-    public class AddFloat : MonoNode {
-        public enum Operation {
+    [NodeWidth(170)]
+    public class AddFloat : MonoNode
+    {
+        public enum Operation
+        {
             Add,
             Substract,
             Multiply,
@@ -15,15 +17,17 @@ namespace XMonoNode
 
         [Input] public float FloatA;
         [Input] public float FloatB;
-        public Operation MyOperation;
+        public Operation operation;
         [Output] public float Result;
 
         // Return the correct value of an output port when requested
-        public override object GetValue(NodePort port) {
-            if (port.fieldName == nameof(Result)) {
-                var a = GetInputValue<float>(nameof(FloatA), FloatA);
-                var b = GetInputValue<float>(nameof(FloatB), FloatB);
-                switch (MyOperation) {
+        public override object GetValue(NodePort port)
+        {
+            if (port.fieldName == nameof(Result))
+            {
+                var a = GetInputValue(nameof(FloatA), FloatA);
+                var b = GetInputValue(nameof(FloatB), FloatB);
+                switch (operation) {
                     case Operation.Add:
                         return a + b;
                     case Operation.Substract:

@@ -49,7 +49,14 @@ namespace XMonoNode
                 FlowNodeGraph flowGraph = graph as FlowNodeGraph;
                 if (flowGraph != null)
                 {
-                    return flowGraph.FlowParameters.Get<T>();
+                    if (flowGraph.FlowParametersDict.Count != 0)
+                    {
+                        return flowGraph.FlowParametersDict[Name];
+                    }
+                    else
+                    {
+                        return flowGraph.FlowParametersArray.Get<T>();
+                    }
                 }
             }
             return null;

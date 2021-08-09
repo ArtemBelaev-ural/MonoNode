@@ -17,39 +17,62 @@ namespace XMonoNode
         /// <summary>
         /// Параметры, передаваемые в метод FlowNodeGraph.Flow()
         /// </summary>
-        public object[] FlowParameters
+        public object[] FlowParametersArray
         {
             get
             {
-                if (flowParameters == null)
-                {
-                    flowParameters = new object[0];
-                }
-                return flowParameters;
+                return flowParametersArray;
             }
             set
             {
-                if (flowParameters != value)
+                if (flowParametersArray != value)
                 {
-                    flowParameters = value;
+                    flowParametersArray = value;
+                    FlowParametersDict.Clear();
                 }
             }
 
         }
 
-        private object[]     flowParameters = new object[0];
+        private object[]     flowParametersArray = new object[0];
+
+        /// <summary>
+        /// Параметры, передаваемые в метод FlowNodeGraph.Flow()
+        /// </summary>
+        public Dictionary<string, object> FlowParametersDict
+        {
+            get => flowParametersDict;
+            private set
+            {
+                flowParametersDict = value;
+                flowParametersArray = new object[value.Count];
+                int i = 0;
+                foreach (var pair in value)
+                {
+                    flowParametersArray[i] = pair.Value;
+                    ++i;
+                }
+            }
+        }
+
+        private Dictionary<string, object> flowParametersDict = new Dictionary<string, object>();
 
         [ContextMenu("Flow")]
         public void TestFlow()
         {
             UpdateTestParameters();
 
-            Flow(flowParameters);
+            Flow(flowParametersArray);
         }
 
         public virtual void UpdateParameters(params object[] parameters)
         {
-            FlowParameters = parameters;
+            FlowParametersArray = parameters;
+        }
+
+        public virtual void UpdateParameters(Dictionary<string, object> parameters)
+        {
+            FlowParametersDict = parameters;
         }
 
         /// <summary>
@@ -59,23 +82,38 @@ namespace XMonoNode
         public virtual void UpdateTestParameters()
         {
             FlowParameter[] paramNodes = GetComponents<FlowParameter>();
-            FlowParameters = new object[paramNodes.Length];
+            FlowParametersArray = new object[paramNodes.Length];
 
             for (int i = 0; i < paramNodes.Length; ++i)
             {
-                FlowParameters[i] = paramNodes[i].GetTestValue();
+                FlowParametersArray[i] = paramNodes[i].GetTestValue();
             }
         }
 
         public const string ALL_EXECUTE_NODES = ":- all execute nodes";
 
         /// <summary>
-        /// Execute the graph
+        /// Starts flow of the graph
         /// </summary>
         /// <param name="parameters">Custom graph parameters<seealso cref="FlowParameter"/></param>
         public virtual void Flow(params object[] parameters)
         {
             UpdateParameters(parameters);
+            Flow();
+        }
+
+        /// <summary>
+        /// Starts flow of the graph
+        /// </summary>
+        /// <param name="parameters">Custom graph parameters<seealso cref="FlowParameter"/></param>
+        public virtual void Flow(Dictionary<string, object> parameters)
+        {
+            UpdateParameters(parameters);
+            Flow();
+        }
+
+        private void Flow()
+        {
             OnFlowEventNode[] eventNodes = GetComponents<OnFlowEventNode>();
             if (eventNodes.Length == 0)
             {

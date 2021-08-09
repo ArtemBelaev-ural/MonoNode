@@ -35,9 +35,9 @@ namespace XMonoNode
         public override object GetTestValue()
         {
             FlowNodeGraph flowGraph = graph as FlowNodeGraph;
-            if (flowGraph != null && at >= 0 && at < flowGraph.FlowParameters.Length)
+            if (flowGraph != null && at >= 0 && at < flowGraph.FlowParametersArray.Length)
             {
-                return flowGraph.FlowParameters[at];
+                return flowGraph.FlowParametersArray[at];
             }
             else
                 return null;
