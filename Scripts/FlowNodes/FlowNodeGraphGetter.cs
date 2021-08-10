@@ -88,6 +88,16 @@ namespace XMonoNode
             GetContainer().UpdateParameters(graphId, parameters);
         }
 
+        public void UpdateParameters(Dictionary<string, object> parameters)
+        {
+            if (GetContainer() == null)
+            {
+                Debug.LogErrorFormat("Container is null, {0}", FullPath);
+                return;
+            }
+            GetContainer().UpdateParameters(graphId, parameters);
+        }
+
         public void Stop()
         {
             if (GetContainer() == null)
