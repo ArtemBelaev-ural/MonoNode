@@ -62,7 +62,24 @@ namespace XMonoNode
         {
             if (instanciatedContainer == null)
             {
-                instanciatedContainer = ResourcesLoader.Load<FlowNodeGraphContainer>(FullPath);
+                var res = ResourcesLoader.Load<FlowNodeGraphContainer>(FullPath);
+                if (res != null)
+                {
+                    if (Application.isPlaying)
+                    {
+                        instanciatedContainer = GameObject.Instantiate(res);
+#if UNITY_EDITOR
+                        if (Application.isEditor)
+                        {
+                            instanciatedContainer.gameObject.hideFlags = HideFlags.HideAndDontSave;
+                        }
+#endif
+                    }
+                    else
+                    {
+                        instanciatedContainer = res;
+                    }
+                }
             }
             return instanciatedContainer;
         }

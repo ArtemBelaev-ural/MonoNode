@@ -34,7 +34,10 @@ namespace XMonoNode
             {
                 instanciated = GameObject.Instantiate(graph);
 #if UNITY_EDITOR
-                instanciated.gameObject.hideFlags = HideFlags.HideAndDontSave;
+                if (Application.isEditor)
+                {
+                    instanciated.gameObject.hideFlags = HideFlags.HideAndDontSave;
+                }
 #endif
                 instanciated.name = $"(FlowNodeGraphContainer id=\"{id}\")";
                 instanciated.transform.localPosition = Vector3.zero;
