@@ -14,7 +14,7 @@ namespace XMonoNode
         }
 
         public XSoundGetter() :
-            base("Sounds/XContainers", "", "")
+            base("Sounds/XContainers/", "", "")
         {
             drawPathToContainers = false;
         }
