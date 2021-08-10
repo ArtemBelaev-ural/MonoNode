@@ -49,9 +49,9 @@ namespace XMonoNode
                 FlowNodeGraph flowGraph = graph as FlowNodeGraph;
                 if (flowGraph != null)
                 {
-                    if (flowGraph.FlowParametersDict.Count != 0)
+                    if (flowGraph.FlowParametersDict.TryGetValue(Name, out object value))
                     {
-                        return flowGraph.FlowParametersDict[Name];
+                        return value;
                     }
                     else
                     {
