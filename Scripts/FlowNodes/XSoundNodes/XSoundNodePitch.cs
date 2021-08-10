@@ -29,7 +29,7 @@ namespace XMonoNode
         [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
         public AudioSources audioOutput;
 
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override)]
         public float                    pitch = 1.0f;
 
         private void Reset()

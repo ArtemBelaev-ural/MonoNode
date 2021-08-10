@@ -19,7 +19,7 @@ namespace XMonoNode
         [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
         public AudioSources audioOutput;
 
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override)]
         [Range(0.0f, 1.0f)]
         public float                    volume = 1.0f;
 
