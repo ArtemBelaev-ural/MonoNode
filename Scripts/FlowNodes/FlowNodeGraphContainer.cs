@@ -81,6 +81,16 @@ namespace XMonoNode
             return graph;
         }
 
+        public FlowNodeGraph Flow(string id, Dictionary<string, object> parameters)
+        {
+            FlowNodeGraph graph = Get(id);
+            if (graph != null)
+            {
+                graph.Flow(parameters);
+            }
+            return graph;
+        }
+
         public FlowNodeGraph Get(string id)
         {
             if (Items.TryGetValue(id, out FlowNodeGraphContainerItem item))
