@@ -20,9 +20,11 @@ namespace FlowNodesEditor
             // Draw label
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-            int pinButtonWidth = 20;
-            int playButtonWidth = 30;
-            position.width -= pinButtonWidth + playButtonWidth;
+            int playButtonWidth = 20;
+            int stopButtonWidth = 20;
+            int pinButtonWidth = 30;
+            
+            position.width -= stopButtonWidth + playButtonWidth + pinButtonWidth;
 
             // Draw path to containers
             string pathToContainers = property.FindPropertyRelative("pathToContainers").stringValue;
@@ -70,7 +72,14 @@ namespace FlowNodesEditor
             if (container != null)
             {
                 position.x += position.width;
-                position.width = pinButtonWidth;
+                position.width = stopButtonWidth;
+                if (GUI.Button(position, new GUIContent("[]", "Stop")))
+                {
+                    container.StopAll();
+                }
+
+                position.x += position.width;
+                position.width = playButtonWidth;
                 if (GUI.Button(position, new GUIContent(">", "Play")))
                 {
                     EditorGUIUtility.PingObject(container.GetPrefab(id));
@@ -78,7 +87,7 @@ namespace FlowNodesEditor
                 }
 
                 position.x += position.width;
-                position.width = playButtonWidth;
+                position.width = pinButtonWidth;
                 if (GUI.Button(position, new GUIContent("=>", "Open")))
                 {
                     FlowNodeGraph graph = container.GetPrefab(id) as FlowNodeGraph;
