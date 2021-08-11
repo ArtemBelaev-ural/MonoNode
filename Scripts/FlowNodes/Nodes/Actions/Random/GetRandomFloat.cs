@@ -3,8 +3,9 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Random/" + nameof(GetRandomFloat), "Random", "Float")]
-    public class GetRandomFloat : MonoNode {
+    [CreateNodeMenu("Random/Float", 1)]
+    public class GetRandomFloat : MonoNode
+    {
         [Input] public float Min;
         [Input] public float Max;
         [Output] public float Result;

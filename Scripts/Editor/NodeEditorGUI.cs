@@ -10,7 +10,7 @@ namespace XMonoNodeEditor {
     public partial class NodeEditorWindow {
         public NodeGraphEditor graphEditor;
         private List<UnityEngine.Object> selectionCache;
-        private List<XMonoNode.INode> culledNodes;
+        private List<XMonoNode.INode> culledNodes = new List<XMonoNode.INode>();
         /// <summary> 19 if docked, 22 if not </summary>
         private int topPadding { get { return isDocked() ? 19 : 22; } }
         /// <summary> Executed after all other window GUI. Useful if Zoom is ruining your day. Automatically resets after being run.</summary>
@@ -760,7 +760,7 @@ namespace XMonoNodeEditor {
 
             List<XMonoNode.NodePort> removeEntries = new List<XMonoNode.NodePort>();
 
-            if (e.type == EventType.Layout) culledNodes = new List<XMonoNode.INode>();
+            if (e.type == EventType.Layout) culledNodes.Clear();
 
             XMonoNode.INode[] nodes = (graph as XMonoNode.INodeGraph).GetNodes();
 

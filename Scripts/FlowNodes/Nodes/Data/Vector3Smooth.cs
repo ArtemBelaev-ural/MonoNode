@@ -8,31 +8,28 @@ namespace XMonoNode
     /// <summary>
     /// ќбеспечивает плавное изменение параметра
     /// </summary>
-    [AddComponentMenu("Math/LerpFloat")]
-    [CreateNodeMenu("Math/LerpFloat")]
+    [CreateNodeMenu("Vector3/Smooth", 31)]
     [NodeWidth(170)]
     [ExecuteInEditMode]
-    public class LerpFloat : FlowNode
+    public class Vector3Smooth : FlowNode
     {
 
         [Input(connectionType: ConnectionType.Override)]
-        public float            Default = 0.0f;
+        public Vector3          Default = Vector3.zero;
 
         [Input(connectionType: ConnectionType.Override)]
-        public float            input = 0.0f;
+        public Vector3          input;
         [Output]
-        public float            lerpOutput = 0.0f;
+        public Vector3          smooth;
         
 
         [Input(connectionType: ConnectionType.Override)]
-        public float            lerpUp = 10000.0f;
-        [Input(connectionType: ConnectionType.Override)]
-        public float            lerpDown = 5.0f;
+        public float            lerpCoef = 5.0f;
         
 
         private void Reset()
         {
-            Name = "LerpFloat (game only)";
+            Name = "VectorSmooth (game only)";
         }
 
         public override void OnEnable()
@@ -47,27 +44,26 @@ namespace XMonoNode
 
         public override void Flow()
         {
-            lerpOutput = Default;
+            smooth = Default;
         }
 
         private void Update()
         {
             Default = GetInputValue(nameof(Default), Default);
             input = GetInputValue(nameof(input), input);
-            lerpUp = GetInputValue(nameof(lerpUp), lerpUp);
-            lerpDown = GetInputValue(nameof(lerpDown), lerpDown);
+            lerpCoef = GetInputValue(nameof(lerpCoef), lerpCoef);
 
-            if (!Mathf.Approximately(lerpOutput, input))
+            if (!Mathf.Approximately(Vector3.Distance(smooth, input), 0))
             {
-                lerpOutput = Mathf.Lerp(lerpOutput, input, Time.deltaTime * (input > lerpOutput ? lerpUp : lerpDown));
+                smooth = Vector3.Lerp(smooth, input, Time.deltaTime * lerpCoef);
             }
         }
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(lerpOutput))
+            if (port.fieldName == nameof(smooth))
             {
-                return lerpOutput;
+                return smooth;
             }
             else
                 return null;

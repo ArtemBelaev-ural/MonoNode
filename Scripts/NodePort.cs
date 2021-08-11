@@ -174,9 +174,18 @@ namespace XMonoNode {
 
         /// <summary> Return the output value of the first connected port. Returns null if none found or invalid. </summary>
         /// <returns> <see cref="NodePort.GetOutputValue"/> </returns>
-        public T GetInputValue<T>() {
+        public T GetInputValue<T>()
+        {
             object obj = GetInputValue();
             return obj is T ? (T) obj : default(T);
+        }
+
+        /// <summary> Return the output value of the first connected port. Returns null if none found or invalid. </summary>
+        /// <returns> <see cref="NodePort.GetOutputValue"/> </returns>
+        public T GetInputValue<T>(T def)
+        {
+            object obj = GetInputValue();
+            return obj is T ? (T)obj : def;
         }
 
         /// <summary> Return the output values of all connected ports. </summary>

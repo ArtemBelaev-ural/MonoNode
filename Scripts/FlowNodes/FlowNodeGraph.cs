@@ -65,14 +65,26 @@ namespace XMonoNode
             Flow(flowParametersArray);
         }
 
+        private void OnUpdateParametersNodes()
+        {
+            OnUpdateParametersNode[] nodes = GetComponents<OnUpdateParametersNode>();
+ 
+            foreach (var node in nodes)
+            {
+                node.TriggerFlow();
+            }
+        }
+
         public virtual void UpdateParameters(params object[] parameters)
         {
             FlowParametersArray = parameters;
+            OnUpdateParametersNodes();
         }
 
         public virtual void UpdateParameters(Dictionary<string, object> parameters)
         {
             FlowParametersDict = parameters;
+            OnUpdateParametersNodes();
         }
 
         /// <summary>
@@ -88,6 +100,7 @@ namespace XMonoNode
             {
                 FlowParametersArray[i] = paramNodes[i].GetTestValue();
             }
+            OnUpdateParametersNodes();
         }
 
         public const string ALL_EXECUTE_NODES = ":- all execute nodes";

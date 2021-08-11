@@ -4,10 +4,15 @@ using UnityEngine;
 
 namespace XMonoNode
 {
+    public class PathToAudioClipAttribute : PropertyAttribute
+    {
+    }
+
     [System.Serializable]
     public class XAudioClipResource
     {
         public int ID;
+        [PathToAudioClip]
         public string Path;
 
         public AudioClip Clip

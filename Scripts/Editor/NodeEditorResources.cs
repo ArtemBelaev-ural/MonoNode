@@ -52,14 +52,52 @@ namespace XMonoNodeEditor {
         }
         static Texture2D _graph = null;
 
+        public static Texture2D IconPlay16
+        {
+            get
+            {
+                return iconPlay16 != null ? iconPlay16 : iconPlay16 = Resources.Load<Texture2D>("xnode_icon_play_16");
+            }
+        }
+        private static Texture2D iconPlay16 = null;
+
+        public static Texture2D IconPlay16Hover
+        {
+            get
+            {
+                return iconPlay16Hover != null ? iconPlay16Hover : iconPlay16Hover = Resources.Load<Texture2D>("xnode_icon_play_16_hover");
+            }
+        }
+        private static Texture2D iconPlay16Hover = null;
+
+        public static Texture2D IconPlay16Active
+        {
+            get 
+            {
+                return iconPlay16Active != null ? iconPlay16Active : iconPlay16Active = Resources.Load<Texture2D>("xnode_icon_play_16_active");
+            }
+        }
+        private static Texture2D iconPlay16Active = null;
+
+        public static Texture2D IconError16
+        {
+            get
+            {
+                return iconError16 != null ? iconError16 : iconError16 = Resources.Load<Texture2D>("xnode_icon_error_16");
+            }
+        }
+        private static Texture2D iconError16 = null;
+
         // Styles
         public static Styles styles { get { return _styles != null ? _styles : _styles = new Styles(); } }
         public static Styles _styles = null;
         public static GUIStyle OutputPort { get { return new GUIStyle(EditorStyles.label) { alignment = TextAnchor.UpperRight }; } }
-        public class Styles {
-            public GUIStyle inputPort, outputPort, inputPortFlow, outputPortFlow, nodeHeader, nodeBody, tooltip, nodeHighlight;
+        public class Styles
+        {
+            public GUIStyle inputPort, outputPort, inputPortFlow, outputPortFlow, nodeHeader, nodeBody, tooltip, nodeHighlight, playButton, errorButton;
 
-            public Styles() {
+            public Styles()
+            {
                 GUIStyle baseStyle = new GUIStyle("Label");
                 baseStyle.fixedHeight = 18;
 
@@ -103,6 +141,17 @@ namespace XMonoNodeEditor {
 
                 tooltip = new GUIStyle("helpBox");
                 tooltip.alignment = TextAnchor.MiddleCenter;
+
+                playButton = new GUIStyle(baseStyle);
+                playButton.alignment = TextAnchor.MiddleCenter;
+                playButton.active.background = IconPlay16Active;
+                playButton.normal.background = IconPlay16;
+                playButton.hover.background = IconPlay16Hover;
+
+                errorButton = new GUIStyle(baseStyle);
+                errorButton.alignment = TextAnchor.MiddleCenter;
+                errorButton.active.background = IconError16;
+                errorButton.normal.background = IconError16;
             }
         }
 
