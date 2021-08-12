@@ -52,6 +52,7 @@ namespace XMonoNodeEditor {
                     if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out inputAttribute)) {
                         dynamicPortList = inputAttribute.dynamicPortList;
                         showBacking = inputAttribute.backingValue;
+                        
                         label = new GUIContent(ObjectNames.NicifyVariableName(port.label));
                     }
 
@@ -182,15 +183,15 @@ namespace XMonoNodeEditor {
 
         private static void PropertyField(SerializedProperty property, GUIContent label, bool includeChildren)
         {
-            if (/*property.propertyType == SerializedPropertyType.Enum &&*/ 
-                                            NodeEditorWindow.current != null &&
-                                            NodeEditorWindow.current.zoom >= 0.9f && NodeEditorWindow.current.zoom <= 1.3f)
+            if (property.propertyType == SerializedPropertyType.Enum &&
+                NodeEditorWindow.current != null &&
+                NodeEditorWindow.current.zoom > 1.3f)
             {
-                EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+                EditorGUILayout.LabelField(label, new GUIContent("zoom out..."), GUILayout.MinWidth(30));
             }
             else
             {
-                EditorGUILayout.LabelField(label, new GUIContent("zoom out..."), GUILayout.MinWidth(30));
+                EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
             }
         }
 
