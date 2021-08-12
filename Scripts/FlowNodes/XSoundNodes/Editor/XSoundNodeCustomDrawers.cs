@@ -23,12 +23,6 @@ namespace XMonoNodeEditor
             int buttonWidth = 16;
 
             position.width -= buttonWidth - 2;
-            // Draw label
-
-
-            // Don't make child fields be indented
-            int indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 0;
 
             EditorGUI.PropertyField(position, property, label);
 
@@ -43,7 +37,6 @@ namespace XMonoNodeEditor
 
                 bool guiEnabled = GUI.enabled;
     
-
                 GUI.enabled = clip != null;
                 string tooltip = clip != null ? "play" : ("No audio clip at path: \"" + path + "\"");
                 if (GUI.Button(position, new GUIContent("", tooltip), clip != null ? NodeEditorResources.styles.playButton : NodeEditorResources.styles.errorButton))
@@ -51,11 +44,9 @@ namespace XMonoNodeEditor
                     AudioSource.PlayClipAtPoint(clip, Vector3.zero);
                 }
 
-                // GUI.contentColor = color;
                 GUI.enabled = guiEnabled;
             }
 
-            EditorGUI.indentLevel = indent;
             EditorGUI.EndProperty();
         }
     }
