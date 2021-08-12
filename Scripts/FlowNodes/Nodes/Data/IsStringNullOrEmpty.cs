@@ -2,7 +2,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Variables/" + nameof(IsStringNullOrEmpty), "string", "null", "empty")]
+    [CreateNodeMenu("String/" + nameof(IsStringNullOrEmpty), "string", "null", "empty")]
     public class IsStringNullOrEmpty : MonoNode
     {
         [Input] public string inputString;

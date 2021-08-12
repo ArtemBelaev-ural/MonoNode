@@ -233,7 +233,7 @@ namespace XMonoNodeEditor {
             node.Position = position;
             if (node.Name == null || node.Name.Trim() == "") node.Name = NodeEditorUtilities.NodeDefaultName(type);
          
-            if (!EditorUtility.IsPersistent(target))
+            if (EditorUtility.IsPersistent(target) && !AssetDatabase.Contains(node as UnityEngine.Object))
             {
                 if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(target))) AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
             }
@@ -249,11 +249,11 @@ namespace XMonoNodeEditor {
             XMonoNode.INode node = Target.CopyNode(original);
             Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Duplicate Node");
             node.Name = original.Name;
-            if (!EditorUtility.IsPersistent(target))
+            if (EditorUtility.IsPersistent(target) && !AssetDatabase.Contains(node as UnityEngine.Object))
             {
                 AssetDatabase.AddObjectToAsset(node as UnityEngine.Object, target);
             }
-            
+
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
             return node;
         }

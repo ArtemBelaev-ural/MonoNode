@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/ThisGameObject")]
+    [CreateNodeMenu("GameObject/ThisGameObject", 401)]
     [NodeWidth(140)]
     public class ThisGameObject : MonoNode
     {

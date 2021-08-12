@@ -4,7 +4,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Utils/Wait")]
+    [CreateNodeMenu("Utils/Wait", 522)]
     public class Wait : FlowNode
     {
         [Input] public float WaitSeconds;
