@@ -11,9 +11,9 @@ namespace XMonoNode
         [Output] public Flow FalseOutput;
         [Input] public string StringFalse;
 
-        public override void OnEnable()
+        public override void OnNodeEnable()
         {
-            base.OnEnable();
+            base.OnNodeEnable();
             // Для удобства изменим подпись к стандартным flow портам
 
             NodePort portOut = GetOutputPort(nameof(FlowOutput));

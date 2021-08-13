@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
-using XMonoNode;
 
 namespace XMonoNode
 {
+    [CreateNodeMenu("Events/Lifecicle/" + nameof(OnUpdate), 15)]
     [ExecuteInEditMode]
-    [CreateNodeMenu("Events/" + nameof(OnUpdate), 12)]
+    [NodeWidth(150)]
     public class OnUpdate : EventNode
     {
+        [Input]
         public int Milliseconds;
         private float _timestamp
         {
@@ -15,10 +16,11 @@ namespace XMonoNode
 
         private void Update()
         {
-            if (UnityEngine.Time.realtimeSinceStartup > _timestamp)
+            if (Time.realtimeSinceStartup > _timestamp)
             {
                 TriggerFlow();
-                _timestamp = UnityEngine.Time.realtimeSinceStartup + Milliseconds * 0.001f;
+                Milliseconds = GetInputValue(nameof(Milliseconds), Milliseconds);
+                _timestamp = Time.realtimeSinceStartup + Milliseconds * 0.001f;
             }
         }
 

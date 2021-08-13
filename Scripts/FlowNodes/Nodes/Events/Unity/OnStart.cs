@@ -1,8 +1,10 @@
-﻿using XMonoNode;
+﻿using UnityEngine;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Events/OnStart", 11)]
+    [CreateNodeMenu("Events/Lifecicle/OnStart", 13)]
+    [ExecuteInEditMode]
+    [NodeWidth(150)]
     public class OnStart : EventNode
     {
         private void Start()

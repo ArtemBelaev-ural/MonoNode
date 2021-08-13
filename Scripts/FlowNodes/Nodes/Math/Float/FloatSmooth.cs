@@ -34,9 +34,9 @@ namespace XMonoNode
             Name = "FloatSmooth (game only)";
         }
 
-        public override void OnEnable()
+        public override void OnNodeEnable()
         {
-            base.OnEnable();
+            base.OnNodeEnable();
             NodePort flowInputPort = GetInputPort(nameof(FlowInput));
             if (flowInputPort != null)
             {

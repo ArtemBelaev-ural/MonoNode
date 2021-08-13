@@ -12,9 +12,9 @@ namespace XMonoNode
         [Output(dynamicPortList: true)]
         public T[]  Case;
 
-        public override void OnEnable()
+        public override void OnNodeEnable()
         {
-            base.OnEnable();
+            base.OnNodeEnable();
             // Для удобства изменим подпись к стандартным flow портам
 
             NodePort portIn = GetInputPort(nameof(FlowInput));

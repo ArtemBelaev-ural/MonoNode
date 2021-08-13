@@ -2,17 +2,12 @@
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Events/Lifecicle/OnEnable", 11)]
     [ExecuteInEditMode]
+    [CreateNodeMenu("Events/Lifecicle/" + nameof(OnFixedUpdate), 16)]
     [NodeWidth(150)]
-    public class OnEnabled : EventNode
+    public class OnFixedUpdate : EventNode
     {
-        private void Reset()
-        {
-            Name = "On Enable";
-        }
-
-        private void OnEnable()
+        private void FixedUpdate()
         {
             TriggerFlow();
         }

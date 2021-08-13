@@ -7,7 +7,8 @@ using XMonoNodeEditor.Internal;
 
 namespace XMonoNodeEditor {
     /// <summary> Contains GUI methods </summary>
-    public partial class NodeEditorWindow {
+    public partial class NodeEditorWindow
+    {
         public NodeGraphEditor graphEditor;
         private List<UnityEngine.Object> selectionCache;
         private List<XMonoNode.INode> culledNodes = new List<XMonoNode.INode>();
@@ -42,7 +43,7 @@ namespace XMonoNodeEditor {
             DrawTooltip();
             graphEditor.OnGUI();
 
-            DrawNodePalette();
+            DrawEditorControls();
 
             DrawDraggedNodeType();
 
@@ -225,7 +226,7 @@ namespace XMonoNodeEditor {
 
         int toolbarHeight = 20;
 
-        private void DrawNodePalette()
+        private void DrawEditorControls()
         {
             GUILayout.BeginArea(new Rect(0, 0, position.width, toolbarHeight), EditorStyles.toolbar);
 
@@ -313,7 +314,17 @@ namespace XMonoNodeEditor {
                     int nestedLevel = level + 1;
                     foreach (NodeTree subTree in tree.SubTreeList)
                     {
-                        DrawNodeTree(subTree, filter, nestedLevel);
+                        if (subTree.IsSubTree)
+                        {
+                            DrawNodeTree(subTree, filter, nestedLevel);
+                        }
+                    }
+                    foreach (NodeTree subTree in tree.SubTreeList)
+                    {
+                        if (!subTree.IsSubTree)
+                        {
+                            DrawNodeTree(subTree, filter, nestedLevel);
+                        }
                     }
                 }
                 if (level == 0)

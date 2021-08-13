@@ -33,9 +33,9 @@ namespace XMonoNode
             }
         }
 
-        public override void OnEnable()
+        public override void OnNodeEnable()
         {
-            base.OnEnable();
+            base.OnNodeEnable();
             // Для удобства изменим подпись к стандартным flow портам
 
             NodePort portTrue = GetInputPort(nameof(inputTrue));

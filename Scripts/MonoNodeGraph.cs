@@ -47,7 +47,7 @@ namespace XMonoNode
         {
             MonoNode.graphHotfix = this;
             MonoNode node = gameObject.AddComponent(type) as MonoNode;
-            node.OnEnable();
+            node.OnNodeEnable();
             node.graph = this;
             var nodesList = new List<MonoNode>(nodes);
             nodesList.Add(node);

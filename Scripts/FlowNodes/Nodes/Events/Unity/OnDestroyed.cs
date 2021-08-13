@@ -2,17 +2,17 @@
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Events/Lifecicle/OnEnable", 11)]
+    [CreateNodeMenu("Events/Lifecicle/OnDestroy", 19)]
     [ExecuteInEditMode]
     [NodeWidth(150)]
-    public class OnEnabled : EventNode
+    public class OnDestroyed : EventNode
     {
         private void Reset()
         {
-            Name = "On Enable";
+            Name = "On Destroy";
         }
 
-        private void OnEnable()
+        private void OnDestroy()
         {
             TriggerFlow();
         }
