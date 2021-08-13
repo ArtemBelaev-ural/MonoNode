@@ -23,6 +23,12 @@ namespace XMonoNodeEditor {
         private static Dictionary<Type, Color> typeColors = new Dictionary<Type, Color>();
         private static Dictionary<string, Settings> settings = new Dictionary<string, Settings>();
 
+        public enum MouseScrollAction
+        {
+            Zoom = 0,
+            ScrollVertical = 1,
+        }
+
         [System.Serializable]
         public class Settings : ISerializationCallbackReceiver {
             [SerializeField] private Color32 _gridLineColor = new Color(.23f, .23f, .23f);
@@ -44,6 +50,7 @@ namespace XMonoNodeEditor {
             public bool openOnCreate = true;
             public bool dragToCreate = true;
             public bool createFilter = true;
+            public MouseScrollAction mouseWheelAction = MouseScrollAction.ScrollVertical;
             public bool zoomToMouse = true;
             public bool portTooltips = true;
             public bool showNodePalette = true;
@@ -142,14 +149,18 @@ namespace XMonoNodeEditor {
             //Label
             EditorGUILayout.LabelField("Grid", EditorStyles.boldLabel);
             settings.gridSnap = EditorGUILayout.Toggle(new GUIContent("Snap", "Hold CTRL in editor to invert"), settings.gridSnap);
+            settings.gridLineColor = EditorGUILayout.ColorField("Color", settings.gridLineColor);
+            settings.gridBgColor = EditorGUILayout.ColorField(" ", settings.gridBgColor);
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("Mouse wheel", EditorStyles.boldLabel);
+            settings.mouseWheelAction = (MouseScrollAction) EditorGUILayout.EnumPopup(new GUIContent("On wheel", "Mouse wheel action"), settings.mouseWheelAction);
             settings.zoomToMouse = EditorGUILayout.Toggle(new GUIContent("Zoom to Mouse", "Zooms towards mouse position"), settings.zoomToMouse);
-            EditorGUILayout.LabelField("Zoom");
             EditorGUI.indentLevel++;
             settings.maxZoom = EditorGUILayout.FloatField(new GUIContent("Max", "Upper limit to zoom"), settings.maxZoom);
             settings.minZoom = EditorGUILayout.FloatField(new GUIContent("Min", "Lower limit to zoom"), settings.minZoom);
             EditorGUI.indentLevel--;
-            settings.gridLineColor = EditorGUILayout.ColorField("Color", settings.gridLineColor);
-            settings.gridBgColor = EditorGUILayout.ColorField(" ", settings.gridBgColor);
+            
             if (GUI.changed) {
                 SavePrefs(key, settings);
 

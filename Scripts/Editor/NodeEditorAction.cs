@@ -90,13 +90,41 @@ namespace XMonoNodeEditor {
                 case EventType.ScrollWheel:
                     if (!IsCursorInToolWindow)
                     {
-                        float oldZoom = zoom;
-                        if (e.delta.y > 0)
-                            zoom += 0.1f * zoom;
-                        else
-                            zoom -= 0.1f * zoom;
-                        if (NodeEditorPreferences.GetSettings().zoomToMouse)
-                            panOffset += (1 - oldZoom / zoom) * (WindowToGridPosition(e.mousePosition) + panOffset);
+                        NodeEditorPreferences.MouseScrollAction scrollAction = NodeEditorPreferences.GetSettings().mouseWheelAction;
+
+                        if (e.control) // invert if control key pressed
+                        {
+                            scrollAction = (scrollAction == NodeEditorPreferences.MouseScrollAction.ScrollVertical) ?
+                                NodeEditorPreferences.MouseScrollAction.Zoom :
+                                NodeEditorPreferences.MouseScrollAction.ScrollVertical;
+                        }
+
+                        switch (scrollAction)
+                        {
+                            case NodeEditorPreferences.MouseScrollAction.ScrollVertical:
+                                Vector2 newPanOffset = panOffset;
+                                const float scrollSpeed = 40;
+                                if (e.shift)
+                                {
+                                    newPanOffset.x += e.delta.y > 0 ? -scrollSpeed : scrollSpeed;
+                                }
+                                else
+                                {
+                                    newPanOffset.y += e.delta.y > 0 ? -scrollSpeed : scrollSpeed;
+                                }
+                                panOffset = newPanOffset;
+                                break;
+                            case NodeEditorPreferences.MouseScrollAction.Zoom:
+                                float oldZoom = zoom;
+                                if (e.delta.y > 0)
+                                    zoom += 0.1f * zoom;
+                                else
+                                    zoom -= 0.1f * zoom;
+                                if (NodeEditorPreferences.GetSettings().zoomToMouse)
+                                    panOffset += (1 - oldZoom / zoom) * (WindowToGridPosition(e.mousePosition) + panOffset);
+
+                                break;
+                        }
                     }
                     break;
                 case EventType.MouseDrag:
