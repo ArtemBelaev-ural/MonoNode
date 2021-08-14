@@ -44,7 +44,7 @@ namespace XMonoNode
             }
         }
 
-        public override void Flow()
+        public override void Flow(NodePort flowPort)
         {
             lerpOutput = Default;
         }

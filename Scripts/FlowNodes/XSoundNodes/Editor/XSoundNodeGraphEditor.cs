@@ -36,7 +36,7 @@ namespace XMonoNode
         {
             if (GUILayout.Button(new GUIContent("Play"), EditorStyles.toolbarButton))
             {
-                Graph.TestFlow();
+                Graph.Flow();
             }
 
             if (GUILayout.Button(new GUIContent("Stop"), EditorStyles.toolbarButton))

@@ -1,4 +1,5 @@
 ﻿using XMonoNode;
+using UnityEngine;
 
 namespace XMonoNode
 {
@@ -6,9 +7,17 @@ namespace XMonoNode
     {
         [Output] public Flow FlowOutput;
 
+        protected NodePort flowOutputPort;
+
+        protected override void Init()
+        {
+            base.Init();
+            flowOutputPort = GetOutputPort(nameof(FlowOutput));
+        }
+
         public void TriggerFlow()
         {
-            FlowUtils.TriggerFlow(Outputs, nameof(EventNode.FlowOutput));
+            FlowUtils.TriggerFlow(flowOutputPort);
         }
     }
 }

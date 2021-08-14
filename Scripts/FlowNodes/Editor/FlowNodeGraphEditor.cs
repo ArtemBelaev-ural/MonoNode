@@ -48,7 +48,7 @@ namespace FlowNodesEditor
         {
             if (GUILayout.Button(new GUIContent("Flow"), EditorStyles.toolbarButton))
             {
-                Graph.TestFlow();
+                Graph.Flow();
             }
 
             if (GUILayout.Button(new GUIContent("Stop"), EditorStyles.toolbarButton))
@@ -131,7 +131,7 @@ namespace FlowNodesEditor
                 {
                     OpenGraph();
                 }
-                flowNodeGraph.TestFlow();
+                flowNodeGraph.Flow();
             }
             if (GUILayout.Button("Stop", GUILayout.Height(40)))
             {

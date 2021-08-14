@@ -10,7 +10,7 @@ namespace XMonoNode
         [Input] public Transform Parent;
         [Output] public GameObject Instance;
 
-        public override void Flow()
+        public override void Flow(NodePort flowPort)
         {
             var prefab = GetInputValue(nameof(Prefab), Prefab);
             var parent = GetInputValue(nameof(Parent), Parent);

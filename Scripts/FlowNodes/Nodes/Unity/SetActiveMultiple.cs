@@ -16,13 +16,7 @@ namespace XMonoNode
         [Input] public GameObject[] Target;
         public ActiveOptions Options;
 
-        // Use this for initialization
-        protected override void Init()
-        {
-            base.Init();
-        }
-
-        public override void Flow()
+        public override void Flow(NodePort flowPort)
         {
             var targets = GetInputValue(nameof(Target), Target);
             for (int i = 0; i < targets.Length; i++)

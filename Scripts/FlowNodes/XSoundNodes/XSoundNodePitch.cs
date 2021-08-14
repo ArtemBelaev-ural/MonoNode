@@ -37,7 +37,7 @@ namespace XMonoNode
             Name = "Pitch";
         }
 
-        public override void Flow()
+        public override void Flow(NodePort flowPort)
         {
             changePitch();
         }

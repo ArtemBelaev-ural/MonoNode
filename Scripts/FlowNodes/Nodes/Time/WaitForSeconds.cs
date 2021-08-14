@@ -4,19 +4,26 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Utils/Wait", 522)]
-    public class Wait : FlowNode
+    [CreateNodeMenu("Time/WaitForSeconds", 532)]
+    public class WaitForSeconds : FlowNode
     {
         [Input] public float WaitSeconds;
 
         private bool flow = false;
+
+        protected override void Init()
+        {
+            base.Init();
+            GetInputPort(nameof(FlowInput)).label = "Enter";
+            GetOutputPort(nameof(FlowOutput)).label = "Exit";
+        }
 
         public override void TriggerFlow()
         {
             //base.TriggerFlow();
         }
 
-        public override async void Flow()
+        public override async void Flow(NodePort flowPort)
         {
             var secondsToWait = GetInputValue(nameof(WaitSeconds), WaitSeconds);
             if (secondsToWait > 0)

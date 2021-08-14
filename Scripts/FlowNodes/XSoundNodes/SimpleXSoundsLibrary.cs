@@ -161,7 +161,7 @@ namespace XMonoNode
         {
             while (source != null && source.isPlaying)
             {
-                yield return new WaitForSeconds(1);
+                yield return new UnityEngine.WaitForSeconds(1);
             }
 
             if (source != null)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XMonoNode;
@@ -57,14 +58,6 @@ namespace XMonoNode
 
         private Dictionary<string, object> flowParametersDict = new Dictionary<string, object>();
 
-        [ContextMenu("Flow")]
-        public void TestFlow()
-        {
-            UpdateTestParameters();
-
-            Flow(flowParametersArray);
-        }
-
         private void OnUpdateParametersNodes()
         {
             OnUpdateParametersNode[] nodes = GetComponents<OnUpdateParametersNode>();
@@ -81,10 +74,24 @@ namespace XMonoNode
             OnUpdateParametersNodes();
         }
 
+        private static Dictionary<TKey, TValue> Merge<TKey, TValue>(params Dictionary<TKey, TValue>[] dictionaries)
+        {
+            var result = new Dictionary<TKey, TValue>();
+            foreach (var dict in dictionaries)
+                foreach (var x in dict)
+                    result[x.Key] = x.Value;
+            return result;
+        }
+
         public virtual void UpdateParameters(Dictionary<string, object> parameters)
         {
             FlowParametersDict = parameters;
             OnUpdateParametersNodes();
+        }
+
+        public virtual void UpdateParameter(string key, object value)
+        {
+            flowParametersDict[key] = value;
         }
 
         /// <summary>
@@ -125,7 +132,8 @@ namespace XMonoNode
             Flow();
         }
 
-        private void Flow()
+        [ContextMenu("Flow")]
+        public virtual void Flow()
         {
             OnFlowEventNode[] eventNodes = GetComponents<OnFlowEventNode>();
             if (eventNodes.Length == 0)

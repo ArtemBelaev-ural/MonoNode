@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [AddComponentMenu("FlowNode/Branch/SelectFloat", 23)]
-    [CreateNodeMenu("Branch/SelectFloat", 23)]
+    [AddComponentMenu("FlowNode/Branch/SelectFloat", 13)]
+    [CreateNodeMenu("Branch/SelectFloat", 13)]
     public class SelectNodeFloat : SelectNode<float>
     {
     }

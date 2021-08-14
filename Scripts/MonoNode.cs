@@ -122,7 +122,13 @@ namespace XMonoNode {
             }
         }
 
-        public virtual void OnNodeEnable() {
+        protected void OnEnable()
+        {
+            OnNodeEnable();
+        }
+
+        public virtual void OnNodeEnable()
+        {
             if (graphHotfix != null) graph = graphHotfix;
             graphHotfix = null;
             UpdatePorts();

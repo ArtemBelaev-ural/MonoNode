@@ -10,7 +10,7 @@ namespace XMonoNode
         [Input] public Vector3 TargetPosition;
         [Input] public float Volume = 1;
 
-        public override void Flow() 
+        public override void Flow(NodePort flowPort) 
         {
             var audio = GetInputValue(nameof(Audio), Audio);
             var position = GetInputValue(nameof(TargetPosition), TargetPosition);

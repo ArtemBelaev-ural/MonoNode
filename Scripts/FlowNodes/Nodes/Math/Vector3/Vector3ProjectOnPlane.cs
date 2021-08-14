@@ -26,6 +26,7 @@ namespace XMonoNode
 
         protected override void Init()
         {
+            base.Init();
             portA = GetInputPort(nameof(vector));
             portB = GetInputPort(nameof(planeNormal));
         }

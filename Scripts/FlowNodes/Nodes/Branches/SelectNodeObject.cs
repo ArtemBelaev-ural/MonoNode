@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [AddComponentMenu("FlowNode/Branch/SelectObject", 24)]
-    [CreateNodeMenu("Branch/SelectObject", 24)]
+    [AddComponentMenu("FlowNode/Branch/SelectObject", 15)]
+    [CreateNodeMenu("Branch/SelectObject", 15)]
     public class SelectNodeObject  : SelectNode<Object>
     {
     }

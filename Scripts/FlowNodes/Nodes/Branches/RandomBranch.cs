@@ -3,12 +3,12 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Branch/" + nameof(RandomBranch), "Random", "branch")]
+    [CreateNodeMenu("Branch/" + nameof(RandomBranch), 19)]
     public class RandomBranch : FlowNode
     {
         [Output(dynamicPortList: true)] public int[] FlowOutputWeights;
 
-        public override void Flow()
+        public override void Flow(NodePort flowPort)
         {
         }
 
@@ -32,7 +32,7 @@ namespace XMonoNode
                 randomValue -= Mathf.Abs(FlowOutputWeights[i]);
                 if (randomValue <= 0)
                 {
-                    FlowUtils.TriggerFlow(Outputs, $"{nameof(FlowOutputWeights)} {i}");
+                    FlowUtils.TriggerFlow(GetOutputPort($"{nameof(FlowOutputWeights)} {i}"));
                     return;
                 }
             }

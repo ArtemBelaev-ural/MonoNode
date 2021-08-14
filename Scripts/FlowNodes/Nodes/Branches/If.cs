@@ -1,0 +1,46 @@
+﻿using XMonoNode;
+using UnityEngine;
+
+namespace XMonoNode
+{
+    [NodeWidth(150)]
+    [CreateNodeMenu("Branch/" + nameof(If), 11)]
+    public class If : FlowNode
+    {
+        [Input] public bool condition;
+        [Output] public Flow Else;
+
+        NodePort conditionPort;
+        NodePort ifPort;
+        NodePort elsePort;
+
+        protected override void Init()
+        {
+            base.Init();
+            GetInputPort(nameof(FlowInput)).label = "Enter";
+
+            conditionPort = GetInputPort(nameof(condition));
+            ifPort = GetOutputPort(nameof(FlowOutput));
+            elsePort = GetOutputPort(nameof(Else));
+
+            ifPort.label = "if (condition)";
+            elsePort.label = "else";
+        }
+
+        public override void TriggerFlow()
+        {
+            //base.TriggerFlow();
+        }
+
+        public override void Flow(NodePort flowPort)
+        {
+            NodePort output = conditionPort.GetInputValue(condition) ? ifPort : elsePort;
+            FlowUtils.TriggerFlow(output);
+        }
+
+        public override object GetValue(NodePort port)
+        {
+            return null;
+        }
+    }
+}

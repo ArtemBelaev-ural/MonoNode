@@ -4,12 +4,14 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/"+nameof(DestroyObject))]
-    public class DestroyObject : FlowNode {
+    public class DestroyObject : FlowNode
+    {
         [Input]
         public GameObject Target;
 
-        public override void Flow() {
-            var toDestroy = GetInputValue<GameObject>(nameof(Target), Target);
+        public override void Flow(NodePort flowPort)
+        {
+            var toDestroy = GetInputValue(nameof(Target), Target);
             Destroy(toDestroy);
         }
 

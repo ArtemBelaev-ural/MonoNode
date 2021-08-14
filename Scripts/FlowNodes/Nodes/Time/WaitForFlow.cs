@@ -1,0 +1,59 @@
+﻿using System.Threading.Tasks;
+using UnityEngine;
+using XMonoNode;
+
+namespace XMonoNode
+{
+    [CreateNodeMenu("Time/WaitForFlow", 535)]
+    public class WaitForFlow : FlowNode
+    {
+        [Input] public Flow flow;
+
+        private bool triggered = false;
+
+        private NodePort enterPort;
+        private NodePort onFlowPort;
+        private NodePort exitPort;
+
+        protected override void Init()
+        {
+            base.Init();
+            enterPort = GetInputPort(nameof(FlowInput));
+            onFlowPort = GetInputPort(nameof(flow));
+            exitPort = GetOutputPort(nameof(FlowOutput));
+
+            enterPort.label = "Enter";
+            exitPort.label = "Exit";
+        }
+
+        public override void TriggerFlow()
+        {
+            //base.TriggerFlow(); 
+        }
+
+        public override void Flow(NodePort flowPort)
+        {
+            if (flowPort == enterPort)
+            {
+                triggered = true;
+            }
+            else if (flowPort == onFlowPort && triggered)
+            {
+                FlowUtils.TriggerFlow(flowOutputPort);
+                triggered = false;
+            }
+        }
+
+        // Return the correct value of an output port when requested
+        public override object GetValue(NodePort port)
+        {
+            return null; // Replace this
+        }
+
+        public override void Stop()
+        {
+            base.Stop();
+            triggered = false;
+        }
+    }
+}

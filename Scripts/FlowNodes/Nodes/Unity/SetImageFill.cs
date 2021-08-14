@@ -10,7 +10,7 @@ namespace XMonoNode
         [Input] public Image Target;
         [Input] public float Fill;
 
-        public override void Flow()
+        public override void Flow(NodePort flowPort)
         {
             var target = GetInputValue(nameof(Target), Target);
             var fillAmount = GetInputValue(nameof(Fill), Fill);

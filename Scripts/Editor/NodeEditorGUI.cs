@@ -305,9 +305,13 @@ namespace XMonoNodeEditor {
             {
                 // BeginFoldoutHeaderGroup can't be nested
                 if (level == 0)
+                {
                     tree.Expanded = EditorGUILayout.BeginFoldoutHeaderGroup(tree.Expanded, tree.Caption);
+                }
                 else
-                    tree.Expanded = EditorGUILayout.Foldout(tree.Expanded, tree.Caption, true);
+                {
+                    tree.Expanded = EditorGUILayout.Foldout(tree.Expanded, tree.Caption, true, NodeEditorResources.styles.nodePaletteFoldout);
+                }
 
                 if (tree.Expanded)
                 {

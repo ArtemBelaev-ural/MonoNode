@@ -29,7 +29,7 @@ namespace XMonoNode
             }
         }
 
-        public override void Flow()
+        public override void Flow(NodePort flowPort)
         {
         }
 
@@ -37,7 +37,7 @@ namespace XMonoNode
         {
             if (Case.Length <= 0)
             {
-                FlowUtils.TriggerFlow(Outputs, nameof(FlowOutput));
+                FlowUtils.TriggerFlow(flowOutputPort);
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace XMonoNode
             {
                 if (Switch.Equals(Case[i]))
                 {
-                    FlowUtils.TriggerFlow(Outputs, $"{nameof(Case)} {i}");
+                    FlowUtils.TriggerFlow(GetOutputPort($"{nameof(Case)} {i}"));
                     caseDefault = false;
                     // return; may be multiple choices!
                 }
@@ -56,7 +56,7 @@ namespace XMonoNode
 
             if (caseDefault)
             {
-                FlowUtils.TriggerFlow(Outputs, nameof(FlowOutput));
+                FlowUtils.TriggerFlow(flowOutputPort);
             }
         }
 

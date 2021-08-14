@@ -11,12 +11,12 @@ namespace XMonoNode
     {
         protected override void Init()
         {
-            NodePort portIn = GetOutputPort(nameof(FlowOutput));
-            if (portIn != null)
-            {
-                portIn.label = "OnUpdateParameters";
-            }
+            base.Init();
+            flowOutputPort.label = "OnUpdateParameters";
+        }
 
+        private void Reset()
+        {
             Name = "OnUpdateParameters";
         }
 

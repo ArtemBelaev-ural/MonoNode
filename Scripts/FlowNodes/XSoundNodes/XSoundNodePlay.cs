@@ -30,11 +30,17 @@ namespace XMonoNode
         private AudioSources playing = new AudioSources();
 
         // ¬спомогательный признак, позвол€ющий определить, что нода запустила сама себ€
-        bool playingState = false;
+        private bool playingState = false;
 
-        public override void Flow()
+        protected NodePort wnilePlayPort;
+        protected NodePort onEndPort;
+
+        public override void Flow(NodePort flowPort)
         {
-            Play(PlayParameters);
+            if (flowPort == flowInputPort)
+            {
+                Play(PlayParameters);
+            }
         }
 
         public override void TriggerFlow() // „тобы поток продолжалс€ только когда звук завершитс€
@@ -50,18 +56,14 @@ namespace XMonoNode
         public override void OnNodeEnable()
         {
             base.OnNodeEnable();
+
             // ƒл€ удобства изменим подпись к стандартным flow портам
 
-            NodePort portIn = GetInputPort(nameof(FlowInput));
-            if (portIn != null)
-            {
-                portIn.label = "Play";
-            }
-            NodePort portOut = GetOutputPort(nameof(FlowOutput));
-            if (portOut != null)
-            {
-                portOut.label = "On Start";
-            }
+            flowInputPort.label = "Play";
+            flowOutputPort.label = "On Start";
+
+            wnilePlayPort = GetOutputPort(nameof(whilePlay));
+            onEndPort = GetOutputPort(nameof(onEnd));
         }
 
         private void Update()
@@ -170,15 +172,17 @@ namespace XMonoNode
 
         private void TriggerOnStart()
         {
-            FlowUtils.TriggerFlow(Outputs, nameof(FlowOutput));
+            FlowUtils.TriggerFlow(flowOutputPort);
         }
+
         private void TriggerWhilePlay()
         {
-            FlowUtils.TriggerFlow(Outputs, nameof(whilePlay));
+            FlowUtils.TriggerFlow(wnilePlayPort);
         }
+
         private void TriggerOnEnd()
         {
-            FlowUtils.TriggerFlow(Outputs, nameof(onEnd));
+            FlowUtils.TriggerFlow(onEndPort);
         }
 
     }

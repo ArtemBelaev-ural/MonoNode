@@ -13,6 +13,8 @@ namespace XMonoNode
 
         protected override void Init()
         {
+            base.Init();
+
             NodePort portIn = GetOutputPort(nameof(difference));
             if (portIn != null)
             {

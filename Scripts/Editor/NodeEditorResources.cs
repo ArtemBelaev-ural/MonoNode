@@ -94,7 +94,17 @@ namespace XMonoNodeEditor {
         public static GUIStyle OutputPort { get { return new GUIStyle(EditorStyles.label) { alignment = TextAnchor.UpperRight }; } }
         public class Styles
         {
-            public GUIStyle inputPort, outputPort, inputPortFlow, outputPortFlow, nodeHeader, nodeBody, tooltip, nodeHighlight, playButton, errorButton;
+            public GUIStyle inputPort;
+            public GUIStyle outputPort;
+            public GUIStyle inputPortFlow;
+            public GUIStyle outputPortFlow;
+            public GUIStyle nodeHeader;
+            public GUIStyle nodeBody;
+            public GUIStyle tooltip;
+            public GUIStyle nodeHighlight;
+            public GUIStyle playButton;
+            public GUIStyle errorButton;
+            public GUIStyle nodePaletteFoldout;
 
             public Styles()
             {
@@ -152,6 +162,9 @@ namespace XMonoNodeEditor {
                 errorButton.alignment = TextAnchor.MiddleCenter;
                 errorButton.active.background = IconError16;
                 errorButton.normal.background = IconError16;
+
+                nodePaletteFoldout = new GUIStyle(EditorStyles.foldout);
+                nodePaletteFoldout.fontStyle = FontStyle.Bold;
             }
         }
 

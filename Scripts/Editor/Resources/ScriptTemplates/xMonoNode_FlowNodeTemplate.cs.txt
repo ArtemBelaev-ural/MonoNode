@@ -8,7 +8,7 @@ public class #SCRIPTNAME# : FlowNode
 {
 
     // Handle input stream
-    public override void Flow()
+    public override void Flow(NodePort flowPort)
     {
         #NOTRIM#
     }

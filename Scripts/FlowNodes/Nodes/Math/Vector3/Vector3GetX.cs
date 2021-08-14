@@ -14,6 +14,7 @@ namespace XMonoNode
 
         protected override void Init()
         {
+            base.Init();
             inputPort = GetInputPort(nameof(a));
         }
 
