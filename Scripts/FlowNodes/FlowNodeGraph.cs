@@ -150,7 +150,7 @@ namespace XMonoNode
         [ContextMenu("Stop")]
         public virtual void Stop()
         {
-            FlowNode[] nodes = GetComponents<FlowNode>();
+            IFlowNode[] nodes = GetComponents<IFlowNode>();
 
             foreach (var node in nodes)
             {

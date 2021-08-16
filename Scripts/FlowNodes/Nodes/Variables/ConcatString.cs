@@ -16,8 +16,8 @@ namespace XMonoNode
         {
             if (port.fieldName == nameof(Result))
             {
-                var first = GetInputValue(nameof(First), First);
-                var second = GetInputValue(nameof(Second), Second);
+                var first = GetInputValue(nameof(First), First as object);
+                var second = GetInputValue(nameof(Second), Second as object);
                 Result = $"{first}{second}";
 
                 return Result;

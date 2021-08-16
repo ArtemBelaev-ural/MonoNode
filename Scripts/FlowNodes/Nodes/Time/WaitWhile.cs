@@ -16,7 +16,7 @@ namespace XMonoNode
         {
             if (triggered && !Condition)
             {
-                FlowUtils.TriggerFlow(flowOutputPort);
+                FlowUtils.TriggerFlow(FlowOutputPort);
                 triggered = false;
             }
         }

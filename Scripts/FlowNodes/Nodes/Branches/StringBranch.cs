@@ -21,7 +21,7 @@ namespace XMonoNode
 
             // Для удобства изменим подпись к стандартным flow портам
 
-            flowOutputPort.label = "True";
+            FlowOutputPort.label = "True";
             portOutFalse.label = "False";
         }
 
@@ -30,7 +30,7 @@ namespace XMonoNode
             var stringA = GetInputValue(nameof(StringTrue), StringTrue);
             var stringB = GetInputValue(nameof(StringFalse), StringFalse);
 
-            FlowUtils.TriggerFlow(stringA == stringB ? flowOutputPort : portOutFalse);
+            FlowUtils.TriggerFlow(stringA == stringB ? FlowOutputPort : portOutFalse);
         }
 
         public override void Flow(NodePort flowPort)

@@ -22,8 +22,8 @@ namespace XMonoNode
         {
             base.Init();
             conditionPort = GetInputPort(nameof(condition));
-            flowInputPort.label = "Enter";
-            flowOutputPort.label = "Exit";
+            FlowInputPort.label = "Enter";
+            FlowOutputPort.label = "Exit";
         }
 
         public override void TriggerFlow()

@@ -16,7 +16,7 @@ namespace XMonoNode
                 if (inputPort.ValueType == typeof(Flow))
                 {
                     connectedInputPorts.Add(inputPort);
-                    var flowNode = inputPort.node as FlowNode;
+                    var flowNode = inputPort.node as IFlowNode;
                     if (flowNode != null)
                     {
                         flowNode.Flow(inputPort);
@@ -26,7 +26,7 @@ namespace XMonoNode
 
             for (int i = 0; i < connectedInputPorts.Count; i++)
             {
-                var flowNode = connectedInputPorts[i].node as FlowNode;
+                var flowNode = connectedInputPorts[i].node as IFlowNode;
                 if (flowNode != null)
                 {
                     flowNode.TriggerFlow();

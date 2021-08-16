@@ -2,26 +2,44 @@
 
 namespace XMonoNode
 {
-    public abstract class FlowNode : MonoNode
+    public abstract class FlowNode : MonoNode, IFlowNode
     {
-        [Input] public Flow FlowInput;
-        [Output] public Flow FlowOutput;
+        [Input(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.Strict)]
+        public Flow FlowInput;
 
-        protected NodePort flowInputPort;
-        protected NodePort flowOutputPort;
+        [Output(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.Strict)]
+        public Flow FlowOutput;
+
+        private NodePort flowInputPort;
+        private NodePort flowOutputPort;
+
+        public NodePort FlowInputPort
+        {
+            get => flowInputPort;
+            set => flowInputPort = value;
+        }
+        public NodePort FlowOutputPort
+        {
+            get => flowOutputPort;
+            set => flowOutputPort = value;
+        }
 
         protected override void Init()
         {
             base.Init();
 
-            flowInputPort = GetInputPort(nameof(FlowInput));
-            flowOutputPort = GetOutputPort(nameof(FlowOutput));
+            FlowInputPort = GetInputPort(nameof(FlowInput));
+            FlowOutputPort = GetOutputPort(nameof(FlowOutput));
 
         }
 
         public virtual void TriggerFlow()
         {
-            FlowUtils.TriggerFlow(flowOutputPort);
+            FlowUtils.TriggerFlow(FlowOutputPort);
         }
 
         /// <summary>

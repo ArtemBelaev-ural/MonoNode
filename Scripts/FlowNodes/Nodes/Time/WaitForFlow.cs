@@ -39,7 +39,7 @@ namespace XMonoNode
             }
             else if (flowPort == onFlowPort && triggered)
             {
-                FlowUtils.TriggerFlow(flowOutputPort);
+                FlowUtils.TriggerFlow(FlowOutputPort);
                 triggered = false;
             }
         }

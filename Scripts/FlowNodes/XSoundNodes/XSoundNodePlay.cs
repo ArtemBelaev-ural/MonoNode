@@ -37,7 +37,7 @@ namespace XMonoNode
 
         public override void Flow(NodePort flowPort)
         {
-            if (flowPort == flowInputPort)
+            if (flowPort == FlowInputPort)
             {
                 Play(PlayParameters);
             }
@@ -59,8 +59,8 @@ namespace XMonoNode
 
             // Для удобства изменим подпись к стандартным flow портам
 
-            flowInputPort.label = "Play";
-            flowOutputPort.label = "On Start";
+            FlowInputPort.label = "Play";
+            FlowOutputPort.label = "On Start";
 
             wnilePlayPort = GetOutputPort(nameof(whilePlay));
             onEndPort = GetOutputPort(nameof(onEnd));
@@ -172,7 +172,7 @@ namespace XMonoNode
 
         private void TriggerOnStart()
         {
-            FlowUtils.TriggerFlow(flowOutputPort);
+            FlowUtils.TriggerFlow(FlowOutputPort);
         }
 
         private void TriggerWhilePlay()

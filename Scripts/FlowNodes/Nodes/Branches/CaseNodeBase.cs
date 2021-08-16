@@ -37,7 +37,7 @@ namespace XMonoNode
         {
             if (Case.Length <= 0)
             {
-                FlowUtils.TriggerFlow(flowOutputPort);
+                FlowUtils.TriggerFlow(FlowOutputPort);
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace XMonoNode
 
             if (caseDefault)
             {
-                FlowUtils.TriggerFlow(flowOutputPort);
+                FlowUtils.TriggerFlow(FlowOutputPort);
             }
         }
 
