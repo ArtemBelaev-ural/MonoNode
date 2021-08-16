@@ -84,37 +84,26 @@ namespace XMonoNode
             return instanciatedContainer;
         }
 
-        public FlowNodeGraph Flow(params object[] parameters)
+        public void Flow(params object[] parameters)
         {
             if (GetContainer() == null)
             {
                 Debug.LogErrorFormat("Container is null, {0}", FullPath);
-                return null;
+                return;
             }
 
-            return GetContainer().Flow(graphId, parameters);
+            GetContainer().Flow(graphId, parameters);
         }
 
-        public FlowNodeGraph Flow(Dictionary<string, object> parameters)
+        public void Flow(Dictionary<string, object> parameters)
         {
             if (GetContainer() == null)
             {
                 Debug.LogErrorFormat("Container is null, {0}", FullPath);
-                return null;
+                return;
             }
 
-            return GetContainer().Flow(graphId, parameters);
-        }
-
-        public FlowNodeGraph Get()
-        {
-            if (GetContainer() == null)
-            {
-                Debug.LogErrorFormat("Container is null, {0}", FullPath);
-                return null;
-            }
-
-            return GetContainer().Get(graphId);
+            GetContainer().Flow(graphId, parameters);
         }
 
         public void UpdateParameters(params object[] parameters)
