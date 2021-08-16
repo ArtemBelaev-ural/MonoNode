@@ -5,10 +5,14 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForNextFrame", 536)]
-    public class WaitForNextFrame : FlowNode
+    public class WaitForNextFrameNode : FlowNode
     {
         private long flowUpdateNumber = -1;
 
+        private void Reset()
+        {
+            Name = "Wait For Next Frame";
+        }
         protected override void Init()
         {
             base.Init();

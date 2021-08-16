@@ -4,8 +4,13 @@ using UnityEngine;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitWhile", 534)]
-    public class WaitWhile : WaitBase
+    public class WaitWhileNode : WaitBase
     {
+        private void Reset()
+        {
+            Name = "Wait While";
+        }
+
         public override void Flow(NodePort flowPort)
         {
             triggered = true;

@@ -5,11 +5,16 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForSeconds", 532)]
-    public class WaitForSeconds : FlowNode
+    public class WaitForSecondsNode : FlowNode
     {
         [Input] public float WaitSeconds;
 
         private bool flow = false;
+
+        private void Reset()
+        {
+            Name = "Wait For Seconds";
+        }
 
         protected override void Init()
         {

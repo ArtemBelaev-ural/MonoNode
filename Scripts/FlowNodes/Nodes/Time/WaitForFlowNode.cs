@@ -5,7 +5,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForFlow", 535)]
-    public class WaitForFlow : FlowNode
+    public class WaitForFlowNode : FlowNode
     {
         [Input] public Flow flow;
 
@@ -14,6 +14,11 @@ namespace XMonoNode
         private NodePort enterPort;
         private NodePort onFlowPort;
         private NodePort exitPort;
+
+        private void Reset()
+        {
+            Name = "Wait For Flow";
+        }
 
         protected override void Init()
         {
