@@ -179,7 +179,7 @@ namespace XMonoNode
         private void StartTimer()
         {
             state = TimerState.Started;
-            FlowUtils.TriggerFlow(startedPort);
+            FlowUtils.FlowOutput(startedPort);
             duration = durationPort.GetInputValue(duration);
             remainingSec = duration;
         }
@@ -189,7 +189,7 @@ namespace XMonoNode
             if (state == TimerState.Started)
             {
                 state = TimerState.Paused;
-                FlowUtils.TriggerFlow(startedPort);
+                FlowUtils.FlowOutput(startedPort);
             }
         }
 
@@ -211,7 +211,7 @@ namespace XMonoNode
         private void TickTimer()
         {
             remainingSec -= Time.deltaTime;
-            FlowUtils.TriggerFlow(tickPort);
+            FlowUtils.FlowOutput(tickPort);
             if (remainingSec <= 0.0f)
             {
                 TimerCompleted();
@@ -221,7 +221,7 @@ namespace XMonoNode
         private void TimerCompleted()
         {
             state = TimerState.Stopped;
-            FlowUtils.TriggerFlow(completedPort);
+            FlowUtils.FlowOutput(completedPort);
         }
     }
 }

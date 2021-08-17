@@ -182,17 +182,17 @@ namespace XMonoNode
 
         private void TriggerOnStart()
         {
-            FlowUtils.TriggerFlow(FlowOutputPort);
+            FlowUtils.FlowOutput(FlowOutputPort);
         }
 
         private void TriggerWhilePlay()
         {
-            FlowUtils.TriggerFlow(wnilePlayPort);
+            FlowUtils.FlowOutput(wnilePlayPort);
         }
 
         private void TriggerOnEnd()
         {
-            FlowUtils.TriggerFlow(onEndPort);
+            FlowUtils.FlowOutput(onEndPort);
         }
 
     }

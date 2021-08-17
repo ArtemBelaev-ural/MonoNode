@@ -39,7 +39,7 @@ namespace XMonoNode
 
         public virtual void TriggerFlow()
         {
-            FlowUtils.TriggerFlow(FlowOutputPort);
+            FlowUtils.FlowOutput(FlowOutputPort);
         }
 
         /// <summary>

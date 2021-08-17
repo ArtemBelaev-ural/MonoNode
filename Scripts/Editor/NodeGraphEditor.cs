@@ -74,6 +74,14 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary>
+        /// Add custom context menu items for hovered port
+        /// </summary>
+        public virtual void addCustomContextMenuItemsForPort(GenericMenu contextMenu, XMonoNode.NodePort hoveredPort)
+        {
+            
+        }
+
+        /// <summary>
         /// Add items for the context menu when right-clicking this node.
         /// Override to add custom menu items.
         /// </summary>

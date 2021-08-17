@@ -32,7 +32,7 @@ namespace XMonoNode
                 randomValue -= Mathf.Abs(FlowOutputWeights[i]);
                 if (randomValue <= 0)
                 {
-                    FlowUtils.TriggerFlow(GetOutputPort($"{nameof(FlowOutputWeights)} {i}"));
+                    FlowUtils.FlowOutput(GetOutputPort($"{nameof(FlowOutputWeights)} {i}"));
                     return;
                 }
             }

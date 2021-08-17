@@ -58,7 +58,7 @@ namespace XMonoNodeEditor {
             {
                 if (NodeEditorPreferences.GetSettings().showPortButton(buttonAttribute))
                 {
-                    GUILayout.Button(label != null ? label : new GUIContent(property.displayName), buttonAttribute.Options);
+                    GUILayout.Button(label != null ? label : new GUIContent(property.displayName));
                 }
                 else
                 {

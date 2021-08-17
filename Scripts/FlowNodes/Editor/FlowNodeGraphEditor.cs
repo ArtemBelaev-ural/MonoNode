@@ -62,20 +62,17 @@ namespace FlowNodesEditor
                 {
                     if (port != null && port.ValueType == typeof(Flow) && NodeEditorUtilities.GetPortButtonPressed(port))
                     {
-                        if (port.direction == NodePort.IO.Output)
-                        {
-                            FlowUtils.TriggerFlow(port);
-                        }
-                        else
-                        {
-                            IFlowNode flowNode = node as IFlowNode;
-                            if (flowNode != null)
-                            {
-                                flowNode.Flow(port);
-                            }
-                        }
+                        FlowUtils.Flow(port);
                     }
                 }
+            }
+        }
+
+        public override void addCustomContextMenuItemsForPort(GenericMenu contextMenu, NodePort hoveredPort)
+        {
+            if (hoveredPort.ValueType == typeof(Flow))
+            {
+                contextMenu.AddItem(new GUIContent("Flow"), false, () => FlowUtils.Flow(hoveredPort));
             }
         }
 

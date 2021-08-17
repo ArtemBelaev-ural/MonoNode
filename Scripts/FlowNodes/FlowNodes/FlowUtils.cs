@@ -6,7 +6,7 @@ namespace XMonoNode
 {
     public static class FlowUtils
     {
-        public static void TriggerFlow(NodePort output)
+        public static void FlowOutput(NodePort output)
         {
             if (output == null)
             {
@@ -21,11 +21,7 @@ namespace XMonoNode
                 if (inputPort.ValueType == typeof(Flow))
                 {
                     connectedInputPorts.Add(inputPort);
-                    var flowNode = inputPort.node as IFlowNode;
-                    if (flowNode != null)
-                    {
-                        flowNode.Flow(inputPort);
-                    }
+                    FlowInput(inputPort);
                 }
             }
 
@@ -36,6 +32,27 @@ namespace XMonoNode
                 {
                     flowNode.TriggerFlow();
                 }
+            }
+        }
+
+        public static void FlowInput(NodePort port)
+        {
+            var flowNode = port.node as IFlowNode;
+            if (flowNode != null)
+            {
+                flowNode.Flow(port);
+            }
+        }
+
+        public static void Flow(NodePort port)
+        {
+            if (port.direction == NodePort.IO.Output)
+            {
+                FlowOutput(port);
+            }
+            else
+            {
+                FlowInput(port);
             }
         }
     }

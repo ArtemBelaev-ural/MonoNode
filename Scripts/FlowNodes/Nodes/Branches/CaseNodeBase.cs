@@ -37,7 +37,7 @@ namespace XMonoNode
         {
             if (Case.Length <= 0)
             {
-                FlowUtils.TriggerFlow(FlowOutputPort);
+                FlowUtils.FlowOutput(FlowOutputPort);
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace XMonoNode
             {
                 if (Switch.Equals(Case[i]))
                 {
-                    FlowUtils.TriggerFlow(GetOutputPort($"{nameof(Case)} {i}"));
+                    FlowUtils.FlowOutput(GetOutputPort($"{nameof(Case)} {i}"));
                     caseDefault = false;
                     // return; may be multiple choices!
                 }
@@ -56,7 +56,7 @@ namespace XMonoNode
 
             if (caseDefault)
             {
-                FlowUtils.TriggerFlow(FlowOutputPort);
+                FlowUtils.FlowOutput(FlowOutputPort);
             }
         }
 

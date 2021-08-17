@@ -23,7 +23,7 @@ namespace XMonoNode
 
         public void TriggerFlow()
         {
-            FlowUtils.TriggerFlow(FlowOutputPort);
+            FlowUtils.FlowOutput(FlowOutputPort);
         }
 
         public override object GetValue(NodePort port)

@@ -38,7 +38,7 @@ namespace XMonoNode
         {
             if (flowUpdateNumber == Time.frameCount)
             {
-                FlowUtils.TriggerFlow(FlowOutputPort);
+                FlowUtils.FlowOutput(FlowOutputPort);
                 flowUpdateNumber = -1;
             }
         }

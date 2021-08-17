@@ -35,7 +35,7 @@ namespace XMonoNode
         public override void Flow(NodePort flowPort)
         {
             NodePort output = conditionPort.GetInputValue(condition) ? ifPort : elsePort;
-            FlowUtils.TriggerFlow(output);
+            FlowUtils.FlowOutput(output);
         }
 
         public override object GetValue(NodePort port)

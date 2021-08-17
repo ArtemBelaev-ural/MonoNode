@@ -30,7 +30,7 @@ namespace XMonoNode
             var stringA = GetInputValue(nameof(StringTrue), StringTrue);
             var stringB = GetInputValue(nameof(StringFalse), StringFalse);
 
-            FlowUtils.TriggerFlow(stringA == stringB ? FlowOutputPort : portOutFalse);
+            FlowUtils.FlowOutput(stringA == stringB ? FlowOutputPort : portOutFalse);
         }
 
         public override void Flow(NodePort flowPort)

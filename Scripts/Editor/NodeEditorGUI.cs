@@ -451,16 +451,24 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Show right-click context menu for hovered port </summary>
-        void ShowPortContextMenu(XMonoNode.NodePort hoveredPort) {
+        void ShowPortContextMenu(XMonoNode.NodePort hoveredPort)
+        {
             GenericMenu contextMenu = new GenericMenu();
-            foreach (var port in hoveredPort.GetConnections()) {
+            graphEditor.addCustomContextMenuItemsForPort(contextMenu, hoveredPort);
+            if (contextMenu.GetItemCount() != 0)
+            {
+                contextMenu.AddSeparator("");
+            }
+            foreach (var port in hoveredPort.GetConnections())
+            {
                 var name = port.node.Name;
                 var index = hoveredPort.GetConnectionIndex(port);
                 contextMenu.AddItem(new GUIContent(string.Format("Disconnect({0})", name)), false, () => hoveredPort.Disconnect(index));
             }
             contextMenu.AddItem(new GUIContent("Clear Connections"), false, () => hoveredPort.ClearConnections());
             //Get compatible nodes with this port
-            if (NodeEditorPreferences.GetSettings().createFilter) {
+            if (NodeEditorPreferences.GetSettings().createFilter)
+            {
                 contextMenu.AddSeparator("");
 
                 if (hoveredPort.direction == XMonoNode.NodePort.IO.Input)
@@ -469,7 +477,8 @@ namespace XMonoNodeEditor {
                     graphEditor.AddContextMenuItems(contextMenu, hoveredPort.ValueType, XMonoNode.NodePort.IO.Input);
             }
             contextMenu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero));
-            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+            if (NodeEditorPreferences.GetSettings().autoSave)
+                AssetDatabase.SaveAssets();
         }
 
         static Vector2 CalculateBezierPoint(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t) {
