@@ -8,6 +8,11 @@ namespace XMonoNode
     {
         public static void TriggerFlow(NodePort output)
         {
+            if (output == null)
+            {
+                return;
+            }
+
             var connectedInputPorts = new List<NodePort>();
             
             for (int i = 0; i < output.ConnectionCount; ++i)

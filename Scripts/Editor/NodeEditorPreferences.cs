@@ -53,6 +53,7 @@ namespace XMonoNodeEditor {
             public MouseScrollAction mouseWheelAction = MouseScrollAction.ScrollVertical;
             public bool zoomToMouse = true;
             public bool portTooltips = true;
+            public bool flowPortButtons = true;
             public bool showNodePalette = true;
             public int nodePaletteWidth = 200;
             [SerializeField] private string typeColorsData = "";
@@ -62,6 +63,13 @@ namespace XMonoNodeEditor {
             public DrawingSequence drawingSequence = DrawingSequence.NodesOverConnections;
 
             public NoodleStroke noodleStroke = NoodleStroke.Full;
+
+            public bool showPortButton(XMonoNode.NodeInspectorButtonAttribute buttonAttribute)
+            {
+                return buttonAttribute != null &&
+                    (buttonAttribute.ShowButton == XMonoNode.NodeInspectorButtonShow.Always ||
+                    flowPortButtons && buttonAttribute.ShowButton == XMonoNode.NodeInspectorButtonShow.Settings);
+            }
 
             private Texture2D _gridTexture;
             public Texture2D gridTexture {
@@ -188,6 +196,7 @@ namespace XMonoNodeEditor {
             settings.noodleStroke = (NoodleStroke) EditorGUILayout.EnumPopup("Noodle stroke", (Enum) settings.noodleStroke);
             settings.drawingSequence = (DrawingSequence)EditorGUILayout.EnumPopup("Drawing Sequence", (Enum)settings.drawingSequence);
             settings.portTooltips = EditorGUILayout.Toggle("Port Tooltips", settings.portTooltips);
+            settings.flowPortButtons = EditorGUILayout.Toggle(new GUIContent("Flow Port Buttons", "Disable to prevent port buttons rendering"), settings.flowPortButtons);
             settings.dragToCreate = EditorGUILayout.Toggle(new GUIContent("Drag to Create", "Drag a port connection anywhere on the grid to create and connect a node"), settings.dragToCreate);
             settings.createFilter = EditorGUILayout.Toggle(new GUIContent("Create Filter", "Only show nodes that are compatible with the selected port"), settings.createFilter);
             settings.showNodePalette = EditorGUILayout.Toggle(new GUIContent("Node Palette", "Show Node Palette button in left up corner"), settings.showNodePalette);

@@ -1,6 +1,6 @@
 ﻿namespace XMonoNode
 {
-    public interface IFlowNode
+    public interface IFlowNode : INode
     {
         void Flow(NodePort flowPort);
         void Stop();

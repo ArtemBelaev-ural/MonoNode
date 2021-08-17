@@ -15,45 +15,75 @@ namespace XMonoNodeEditor {
         private static int reorderableListIndex = -1;
 
         /// <summary> Make a field for a serialized property. Automatically displays relevant node port. </summary>
-        public static void PropertyField(SerializedProperty property, bool includeChildren = true, params GUILayoutOption[] options) {
+        public static void PropertyField(SerializedProperty property, bool includeChildren = true, params GUILayoutOption[] options)
+        {
             PropertyField(property, (GUIContent)null, includeChildren, options);
         }
 
         /// <summary> Make a field for a serialized property. Automatically displays relevant node port. </summary>
-        public static void PropertyField(SerializedProperty property, GUIContent label, bool includeChildren = true, params GUILayoutOption[] options) {
-            if (property == null) throw new NullReferenceException();
+        public static void PropertyField(SerializedProperty property, GUIContent label, bool includeChildren = true, params GUILayoutOption[] options)
+        {
+            if (property == null)
+                throw new NullReferenceException();
+
             XMonoNode.INode node = property.serializedObject.targetObject as XMonoNode.INode;
+
+            if (NodeEditorUtilities.GetCachedAttrib(node.GetType(), property.name, out XMonoNode.HideInNodeInspectorAttribute hideAttribute))
+            {
+                return;
+            }
+
             XMonoNode.NodePort port = node.GetPort(property.name);
-            PropertyField(property, label, port, includeChildren);
+
+            PropertyField(property, label, node, port, includeChildren);
         }
 
         /// <summary> Make a field for a serialized property. Manual node port override. </summary>
-        public static void PropertyField(SerializedProperty property, XMonoNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options) {
-            PropertyField(property, null, port, includeChildren, options);
+        public static void PropertyField(SerializedProperty property, XMonoNode.INode node, XMonoNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options)
+        {
+            PropertyField(property, null, node, port, includeChildren, options);
         }
 
         /// <summary> Make a field for a serialized property. Manual node port override. </summary>
-        public static void PropertyField(SerializedProperty property, GUIContent label, XMonoNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options) {
-            if (property == null) throw new NullReferenceException();
+        public static void PropertyField(SerializedProperty property, GUIContent label, XMonoNode.INode node, XMonoNode.NodePort port, bool includeChildren = true, params GUILayoutOption[] options)
+        {
+            if (property == null)
+                throw new NullReferenceException();
+
+
+            NodeEditorUtilities.GetCachedAttrib(node.GetType(), property.name, out XMonoNode.NodeInspectorButtonAttribute buttonAttribute);
 
             // If property is not a port, display a regular property field
-            if (port == null) EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
-            else {
+            if (port == null)
+            {
+                if (NodeEditorPreferences.GetSettings().showPortButton(buttonAttribute))
+                {
+                    GUILayout.Button(label != null ? label : new GUIContent(property.displayName), buttonAttribute.Options);
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+                }
+            }
+            else
+            {
                 Rect rect = new Rect();
-                
+
                 List<PropertyAttribute> propertyAttributes = NodeEditorUtilities.GetCachedPropertyAttribs(port.node.GetType(), property.name);
 
                 // If property is an input, display a regular property field and put a port handle on the left side
-                if (port.direction == XMonoNode.NodePort.IO.Input) {
+                if (port.direction == XMonoNode.NodePort.IO.Input)
+                {
                     // Get data from [Input] attribute
                     XMonoNode.ShowBackingValue showBacking = XMonoNode.ShowBackingValue.Unconnected;
                     XMonoNode.InputAttribute inputAttribute;
                     bool dynamicPortList = false;
-                    if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out inputAttribute)) {
+                    if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out inputAttribute))
+                    {
                         dynamicPortList = inputAttribute.dynamicPortList;
                         showBacking = inputAttribute.backingValue;
-                        
-                        label = new GUIContent(ObjectNames.NicifyVariableName(port.label));
+
+                        label = portGuiContent(port);
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||
@@ -62,59 +92,87 @@ namespace XMonoNodeEditor {
 
                     float spacePadding = 0;
                     string tooltip = null;
-                    foreach (var attr in propertyAttributes) {
-                        if (attr is SpaceAttribute) {
-                            if (usePropertyAttributes) GUILayout.Space((attr as SpaceAttribute).height);
-                            else spacePadding += (attr as SpaceAttribute).height;
-                        } else if (attr is HeaderAttribute) {
-                            if (usePropertyAttributes) {
+
+                    foreach (var attr in propertyAttributes)
+                    {
+                        if (attr is SpaceAttribute)
+                        {
+                            if (usePropertyAttributes)
+                                GUILayout.Space((attr as SpaceAttribute).height);
+                            else
+                                spacePadding += (attr as SpaceAttribute).height;
+                        }
+                        else if (attr is HeaderAttribute)
+                        {
+                            if (usePropertyAttributes)
+                            {
                                 //GUI Values are from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/ScriptAttributeGUI/Implementations/DecoratorDrawers.cs
                                 Rect position = GUILayoutUtility.GetRect(0, (EditorGUIUtility.singleLineHeight * 1.5f) - EditorGUIUtility.standardVerticalSpacing); //Layout adds standardVerticalSpacing after rect so we subtract it.
                                 position.yMin += EditorGUIUtility.singleLineHeight * 0.5f;
                                 position = EditorGUI.IndentedRect(position);
                                 GUI.Label(position, (attr as HeaderAttribute).header, EditorStyles.boldLabel);
-                            } else spacePadding += EditorGUIUtility.singleLineHeight * 1.5f;
-                        } else if (attr is TooltipAttribute) {
+                            }
+                            else
+                                spacePadding += EditorGUIUtility.singleLineHeight * 1.5f;
+                        }
+                        else if (attr is TooltipAttribute)
+                        {
                             tooltip = (attr as TooltipAttribute).tooltip;
                         }
                     }
 
-                    if (dynamicPortList) {
+                    if (dynamicPortList)
+                    {
                         Type type = GetType(property);
                         XMonoNode.ConnectionType connectionType = inputAttribute != null ? inputAttribute.connectionType : XMonoNode.ConnectionType.Multiple;
                         DynamicPortList(property.name, type, property.serializedObject, port.direction, connectionType);
                         return;
                     }
-                    switch (showBacking) {
-                        case XMonoNode.ShowBackingValue.Unconnected:
-                            // Display a label if port is connected
-                            if (port.IsConnected) EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
-                            // Display an editable property field if port is not connected
-                            else PropertyField(property, label, includeChildren);
-                            break;
-                        case XMonoNode.ShowBackingValue.Never:
-                            // Display a label
-                            EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
-                            break;
-                        case XMonoNode.ShowBackingValue.Always:
-                            // Display an editable property field
-                            PropertyField(property, label, includeChildren);
-                            break;
+
+                    if (NodeEditorPreferences.GetSettings().showPortButton(buttonAttribute))
+                    {
+
+                        NodeEditorUtilities.AddPortButtonPressed(port, GUILayout.Button(label));
+                    }
+                    else
+                    {
+                        switch (showBacking)
+                        {
+                            case XMonoNode.ShowBackingValue.Unconnected:
+                                // Display a label if port is connected
+                                if (port.IsConnected)
+                                    EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
+                                // Display an editable property field if port is not connected
+                                else
+                                    PropertyField(property, label, includeChildren);
+                                break;
+                            case XMonoNode.ShowBackingValue.Never:
+                                // Display a label
+                                EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
+                                break;
+                            case XMonoNode.ShowBackingValue.Always:
+                                // Display an editable property field
+                                PropertyField(property, label, includeChildren);
+                                break;
+                        }
                     }
 
                     rect = GUILayoutUtility.GetLastRect();
                     float paddingLeft = NodeEditorWindow.current.graphEditor.GetPortStyle(port).padding.left;
                     rect.position = rect.position - new Vector2(16 + paddingLeft, -spacePadding);
                     // If property is an output, display a text label and put a port handle on the right side
-                } else if (port.direction == XMonoNode.NodePort.IO.Output) {
+                }
+                else if (port.direction == XMonoNode.NodePort.IO.Output)
+                {
                     // Get data from [Output] attribute
                     XMonoNode.ShowBackingValue showBacking = XMonoNode.ShowBackingValue.Unconnected;
                     XMonoNode.OutputAttribute outputAttribute;
                     bool dynamicPortList = false;
-                    if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out outputAttribute)) {
+                    if (NodeEditorUtilities.GetCachedAttrib(port.node.GetType(), property.name, out outputAttribute))
+                    {
                         dynamicPortList = outputAttribute.dynamicPortList;
                         showBacking = outputAttribute.backingValue;
-                        label = new GUIContent(ObjectNames.NicifyVariableName(port.label));
+                        label = portGuiContent(port);
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||
@@ -123,44 +181,66 @@ namespace XMonoNodeEditor {
 
                     float spacePadding = 0;
                     string tooltip = null;
-                    foreach (var attr in propertyAttributes) {
-                        if (attr is SpaceAttribute) {
-                            if (usePropertyAttributes) GUILayout.Space((attr as SpaceAttribute).height);
-                            else spacePadding += (attr as SpaceAttribute).height;
-                        } else if (attr is HeaderAttribute) {
-                            if (usePropertyAttributes) {
+                    foreach (var attr in propertyAttributes)
+                    {
+                        if (attr is SpaceAttribute)
+                        {
+                            if (usePropertyAttributes)
+                                GUILayout.Space((attr as SpaceAttribute).height);
+                            else
+                                spacePadding += (attr as SpaceAttribute).height;
+                        }
+                        else if (attr is HeaderAttribute)
+                        {
+                            if (usePropertyAttributes)
+                            {
                                 //GUI Values are from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/ScriptAttributeGUI/Implementations/DecoratorDrawers.cs
                                 Rect position = GUILayoutUtility.GetRect(0, (EditorGUIUtility.singleLineHeight * 1.5f) - EditorGUIUtility.standardVerticalSpacing); //Layout adds standardVerticalSpacing after rect so we subtract it.
                                 position.yMin += EditorGUIUtility.singleLineHeight * 0.5f;
                                 position = EditorGUI.IndentedRect(position);
                                 GUI.Label(position, (attr as HeaderAttribute).header, EditorStyles.boldLabel);
-                            } else spacePadding += EditorGUIUtility.singleLineHeight * 1.5f;
-                        } else if (attr is TooltipAttribute) {
+                            }
+                            else
+                                spacePadding += EditorGUIUtility.singleLineHeight * 1.5f;
+                        }
+                        else if (attr is TooltipAttribute)
+                        {
                             tooltip = (attr as TooltipAttribute).tooltip;
                         }
                     }
 
-                    if (dynamicPortList) {
+                    if (dynamicPortList)
+                    {
                         Type type = GetType(property);
                         XMonoNode.ConnectionType connectionType = outputAttribute != null ? outputAttribute.connectionType : XMonoNode.ConnectionType.Multiple;
                         DynamicPortList(property.name, type, property.serializedObject, port.direction, connectionType);
                         return;
                     }
-                    switch (showBacking) {
-                        case XMonoNode.ShowBackingValue.Unconnected:
-                            // Display a label if port is connected
-                            if (port.IsConnected) EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
-                            // Display an editable property field if port is not connected
-                            else EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
-                            break;
-                        case XMonoNode.ShowBackingValue.Never:
-                            // Display a label
-                            EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
-                            break;
-                        case XMonoNode.ShowBackingValue.Always:
-                            // Display an editable property field
-                            EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
-                            break;
+                    if (NodeEditorPreferences.GetSettings().showPortButton(buttonAttribute))
+                    {
+                        NodeEditorUtilities.AddPortButtonPressed(port, GUILayout.Button(label));
+                    }
+                    else
+                    { 
+                        switch (showBacking)
+                        {
+                            case XMonoNode.ShowBackingValue.Unconnected:
+                                // Display a label if port is connected
+                                if (port.IsConnected)
+                                    EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
+                                // Display an editable property field if port is not connected
+                                else
+                                    EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+                                break;
+                            case XMonoNode.ShowBackingValue.Never:
+                                // Display a label
+                                EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
+                                break;
+                            case XMonoNode.ShowBackingValue.Always:
+                                // Display an editable property field
+                                EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+                                break;
+                        }
                     }
 
                     rect = GUILayoutUtility.GetLastRect();
@@ -206,12 +286,17 @@ namespace XMonoNodeEditor {
             PortField(null, port, options);
         }
 
+        public static GUIContent portGuiContent(XMonoNode.NodePort port)
+        {
+            return new GUIContent(string.IsNullOrEmpty(port.label) ? ObjectNames.NicifyVariableName(port.fieldName) : port.label);
+        }
+
         /// <summary> Make a simple port field. </summary>
         public static void PortField(GUIContent label, XMonoNode.NodePort port, params GUILayoutOption[] options) {
             if (port == null) return;
             if (options == null) options = new GUILayoutOption[] { GUILayout.MinWidth(30) };
             Vector2 position = Vector3.zero;
-            GUIContent content = label != null ? label : new GUIContent(ObjectNames.NicifyVariableName(port.label));
+            GUIContent content = label != null ? label : portGuiContent(port);
 
             // If property is an input, display a regular property field and put a port handle on the left side
             if (port.direction == XMonoNode.NodePort.IO.Input) {
@@ -378,17 +463,23 @@ namespace XMonoNodeEditor {
             string label = arrayData != null ? arrayData.displayName : ObjectNames.NicifyVariableName(fieldName);
 
             list.drawElementCallback =
-                (Rect rect, int index, bool isActive, bool isFocused) => {
+                (Rect rect, int index, bool isActive, bool isFocused) =>
+                {
                     XMonoNode.NodePort port = node.GetPort(fieldName + " " + index);
-                    if (hasArrayData && arrayData.propertyType != SerializedPropertyType.String) {
-                        if (arrayData.arraySize <= index) {
+                    if (hasArrayData && arrayData.propertyType != SerializedPropertyType.String)
+                    {
+                        if (arrayData.arraySize <= index)
+                        {
                             EditorGUI.LabelField(rect, "Array[" + index + "] data out of range");
                             return;
                         }
                         SerializedProperty itemData = arrayData.GetArrayElementAtIndex(index);
                         EditorGUI.PropertyField(rect, itemData, true);
-                    } else EditorGUI.LabelField(rect, port != null ? port.fieldName : "");
-                    if (port != null) {
+                    }
+                    else
+                        EditorGUI.LabelField(rect, port != null ? port.fieldName : "");
+                    if (port != null)
+                    {
                         Vector2 pos = rect.position + (port.IsOutput ? new Vector2(rect.width + 6, 0) : new Vector2(-36, 0));
                         NodeEditorGUILayout.PortField(pos, port);
                     }

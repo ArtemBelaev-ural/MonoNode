@@ -11,12 +11,14 @@ namespace XMonoNode
     [AddComponentMenu("X Sound Node/Play", 1)]
     [CreateNodeMenu("Sound/Play", 1)]
     [NodeTint(105, 65, 65)]
-    [NodeWidth(180)]
+    [NodeWidth(160)]
     [ExecuteInEditMode]
     public class XSoundNodePlay : FlowNode
     {
-        [Output] public Flow whilePlay;
-        [Output] public Flow onEnd;
+        [Output, NodeInspectorButton] public Flow whilePlay;
+        [Output, NodeInspectorButton] public Flow onEnd;
+
+        [Input, NodeInspectorButton] public Flow stop;
 
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
         public AudioSources audioInput = new AudioSources();
@@ -32,6 +34,8 @@ namespace XMonoNode
         // Вспомогательный признак, позволяющий определить, что нода запустила сама себя
         private bool playingState = false;
 
+        protected NodePort stopPort;
+
         protected NodePort wnilePlayPort;
         protected NodePort onEndPort;
 
@@ -40,6 +44,10 @@ namespace XMonoNode
             if (flowPort == FlowInputPort)
             {
                 Play(PlayParameters);
+            }
+            else if (flowPort == stopPort)
+            {
+                Stop();
             }
         }
 
@@ -53,14 +61,16 @@ namespace XMonoNode
             Name = "Play";
         }
 
-        public override void OnNodeEnable()
+        protected override void Init()
         {
-            base.OnNodeEnable();
+            base.Init();
 
             // Для удобства изменим подпись к стандартным flow портам
 
             FlowInputPort.label = "Play";
             FlowOutputPort.label = "On Start";
+
+            stopPort = GetInputPort(nameof(stop));
 
             wnilePlayPort = GetOutputPort(nameof(whilePlay));
             onEndPort = GetOutputPort(nameof(onEnd));

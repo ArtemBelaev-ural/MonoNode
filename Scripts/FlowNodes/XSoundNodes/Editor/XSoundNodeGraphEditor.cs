@@ -43,6 +43,7 @@ namespace XMonoNode
             {
                 Graph.Stop();
             }
+            NodeEditorPreferences.GetSettings().flowPortButtons = GUILayout.Toggle(NodeEditorPreferences.GetSettings().flowPortButtons, "Buttons", EditorStyles.toolbarButton);
         }
 
         public override string GetPortTooltip(XMonoNode.NodePort port)

@@ -83,7 +83,8 @@ namespace XMonoNodeEditor {
             // Iterate through serialized properties and draw them like the Inspector (But with ports)
             SerializedProperty iterator = serializedObject.GetIterator();
             bool enterChildren = true;
-            while (iterator.NextVisible(enterChildren)) {
+            while (iterator.NextVisible(enterChildren))
+            {
                 enterChildren = false;
                 if (excludes.Contains(iterator.name)) continue;
                 NodeEditorGUILayout.PropertyField(iterator, true);

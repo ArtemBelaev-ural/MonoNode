@@ -6,34 +6,31 @@ using XMonoNodeEditor;
 
 namespace XMonoNode
 {
-    [CustomNodeEditor(typeof(XSoundNodePlay))]
-    public class XSoundNodePlayEditor : NodeEditor
-    {
-        private XSoundNodePlay node = null;
+    //[CustomNodeEditor(typeof(XSoundNodePlay))]
+    //public class XSoundNodePlayEditor : NodeEditor
+    //{
+    //    private XSoundNodePlay node = null;
 
-        public override void OnBodyGUI()
-        {
-            base.OnBodyGUI();
+    //    public override void OnBodyGUI()
+    //    {
+    //        base.OnBodyGUI();
 
-            if (node == null)
-            {
-                node = target as XSoundNodePlay;
-            }
+            
 
-            serializedObject.Update();
+    //        serializedObject.Update();
 
-            EditorGUILayout.BeginHorizontal();
-            if (EditorGUILayout.LinkButton("[play]"))
-            {
-                node.TestPlay();
-            }
-            if (EditorGUILayout.LinkButton("[stop]"))
-            {
-                node.Stop();
-            }
-            EditorGUILayout.EndHorizontal();
-        }
-    }
+    //        EditorGUILayout.BeginHorizontal();
+    //        if (EditorGUILayout.LinkButton("[play]"))
+    //        {
+    //            node.TestPlay();
+    //        }
+    //        if (EditorGUILayout.LinkButton("[stop]"))
+    //        {
+    //            node.Stop();
+    //        }
+    //        EditorGUILayout.EndHorizontal();
+    //    }
+    //}
 
     [CustomPropertyDrawer(typeof(XSoundSelectorAttribute))]
     public class XSoundSelectorDrawer: PropertyDrawer

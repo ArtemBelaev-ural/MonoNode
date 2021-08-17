@@ -7,8 +7,8 @@ namespace XMonoNode
     [CreateNodeMenu("Branch/" + nameof(If), 11)]
     public class If : FlowNode
     {
-        [Input] public bool condition;
-        [Output] public Flow Else;
+        [Input, NodeInspectorButton] public bool condition;
+        [Output, NodeInspectorButton] public Flow Else;
 
         NodePort conditionPort;
         NodePort ifPort;

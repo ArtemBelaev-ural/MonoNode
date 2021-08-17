@@ -7,7 +7,7 @@ namespace XMonoNode
     [CreateNodeMenu("Time/WaitForFlow", 535)]
     public class WaitForFlowNode : FlowNode
     {
-        [Input] public Flow flow;
+        [Input, NodeInspectorButton] public Flow flow;
 
         private bool triggered = false;
 

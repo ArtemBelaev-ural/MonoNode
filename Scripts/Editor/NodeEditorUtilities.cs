@@ -6,11 +6,31 @@ using System.Reflection;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using XMonoNode;
 using Object = UnityEngine.Object;
 
-namespace XMonoNodeEditor {
+namespace XMonoNodeEditor
+{
     /// <summary> A set of editor-only utilities and extensions for xNode </summary>
-    public static class NodeEditorUtilities {
+    public static class NodeEditorUtilities
+    {
+        private static Dictionary<NodePort, bool> portButtonPressed = new Dictionary<NodePort, bool>();
+
+        public static void AddPortButtonPressed(NodePort port, bool pressed)
+        {
+            portButtonPressed[port] = pressed;
+        }
+
+        public static bool GetPortButtonPressed(NodePort port)
+        {
+            portButtonPressed.TryGetValue(port, out bool pressed);
+            return pressed;
+        }
+
+        public static void ClearPortButtonPressed()
+        {
+            portButtonPressed.Clear();
+        }
 
         /// <summary>C#'s Script Icon [The one MonoBhevaiour Scripts have].</summary>
         private static Texture2D scriptIcon = (EditorGUIUtility.IconContent("cs Script Icon").image as Texture2D);
@@ -20,6 +40,8 @@ namespace XMonoNodeEditor {
 
         /// Saves ordered PropertyAttribute from Type+Field for faster lookup. Resets on recompiles.
         private static Dictionary<Type, Dictionary<string, List<PropertyAttribute>>> typeOrderedPropertyAttributes = new Dictionary<Type, Dictionary<string, List<PropertyAttribute>>>();
+
+        
 
         public static bool GetAttrib<T>(Type classType, out T attribOut) where T : Attribute {
             object[] attribs = classType.GetCustomAttributes(typeof(T), false);

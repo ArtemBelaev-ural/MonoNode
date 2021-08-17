@@ -139,4 +139,17 @@ namespace FlowNodesEditor
     {
     }
 
+    [CustomNodeEditor(typeof(ButtonNode))]
+    public class ButtonNodeEditor : NodeEditor
+    {
+        public ButtonNode Node => target as ButtonNode;
+
+        public override void OnBodyGUI()
+        {
+            Node.FlowOutputPort.label = Node.ButtonText;
+            base.OnBodyGUI();
+        }
+    }
+
+
 }

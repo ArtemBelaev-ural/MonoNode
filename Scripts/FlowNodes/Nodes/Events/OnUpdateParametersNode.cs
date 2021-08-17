@@ -12,7 +12,7 @@ namespace XMonoNode
         protected override void Init()
         {
             base.Init();
-            flowOutputPort.label = "OnUpdateParameters";
+            FlowOutputPort.label = "OnUpdateParameters";
         }
 
         private void Reset()

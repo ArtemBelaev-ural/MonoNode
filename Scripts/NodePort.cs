@@ -37,17 +37,11 @@ namespace XMonoNode {
         public bool IsInput { get { return direction == IO.Input; } }
         public bool IsOutput { get { return direction == IO.Output; } }
 
-        public string fieldName { get { return _fieldName; } }
+        public string fieldName => _fieldName;
         public string label
         {
-            get
-            {
-                return string.IsNullOrEmpty(_label) ? _fieldName : _label;
-            }
-            set
-            {
-                _label = value;
-            }
+            get => /*string.IsNullOrEmpty(_label) ? _fieldName :*/ _label;
+            set => _label = value;
         }
         public INode node { get { return _node as INode; } }
         public bool IsDynamic { get { return _dynamic; } }
@@ -64,8 +58,8 @@ namespace XMonoNode {
         }
         private Type valueType;
 
-        [SerializeField] private string _fieldName;
-        [SerializeField] private string _label;
+        [SerializeField] private string _fieldName = "";
+        [SerializeField] private string _label = "";
         [SerializeField] private UnityEngine.Object _node;
         [SerializeField] private string _typeQualifiedName;
         [SerializeField] private List<PortConnection> connections = new List<PortConnection>();

@@ -6,12 +6,12 @@ namespace XMonoNode
     {
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.None), NodeInspectorButton]
         public Flow FlowInput;
 
         [Output(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.None), NodeInspectorButton]
         public Flow FlowOutput;
 
         private NodePort flowInputPort;

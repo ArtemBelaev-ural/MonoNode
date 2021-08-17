@@ -9,14 +9,12 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public T    Switch = default(T);
 
-        [Output(dynamicPortList: true)]
-        public T[]  Case;
+        [Output(dynamicPortList: true), NodeInspectorButton]
+        public T[]  Case = new T[0];
 
-        public override void OnNodeEnable()
+        protected override void Init()
         {
-            base.OnNodeEnable();
-            // Для удобства изменим подпись к стандартным flow портам
-
+            base.Init();
             NodePort portIn = GetInputPort(nameof(FlowInput));
             if (portIn != null)
             {
@@ -29,11 +27,13 @@ namespace XMonoNode
             }
         }
 
-        public override void Flow(NodePort flowPort)
+        public override void OnNodeEnable()
         {
+            base.OnNodeEnable();
+            // Для удобства изменим подпись к стандартным flow портам
         }
 
-        public override void TriggerFlow()
+        public override void Flow(NodePort flowPort)
         {
             if (Case.Length <= 0)
             {
@@ -58,6 +58,11 @@ namespace XMonoNode
             {
                 FlowUtils.TriggerFlow(FlowOutputPort);
             }
+        }
+
+        public override void TriggerFlow()
+        {
+            
         }
 
         // Return the correct value of an output port when requested

@@ -777,6 +777,8 @@ namespace XMonoNodeEditor {
 
             if (e.type == EventType.Layout) culledNodes.Clear();
 
+            NodeEditorUtilities.ClearPortButtonPressed();
+
             XMonoNode.INode[] nodes = (graph as XMonoNode.INodeGraph).GetNodes();
 
             for (int n = 0; n < nodes.Length; n++) {
@@ -838,7 +840,8 @@ namespace XMonoNodeEditor {
                 nodeEditor.OnBodyGUI();
 
                 //If user changed a value, notify other scripts through onUpdateNode
-                if (EditorGUI.EndChangeCheck()) {
+                if (EditorGUI.EndChangeCheck())
+                {
                     if (NodeEditor.onUpdateNode != null) NodeEditor.onUpdateNode(node);
                     EditorUtility.SetDirty(node as UnityEngine.Object);
                     nodeEditor?.serializedObject.ApplyModifiedProperties();

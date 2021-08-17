@@ -44,8 +44,44 @@ namespace FlowNodesEditor
             }
         }
 
+        public override void OnGUI()
+        {
+            base.OnGUI();
+
+            if (Graph == null)
+            {
+                return;
+            }
+
+            INode[] nodes = Graph.GetNodes();
+
+            foreach (var node in nodes)
+            {
+                var ports = node.Ports;
+                foreach (NodePort port in ports)
+                {
+                    if (port != null && port.ValueType == typeof(Flow) && NodeEditorUtilities.GetPortButtonPressed(port))
+                    {
+                        if (port.direction == NodePort.IO.Output)
+                        {
+                            FlowUtils.TriggerFlow(port);
+                        }
+                        else
+                        {
+                            IFlowNode flowNode = node as IFlowNode;
+                            if (flowNode != null)
+                            {
+                                flowNode.Flow(port);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public override void OnToolBarGUI()
         {
+
             if (GUILayout.Button(new GUIContent("Flow"), EditorStyles.toolbarButton))
             {
                 Graph.Flow();
@@ -55,6 +91,8 @@ namespace FlowNodesEditor
             {
                 Graph.Stop();
             }
+
+            NodeEditorPreferences.GetSettings().flowPortButtons = GUILayout.Toggle(NodeEditorPreferences.GetSettings().flowPortButtons, "Buttons", EditorStyles.toolbarButton);
         }
 
         public override float GetNoodleThickness(NodePort output, NodePort input)
@@ -88,7 +126,7 @@ namespace FlowNodesEditor
             Type portType = port.ValueType;
             if (portType == typeof(Flow))
             {
-                return (port.direction == NodePort.IO.Input ? "Input " : "Output ") + portType.Name + ": " + port.label;
+                return (port.direction == NodePort.IO.Input ? "Input " : "Output ") + portType.Name + ": " + NodeEditorGUILayout.portGuiContent(port);
             }
             else
             {

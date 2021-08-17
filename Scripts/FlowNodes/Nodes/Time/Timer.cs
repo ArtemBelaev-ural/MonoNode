@@ -10,37 +10,44 @@ namespace XMonoNode
     {
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
         public Flow start;
 
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
         public Flow pause;
 
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
         public Flow resume;
 
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
         public Flow stop;
 
         [Output(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
         public Flow started;
 
         [Output(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
         public Flow tick;
 
         [Output(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict)]
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
         public Flow completed;
 
         [Input(backingValue: ShowBackingValue.Unconnected,

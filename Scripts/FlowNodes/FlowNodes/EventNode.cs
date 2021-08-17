@@ -5,19 +5,30 @@ namespace XMonoNode
 {
     public abstract class EventNode : MonoNode
     {
-        [Output] public Flow FlowOutput;
+        [Output, NodeInspectorButton(NodeInspectorButtonShow.Always)] public Flow FlowOutput;
 
-        protected NodePort flowOutputPort;
+        private NodePort flowOutputPort;
+
+        public NodePort FlowOutputPort
+        {
+            get => flowOutputPort;
+            set => flowOutputPort = value;
+        }
 
         protected override void Init()
         {
             base.Init();
-            flowOutputPort = GetOutputPort(nameof(FlowOutput));
+            FlowOutputPort = GetOutputPort(nameof(FlowOutput));
         }
 
         public void TriggerFlow()
         {
-            FlowUtils.TriggerFlow(flowOutputPort);
+            FlowUtils.TriggerFlow(FlowOutputPort);
+        }
+
+        public override object GetValue(NodePort port)
+        {
+            return null;
         }
     }
 }

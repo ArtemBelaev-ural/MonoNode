@@ -7,7 +7,8 @@ namespace XMonoNodeEditor {
     [UnityEditor.CustomEditor(typeof(MonoNodeGraph), true)]
     public class MonoNodeInspector : Editor
     {
-        private MonoNodeGraph graph;
+        public MonoNodeGraph MonoGraph => target as MonoNodeGraph;
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -19,7 +20,7 @@ namespace XMonoNodeEditor {
 
         public void OpenGraph()
         {
-            NodeEditorWindow.Open(target as INodeGraph);
+            NodeEditorWindow.Open(MonoGraph);
         }
     }
 }
