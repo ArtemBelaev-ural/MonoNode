@@ -32,8 +32,8 @@ namespace XMonoNode
         {
             base.Init();
 
-            FlowInputPort = GetInputPort(nameof(FlowInput));
-            FlowOutputPort = GetOutputPort(nameof(FlowOutput));
+            flowInputPort = GetInputPort(nameof(FlowInput));
+            flowOutputPort = GetOutputPort(nameof(FlowOutput));
 
         }
 

@@ -42,15 +42,17 @@ namespace XMonoNode
             }
 
             Switch = GetInputValue(nameof(Switch), Switch);
-
             bool caseDefault = true;
-            for (int i = 0; i < Case.Length; i++)
+            if (Switch != null)
             {
-                if (Switch.Equals(Case[i]))
+                for (int i = 0; i < Case.Length; i++)
                 {
-                    FlowUtils.FlowOutput(GetOutputPort($"{nameof(Case)} {i}"));
-                    caseDefault = false;
-                    // return; may be multiple choices!
+                    if (Switch.Equals(Case[i]))
+                    {
+                        FlowUtils.FlowOutput(GetOutputPort($"{nameof(Case)} {i}"));
+                        caseDefault = false;
+                        // return; may be multiple choices!
+                    }
                 }
             }
 

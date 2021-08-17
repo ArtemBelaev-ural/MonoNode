@@ -103,10 +103,15 @@ namespace XMonoNode
             FlowParameter[] paramNodes = GetComponents<FlowParameter>();
             FlowParametersArray = new object[paramNodes.Length];
 
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            
+
             for (int i = 0; i < paramNodes.Length; ++i)
             {
-                FlowParametersArray[i] = paramNodes[i].GetTestValue();
+                //FlowParametersArray[i] = paramNodes[i].GetTestValue();
+                dict[paramNodes[i].Name] = paramNodes[i].GetTestValue();
             }
+            FlowParametersDict = dict;
             OnUpdateParametersNodes();
         }
 

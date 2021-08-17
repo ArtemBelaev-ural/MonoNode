@@ -31,7 +31,7 @@ namespace XMonoNode
         public override async void Flow(NodePort flowPort)
         {
             var secondsToWait = GetInputValue(nameof(WaitSeconds), WaitSeconds);
-            if (secondsToWait > 0)
+            if (secondsToWait >= 0)
             {
                 flow = true;
                 await DoWait((int)(secondsToWait * 1000));

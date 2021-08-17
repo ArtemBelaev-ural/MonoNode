@@ -82,7 +82,7 @@ namespace XMonoNode
             var nodesList = new List<MonoNode>(nodes);
             nodesList.Remove(node as MonoNode);
             nodes = nodesList.ToArray();
-            if (Application.isPlaying) Destroy(node as UnityEngine.Object);
+            if (Application.isPlaying) DestroyImmediate(node as UnityEngine.Object);
         }
 
         /// <summary> Remove all nodes and connections from the graph </summary>
@@ -92,7 +92,7 @@ namespace XMonoNode
             {
                 for (int i = 0; i < nodes.Length; i++)
                 {
-                    Destroy(nodes[i]);
+                    DestroyImmediate(nodes[i]);
                 }
             }
             nodes = new MonoNode[0];
@@ -122,7 +122,7 @@ namespace XMonoNode
 
             for (int i = 0; i < nodes.Length; i++)
             {
-                nodes[i].UpdatePorts();
+                nodes[i].OnNodeEnable();
                 nodes[i].graph = this;
             }
         }
