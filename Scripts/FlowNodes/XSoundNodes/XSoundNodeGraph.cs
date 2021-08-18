@@ -8,8 +8,8 @@ namespace XMonoNode
 {
     [ExecuteInEditMode]
     [AddComponentMenu("X Sound Node/SoundNodeGraph", 1)]
-    [RequireNode(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
-    [RequireComponent(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(XSoundNodeSource))]
+    [RequireNode(typeof(OnFlowEventNode), typeof(XSoundNodePlay))]
+    [RequireComponent(typeof(OnFlowEventNode), typeof(XSoundNodePlay))]
     public class XSoundNodeGraph : FlowNodeGraph
     {
         private void Reset()
@@ -38,7 +38,7 @@ namespace XMonoNode
                 play.Position = new Vector2(100.0f, -50.0f);
             }
 
-            XSoundNodeSource source = GetComponent<XSoundNodeSource>();
+            XSoundNodeSource source = gameObject.AddComponent<XSoundNodeSource>();
             // Добавить Source и соединить с Play, а Play с Flow
             if (source != null)
             {

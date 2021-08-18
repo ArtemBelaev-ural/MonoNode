@@ -6,24 +6,23 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Нода-источник звуков. Может воспроизводить soundId или заданные источники звуков
+    /// Нода-источник звуков. Может воспроизводить AudioClip
     /// </summary>
-    [AddComponentMenu("X Sound Node/Source", 0)]
-    [CreateNodeMenu("Sound/Source", 0)]
-    [NodeWidth(300)]
+    [AddComponentMenu("X Sound Node/ClipSource", 1)]
+    [CreateNodeMenu("Sound/ClipSource", 1)]
+    [NodeWidth(240)]
     [NodeTint(70, 100, 70)]
-    public class XSoundNodeSource : XSoundNodeBase
+    public class XSoundNodeClipSource : XSoundNodeBase
     {
-        [XSoundSelector]
-        [SerializeField]
-        private int                 soundId = -1;
+        [Input(connectionType: ConnectionType.Override)]
+        public AudioClip clip = null;
 
         [Output(ShowBackingValue.Never, ConnectionType.Multiple, TypeConstraint.Inherited)] 
         public AudioSources audioOutput;
 
         private void Reset()
         {
-            Name = "Audio Source";
+            Name = "Clip Audio Source";
         }
 
         public override object GetValue(NodePort port)
@@ -43,14 +42,16 @@ namespace XMonoNode
                 }
 
                 IXSoundsLibrary sounds = IXSoundsLibraryInstance.Get();
-   
-                if (soundId == -1)
+
+                clip = GetInputValue(nameof(clip), clip);
+
+                if (clip == null)
                 {
-                    Debug.LogErrorFormat(this, "Лёха!!! У ноды сурса звука id -1! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
+                    Debug.LogErrorFormat(this, "The audio clip is not defined! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
                     return audioOutput;
                 }
 
-                AudioSource source = sounds.Play(soundId, PlayParameters);
+                AudioSource source = sounds.Play(clip, PlayParameters);
 
                 if (source != null)
                 {
@@ -63,10 +64,8 @@ namespace XMonoNode
 
                 return audioOutput;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 }

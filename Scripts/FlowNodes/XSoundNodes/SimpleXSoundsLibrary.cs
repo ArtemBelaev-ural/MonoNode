@@ -181,5 +181,23 @@ namespace XMonoNode
             }
             IXSoundsLibraryInstance.Set(this);
         }
+
+        public AudioSource Play(AudioClip clip, params object[] parameters)
+        {
+            string name = GetName(clip);
+            AudioSource source = GetSourceFromPool(name);
+
+            source.clip = clip;
+            source.loop = parameters.Get<bool>();
+            source.transform.position = parameters.Get<Vector3>();
+            source.Play();
+
+            if (Application.isPlaying && source.loop != true)
+            {
+                StartCoroutine(DisableSource(source));
+            }
+
+            return source;
+        }
     }
 }

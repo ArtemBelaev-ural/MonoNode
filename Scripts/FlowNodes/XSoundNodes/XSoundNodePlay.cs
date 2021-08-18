@@ -8,8 +8,8 @@ namespace XMonoNode
     /// <summary>
     /// Плеер. Обязательная конечная нода, отвечающая за проигрывание звуков
     /// </summary>
-    [AddComponentMenu("X Sound Node/Play", 1)]
-    [CreateNodeMenu("Sound/Play", 1)]
+    [AddComponentMenu("X Sound Node/Play", 5)]
+    [CreateNodeMenu("Sound/Play", 5)]
     [NodeTint(105, 65, 65)]
     [NodeWidth(160)]
     [ExecuteInEditMode]
