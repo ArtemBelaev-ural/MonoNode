@@ -6,6 +6,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/GetDeltaTime", 539)]
+    [NodeWidth(150)]
     public class GetDeltaTime : MonoNode
     {
         [Output] public float deltaTime;

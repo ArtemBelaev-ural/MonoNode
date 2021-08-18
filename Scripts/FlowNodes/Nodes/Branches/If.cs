@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [NodeWidth(150)]
+    [NodeWidth(175)]
     [CreateNodeMenu("Branch/" + nameof(If), 11)]
     public class If : FlowNode
     {
+        [Inline]
         [Input, NodeInspectorButton] public bool condition;
         [Output, NodeInspectorButton] public Flow Else;
 

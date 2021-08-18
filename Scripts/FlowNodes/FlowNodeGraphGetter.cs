@@ -84,46 +84,58 @@ namespace XMonoNode
             return instanciatedContainer;
         }
 
+        private bool CheckContainer()
+        {
+            if (GetContainer() != null)
+            {
+                return true;
+            }
+            Debug.LogErrorFormat("Container is null, {0}", FullPath);
+            return false;
+        }
+
         public void Flow(params object[] parameters)
         {
-            if (GetContainer() == null)
+            if (CheckContainer())
             {
-                Debug.LogErrorFormat("Container is null, {0}", FullPath);
-                return;
+                GetContainer().Flow(graphId, parameters);
             }
-
-            GetContainer().Flow(graphId, parameters);
         }
 
         public void Flow(Dictionary<string, object> parameters)
         {
-            if (GetContainer() == null)
+            if (CheckContainer())
             {
-                Debug.LogErrorFormat("Container is null, {0}", FullPath);
-                return;
+                GetContainer().Flow(graphId, parameters);
             }
-
-            GetContainer().Flow(graphId, parameters);
         }
 
-        public void UpdateParameters(params object[] parameters)
+        public void UpdateInputParameters(params object[] parameters)
         {
-            if (GetContainer() == null)
+            if (CheckContainer())
             {
-                Debug.LogErrorFormat("Container is null, {0}", FullPath);
-                return;
+                GetContainer().UpdateInputParameters(graphId, parameters);
             }
-            GetContainer().UpdateParameters(graphId, parameters);
         }
 
-        public void UpdateParameters(Dictionary<string, object> parameters)
+        public void UpdateInputParameters(Dictionary<string, object> parameters)
         {
-            if (GetContainer() == null)
+            if (CheckContainer())
             {
-                Debug.LogErrorFormat("Container is null, {0}", FullPath);
-                return;
+                GetContainer().UpdateInputParameters(graphId, parameters);
             }
-            GetContainer().UpdateParameters(graphId, parameters);
+        }
+
+        public void GetOutputParameters(out Dictionary<string, object> parameters)
+        {
+            if (CheckContainer())
+            {
+                GetContainer().GetOutputParameters(graphId, out parameters);
+            }
+            else
+            {
+                parameters = new Dictionary<string, object>();
+            }
         }
 
         public void Stop()

@@ -16,10 +16,12 @@ namespace XMonoNode
     public class XSoundNodePlay : FlowNode
     {
         [Output, NodeInspectorButton] public Flow whilePlay;
+        
+        [Inline]
+        [Input(backingValue: ShowBackingValue.Never), NodeInspectorButton] public Flow stop;
         [Output, NodeInspectorButton] public Flow onEnd;
 
-        [Input, NodeInspectorButton] public Flow stop;
-
+        [Inline]
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
         public AudioSources audioInput = new AudioSources();
         [Output(typeConstraint: TypeConstraint.Inherited)]
@@ -74,6 +76,8 @@ namespace XMonoNode
 
             wnilePlayPort = GetOutputPort(nameof(whilePlay));
             onEndPort = GetOutputPort(nameof(onEnd));
+
+            GetInputPort(nameof(audioInput)).label = "Input";
         }
 
         private void Update()

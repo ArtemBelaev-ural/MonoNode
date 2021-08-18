@@ -131,7 +131,6 @@ namespace XMonoNodeEditor {
 
                     if (NodeEditorPreferences.GetSettings().showPortButton(buttonAttribute))
                     {
-
                         NodeEditorUtilities.AddPortButtonPressed(port, GUILayout.Button(label));
                     }
                     else
@@ -141,14 +140,14 @@ namespace XMonoNodeEditor {
                             case XMonoNode.ShowBackingValue.Unconnected:
                                 // Display a label if port is connected
                                 if (port.IsConnected)
-                                    EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
+                                    GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip));
                                 // Display an editable property field if port is not connected
                                 else
                                     PropertyField(property, label, includeChildren);
                                 break;
                             case XMonoNode.ShowBackingValue.Never:
                                 // Display a label
-                                EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip));
+                                GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip));
                                 break;
                             case XMonoNode.ShowBackingValue.Always:
                                 // Display an editable property field
@@ -227,14 +226,14 @@ namespace XMonoNodeEditor {
                             case XMonoNode.ShowBackingValue.Unconnected:
                                 // Display a label if port is connected
                                 if (port.IsConnected)
-                                    EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
+                                    GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
                                 // Display an editable property field if port is not connected
                                 else
                                     EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
                                 break;
                             case XMonoNode.ShowBackingValue.Never:
                                 // Display a label
-                                EditorGUILayout.LabelField(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
+                                GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
                                 break;
                             case XMonoNode.ShowBackingValue.Always:
                                 // Display an editable property field
@@ -299,9 +298,10 @@ namespace XMonoNodeEditor {
             GUIContent content = label != null ? label : portGuiContent(port);
 
             // If property is an input, display a regular property field and put a port handle on the left side
-            if (port.direction == XMonoNode.NodePort.IO.Input) {
+            if (port.direction == XMonoNode.NodePort.IO.Input)
+            {
                 // Display a label
-                EditorGUILayout.LabelField(content, options);
+                GUILayout.Label(content, options);
 
                 Rect rect = GUILayoutUtility.GetLastRect();
                 float paddingLeft = NodeEditorWindow.current.graphEditor.GetPortStyle(port).padding.left;
@@ -310,7 +310,7 @@ namespace XMonoNodeEditor {
             // If property is an output, display a text label and put a port handle on the right side
             else if (port.direction == XMonoNode.NodePort.IO.Output) {
                 // Display a label
-                EditorGUILayout.LabelField(content, NodeEditorResources.OutputPort, options);
+                GUILayout.Label(content, NodeEditorResources.OutputPort, options);
 
                 Rect rect = GUILayoutUtility.GetLastRect();
                 rect.width += NodeEditorWindow.current.graphEditor.GetPortStyle(port).padding.right;
@@ -470,14 +470,14 @@ namespace XMonoNodeEditor {
                     {
                         if (arrayData.arraySize <= index)
                         {
-                            EditorGUI.LabelField(rect, "Array[" + index + "] data out of range");
+                            GUI.Label(rect, "Array[" + index + "] data out of range");
                             return;
                         }
                         SerializedProperty itemData = arrayData.GetArrayElementAtIndex(index);
                         EditorGUI.PropertyField(rect, itemData, true);
                     }
                     else
-                        EditorGUI.LabelField(rect, port != null ? port.fieldName : "");
+                        GUI.Label(rect, port != null ? port.fieldName : "");
                     if (port != null)
                     {
                         Vector2 pos = rect.position + (port.IsOutput ? new Vector2(rect.width + 6, 0) : new Vector2(-36, 0));
@@ -494,7 +494,7 @@ namespace XMonoNodeEditor {
                 };
             list.drawHeaderCallback =
                 (Rect rect) => {
-                    EditorGUI.LabelField(rect, label);
+                    GUI.Label(rect, label);
                 };
             list.onSelectCallback =
                 (ReorderableList rl) => {

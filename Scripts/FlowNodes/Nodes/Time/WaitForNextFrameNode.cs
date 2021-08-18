@@ -5,6 +5,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForNextFrame", 536)]
+    [NodeWidth(160)]
     public class WaitForNextFrameNode : FlowNode
     {
         private long flowUpdateNumber = -1;

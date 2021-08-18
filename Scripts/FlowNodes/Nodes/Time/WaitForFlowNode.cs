@@ -5,6 +5,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForFlow", 535)]
+    [NodeWidth(160)]
     public class WaitForFlowNode : FlowNode
     {
         [Input, NodeInspectorButton] public Flow flow;

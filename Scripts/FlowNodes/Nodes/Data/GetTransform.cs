@@ -4,10 +4,10 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/" + nameof(GetTransform), 405)]
-    [NodeWidth(190)]
+    [NodeWidth(240)]
     public class GetTransform : MonoNode
     {
-        [Input] public GameObject input;
+        [Input(backingValue: ShowBackingValue.Unconnected)] public GameObject input;
         [Output] public Transform _transform;
 
         public override object GetValue(NodePort port)

@@ -6,6 +6,7 @@ namespace XMonoNode
 {
     public abstract class SelectBase: MonoNode
     {
+        [Inline]
         [Input(connectionType: ConnectionType.Override)]
         public bool condition;
 

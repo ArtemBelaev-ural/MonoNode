@@ -125,7 +125,7 @@ namespace XMonoNode
         }
 
 
-        public void UpdateParameters(string id, params object[] parameters)
+        public void UpdateInputParameters(string id, params object[] parameters)
         {
             FlowNodeGraph graph = Get(id);
             if (graph != null)
@@ -134,7 +134,7 @@ namespace XMonoNode
             }
         }
 
-        public void UpdateParameters(string id, Dictionary<string, object> parameters)
+        public void UpdateInputParameters(string id, Dictionary<string, object> parameters)
         {
             FlowNodeGraph graph = Get(id);
             if (graph != null)
@@ -143,7 +143,20 @@ namespace XMonoNode
             }
         }
 
-            public void Stop(string id)
+        public void GetOutputParameters(string id, out Dictionary<string, object> parameters)
+        {
+            FlowNodeGraph graph = Get(id);
+            if (graph != null)
+            {
+                graph.GetOutputParameters(out parameters);
+            }
+            else
+            {
+                parameters = new Dictionary<string, object>();
+            }
+        }
+
+        public void Stop(string id)
         {
             FlowNodeGraph graph = Get(id);
             if (graph != null)

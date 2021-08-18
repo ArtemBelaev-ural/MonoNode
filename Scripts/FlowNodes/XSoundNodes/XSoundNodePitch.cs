@@ -13,8 +13,20 @@ namespace XMonoNode
     [NodeWidth(160)]
     public class XSoundNodePitch : FlowNode
     {
+        [Inline]
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public AudioSources audioInput;
+
+        [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
+        public AudioSources audioOutput;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            GetInputPort(nameof(audioInput)).label = "Input";
+            GetOutputPort(nameof(audioOutput)).label = "Output";
+        }
 
         protected AudioSources GetAudioInput()
         {
@@ -26,8 +38,6 @@ namespace XMonoNode
             return sources;
         }
 
-        [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
-        public AudioSources audioOutput;
 
         [Input(connectionType: ConnectionType.Override)]
         public float                    pitch = 1.0f;

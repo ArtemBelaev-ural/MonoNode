@@ -4,6 +4,7 @@ namespace XMonoNode
 {
     public abstract class FlowNode : MonoNode, IFlowNode
     {
+        [Inline]
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
             typeConstraint: TypeConstraint.None), NodeInspectorButton]
@@ -35,6 +36,8 @@ namespace XMonoNode
             flowInputPort = GetInputPort(nameof(FlowInput));
             flowOutputPort = GetOutputPort(nameof(FlowOutput));
 
+            flowInputPort.label = "Enter";
+            flowOutputPort.label = "Exit";
         }
 
         public virtual void TriggerFlow()

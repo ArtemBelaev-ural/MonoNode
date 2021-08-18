@@ -12,6 +12,7 @@ namespace XMonoNode
     [CreateNodeMenu("Float/Curve", 61)]
     public class FloatCurve : MonoNode
     {
+        [Inline]
         [Input]
         public float            input = 0.0f;
         [Output]

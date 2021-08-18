@@ -17,6 +17,7 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public float            Default = 0.0f;
 
+        [Inline]
         [Input(connectionType: ConnectionType.Override)]
         public float            input = 0.0f;
         [Output]

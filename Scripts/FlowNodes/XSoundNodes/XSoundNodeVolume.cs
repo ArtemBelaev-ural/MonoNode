@@ -13,6 +13,7 @@ namespace XMonoNode
     [NodeWidth(160)]
     public class XSoundNodeVolume : FlowNode
     {
+        [Inline]
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public AudioSources audioInput;
 
@@ -22,6 +23,14 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         [Range(0.0f, 1.0f)]
         public float                    volume = 1.0f;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            GetInputPort(nameof(audioInput)).label = "Input";
+            GetOutputPort(nameof(audioOutput)).label = "Output";
+        }
 
         private AudioSources GetAudioInput()
         {

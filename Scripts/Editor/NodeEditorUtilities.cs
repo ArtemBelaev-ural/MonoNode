@@ -81,6 +81,27 @@ namespace XMonoNodeEditor
             return false;
         }
 
+        public static bool GetCachedAttrib<T>(SerializedProperty property, out T attribOut) where T : Attribute
+        {
+            attribOut = null;
+            if (property != null && property.serializedObject != null && property.serializedObject.targetObject != null)
+            {
+                INode node = property.serializedObject.targetObject as INode;
+
+                if (node == null)
+                {
+                    return false;
+                }
+
+                return NodeEditorUtilities.GetCachedAttrib(node.GetType(), property.name, out attribOut);
+            }
+            else
+            {
+
+                return false;
+            }
+        }
+
         public static bool GetCachedAttrib<T>(Type classType, string fieldName, out T attribOut) where T : Attribute {
             Dictionary<string, Dictionary<Type, Attribute>> typeFields;
             if (!typeAttributes.TryGetValue(classType, out typeFields)) {

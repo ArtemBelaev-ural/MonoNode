@@ -8,29 +8,12 @@ namespace XMonoNode
     [NodeWidth(150)]
     public class Timer : MonoNode, IFlowNode
     {
+        [Inline]
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
             typeConstraint: TypeConstraint.Strict),
             NodeInspectorButton]
         public Flow start;
-
-        [Input(backingValue: ShowBackingValue.Never,
-            connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict),
-            NodeInspectorButton]
-        public Flow pause;
-
-        [Input(backingValue: ShowBackingValue.Never,
-            connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict),
-            NodeInspectorButton]
-        public Flow resume;
-
-        [Input(backingValue: ShowBackingValue.Never,
-            connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.Strict),
-            NodeInspectorButton]
-        public Flow stop;
 
         [Output(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
@@ -38,11 +21,31 @@ namespace XMonoNode
             NodeInspectorButton]
         public Flow started;
 
+        [Inline]
+        [Input(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
+        public Flow pause;
+
         [Output(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
             typeConstraint: TypeConstraint.Strict),
             NodeInspectorButton]
         public Flow tick;
+
+        [Input(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
+        public Flow resume;
+
+        [Inline]
+        [Input(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.Strict),
+            NodeInspectorButton]
+        public Flow stop;
 
         [Output(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,

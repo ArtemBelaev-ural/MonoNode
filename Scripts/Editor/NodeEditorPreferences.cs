@@ -53,7 +53,7 @@ namespace XMonoNodeEditor {
             public MouseScrollAction mouseWheelAction = MouseScrollAction.ScrollVertical;
             public bool zoomToMouse = true;
             public bool portTooltips = true;
-            public bool flowPortButtons = true;
+            public bool flowPortButtons = false;
             public bool showNodePalette = true;
             public int nodePaletteWidth = 200;
             [SerializeField] private string typeColorsData = "";
