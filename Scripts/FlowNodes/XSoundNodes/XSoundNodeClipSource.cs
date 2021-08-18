@@ -51,7 +51,7 @@ namespace XMonoNode
                     return audioOutput;
                 }
 
-                AudioSource source = sounds.Play(clip, PlayParameters);
+                AudioSource source = sounds.Play(clip);
 
                 if (source != null)
                 {

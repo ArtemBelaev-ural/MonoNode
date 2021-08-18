@@ -43,7 +43,7 @@ namespace XMonoNode
     {
         public AudioSource Play(int soundId, params object[] parameters);
 
-        public AudioSource Play(AudioClip clip, params object[] parameters);
+        public AudioSource Play(AudioClip clip);
 
         public Dictionary<int, string> GetSounds();
     }
