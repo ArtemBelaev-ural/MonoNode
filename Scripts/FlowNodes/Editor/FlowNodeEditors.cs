@@ -7,17 +7,17 @@ using XMonoNodeEditor;
 
 namespace FlowNodesEditor
 {
-    [CustomNodeEditor(typeof(FlowParameterFloat))]
+    [CustomNodeEditor(typeof(InputFlowParameterFloat))]
     public class XFlowNodeFloatParameterEditor : NodeEditor
     {
-        private FlowParameterFloat node = null;
+        private InputFlowParameterFloat node = null;
         public override void OnBodyGUI()
         {
             base.OnBodyGUI();
 
             if (node == null)
             {
-                node = target as FlowParameterFloat;
+                node = target as InputFlowParameterFloat;
                 if (node == null)
                 {
                     return;
@@ -52,17 +52,17 @@ namespace FlowNodesEditor
         }
     }
 
-    [CustomNodeEditor(typeof(FlowParameterVector3))]
+    [CustomNodeEditor(typeof(InputFlowParameterVector3))]
     public class FlowParameterVector3Editor : NodeEditor
     {
-        private FlowParameterVector3 node = null;
+        private InputFlowParameterVector3 node = null;
         public override void OnBodyGUI()
         {
             base.OnBodyGUI();
 
             if (node == null)
             {
-                node = target as FlowParameterVector3;
+                node = target as InputFlowParameterVector3;
                 if (node == null)
                 {
                     return;
@@ -86,7 +86,7 @@ namespace FlowNodesEditor
         }
     }
 
-    public class XSoundNodeParameterEditor<N, T> : NodeEditor where N : FlowParameter<T> 
+    public class XSoundNodeParameterEditor<N, T> : NodeEditor where N : InputFlowParameter<T> 
     {
         private N node = null;
         public override void OnBodyGUI()
@@ -119,23 +119,23 @@ namespace FlowNodesEditor
         }
     }
 
-    [CustomNodeEditor(typeof(FlowParameterGameObject))]
-    public class FlowParameterGameObjectEditor : XSoundNodeParameterEditor<FlowParameterGameObject, GameObject> 
+    [CustomNodeEditor(typeof(InputFlowParameterGameObject))]
+    public class FlowParameterGameObjectEditor : XSoundNodeParameterEditor<InputFlowParameterGameObject, GameObject> 
     { 
     }
 
-    [CustomNodeEditor(typeof(FlowParameterTransform))]
-    public class FlowParameterTransformEditor : XSoundNodeParameterEditor<FlowParameterTransform, Transform>
+    [CustomNodeEditor(typeof(InputFlowParameterTransform))]
+    public class FlowParameterTransformEditor : XSoundNodeParameterEditor<InputFlowParameterTransform, Transform>
     { 
     }
 
-    [CustomNodeEditor(typeof(FlowParameterInt))]
-    public class FlowParameterIntEditor : XSoundNodeParameterEditor<FlowParameterInt, int>
+    [CustomNodeEditor(typeof(InputFlowParameterInt))]
+    public class FlowParameterIntEditor : XSoundNodeParameterEditor<InputFlowParameterInt, int>
     { 
     }
 
-    [CustomNodeEditor(typeof(FlowParameterString))]
-    public class FlowParameterStringEditor : XSoundNodeParameterEditor<FlowParameterString, string>
+    [CustomNodeEditor(typeof(InputFlowParameterString))]
+    public class FlowParameterStringEditor : XSoundNodeParameterEditor<InputFlowParameterString, string>
     {
     }
 

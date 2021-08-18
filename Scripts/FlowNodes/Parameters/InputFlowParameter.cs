@@ -5,7 +5,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    public abstract class FlowParameter : MonoNode
+    public abstract class InputFlowParameter : MonoNode
     {
         /// <summary>
         /// Значение параметра
@@ -18,7 +18,7 @@ namespace XMonoNode
     /// </summary>
     [NodeTint(50, 70, 105)]
     [NodeWidth(200)]
-    public abstract class FlowParameter<T> : FlowParameter
+    public abstract class InputFlowParameter<T> : InputFlowParameter
     {
         [Output] public T   output;
 
@@ -39,7 +39,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "Parameter: " + typeof(T).Name;
+            Name = "Input Parameter: " + typeof(T).Name;
         }
 
         public override object GetValue(NodePort port)
@@ -49,7 +49,7 @@ namespace XMonoNode
                 FlowNodeGraph flowGraph = graph as FlowNodeGraph;
                 if (flowGraph != null)
                 {
-                    if (flowGraph.FlowParametersDict.TryGetValue(Name, out object value))
+                    if (flowGraph.OutputFlowParametersDict.TryGetValue(Name, out object value))
                     {
                         return value;
                     }

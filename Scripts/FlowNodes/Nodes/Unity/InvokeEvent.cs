@@ -3,11 +3,16 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [NodeWidth(400)]
-    [CreateNodeMenu("Events/" + nameof(UnityEventNode), 14)]
-    public class UnityEventNode : FlowNode
+    [NodeWidth(350)]
+    [CreateNodeMenu("Unity/InvokeEvent", 14)]
+    public class InvokeEvent : FlowNode
     {
         public UnityEvent Target;
+
+        private void Reset()
+        {
+            Name = "Invoke Event";
+        }
 
         public override void Flow(NodePort flowPort)
         {

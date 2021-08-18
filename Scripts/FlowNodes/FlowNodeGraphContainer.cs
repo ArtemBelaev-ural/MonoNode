@@ -5,15 +5,18 @@ using UnityEngine;
 
 namespace XMonoNode
 {
+    /// <summary>
+    /// Instanciates a concrete graph object
+    /// </summary>
     [System.Serializable]
     public class FlowNodeGraphContainerItem
     {
         [SerializeField]
-        [Header("id - для кода")]
+        [Header("graph id")]
         private string          id = "";
 
         [SerializeField]
-        [Header("Префаб графа")]
+        [Header("Graph prefab")]
         private FlowNodeGraph   graph = null;
 
         public string           Id => id;
@@ -26,7 +29,7 @@ namespace XMonoNode
         {
             if (graph == null)
             {
-                Debug.LogErrorFormat("Graph Events Kit (FlowNodeGraphContainer): graph not set to Id: \"{0}\"", id);
+                Debug.LogErrorFormat("FlowNodeGraphContainer: graph not set to Id: \"{0}\"", id);
                 return null;
             }
 
@@ -46,7 +49,9 @@ namespace XMonoNode
         }
     }
 
-
+    /// <summary>
+    ///Allows you to manage and instanciate flow node graphs
+    /// </summary>
     [AddComponentMenu("X Mono Node/FlowNodeGraphContainer", 701)]
     public class FlowNodeGraphContainer : MonoBehaviour
     {
@@ -125,7 +130,7 @@ namespace XMonoNode
             FlowNodeGraph graph = Get(id);
             if (graph != null)
             {
-                graph.UpdateParameters(parameters);
+                graph.UpdateInputParameters(parameters);
             }
         }
 
@@ -134,7 +139,7 @@ namespace XMonoNode
             FlowNodeGraph graph = Get(id);
             if (graph != null)
             {
-                graph.UpdateParameters(parameters);
+                graph.UpdateInputParameters(parameters);
             }
         }
 

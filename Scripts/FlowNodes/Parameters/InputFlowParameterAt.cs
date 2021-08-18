@@ -7,10 +7,10 @@ namespace XMonoNode
     /// Возвращает float, переданный в метод FlowNodeGraph.Flow()
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/At", 14)]
-    [CreateNodeMenu("Parameter/At", 14)]
+    [CreateNodeMenu("Parameter/Input/At", 14)]
     [NodeTint(50, 70, 105)]
     [NodeWidth(160)]
-    public class FlowParameterAt : FlowParameter
+    public class InputFlowParameterAt : InputFlowParameter
     {
         [Input]
         public int at = 0;

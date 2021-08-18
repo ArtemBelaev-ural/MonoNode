@@ -22,43 +22,43 @@ namespace XMonoNode
         {
             get
             {
-                return flowParametersArray;
+                return outputFlowParametersArray;
             }
             set
             {
-                if (flowParametersArray != value)
+                if (outputFlowParametersArray != value)
                 {
-                    flowParametersArray = value;
-                    FlowParametersDict.Clear();
+                    outputFlowParametersArray = value;
+                    OutputFlowParametersDict.Clear();
                 }
             }
 
         }
 
-        private object[]     flowParametersArray = new object[0];
+        private object[]     outputFlowParametersArray = new object[0];
 
         /// <summary>
         /// Параметры, передаваемые в метод FlowNodeGraph.Flow()
         /// </summary>
-        public Dictionary<string, object> FlowParametersDict
+        public Dictionary<string, object> OutputFlowParametersDict
         {
-            get => flowParametersDict;
+            get => outputFlowParametersDict;
             private set
             {
-                flowParametersDict = value;
-                flowParametersArray = new object[value.Count];
+                outputFlowParametersDict = value;
+                outputFlowParametersArray = new object[value.Count];
                 int i = 0;
                 foreach (var pair in value)
                 {
-                    flowParametersArray[i] = pair.Value;
+                    outputFlowParametersArray[i] = pair.Value;
                     ++i;
                 }
             }
         }
 
-        private Dictionary<string, object> flowParametersDict = new Dictionary<string, object>();
+        private Dictionary<string, object> outputFlowParametersDict = new Dictionary<string, object>();
 
-        private void OnUpdateParametersNodes()
+        private void OnUpdateInputParametersNodes()
         {
             OnUpdateParametersNode[] nodes = GetComponents<OnUpdateParametersNode>();
  
@@ -68,10 +68,10 @@ namespace XMonoNode
             }
         }
 
-        public virtual void UpdateParameters(params object[] parameters)
+        public virtual void UpdateInputParameters(params object[] parameters)
         {
             FlowParametersArray = parameters;
-            OnUpdateParametersNodes();
+            OnUpdateInputParametersNodes();
         }
 
         private static Dictionary<TKey, TValue> Merge<TKey, TValue>(params Dictionary<TKey, TValue>[] dictionaries)
@@ -83,24 +83,34 @@ namespace XMonoNode
             return result;
         }
 
-        public virtual void UpdateParameters(Dictionary<string, object> parameters)
+        public virtual void UpdateInputParameters(Dictionary<string, object> parameters)
         {
-            FlowParametersDict = parameters;
-            OnUpdateParametersNodes();
+            OutputFlowParametersDict = parameters;
+            OnUpdateInputParametersNodes();
         }
 
-        public virtual void UpdateParameter(string key, object value)
+        public virtual void UpdateInputParameter(string name, object value)
         {
-            flowParametersDict[key] = value;
+            outputFlowParametersDict[name] = value;
+            OnUpdateInputParametersNodes();
+        }
+
+        public void GetOutputParameters(out Dictionary<string, object> parameters)
+        {
+            parameters = new Dictionary<string, object>();
+            OutputFlowParameter[] paramNodes = GetComponents<OutputFlowParameter>();
+            foreach (var node in paramNodes)
+            {
+                parameters[node.Name] = node.ValueAsObject;
+            }
         }
 
         /// <summary>
         /// Обновляет значения параметров в режиме редактора. Значения берет из нодов параметров (синего цвета)
         /// </summary>
-
         public virtual void UpdateTestParameters()
         {
-            FlowParameter[] paramNodes = GetComponents<FlowParameter>();
+            InputFlowParameter[] paramNodes = GetComponents<InputFlowParameter>();
             FlowParametersArray = new object[paramNodes.Length];
 
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -111,8 +121,8 @@ namespace XMonoNode
                 //FlowParametersArray[i] = paramNodes[i].GetTestValue();
                 dict[paramNodes[i].Name] = paramNodes[i].GetTestValue();
             }
-            FlowParametersDict = dict;
-            OnUpdateParametersNodes();
+            OutputFlowParametersDict = dict;
+            OnUpdateInputParametersNodes();
         }
 
         public const string ALL_EXECUTE_NODES = ":- all execute nodes";
@@ -120,20 +130,20 @@ namespace XMonoNode
         /// <summary>
         /// Starts flow of the graph
         /// </summary>
-        /// <param name="parameters">Custom graph parameters<seealso cref="FlowParameter"/></param>
+        /// <param name="parameters">Custom graph parameters<seealso cref="InputFlowParameter"/></param>
         public virtual void Flow(params object[] parameters)
         {
-            UpdateParameters(parameters);
+            UpdateInputParameters(parameters);
             Flow();
         }
 
         /// <summary>
         /// Starts flow of the graph
         /// </summary>
-        /// <param name="parameters">Custom graph parameters<seealso cref="FlowParameter"/></param>
+        /// <param name="parameters">Custom graph parameters<seealso cref="InputFlowParameter"/></param>
         public virtual void Flow(Dictionary<string, object> parameters)
         {
-            UpdateParameters(parameters);
+            UpdateInputParameters(parameters);
             Flow();
         }
 

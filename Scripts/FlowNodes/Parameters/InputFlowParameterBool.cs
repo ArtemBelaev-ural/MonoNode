@@ -6,9 +6,9 @@ namespace XMonoNode
     /// <summary>
     /// Возвращает bool, переданный в метод FlowNodeGraph.Flow()
     /// </summary>
-    [AddComponentMenu("FlowNode/Parameter/bool", 6)]
-    [CreateNodeMenu("Parameter/bool", 6)]
-    public class FlowParameterBool : FlowParameter<bool>
+    [AddComponentMenu("FlowNode/Parameter/Input/bool", 6)]
+    [CreateNodeMenu("Parameter/Input/bool", 6)]
+    public class InputFlowParameterBool : InputFlowParameter<bool>
     {
     }
 }

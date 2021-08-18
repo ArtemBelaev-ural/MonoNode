@@ -6,9 +6,9 @@ namespace XMonoNode
     /// <summary>
     /// Возвращает float, переданный в метод FlowNodeGraph.Flow()
     /// </summary>
-    [AddComponentMenu("FlowNode/Parameter/float", 4)]
-    [CreateNodeMenu("Parameter/float", 4)]
-    public class FlowParameterFloat : FlowParameter<float>
+    [AddComponentMenu("FlowNode/Parameter/Input/float", 4)]
+    [CreateNodeMenu("Parameter/Input/float", 4)]
+    public class InputFlowParameterFloat : InputFlowParameter<float>
     {
         private void Reset()
         {
