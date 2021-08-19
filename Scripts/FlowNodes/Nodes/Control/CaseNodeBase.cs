@@ -9,7 +9,7 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public T    Switch = default(T);
 
-        [Output(dynamicPortList: true), NodeInspectorButton]
+        [Output(dynamicPortList: true), NodeInspectorButton, FlowPort]
         public T[]  Case = new T[0];
 
         protected override void Init()

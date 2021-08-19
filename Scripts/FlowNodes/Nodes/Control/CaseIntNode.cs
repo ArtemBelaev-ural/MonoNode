@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Branch/CaseInt", 16)]
+    [CreateNodeMenu("Control/CaseInt", 16)]
     [NodeWidth(200)]
     public class CaseIntNode : CaseNodeBase<int>
     {}    

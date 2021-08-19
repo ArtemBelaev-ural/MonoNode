@@ -3,15 +3,16 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [NodeWidth(175)]
-    [CreateNodeMenu("Branch/" + nameof(If), 11)]
-    public class If : FlowNode
+    [NodeWidth(220)]
+    [CreateNodeMenu("Control/Probability", 19)]
+    public class Probability : FlowNode
     {
-        [Inline]
-        [Input, NodeInspectorButton] public bool condition;
         [Output, NodeInspectorButton] public Flow Else;
 
-        NodePort conditionPort;
+        [Range(0, 1)]
+        [Input] public float probability;
+
+        NodePort probabilityPort;
         NodePort ifPort;
         NodePort elsePort;
 
@@ -20,12 +21,12 @@ namespace XMonoNode
             base.Init();
             GetInputPort(nameof(FlowInput)).label = "Enter";
 
-            conditionPort = GetInputPort(nameof(condition));
+            probabilityPort = GetInputPort(nameof(probability));
             ifPort = GetOutputPort(nameof(FlowOutput));
             elsePort = GetOutputPort(nameof(Else));
 
-            ifPort.label = "if (condition)";
-            elsePort.label = "else";
+            ifPort.label = "Yes";
+            elsePort.label = "No";
         }
 
         public override void TriggerFlow()
@@ -35,7 +36,8 @@ namespace XMonoNode
 
         public override void Flow(NodePort flowPort)
         {
-            NodePort output = conditionPort.GetInputValue(condition) ? ifPort : elsePort;
+            bool check = Random.Range(0f, 1f) < probabilityPort.GetInputValue(probability);
+            NodePort output = check ? ifPort : elsePort;
             FlowUtils.FlowOutput(output);
         }
 

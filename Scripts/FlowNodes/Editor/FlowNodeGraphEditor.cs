@@ -106,7 +106,7 @@ namespace FlowNodesEditor
 
         public override GUIStyle GetPortStyle(NodePort port)
         {
-            if (port.ValueType != typeof(Flow))
+            if (port.ValueType != typeof(Flow) && !NodeEditorUtilities.GetCachedAttrib(port, out FlowPortAttribute attr))
             {
                 return base.GetPortStyle(port);
             }

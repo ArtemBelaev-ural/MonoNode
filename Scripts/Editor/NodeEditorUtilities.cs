@@ -102,6 +102,21 @@ namespace XMonoNodeEditor
             }
         }
 
+        public static bool GetCachedAttrib<T>(NodePort port, out T attribOut) where T : Attribute
+        {
+            attribOut = null;
+            if (port == null || port.node == null || string.IsNullOrEmpty(port.fieldName))
+            {
+                return false;
+            }
+
+            string[] fieldNameParts = port.fieldName.Split(' '); // if port is dynamic
+
+            string fieldName = fieldNameParts[0];
+
+            return GetCachedAttrib(port.node.GetType(), fieldName, out attribOut);
+        }
+
         public static bool GetCachedAttrib<T>(Type classType, string fieldName, out T attribOut) where T : Attribute {
             Dictionary<string, Dictionary<Type, Attribute>> typeFields;
             if (!typeAttributes.TryGetValue(classType, out typeFields)) {
