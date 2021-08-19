@@ -39,7 +39,7 @@ namespace XMonoNodeEditor
     
                 GUI.enabled = clip != null;
                 string tooltip = clip != null ? "play" : ("No audio clip at path: \"" + path + "\"");
-                if (GUI.Button(position, new GUIContent("", tooltip), clip != null ? NodeEditorResources.styles.playButton : NodeEditorResources.styles.errorButton))
+                if (GUI.Button(position, new GUIContent("", tooltip), clip != null ? FlowNodeEditorResources.styles.playButton : FlowNodeEditorResources.styles.errorButton))
                 {
                     AudioSource.PlayClipAtPoint(clip, Vector3.zero);
                 }

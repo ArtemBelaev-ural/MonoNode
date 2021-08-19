@@ -23,6 +23,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
+            UnityEngine.UIElements.Experimental.Easing.InBack(1);
             if (port.fieldName == nameof(output))
             {
                 input = GetInputValue(nameof(input), input);

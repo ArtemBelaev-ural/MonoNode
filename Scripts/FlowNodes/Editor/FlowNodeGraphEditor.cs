@@ -112,9 +112,9 @@ namespace FlowNodesEditor
             }
             
             if (port.direction == NodePort.IO.Input)
-                return NodeEditorResources.styles.inputPortFlow;
+                return FlowNodeEditorResources.styles.inputPortFlow;
 
-            return NodeEditorResources.styles.outputPortFlow;
+            return FlowNodeEditorResources.styles.outputPortFlow;
         }
 
         public override string GetPortTooltip(NodePort port)

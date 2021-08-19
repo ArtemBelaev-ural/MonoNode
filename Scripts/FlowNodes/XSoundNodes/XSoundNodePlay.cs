@@ -31,7 +31,7 @@ namespace XMonoNode
 
         public object[] PlayParameters => SoundGraph?.FlowParametersArray;
 
-        private AudioSources playing = new AudioSources();
+        private AudioSources playing;
 
         // Вспомогательный признак, позволяющий определить, что нода запустила сама себя
         private bool playingState = false;
@@ -78,6 +78,8 @@ namespace XMonoNode
             onEndPort = GetOutputPort(nameof(onEnd));
 
             GetInputPort(nameof(audioInput)).label = "Input";
+
+            playing = new AudioSources();
         }
 
         private void Update()
@@ -115,7 +117,7 @@ namespace XMonoNode
                 SoundGraph.FlowParametersArray = parameters;
             }
 
-            AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput), audioInput);
+            AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput));
             if (sources == null) // только нуллы - ошибка. Пустой контейнер (sources.List.Count == 0) - это нормально
             {
                 Debug.LogErrorFormat(this, "Лёха!!! У ноды play не задан источник! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
@@ -176,6 +178,7 @@ namespace XMonoNode
         {
             if (port.fieldName == nameof(Playing))
             {
+                Playing = playing;
                 return playing;
             }
             else

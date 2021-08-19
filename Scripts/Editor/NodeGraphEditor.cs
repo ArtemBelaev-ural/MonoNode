@@ -253,7 +253,8 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Creates a copy of the original node in the graph </summary>
-        public virtual XMonoNode.INode CopyNode(XMonoNode.INode original) {
+        public virtual XMonoNode.INode CopyNode(XMonoNode.INode original)
+        {
             Undo.RecordObject(target, "Duplicate Node");
             XMonoNode.INode node = Target.CopyNode(original);
             Undo.RegisterCreatedObjectUndo(node as UnityEngine.Object, "Duplicate Node");
@@ -295,10 +296,15 @@ namespace XMonoNodeEditor {
        
             Target.RemoveNode(node);
 
-            Undo.DestroyObjectImmediate(node as UnityEngine.Object);
+            if (Application.isEditor)
+            {
+                if (node as UnityEngine.Object != null)
+                    Undo.DestroyObjectImmediate(node as UnityEngine.Object);
+                if (NodeEditorPreferences.GetSettings().autoSave)
+                    AssetDatabase.SaveAssets();
+            }
 
-            if (NodeEditorPreferences.GetSettings().autoSave)
-                AssetDatabase.SaveAssets();
+            
         }
 
         [AttributeUsage(AttributeTargets.Class)]

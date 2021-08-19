@@ -10,7 +10,7 @@ namespace XMonoNode
     public abstract class XSoundNodeSimple : XSoundNodeBase
     {
         [Inline]
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
         public AudioSources audioInput;
 
         protected override void Init()
@@ -22,7 +22,7 @@ namespace XMonoNode
 
         protected AudioSources GetAudioInput()
         {
-            AudioSources sources = GetInputValue(nameof(audioInput), audioInput);
+            AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput));
             if (sources == null)
             {
                 sources = new AudioSources();
@@ -34,7 +34,7 @@ namespace XMonoNode
     public abstract class XSoundNodeSimpleOutput : XSoundNodeBase
     {
         [Inline]
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
         public AudioSources audioInput;
         [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
         public AudioSources audioOutput;
@@ -49,7 +49,7 @@ namespace XMonoNode
 
         protected AudioSources GetAudioInput()
         {
-            AudioSources sources = GetInputValue(nameof(audioInput), audioInput);
+            AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput));
             if (sources == null)
             {
                 sources = new AudioSources();

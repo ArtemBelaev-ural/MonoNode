@@ -34,7 +34,7 @@ namespace XMonoNode
                 normalized = GetInputValue(nameof(normalized), normalized);
                 if (sources.List.Count != 0)
                 {
-                    AudioSource source = sources.List[0];
+                    AudioSource source = sources.List[sources.List.Count-1];
                     if (source.isPlaying &&
                         source.clip != null &&
                         Mathf.Approximately(source.clip.length, 0.0f) == false)

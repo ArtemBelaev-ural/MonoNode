@@ -24,7 +24,7 @@ namespace FlowNodesEditor
                 }
             }
             serializedObject.Update();
-            
+
             GUILayout.BeginHorizontal();
 
             GUILayout.Label(new GUIContent("Test:", "Test float parameter of Play()"), GUILayout.MaxWidth(40));
@@ -86,7 +86,7 @@ namespace FlowNodesEditor
         }
     }
 
-    public class XSoundNodeParameterEditor<N, T> : NodeEditor where N : InputFlowParameter<T> 
+    public class XSoundNodeParameterEditor<N, T> : NodeEditor where N : InputFlowParameter<T>
     {
         private N node = null;
         public override void OnBodyGUI()
@@ -120,18 +120,18 @@ namespace FlowNodesEditor
     }
 
     [CustomNodeEditor(typeof(InputFlowParameterGameObject))]
-    public class FlowParameterGameObjectEditor : XSoundNodeParameterEditor<InputFlowParameterGameObject, GameObject> 
-    { 
+    public class FlowParameterGameObjectEditor : XSoundNodeParameterEditor<InputFlowParameterGameObject, GameObject>
+    {
     }
 
     [CustomNodeEditor(typeof(InputFlowParameterTransform))]
     public class FlowParameterTransformEditor : XSoundNodeParameterEditor<InputFlowParameterTransform, Transform>
-    { 
+    {
     }
 
     [CustomNodeEditor(typeof(InputFlowParameterInt))]
     public class FlowParameterIntEditor : XSoundNodeParameterEditor<InputFlowParameterInt, int>
-    { 
+    {
     }
 
     [CustomNodeEditor(typeof(InputFlowParameterString))]
@@ -148,6 +148,24 @@ namespace FlowNodesEditor
         {
             Node.FlowOutputPort.label = Node.ButtonText;
             base.OnBodyGUI();
+        }
+    }
+
+    [CustomNodeEditor(typeof(FloatEase))]
+    public class FloatEaseEditor : NodeEditor
+    {
+        public override void OnBodyGUI()
+        {
+            base.OnBodyGUI();
+
+            FloatEase node = target as FloatEase;
+
+            Texture2D tex = FlowNodeEditorResources.EaseTexture(node.EasingMode);
+             
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+            GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+            GUILayout.EndHorizontal();
         }
     }
 

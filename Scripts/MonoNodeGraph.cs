@@ -92,7 +92,7 @@ namespace XMonoNode
             {
                 for (int i = 0; i < nodes.Length; i++)
                 {
-                    DestroyImmediate(nodes[i]);
+                    Destroy(nodes[i]);
                 }
             }
             nodes = new MonoNode[0];
