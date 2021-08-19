@@ -63,12 +63,25 @@ namespace XMonoNodeEditor
         }
         private static Texture2D iconError16 = null;
 
+        public static Texture2D EaseTextureClamped01(XMonoNode.EasingMode mode)
+        {
+            Texture2D tex;
+            if (!easeTexturesClamped01.TryGetValue(mode, out tex) || tex == null)
+            {
+                tex = GenerateEaseTexture(mode, true);
+                easeTexturesClamped01[mode] = tex;
+            }
+            return tex;
+        }
+
+        private static Dictionary<XMonoNode.EasingMode, Texture2D> easeTexturesClamped01 = new Dictionary<XMonoNode.EasingMode, Texture2D>();
+
         public static Texture2D EaseTexture(XMonoNode.EasingMode mode)
         {
             Texture2D tex;
             if (!easeTextures.TryGetValue(mode, out tex) || tex == null)
             {
-                tex = GenerateEaseTexture(mode, Color.blue);
+                tex = GenerateEaseTexture(mode, false);
                 easeTextures[mode] = tex;
             }
             return tex;
@@ -118,8 +131,7 @@ namespace XMonoNodeEditor
             }
         }
 
-
-        private static void DrawLine(Texture2D tex, int x0, int y0, int x1, int y1, Color col)
+        public static void DrawLine(Texture2D tex, int x0, int y0, int x1, int y1, Color col)
         {
             int dy = (int)(y1-y0);
             int dx = (int)(x1-x0);
@@ -181,10 +193,19 @@ namespace XMonoNodeEditor
             }
         }
 
-        private static Texture2D GenerateEaseTexture(XMonoNode.EasingMode mode, Color line)
+        private static bool InRange(float value, float min, float max)
         {
-            int width = 84;
-            int padding = 17;
+            return min <= value && value <= max;
+        }
+
+        private static Texture2D GenerateEaseTexture(XMonoNode.EasingMode mode, bool clamped01)
+        {
+            Color backColor = new Color(0.15f, 0.15f, 0.15f, 0.5f);
+            Color borderColor = Color.black;
+            Color axesColor = new Color(0f, 0f, 0f, 0.1f);
+            Color curveColor = Color.blue;
+            int width = 90;
+            int padding = 20;
             Texture2D tex = new Texture2D(width, width);
             Color[] cols = new Color[width * width];
             for (int y = 0; y < width; y++)
@@ -192,7 +213,7 @@ namespace XMonoNodeEditor
                 for (int x = 0; x < width; x++)
                 {
                     
-                    cols[(y * width) + x] = Color.clear;
+                    cols[(y * width) + x] = backColor;
                 }
             }
             tex.SetPixels(cols);
@@ -201,8 +222,8 @@ namespace XMonoNodeEditor
             tex.name = mode.ToString();
 
             // axes
-            DrawLine(tex, padding, 0, padding, width, new Color(0f, 0f, 0f, 0.5f));
-            DrawLine(tex, 0, padding, width, padding, new Color(0f, 0f, 0f, 0.5f));
+            DrawLine(tex, padding, 0, padding, width, axesColor);
+            DrawLine(tex, 0, padding, width, padding, axesColor);
 
             // 1,1 lines
             DrawLine(tex, width - padding, width - padding, padding, width - padding, new Color(0.5f, 0.5f, 0.5f, 0.5f));
@@ -212,19 +233,34 @@ namespace XMonoNodeEditor
             int x0 = 0;
             int y0 = 0;
             int areaWidth = width - 2*padding;
-            for (int x_ = 0; x_ < areaWidth; ++x_)
+            for (int x_ = -padding; x_ < width; ++x_)
             {
-                int y = Mathf.RoundToInt(XMonoNode.FloatEase.Ease(x_ / (float)areaWidth, mode) * areaWidth);
+                float t = x_ / (float)areaWidth;
+                if (clamped01)
+                {
+                    t = Mathf.Clamp01(t);
+                }
+                int y = Mathf.RoundToInt(XMonoNode.FloatEase.Ease(t, mode) * areaWidth);
                 y += padding;
                 int x = x_ + padding;
 
-                if (x_ != 0)
+                if (x_ != -padding
+                    && InRange(x0, 0, width - 1)
+                    && InRange(y0, 0, width - 1)
+                    && InRange(x, 0, width - 1)
+                    && InRange(y, 0, width - 1))
                 {
-                    DrawLine(tex, x0, y0, x, y, line);
+                    DrawLine(tex, x0, y0, x, y, curveColor);
                 }
                 x0 = x;
                 y0 = y;
             }
+
+            DrawLine(tex, 0, 0, 0, width - 1, borderColor);
+            DrawLine(tex, width - 1, 0, width - 1, width - 1, borderColor);
+            DrawLine(tex, 0, 0, width, 0, borderColor);
+            DrawLine(tex, 0, width-1, width, width-1, borderColor);
+            // DrawLine(tex, width - padding, width - padding, width - padding, padding, new Color(0.5f, 0.5f, 0.5f, 0.5f));
 
             tex.Apply();
             return tex;

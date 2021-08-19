@@ -72,6 +72,8 @@ namespace XMonoNode
             set => easingMode = value;
         }
 
+        public bool Clamped01 => clampedPort.GetInputValue(clamped01);
+
         protected override void Init()
         {
             base.Init();
@@ -85,25 +87,25 @@ namespace XMonoNode
         {
             switch (mode)
             {
-                case EasingMode.Unset:      return 0f;
-                case EasingMode.Linear:     return Easing.Linear(t);
-                case EasingMode.InSine:     return Easing.InSine(t);
-                case EasingMode.OutSine:    return Easing.OutSine(t);
-                case EasingMode.InOutSine:  return Easing.InOutSine(t);
-                case EasingMode.InQuad:     return Easing.InQuad(t);
-                case EasingMode.OutQuad:    return Easing.OutQuad(t);
-                case EasingMode.InOutQuad:  return Easing.InOutQuad(t);
-                case EasingMode.InCubic:    return Easing.InCubic(t);
-                case EasingMode.OutCubic:   return Easing.OutCubic(t);
+                case EasingMode.Unset: return 0f;
+                case EasingMode.Linear: return Easing.Linear(t);
+                case EasingMode.InSine: return Easing.InSine(t);
+                case EasingMode.OutSine: return Easing.OutSine(t);
+                case EasingMode.InOutSine: return Easing.InOutSine(t);
+                case EasingMode.InQuad: return Easing.InQuad(t);
+                case EasingMode.OutQuad: return Easing.OutQuad(t);
+                case EasingMode.InOutQuad: return Easing.InOutQuad(t);
+                case EasingMode.InCubic: return Easing.InCubic(t);
+                case EasingMode.OutCubic: return Easing.OutCubic(t);
                 case EasingMode.InOutCubic: return Easing.InOutCubic(t);
-                case EasingMode.InQuart:    return Easing.InPower(t, 4);
-                case EasingMode.OutQuart:   return Easing.OutPower(t, 4);
+                case EasingMode.InQuart: return Easing.InPower(t, 4);
+                case EasingMode.OutQuart: return Easing.OutPower(t, 4);
                 case EasingMode.InOutQuart: return Easing.InOutPower(t, 4);
-                case EasingMode.InQuint:    return Easing.InPower(t, 5);
-                case EasingMode.OutQuint:   return Easing.OutPower(t, 5);
+                case EasingMode.InQuint: return Easing.InPower(t, 5);
+                case EasingMode.OutQuint: return Easing.OutPower(t, 5);
                 case EasingMode.InOutQuint: return Easing.InOutPower(t, 5);
-                case EasingMode.InExpo:     return t == 0.0f ? 0.0f : Mathf.Pow(1024f, t - 1f);
-                case EasingMode.OutExpo:    return t == 1.0f ? 1.0f : 1.0f - Mathf.Pow(2f, -10f * t);
+                case EasingMode.InExpo: return t == 0.0f ? 0.0f : Mathf.Pow(1024f, t - 1f);
+                case EasingMode.OutExpo: return t == 1.0f ? 1.0f : 1.0f - Mathf.Pow(2f, -10f * t);
                 case EasingMode.InOutExpo:
                 {
                     if (t == 0.0f)
@@ -115,8 +117,22 @@ namespace XMonoNode
                     else
                         return 0.5f * (-Mathf.Pow(2f, -10f * (t - 1f)) + 2f);
                 }
-                case EasingMode.InCirc:     return Easing.InCirc(t);
-                case EasingMode.OutCirc:    return Easing.OutCirc(t);
+                case EasingMode.InCirc:
+                {
+                    if (t > 1f)
+                    {
+                        t = 1f;
+                    }
+                    return Easing.InCirc(t);
+                }
+                case EasingMode.OutCirc:
+                {
+                    if (t < 0f)
+                    {
+                        t = 0;
+                    }
+                    return Easing.OutCirc(t);
+                }
                 case EasingMode.InOutCirc:  return Easing.InOutCirc(t);
                 case EasingMode.InElastic:  return Easing.InElastic(t);
                 case EasingMode.OutElastic: return Easing.OutElastic(t);
@@ -137,7 +153,7 @@ namespace XMonoNode
             if (port == outputPort)
             {
                 input = inputPort.GetInputValue(input);
-                if (clampedPort.GetInputValue(clamped01))
+                if (Clamped01)
                 {
                     input = Mathf.Clamp01(input);
                 }

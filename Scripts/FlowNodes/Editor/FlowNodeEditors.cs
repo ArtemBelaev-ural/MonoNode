@@ -160,7 +160,7 @@ namespace FlowNodesEditor
 
             FloatEase node = target as FloatEase;
 
-            Texture2D tex = FlowNodeEditorResources.EaseTexture(node.EasingMode);
+            Texture2D tex = node.clamped01 ? FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode) : FlowNodeEditorResources.EaseTexture(node.EasingMode);
              
             GUILayout.BeginHorizontal();
             GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
