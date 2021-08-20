@@ -232,7 +232,7 @@ namespace XMonoNodeEditor {
 
             GUILayout.BeginHorizontal();
 
-            bool showNodePalette = GUILayout.Toggle(NodeEditorPreferences.GetSettings().showNodePalette, "Palette", EditorStyles.toolbarButton);
+            bool showNodePalette = GUILayout.Toggle(NodeEditorPreferences.GetSettings().showNodePalette, new GUIContent("Palette", $"{GetNodeTypesForPalette().Length}"), EditorStyles.toolbarButton);
 
             GUILayout.Label(new GUIContent((graphEditor.Target as UnityEngine.Object).name, NodeEditorResources.graph));
 

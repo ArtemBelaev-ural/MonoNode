@@ -6,11 +6,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Float/Min", 71)]
-    [NodeWidth(180)]
+    [NodeWidth(130)]
     public class FloatMin : MonoNode
     {
         [Input(
-            backingValue: ShowBackingValue.Never,
+            backingValue: ShowBackingValue.Unconnected,
             connectionType: ConnectionType.Override,
             dynamicPortList: true)]
 

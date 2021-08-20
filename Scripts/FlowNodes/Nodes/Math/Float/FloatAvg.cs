@@ -6,11 +6,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Float/Avg", 73)]
-    [NodeWidth(180)]
+    [NodeWidth(130)]
     public class FloatAvg : MonoNode
     {
         [Input(
-            backingValue: ShowBackingValue.Never,
+            backingValue: ShowBackingValue.Always,
             connectionType: ConnectionType.Override,
             dynamicPortList: true)]
         public List<float> inputs = new List<float>();

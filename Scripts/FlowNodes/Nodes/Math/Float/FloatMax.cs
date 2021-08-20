@@ -6,11 +6,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Float/Max", 72)]
-    [NodeWidth(180)]
+    [NodeWidth(130)]
     public class FloatMax : MonoNode
     {
         [Input(
-            backingValue: ShowBackingValue.Never,
+            backingValue: ShowBackingValue.Unconnected,
             connectionType: ConnectionType.Override,
             dynamicPortList: true)]
 

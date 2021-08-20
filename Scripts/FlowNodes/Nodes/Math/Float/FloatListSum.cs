@@ -6,11 +6,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Float/ListSum", 74)]
-    [NodeWidth(180)]
+    [NodeWidth(130)]
     public class FloatListSum : MonoNode
     {
         [Input(
-            backingValue: ShowBackingValue.Never,
+            backingValue: ShowBackingValue.Unconnected,
             connectionType: ConnectionType.Override,
             dynamicPortList: true)]
 
