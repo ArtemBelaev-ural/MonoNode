@@ -5,7 +5,7 @@ namespace XMonoNode
 {
     [NodeWidth(350)]
     [CreateNodeMenu("Unity/InvokeEvent", 14)]
-    public class InvokeEvent : FlowNode
+    public class InvokeEvent : FlowNodeInOut
     {
         public UnityEvent Target;
 

@@ -6,7 +6,7 @@ namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForFlow", 535)]
     [NodeWidth(160)]
-    public class WaitForFlowNode : FlowNode
+    public class WaitForFlowNode : FlowNodeInOut
     {
         [Input, NodeInspectorButton] public Flow flow;
 

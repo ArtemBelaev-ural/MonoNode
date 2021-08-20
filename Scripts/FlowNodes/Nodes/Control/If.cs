@@ -5,7 +5,7 @@ namespace XMonoNode
 {
     [NodeWidth(175)]
     [CreateNodeMenu("Control/" + nameof(If), 11)]
-    public class If : FlowNode
+    public class If : FlowNodeInOut
     {
         [Inline]
         [Input, NodeInspectorButton] public bool condition;

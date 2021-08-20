@@ -42,12 +42,26 @@ namespace XMonoNode
             list.Clear();
         }
 
+        public void DestroySourcesIfLoop()
+        {
+            foreach (AudioSource source in list)
+            {
+                if (source != null && source.loop)
+                {
+                    Object.DestroyImmediate(source.gameObject);
+                }
+            }
+            list.Clear();
+        }
+
         public bool IsPlaying 
         {
             get
             {
+               // Debug.Log("IsPlaying");
                 foreach (AudioSource source in list)
                 {
+                   // Debug.Log(source + " " + source?.isPlaying);
                     if (source != null && source.isPlaying)
                     {
                         return true;

@@ -4,7 +4,7 @@ namespace XMonoNode
 {
     [NodeWidth(250)]
     [CreateNodeMenu("Control/" + nameof(StringBranch), 18)]
-    public class StringBranch : FlowNode
+    public class StringBranch : FlowNodeInOut
     {
         [Input] public string StringTrue;
         

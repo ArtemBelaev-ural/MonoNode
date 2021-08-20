@@ -6,7 +6,7 @@ namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForNextFrame", 536)]
     [NodeWidth(160)]
-    public class WaitForNextFrameNode : FlowNode
+    public class WaitForNextFrameNode : FlowNodeInOut
     {
         private long flowUpdateNumber = -1;
 

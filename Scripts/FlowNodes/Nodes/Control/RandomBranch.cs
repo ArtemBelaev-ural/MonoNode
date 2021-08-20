@@ -4,6 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Control/" + nameof(RandomBranch), 19)]
+    [NodeWidth(130)]
     public class RandomBranch : MonoNode, IFlowNode
     {
         [Input(backingValue: ShowBackingValue.Never,
@@ -11,7 +12,8 @@ namespace XMonoNode
             typeConstraint: TypeConstraint.None), NodeInspectorButton]
         public Flow FlowInput;
 
-        [Output(dynamicPortList: true), FlowPort] public int[] FlowOutputWeights;
+        [Output(dynamicPortList: true, backingValue: ShowBackingValue.Always), FlowPort, NodeInspectorButton]
+        public int[] FlowOutputWeights;
 
         private NodePort flowInputPort;
 
@@ -32,6 +34,7 @@ namespace XMonoNode
 
             flowInputPort = GetInputPort(nameof(FlowInput));
             flowInputPort.label = "Enter";
+
         }
 
         public void Flow(NodePort flowPort)

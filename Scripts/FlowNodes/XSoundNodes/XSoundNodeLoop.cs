@@ -10,7 +10,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Loop", 202)]
     [CreateNodeMenu("Sound/Loop", 202)]
-    [NodeWidth(140)]
+    [NodeWidth(130)]
     public class XSoundNodeLoop : XSoundNodeSimpleOutput
     {
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
@@ -19,7 +19,7 @@ namespace XMonoNode
         private void Reset()
         {
             Name = "Loop";
-        }
+        } 
 
         public override object GetValue(NodePort port)
         {

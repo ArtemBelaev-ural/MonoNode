@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Animation/"+nameof(PlayAnimation), 1)]
-    public class PlayAnimation : FlowNode 
+    public class PlayAnimation : FlowNodeInOut 
     {
         [Input] public Animator Target;
         [Input] public string StateName;

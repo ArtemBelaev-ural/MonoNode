@@ -60,7 +60,7 @@ namespace FlowNodesEditor
                 var ports = node.Ports;
                 foreach (NodePort port in ports)
                 {
-                    if (port != null && port.ValueType == typeof(Flow) && NodeEditorUtilities.GetPortButtonPressed(port))
+                    if (port != null /*&& port.ValueType == typeof(Flow)*/ && NodeEditorUtilities.GetPortButtonPressed(port))
                     {
                         FlowUtils.Flow(port);
                     }

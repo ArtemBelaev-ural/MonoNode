@@ -4,15 +4,21 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Float/Div", 4)]
-    [NodeWidth(160)]
+    [NodeWidth(150)]
     public class FloatDiv : MonoNode
     {
         [Input] public float a;
-        [Input] public float b;
+        [Input] public float b = 100f;
         [Output] public float result;
 
         private NodePort portA;
         private NodePort portB;
+
+        private void Reset()
+        {
+            Name = "/";
+        }
+
         protected override void Init()
         {
             base.Init();

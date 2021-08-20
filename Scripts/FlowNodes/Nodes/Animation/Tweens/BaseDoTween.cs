@@ -4,12 +4,22 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    public abstract class BaseDoTween : FlowNode
+    public abstract class BaseDoTween : FlowNodeInOut
     {
+        [Input(connectionType: ConnectionType.Override)]
         public float Duration = 1;
+
+        [Input(connectionType: ConnectionType.Override)]
         public float DelaySeconds = 0;
+
+        [Input(connectionType: ConnectionType.Override)]
         public int LoopsAmount;
+
+
+        [NodeEnum]
         public LoopType Loop;
+
+        [NodeEnum]
         public Ease Easing = Ease.Linear;
 
         protected Tweener tween;

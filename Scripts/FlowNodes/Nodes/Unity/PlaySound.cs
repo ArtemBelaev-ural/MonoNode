@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Sound/Play Clip", 10001)]
-    public class PlaySound : FlowNode 
+    public class PlaySound : FlowNodeInOut 
     {
         [Input] public AudioClip Audio;
         [Input] public Vector3 TargetPosition;

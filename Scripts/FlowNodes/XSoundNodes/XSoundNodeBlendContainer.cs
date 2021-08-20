@@ -9,6 +9,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Blend Container", 301)]
     [CreateNodeMenu("Sound/Blend Container", 301)]
+    [NodeWidth(110)]
     public class XSoundNodeBlendContainer : XSoundNodesList
     {
         private void Reset()

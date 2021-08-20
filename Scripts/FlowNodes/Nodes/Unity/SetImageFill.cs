@@ -5,7 +5,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(SetImageFill), "Sprite")]
-    public class SetImageFill : FlowNode
+    public class SetImageFill : FlowNodeInOut
     {
         [Input] public Image Target;
         [Input] public float Fill;

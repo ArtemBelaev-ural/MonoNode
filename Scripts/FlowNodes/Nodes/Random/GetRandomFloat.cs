@@ -4,6 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Random/Float", 1)]
+    [NodeWidth(160)]
     public class GetRandomFloat : MonoNode
     {
         [Input] public float Min;

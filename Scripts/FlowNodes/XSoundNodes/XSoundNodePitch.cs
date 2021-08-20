@@ -11,7 +11,7 @@ namespace XMonoNode
     [AddComponentMenu("X Sound Node/Pitch", 53)]
     [CreateNodeMenu("Sound/Pitch", 53)]
     [NodeWidth(160)]
-    public class XSoundNodePitch : FlowNode
+    public class XSoundNodePitch : FlowNodeInOut
     {
         [Inline]
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]

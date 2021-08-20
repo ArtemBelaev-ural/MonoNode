@@ -9,6 +9,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Random Container", 303)]
     [CreateNodeMenu("Sound/Random Container", 303)]
+    [NodeWidth(150)]
     public class XSoundNodeRandomContainer : XSoundNodesList
     {
         [Input(

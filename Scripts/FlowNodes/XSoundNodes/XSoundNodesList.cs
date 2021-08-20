@@ -11,7 +11,7 @@ namespace XMonoNode
     public abstract class XSoundNodesList : XSoundNodeBase
     {
         [Input(
-            backingValue: ShowBackingValue.Unconnected, 
+            backingValue: ShowBackingValue.Never, 
             connectionType: ConnectionType.Override, 
             typeConstraint: TypeConstraint.Inherited, 
             dynamicPortList: true)]

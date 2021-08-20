@@ -5,7 +5,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(SetText), "Set", "Text")]
-    public class SetText : FlowNode
+    public class SetText : FlowNodeInOut
     {
         [Input] public Text Target;
         [Input] public string Text;

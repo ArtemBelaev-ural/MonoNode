@@ -115,9 +115,12 @@ namespace XMonoNode
             AudioSource source = new GameObject(name).AddComponent<AudioSource>();
             source.playOnAwake = false;
 #if UNITY_EDITOR
-            source.gameObject.hideFlags = HideFlags.HideAndDontSave;
+            if (!Application.isPlaying)
+            {
+                source.gameObject.hideFlags = HideFlags.HideAndDontSave;
+            }
 #endif
-            //source.transform.SetParent(transform);
+            source.transform.SetParent(transform);
             return source;
         }
 
@@ -164,7 +167,7 @@ namespace XMonoNode
                 yield return new UnityEngine.WaitForSeconds(1);
             }
 
-            if (source != null)
+            if (source != null && source.loop == false)
             {
                 source.gameObject.SetActive(false);
                 source.transform.SetParent(transform);

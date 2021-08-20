@@ -5,7 +5,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(SetImage), "Set", "Image", "Sprite")]
-    public class SetImage : FlowNode
+    public class SetImage : FlowNodeInOut
     {
         [Input] public Image Target;
         [Input] public Sprite MySprite;

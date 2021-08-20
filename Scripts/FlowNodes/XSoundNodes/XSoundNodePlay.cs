@@ -11,9 +11,9 @@ namespace XMonoNode
     [AddComponentMenu("X Sound Node/Play", 5)]
     [CreateNodeMenu("Sound/Play", 5)]
     [NodeTint(105, 65, 65)]
-    [NodeWidth(160)]
+    [NodeWidth(150)]
     [ExecuteInEditMode]
-    public class XSoundNodePlay : FlowNode
+    public class XSoundNodePlay : FlowNodeInOut
     {
         [Output, NodeInspectorButton] public Flow whilePlay;
         
@@ -168,6 +168,7 @@ namespace XMonoNode
             {
                 playing.DestroySourcesIfStopped();
             }
+            playing.DestroySourcesIfLoop();
             playing.List.Clear();
         }
 

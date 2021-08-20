@@ -11,10 +11,10 @@ namespace XMonoNode
     [AddComponentMenu("X Sound Node/Volume", 52)]
     [CreateNodeMenu("Sound/Volume", 52)]
     [NodeWidth(160)]
-    public class XSoundNodeVolume : FlowNode
+    public class XSoundNodeVolume : FlowNodeInOut
     {
         [Inline]
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
         public AudioSources audioInput;
 
         [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]

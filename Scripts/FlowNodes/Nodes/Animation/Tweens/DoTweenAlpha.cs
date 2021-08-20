@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using XMonoNode;
 
+
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/Alpha")]
+    [CreateNodeMenu("Animation/DoTween/Alpha")]
     public class DoTweenAlpha : BaseDoTween
     {
         [Input] public Graphic Target;
@@ -24,7 +25,7 @@ namespace XMonoNode
             }
         }
 
-        public override void FlowNode()
+        public override void Flow(NodePort flowPort)
         {
             StartTween(GetInputValue(nameof(TargetValue), TargetValue));
         }

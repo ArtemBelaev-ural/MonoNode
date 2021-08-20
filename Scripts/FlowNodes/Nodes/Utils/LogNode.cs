@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Utils/Log", 521)]
-    public class LogNode : FlowNode 
+    public class LogNode : FlowNodeInOut 
     {
         [Input] public string Text;
 

@@ -114,8 +114,8 @@ namespace XMonoNode
 
             durationPort.label = "Duration (sec)";
 
-            elapsedPercentPort.label = "elapsed %";
-            remainingPercentPort.label = "remaining %";
+            elapsedPercentPort.label = "Elapsed %";
+            remainingPercentPort.label = "Remaining %";
         }
 
         public void TriggerFlow()
@@ -164,7 +164,7 @@ namespace XMonoNode
             }
             else if (port == elapsedPercentPort)
             {
-                return (duration - remainingSec) / duration * 100.0f;
+                return (duration - remainingSec) / duration;
             }
             else if (port == remainingPort)
             {
@@ -172,7 +172,7 @@ namespace XMonoNode
             }
             else if (port == remainingPercentPort)
             {
-                return remainingSec / duration * 100.0f;
+                return remainingSec / duration;
             }
 
 

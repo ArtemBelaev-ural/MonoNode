@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/SetActive")]
-    public class SetActive : FlowNode 
+    public class SetActive : FlowNodeInOut 
     {
         public enum ActiveOptions
         {

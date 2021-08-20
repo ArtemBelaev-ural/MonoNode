@@ -5,7 +5,8 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Time/WaitForSeconds", 532)]
-    public class WaitForSecondsNode : FlowNode
+    [NodeWidth(160)]
+    public class WaitForSecondsNode : FlowNodeInOut
     {
         [Input] public float WaitSeconds;
 

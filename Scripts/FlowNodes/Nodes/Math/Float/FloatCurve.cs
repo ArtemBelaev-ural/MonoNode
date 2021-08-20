@@ -10,6 +10,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("Math/FloatCurve")]
     [CreateNodeMenu("Float/Curve", 61)]
+    [NodeWidth(185)]
     public class FloatCurve : MonoNode
     {
         [Inline]

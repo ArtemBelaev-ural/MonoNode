@@ -5,13 +5,16 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/Scale")]
+    [CreateNodeMenu("Animation/DoTween/Scale")]
     public class DoTweenScaleTo : BaseDoTween
     {
-        [Input] public GameObject Target;
-        [Input] public Vector3 TargetValue;
+        [Input(connectionType: ConnectionType.Override)]
+        public GameObject Target;
 
-        public override void FlowNode()
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3 TargetValue;
+
+        public override void Flow(NodePort flowPort)
         {
             StartTween(GetInputValue(nameof(TargetValue), TargetValue));
         }

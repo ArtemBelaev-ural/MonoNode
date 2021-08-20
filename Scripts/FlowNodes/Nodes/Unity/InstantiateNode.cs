@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/" + nameof(InstantiateNode), "Instantiate", "Create", "Spawn")]
-    public class InstantiateNode : FlowNode
+    public class InstantiateNode : FlowNodeInOut
     {
         [Input] public GameObject Prefab;
         [Input] public Transform Parent;

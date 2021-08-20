@@ -5,13 +5,13 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/Rotate")]
-    public class DoTweenRotate : BaseDoTween
+    [CreateNodeMenu("Animation/DoTween/MoveTo")]
+    public class DoTweenMoveTo : BaseDoTween
     {
         [Input] public GameObject Target;
         [Input] public Vector3 TargetValue;
 
-        public override void FlowNode()
+        public override void Flow(NodePort flowPort)
         {
             StartTween(GetInputValue(nameof(TargetValue), TargetValue));
         }
@@ -22,10 +22,11 @@ namespace XMonoNode
             {
                 var target = GetInputValue(nameof(Target), Target);
                 var duration = GetInputValue(nameof(Duration), Duration);
-                tween = target.transform.DORotate(targetValue, duration);
+                tween = target.transform.DOMove(targetValue, duration);
                 SetupTween(tween);
             }
         }
     }
 }
 #endif
+

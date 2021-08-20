@@ -9,6 +9,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Sequence Container", 302)]
     [CreateNodeMenu("Sound/Sequence Container", 302) ]
+    [NodeWidth(150)]
     public class XSoundNodeSequenceContainer : XSoundNodesList
     {
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]

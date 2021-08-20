@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [NodeWidth(220)]
+    [NodeWidth(160)]
     [CreateNodeMenu("Control/Probability", 19)]
-    public class Probability : FlowNode
+    public class Probability : FlowNodeInOut
     {
         [Output, NodeInspectorButton] public Flow Else;
 

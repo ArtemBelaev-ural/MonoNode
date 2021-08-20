@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(LoadSpriteResource), "Load", "Image", "Sprite")]
-    public class LoadSpriteResource : FlowNode
+    public class LoadSpriteResource : FlowNodeInOut
     {
         [Input] public string SpriteName;
         [Output] public Sprite Result;

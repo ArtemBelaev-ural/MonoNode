@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("UI/" + nameof(SetSprite))]
-    public class SetSprite : FlowNode
+    public class SetSprite : FlowNodeInOut
     {
         [Input] public SpriteRenderer Target;
         [Input] public Sprite MySprite;

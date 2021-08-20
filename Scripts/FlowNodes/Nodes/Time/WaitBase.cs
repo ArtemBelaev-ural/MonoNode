@@ -4,7 +4,7 @@ using UnityEngine;
 namespace XMonoNode
 {
     [NodeWidth(160)]
-    public abstract class WaitBase : FlowNode
+    public abstract class WaitBase : FlowNodeInOut
     {
         [Input] public bool condition;
 

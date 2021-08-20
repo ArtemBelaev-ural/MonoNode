@@ -11,7 +11,7 @@ namespace XMonoNode
     [CreateNodeMenu("Float/Smooth", 66)]
     [NodeWidth(170)]
     [ExecuteInEditMode]
-    public class FloatSmooth : FlowNode
+    public class FloatSmooth : FlowNodeInOut
     {
 
         [Input(connectionType: ConnectionType.Override)]

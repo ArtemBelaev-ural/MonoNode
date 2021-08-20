@@ -2,7 +2,7 @@
 
 namespace XMonoNode
 {
-    public abstract class FlowNode : MonoNode, IFlowNode
+    public abstract class FlowNodeIn : MonoNode, IFlowNode
     {
         [Inline]
         [Input(backingValue: ShowBackingValue.Never,
@@ -10,23 +10,13 @@ namespace XMonoNode
             typeConstraint: TypeConstraint.None), NodeInspectorButton]
         public Flow FlowInput;
 
-        [Output(backingValue: ShowBackingValue.Never,
-            connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.None), NodeInspectorButton]
-        public Flow FlowOutput;
 
         private NodePort flowInputPort;
-        private NodePort flowOutputPort;
 
         public NodePort FlowInputPort
         {
             get => flowInputPort;
             set => flowInputPort = value;
-        }
-        public NodePort FlowOutputPort
-        {
-            get => flowOutputPort;
-            set => flowOutputPort = value;
         }
 
         protected override void Init()
@@ -34,15 +24,13 @@ namespace XMonoNode
             base.Init();
 
             flowInputPort = GetInputPort(nameof(FlowInput));
-            flowOutputPort = GetOutputPort(nameof(FlowOutput));
 
             flowInputPort.label = "Enter";
-            flowOutputPort.label = "Exit";
         }
 
         public virtual void TriggerFlow()
         {
-            FlowUtils.FlowOutput(FlowOutputPort);
+            
         }
 
         /// <summary>
