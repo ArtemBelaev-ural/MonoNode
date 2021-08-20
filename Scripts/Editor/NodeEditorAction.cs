@@ -565,14 +565,18 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Puts all selected nodes in focus. If no nodes are present, resets view and zoom to to origin </summary>
-        public void Home() {
+        public void Home()
+        {
             var nodes = Selection.objects.Where(o => o is XMonoNode.INode).Cast<XMonoNode.INode>().ToList();
-            if (nodes.Count > 0) {
+            if (nodes.Count > 0)
+            {
                 Vector2 minPos = nodes.Select(x => x.Position).Aggregate((x, y) => new Vector2(Mathf.Min(x.x, y.x), Mathf.Min(x.y, y.y)));
                 Vector2 maxPos = nodes.Select(x => x.Position + (nodeSizes.ContainsKey(x) ? nodeSizes[x] : Vector2.zero)).Aggregate((x, y) => new Vector2(Mathf.Max(x.x, y.x), Mathf.Max(x.y, y.y)));
                 panOffset = -(minPos + (maxPos - minPos) / 2f);
-            } else {
-                zoom = 2;
+            }
+            else
+            {
+                zoom = 1;
                 panOffset = Vector2.zero;
             }
         }

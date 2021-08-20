@@ -13,11 +13,7 @@ namespace XMonoNode
 
         private NodePort flowInputPort;
 
-        public NodePort FlowInputPort
-        {
-            get => flowInputPort;
-            set => flowInputPort = value;
-        }
+        public NodePort FlowInputPort => flowInputPort;
 
         protected override void Init()
         {

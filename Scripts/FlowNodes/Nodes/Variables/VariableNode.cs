@@ -22,13 +22,7 @@ namespace XMonoNode
         [Output]
         public T output = default(T);
 
-        public override System.Type Type
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
+        public override System.Type Type => typeof(T);
 
         private void Reset()
         {

@@ -11,11 +11,7 @@ namespace XMonoNode
 
         private NodePort flowOutputPort;
 
-        public NodePort FlowOutputPort
-        {
-            get => flowOutputPort;
-            set => flowOutputPort = value;
-        }
+        public NodePort FlowOutputPort => flowOutputPort;
 
         protected override void Init()
         {

@@ -10,8 +10,6 @@ namespace XMonoNodeEditor {
         public static Texture2D dotOuter { get { return _dotOuter != null ? _dotOuter : _dotOuter = Resources.Load<Texture2D>("xnode_dot_outer"); } }
         private static Texture2D _dotOuter;
 
-
-
         public static Texture2D nodeBody { get { return _nodeBody != null ? _nodeBody : _nodeBody = Resources.Load<Texture2D>("xnode_node"); } }
         private static Texture2D _nodeBody;
 
@@ -27,14 +25,24 @@ namespace XMonoNodeEditor {
         public static Texture2D nodeHighlight { get { return _nodeHighlight != null ? _nodeHighlight : _nodeHighlight = Resources.Load<Texture2D>("xnode_node_highlight"); } }
         private static Texture2D _nodeHighlight;
 
+
         public static Texture2D graph
         {
             get
             {
-                return _graph != null ? _graph : _graph = Resources.Load<Texture2D>("graph");
+                return _graph != null ? _graph : _graph = Resources.Load<Texture2D>("xnode_graph");
             }
         }
         static Texture2D _graph = null;
+
+        public static Texture2D home
+        {
+            get
+            {
+                return _home != null ? _home : _home = Resources.Load<Texture2D>("xnode_home");
+            }
+        }
+        static Texture2D _home = null;
 
         // Styles
         public static Styles styles { get { return _styles != null ? _styles : _styles = new Styles(); } }
