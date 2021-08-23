@@ -5,14 +5,11 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/DoTween/Scale")]
-    public class DoTweenScaleTo : BaseDoTween
+    [CreateNodeMenu("Animation/DoTween/MoveTo", 91)]
+    public class DoTweenMoveTo : BaseDoTween
     {
-        [Input(connectionType: ConnectionType.Override)]
-        public GameObject Target;
-
-        [Input(connectionType: ConnectionType.Override)]
-        public Vector3 TargetValue;
+        [Input] public GameObject Target;
+        [Input] public Vector3 TargetValue;
 
         public override void Flow(NodePort flowPort)
         {
@@ -25,10 +22,11 @@ namespace XMonoNode
             {
                 var target = GetInputValue(nameof(Target), Target);
                 var duration = GetInputValue(nameof(Duration), Duration);
-                tween = target.transform.DOScale(targetValue, duration);
+                tween = target.transform.DOMove(targetValue, duration);
                 SetupTween(tween);
             }
         }
     }
 }
 #endif
+

@@ -3,11 +3,11 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/GetPosition", 404)]
-    public class GetPosition : MonoNode
+    [CreateNodeMenu("GameObject/GetLocalPosition", 405)]
+    public class GetLocalPosition : MonoNode
     {
         [Input] public GameObject Target;
-        [Output] public Vector3 _position;
+        [Output] public Vector3 localPosition;
         [Output] public Vector3 x;
         [Output] public Vector3 y;
         [Output] public Vector3 z;
@@ -21,24 +21,24 @@ namespace XMonoNode
                 return null;
             }
 
-            if (port.fieldName == nameof(_position))
+            if (port.fieldName == nameof(localPosition))
             {
-                return target.transform.position;
+                return target.transform.localPosition;
             }
 
             if (port.fieldName == nameof(x))
             {
-                return target.transform.position.x;
+                return target.transform.localPosition.x;
             }
 
             if (port.fieldName == nameof(y))
             {
-                return target.transform.position.y;
+                return target.transform.localPosition.y;
             }
 
             if (port.fieldName == nameof(z))
             {
-                return target.transform.position.z;
+                return target.transform.localPosition.z;
             }
 
             return null; // Replace this

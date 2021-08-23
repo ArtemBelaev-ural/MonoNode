@@ -160,7 +160,7 @@ namespace XMonoNode
                 TimerCompleted();
                 return;
             }
-            value = GetValue((duration - remainingSec) / duration);
+            value = GetValue(FloatEase.Ease((duration - remainingSec) / duration, EasingMode));
         }
 
         private void TimerCompleted()

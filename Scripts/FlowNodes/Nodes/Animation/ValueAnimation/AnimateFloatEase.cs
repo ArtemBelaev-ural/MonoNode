@@ -15,7 +15,7 @@ namespace XMonoNode
 
         protected override float GetValue(float tNormal)
         {
-            return from + (to - from) * FloatEase.Ease(tNormal, EasingMode);
+            return from + (to - from) * tNormal;
         }
     }
 

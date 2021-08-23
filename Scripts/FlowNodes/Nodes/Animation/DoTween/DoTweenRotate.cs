@@ -5,7 +5,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/DoTween/Rotate")]
+    [CreateNodeMenu("Animation/DoTween/Rotate", 92)]
     public class DoTweenRotate : BaseDoTween
     {
         [Input(connectionType: ConnectionType.Override)]

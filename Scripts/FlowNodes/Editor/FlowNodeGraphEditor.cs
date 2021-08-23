@@ -123,7 +123,7 @@ namespace FlowNodesEditor
             Type portType = port.ValueType;
             if (portType == typeof(Flow))
             {
-                return (port.direction == NodePort.IO.Input ? "Input " : "Output ") + portType.Name + ": " + NodeEditorGUILayout.portGuiContent(port);
+                return (port.direction == NodePort.IO.Input ? "Input " : "Output ") + portType.Name + ": " + (string.IsNullOrEmpty(port.label) ? ObjectNames.NicifyVariableName(port.fieldName) : port.label);
             }
             else
             {

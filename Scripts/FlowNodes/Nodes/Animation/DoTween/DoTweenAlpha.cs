@@ -7,7 +7,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/DoTween/Alpha")]
+    [CreateNodeMenu("Animation/DoTween/Alpha", 94)]
     public class DoTweenAlpha : BaseDoTween
     {
         [Input] public Graphic Target;
