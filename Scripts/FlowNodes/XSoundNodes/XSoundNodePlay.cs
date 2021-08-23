@@ -53,7 +53,7 @@ namespace XMonoNode
             }
         }
 
-        public override void TriggerFlow() // Чтобы поток продолжался только когда звук завершится
+        public override void TriggerFlow()
         {
             // не вызывать base.TriggerFlow() - это приведет к бесконечной рекурсии
         }
@@ -61,6 +61,11 @@ namespace XMonoNode
         private void Reset()
         {
             Name = "Play";
+        }
+
+        public XSoundNodePlay()
+        {
+            playing = new AudioSources();
         }
 
         protected override void Init()
@@ -78,8 +83,7 @@ namespace XMonoNode
             onEndPort = GetOutputPort(nameof(onEnd));
 
             GetInputPort(nameof(audioInput)).label = "Input";
-
-            playing = new AudioSources();
+            
         }
 
         private void Update()
@@ -103,7 +107,6 @@ namespace XMonoNode
                 {
                     playing.List.RemoveAll(s => s == null || s.loop == false); // нельзя удалять loop звуки, т.к. stop может быть вызван unity при переходе в другое окно
                 }
-
             }
         }
 
@@ -120,7 +123,7 @@ namespace XMonoNode
             AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput));
             if (sources == null) // только нуллы - ошибка. Пустой контейнер (sources.List.Count == 0) - это нормально
             {
-                Debug.LogErrorFormat(this, "Лёха!!! У ноды play не задан источник! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
+                Debug.LogErrorFormat(this, "An audio source is not attached to the Play node {0} ({1})".Color(Color.magenta), gameObject.name, Name);
                 return;
             }
 
@@ -141,6 +144,7 @@ namespace XMonoNode
 
             // Удаляем все, кроме зацикленных
             playing.List.RemoveAll(s => s == null || (!s.loop && !s.isPlaying));
+            
             playing.List.AddRange(sources.List);
         }
 

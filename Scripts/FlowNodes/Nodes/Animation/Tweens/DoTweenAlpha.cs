@@ -14,17 +14,6 @@ namespace XMonoNode
         [Input] public float TargetValue;
         private Material objectMaterial;
 
-        protected override void Init()
-        {
-            base.Init();
-            if (Target != null)
-            {
-                var target = GetInputValue(nameof(Target), Target);
-                objectMaterial = new Material(target.material);
-                target.material = objectMaterial;
-            }
-        }
-
         public override void Flow(NodePort flowPort)
         {
             StartTween(GetInputValue(nameof(TargetValue), TargetValue));
@@ -34,10 +23,16 @@ namespace XMonoNode
         {
             if (tween == null)
             {
-                var target = GetInputValue(nameof(Target), Target);
-                var duration = GetInputValue(nameof(Duration), Duration);
-                tween = objectMaterial.DOFade(targetValue, duration);
-                SetupTween(tween);
+                Target = GetInputValue(nameof(Target), Target);
+                if (Target != null)
+                {
+                    objectMaterial = new Material(Target.material);
+                    Target.material = objectMaterial;
+
+                    var duration = GetInputValue(nameof(Duration), Duration);
+                    tween = objectMaterial.DOFade(targetValue, duration);
+                    SetupTween(tween);
+                }
             }
         }
     }
