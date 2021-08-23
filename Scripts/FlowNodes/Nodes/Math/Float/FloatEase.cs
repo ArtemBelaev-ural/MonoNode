@@ -62,10 +62,6 @@ namespace XMonoNode
         [SerializeField, NodeEnum]
         private EasingMode      easingMode = EasingMode.Linear;
 
-        private NodePort inputPort;
-        private NodePort outputPort;
-        private NodePort clampedPort;
-
         public EasingMode EasingMode
         {
             get => easingMode;
@@ -82,6 +78,10 @@ namespace XMonoNode
             outputPort = GetOutputPort(nameof(output));
             clampedPort = GetInputPort(nameof(clamped01));
         }
+
+        private NodePort inputPort;
+        private NodePort outputPort;
+        private NodePort clampedPort;
 
         public static float Ease(float t, EasingMode mode)
         {

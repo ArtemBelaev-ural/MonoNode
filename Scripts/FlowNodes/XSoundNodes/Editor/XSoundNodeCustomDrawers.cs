@@ -10,6 +10,21 @@ namespace XMonoNodeEditor
     [CustomPropertyDrawer(typeof(PathToAudioClipAttribute))]
     public class PathToAudioClipAttributeDrawer : PropertyDrawer
     {
+        private static AudioSource source = null;
+
+        public static AudioSource Source
+        {
+            get
+            {
+                if (source == null)
+                {
+                    source = new AudioSource();
+                    source.gameObject.hideFlags = HideFlags.HideAndDontSave;
+                }
+                return source;
+            }
+        }
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
 
@@ -41,7 +56,7 @@ namespace XMonoNodeEditor
                 string tooltip = clip != null ? "play" : ("No audio clip at path: \"" + path + "\"");
                 if (GUI.Button(position, new GUIContent("", tooltip), clip != null ? FlowNodeEditorResources.styles.playButton : FlowNodeEditorResources.styles.errorButton))
                 {
-                    AudioSource.PlayClipAtPoint(clip, Vector3.zero);
+                    Source.PlayOneShot(clip);
                 }
 
                 GUI.enabled = guiEnabled;

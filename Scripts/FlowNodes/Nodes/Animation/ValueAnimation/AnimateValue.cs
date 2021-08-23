@@ -47,6 +47,15 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public float duration = 1;
 
+        [SerializeField, NodeEnum]
+        private EasingMode      easingMode = EasingMode.Linear;
+
+        public EasingMode EasingMode
+        {
+            get => easingMode;
+            set => easingMode = value;
+        }
+
         public override System.Type Type => typeof(T);
 
         public NodePort StopPort => stopPort;

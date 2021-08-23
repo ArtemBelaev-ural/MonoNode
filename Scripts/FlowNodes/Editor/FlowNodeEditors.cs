@@ -160,8 +160,44 @@ namespace FlowNodesEditor
 
             FloatEase node = target as FloatEase;
 
-            Texture2D tex = node.clamped01 ? FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode) : FlowNodeEditorResources.EaseTexture(node.EasingMode);
+            Texture2D tex = node.Clamped01 ? FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode) : FlowNodeEditorResources.EaseTexture(node.EasingMode);
              
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+            GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+            GUILayout.EndHorizontal();
+        }
+    }
+
+    [CustomNodeEditor(typeof(AnimateFloatEase))]
+    public class AnimateFloatEaseEditor : NodeEditor
+    {
+        public override void OnBodyGUI()
+        {
+            base.OnBodyGUI();
+
+            AnimateFloatEase node = target as AnimateFloatEase;
+
+            Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+            GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+            GUILayout.EndHorizontal();
+        }
+    }
+
+    [CustomNodeEditor(typeof(AnimateVector3Ease))]
+    public class AnimateVector3EaseEditor : NodeEditor
+    {
+        public override void OnBodyGUI()
+        {
+            base.OnBodyGUI();
+
+            AnimateVector3Ease node = target as AnimateVector3Ease;
+
+            Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode);
+
             GUILayout.BeginHorizontal();
             GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
             GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));

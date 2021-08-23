@@ -4,8 +4,8 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Animation/AnimateValue/Float")]
-    [NodeWidth(170)]
-    public class AnimateFloat : AnimateValue<float>
+    [NodeWidth(190)]
+    public class AnimateFloatEase : AnimateValue<float>
     {
         private void Reset()
         {
@@ -15,7 +15,7 @@ namespace XMonoNode
 
         protected override float GetValue(float tNormal)
         {
-            return from + (to - from) * tNormal;
+            return from + (to - from) * FloatEase.Ease(tNormal, EasingMode);
         }
     }
 
