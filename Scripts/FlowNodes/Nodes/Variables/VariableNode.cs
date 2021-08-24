@@ -5,11 +5,20 @@ using UnityEngine.UI;
 
 namespace XMonoNode
 {
-    public abstract class VariableNode : MonoNode
+    public abstract class VariableNode : FlowNodeInOut
     {
         public abstract System.Type Type
         {
             get;
+        }
+
+        /// <summary>
+        /// If true, value of variable had been assigned by Flow()
+        /// </summary>
+        public bool Assigned
+        {
+            get;
+            protected set;
         }
     }
 
@@ -22,6 +31,33 @@ namespace XMonoNode
         [Output]
         public T output = default(T);
 
+        public T Value
+        {
+            get
+            {
+                if (!Assigned)
+                {
+                    AssignValue();
+                }
+                return inputValue;
+            }
+        }
+
+        private NodePort inputValuePort;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            inputValuePort = GetInputPort(nameof(inputValue));
+        }
+
+        private void AssignValue()
+        {
+            Assigned = true;
+            inputValue = inputValuePort.GetInputValue(inputValue);
+        }
+
         public override System.Type Type => typeof(T);
 
         private void Reset()
@@ -31,11 +67,18 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(output))
-            {
-                return GetInputValue(nameof(inputValue), inputValue);
-            }
-            else return null;
+            return Value;
+        }
+
+        public override void TriggerFlow()
+        {
+            
+        }
+
+        public override void Flow(NodePort flowPort)
+        {
+            AssignValue();
+            FlowUtils.FlowOutput(FlowOutputPort);
         }
 
     }
