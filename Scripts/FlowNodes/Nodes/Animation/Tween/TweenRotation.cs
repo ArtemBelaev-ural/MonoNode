@@ -3,22 +3,33 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/Rotate", 102)]
-    public class TweenRotate : TweenTransform
+    [CreateNodeMenu("Animation/Tween/Rotation", 104)]
+    public class TweenRotation : TweenVector3Transform
     {
+        [SerializeField]
+        private bool modAngle = false;
+
         private void Reset()
         {
-            Name = "Rotate";
+            Name = "Rotation";
         }
 
         protected override void OnTweenTick(float tNormal)
         {
-            Vector3 value = new Vector3(
+            if (target == null)
+            {
+                return;
+            }
+
+            Vector3 value = modAngle ?
+                new Vector3(
                 Mathf.LerpAngle(startValue.x, targetValue.x, tNormal),
                 Mathf.LerpAngle(startValue.y, targetValue.y, tNormal),
-                Mathf.LerpAngle(startValue.z, targetValue.z, tNormal));
+                Mathf.LerpAngle(startValue.z, targetValue.z, tNormal))
+                :
+                Vector3.Lerp(startValue, targetValue, tNormal);
 
-            target.transform.localEulerAngles = value;
+            target.eulerAngles = value;
         }
 
         protected override Vector3 GetStartValue()
@@ -29,7 +40,7 @@ namespace XMonoNode
                 
             }
 
-            return target.transform.localRotation.eulerAngles;
+            return target.eulerAngles;
         }
 
         protected override void SetValue(Vector3 value)
@@ -39,7 +50,7 @@ namespace XMonoNode
                 return;
             }
 
-            target.transform.localEulerAngles = value;
+            target.eulerAngles = value;
         }
     }
 }

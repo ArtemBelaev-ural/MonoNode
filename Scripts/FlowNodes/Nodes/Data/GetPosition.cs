@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/GetPosition", 404)]
+    [CreateNodeMenu("GameObject/GetPosition", 416)]
     public class GetPosition : MonoNode
     {
         [Input] public GameObject Target;

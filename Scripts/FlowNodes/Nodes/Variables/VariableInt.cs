@@ -6,8 +6,8 @@ using UnityEngine.UI;
 namespace XMonoNode
 {
 
-    [AddComponentMenu("FlowNode/Variables/int", 5)]
-    [CreateNodeMenu("Variables/int", 5)]
+    [AddComponentMenu("FlowNode/Variables/int", 6)]
+    [CreateNodeMenu("Variables/int", 6)]
     public class VariableInt : VariableNode<int>
     {
         private void Reset()

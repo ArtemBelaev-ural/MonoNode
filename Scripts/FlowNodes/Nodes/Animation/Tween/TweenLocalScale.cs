@@ -3,24 +3,23 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/MoveTo", 101)]
-    public class TweenMoveTo : TweenTransform
+    [CreateNodeMenu("Animation/Tween/LocalScale", 105)]
+    public class TweenLocalScale : TweenVector3Transform
     {
-
         private void Reset()
         {
-            Name = "MoveTo";
+            Name = "Local Scale";
         }
 
         protected override Vector3 GetStartValue()
         {
             if (target == null)
             {
-                return Vector3.zero;
+                return Vector3.one;
                 
             }
 
-            return target.transform.localPosition;
+            return target.localScale;
         }
 
         protected override void SetValue(Vector3 value)
@@ -31,7 +30,7 @@ namespace XMonoNode
 
             }
 
-            target.transform.localPosition = value;
+            target.localScale = value;
         }
     }
 }

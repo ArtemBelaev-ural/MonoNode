@@ -11,7 +11,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "ThisGameObject";
+            Name = "This GameObject";
         }
 
         public override object GetValue(NodePort port)

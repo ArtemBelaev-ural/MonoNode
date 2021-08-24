@@ -118,7 +118,7 @@ namespace XMonoNode
                 if (waitRemainingSec <= 0.0f)
                 {
                     _state = State.Started;
-                   // remainingSec += waitRemainingSec; // погрешность
+                    remainingSec += waitRemainingSec; // погрешность
                     OnTweenStart();
                 }
             }
@@ -140,7 +140,7 @@ namespace XMonoNode
                     }
                     else // next loop
                     {
-                        remainingSec = duration;// + remainingSec; // начинаем отсчет сначала (+погрешность)
+                        remainingSec = duration + remainingSec; // начинаем отсчет сначала (+погрешность)
                     }
                 }
 
@@ -155,8 +155,44 @@ namespace XMonoNode
             }
         }
 
+        public override void Stop()
+        {
+            base.Stop();
+            _state = State.Stopped;
+        }
 
+    }
 
+    public abstract class TweenObjectValue<Obj, Val> : TweenNode where Obj : UnityEngine.Object
+    {
+        [Input(connectionType: ConnectionType.Override)]
+        public Obj target;
+
+        [Input(connectionType: ConnectionType.Override)]
+        public Val targetValue;
+
+        protected Val startValue;
+
+        protected abstract Val GetStartValue();
+
+        protected abstract void SetValue(Val value);
+
+        protected override void OnTweenStart()
+        {
+            target = GetInputValue(nameof(target), target);
+            if (target == null)
+            {
+                Debug.LogErrorFormat("Tween node target is null ({0}.{1})", gameObject.name, Name);
+                return;
+            }
+            startValue = GetStartValue();
+            targetValue = GetInputValue(nameof(targetValue), targetValue);
+        }
+
+        protected override void OnTweenEnd()
+        {
+
+        }
     }
 }
 #endif

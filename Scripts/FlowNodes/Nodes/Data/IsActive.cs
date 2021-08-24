@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/IsActive", 403)]
+    [CreateNodeMenu("GameObject/IsActive", 391)]
     public class IsActive : MonoNode
     {
         [Input] public GameObject Target;

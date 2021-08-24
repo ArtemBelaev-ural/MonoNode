@@ -12,15 +12,15 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            input = GetInputValue(nameof(input), input);
-            if (input == null)
-            {
-                return null;
-            }
-
             if (port.fieldName == nameof(_transform))
             {
-                return input.transform.position;
+                input = GetInputValue(nameof(input), input);
+                if (input == null)
+                {
+                    return null;
+                }
+
+                return input.transform;
             }
 
             return null;

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 namespace XMonoNode
 {
-    [AddComponentMenu("FlowNode/Variables/Bool", 6)]
-    [CreateNodeMenu("Variables/Bool", 6)]
+    [AddComponentMenu("FlowNode/Variables/bool", 7)]
+    [CreateNodeMenu("Variables/bool", 7)]
     public class VariableBool : VariableNode<bool>
     {
     }

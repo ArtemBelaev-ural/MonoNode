@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 namespace XMonoNode
 {
-    [AddComponentMenu("FlowNode/Variables/PhysicMaterial", 3)]
-    [CreateNodeMenu("Variables/PhysicMaterial", 3)]
+    [AddComponentMenu("FlowNode/Variables/PhysicMaterial", 4)]
+    [CreateNodeMenu("Variables/PhysicMaterial", 4)]
     public class VariablePhysicMaterial : VariableNode<PhysicMaterial>
     {
     }
