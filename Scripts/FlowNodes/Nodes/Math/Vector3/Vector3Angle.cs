@@ -6,19 +6,28 @@ namespace XMonoNode
     [CreateNodeMenu("Vector3/Angle", 11)]
     public class Vector3Angle : MonoNode
     {
-        [Input] public Vector3  from;
-        [Input] public Vector3  to;
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3  from;
+
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3  to;
 
         [Output] public Vector3 angle;
 
+        private NodePort fromPort;
+        private NodePort toPort;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            fromPort = GetInputPort(nameof(from));
+            toPort = GetInputPort(nameof(to));
+        }
+
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(angle))
-            {
-                return Vector3.Angle(GetInputValue(nameof(from), from), GetInputValue(nameof(to), to));
-            }
-
-            return null;
+            return Vector3.Angle(fromPort.GetInputValue(from), toPort.GetInputValue(to));
         }
     }
 }

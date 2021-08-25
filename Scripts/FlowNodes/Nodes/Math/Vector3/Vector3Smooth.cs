@@ -12,33 +12,42 @@ namespace XMonoNode
     [ExecuteInEditMode]
     public class Vector3Smooth : FlowNodeInOut
     {
-
         [Input(connectionType: ConnectionType.Override)]
         public Vector3          Default = Vector3.zero;
 
         [Input(connectionType: ConnectionType.Override)]
         public Vector3          input;
+
         [Output]
         public Vector3          smooth;
         
 
         [Input(connectionType: ConnectionType.Override)]
         public float            lerpCoef = 5.0f;
-        
+
+        private NodePort DefaultPort;
+        private NodePort inputPort;
+        private NodePort smoothPort;
+        private NodePort lerpCoefPort;
 
         private void Reset()
         {
             Name = "VectorSmooth (game only)";
         }
 
-        public override void OnNodeEnable()
+        protected override void Init()
         {
-            base.OnNodeEnable();
+            base.Init();
             NodePort flowInputPort = GetInputPort(nameof(FlowInput));
             if (flowInputPort != null)
             {
                 flowInputPort.label = "Set Default";
             }
+
+            DefaultPort  = GetInputPort(nameof(Default));
+            inputPort    = GetInputPort(nameof(input));
+            smoothPort  = GetOutputPort(nameof(smooth));
+            lerpCoefPort = GetInputPort(nameof(lerpCoef));
         }
 
         public override void Flow(NodePort flowPort)
@@ -48,9 +57,9 @@ namespace XMonoNode
 
         private void Update()
         {
-            Default = GetInputValue(nameof(Default), Default);
-            input = GetInputValue(nameof(input), input);
-            lerpCoef = GetInputValue(nameof(lerpCoef), lerpCoef);
+            Default = DefaultPort.GetInputValue(Default);
+            input = inputPort.GetInputValue(input);
+            lerpCoef = lerpCoefPort.GetInputValue(lerpCoef);
 
             if (!Mathf.Approximately(Vector3.Distance(smooth, input), 0))
             {
@@ -60,7 +69,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(smooth))
+            if (port == smoothPort)
             {
                 return smooth;
             }

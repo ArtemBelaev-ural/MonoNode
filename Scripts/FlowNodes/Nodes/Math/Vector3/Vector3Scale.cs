@@ -6,20 +6,28 @@ namespace XMonoNode
     [CreateNodeMenu("Vector3/Scale", 5)]
     public class Vector3Scale : MonoNode
     {
-        [Input] public Vector3  vector3;
-        [Input] public float    scale;
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3  vector3;
+
+        [Input(connectionType: ConnectionType.Override)]
+        public float    scale;
 
         [Output] public Vector3 scaled;
 
+        private NodePort vector3Port;
+        private NodePort scalePort;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            vector3Port = GetInputPort(nameof(vector3));
+            scalePort = GetInputPort(nameof(scale));
+        }
+
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(scaled))
-            {
-
-                return GetInputValue(nameof(vector3), vector3) * GetInputValue(nameof(scale), scale);
-            }
-
-            return null;
+            return vector3Port.GetInputValue(vector3) * scalePort.GetInputValue(scale);
         }
     }
 }

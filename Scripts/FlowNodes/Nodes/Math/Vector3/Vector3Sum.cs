@@ -28,13 +28,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(sum))
-            {
-
-                return inputPortA.GetInputValue(a) + inputPortB.GetInputValue(b);
-            }
-
-            return null; // Replace this
+            return inputPortA.GetInputValue(a) + inputPortB.GetInputValue(b);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace XMonoNode
 
         private void OnEnable()
         {
+            OnNodeEnable();
             TriggerFlow();
         }
 

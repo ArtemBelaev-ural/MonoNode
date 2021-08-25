@@ -6,31 +6,34 @@ namespace XMonoNode
     [CreateNodeMenu("Vector3/Diff", 4)]
     public class Vector3Diff : MonoNode
     {
-        [Input] public Vector3 a;
-        [Input] public Vector3 b;
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3 a;
+
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3 b;
 
         [Output] public Vector3 difference;
+
+        private NodePort aPort;
+        private NodePort bPort;
 
         protected override void Init()
         {
             base.Init();
 
-            NodePort portIn = GetOutputPort(nameof(difference));
-            if (portIn != null)
+            aPort = GetInputPort(nameof(a));
+            bPort = GetInputPort(nameof(b));
+
+            NodePort portOut = GetOutputPort(nameof(difference));
+            if (portOut != null)
             {
-                portIn.label = "A - B";
+                portOut.label = "A - B";
             }
         }
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(difference))
-            {
-
-                return GetInputValue(nameof(a), a) - GetInputValue(nameof(b), b);
-            }
-
-            return null; // Replace this
+            return aPort.GetInputValue(a) - bPort.GetInputValue(b);
         }
     }
 }

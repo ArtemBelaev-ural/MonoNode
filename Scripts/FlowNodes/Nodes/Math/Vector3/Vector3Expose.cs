@@ -6,7 +6,8 @@ namespace XMonoNode
     [CreateNodeMenu("Vector3/Expose", 2)]
     public class Vector3Expose : MonoNode
     {
-        [Input] public Vector3      vector3;
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3      vector3;
 
         [Output] public float       x;
         [Output] public float       y;
@@ -15,32 +16,52 @@ namespace XMonoNode
         [Output] public float       magnitude;
         [Output] public float       sqrMagnitude;
 
+        private NodePort vector3Port;
+        private NodePort xPort;
+        private NodePort yPort;
+        private NodePort zPort;
+        private NodePort normalizedPort;
+        private NodePort magnitudePort;
+        private NodePort sqrMagnitudePort;
+
+        protected override void Init()
+        {
+            base.Init();
+            vector3Port     = GetInputPort(nameof(vector3));
+            xPort           = GetOutputPort(nameof(x));
+            yPort           = GetOutputPort(nameof(y));
+            zPort = GetOutputPort(nameof(z));
+            normalizedPort  = GetOutputPort(nameof(normalized));
+            magnitudePort   = GetOutputPort(nameof(magnitude));
+            sqrMagnitudePort= GetOutputPort(nameof(sqrMagnitude));
+        }
+
         // Return the correct value of an output port when requested
         public override object GetValue(NodePort port)
         {
-            vector3 = GetInputValue(nameof(vector3), vector3);
+            vector3 = vector3Port.GetInputValue(vector3);
 
-            if (port.fieldName == nameof(x))
+            if (port == xPort)
             {
                 return vector3.x;
             }
-            else if (port.fieldName == nameof(y))
+            else if (port == yPort)
             {
                 return vector3.y;
             }
-            else if (port.fieldName == nameof(z))
+            else if (port == zPort)
             {
                 return vector3.z;
             }
-            else if (port.fieldName == nameof(normalized))
+            else if (port == normalizedPort)
             {
                 return vector3.normalized;
             }
-            else if (port.fieldName == nameof(magnitude))
+            else if (port == magnitudePort)
             {
                 return vector3.magnitude;
             }
-            if (port.fieldName == nameof(sqrMagnitude))
+            else if (port == sqrMagnitudePort)
             {
                 return vector3.sqrMagnitude;
             }

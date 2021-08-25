@@ -9,10 +9,8 @@ namespace XMonoNode
     /// Ћинейна€ интерпол€ци€ без ограниченний t
     /// </summary>
     [CreateNodeMenu("Vector3/LerpUnclamped", 33)]
-    [ExecuteInEditMode]
     public class Vector3LerpUnclamped : MonoNode
     {
-
         [Input(connectionType: ConnectionType.Override)]
         public Vector3      a;
 

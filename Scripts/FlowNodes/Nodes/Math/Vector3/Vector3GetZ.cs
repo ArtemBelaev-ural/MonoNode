@@ -6,7 +6,8 @@ namespace XMonoNode
     [CreateNodeMenu("Vector3/GetZ", -7)]
     public class Vector3GetZ : MonoNode
     {
-        [Input] public Vector3  a;
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3  a;
 
         [Output] public float   z;
 

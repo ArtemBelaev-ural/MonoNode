@@ -122,7 +122,7 @@ namespace XMonoNode {
             }
         }
 
-        protected void OnEnable()
+        private void OnEnable()
         {
             OnNodeEnable();
         }

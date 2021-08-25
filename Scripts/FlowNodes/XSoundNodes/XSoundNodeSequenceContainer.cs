@@ -16,9 +16,10 @@ namespace XMonoNode
         public float                    timeToReset = -1f;
 
         private int                     index = 0;
-        private float                   lastPlayTime = 0f;
 #if UNITY_EDITOR
         private System.DateTime         lastPlayTimeEditor = System.DateTime.Now;
+#else
+        private float                   lastPlayTime = 0f;
 #endif
 
         private void Reset()
