@@ -10,6 +10,15 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public bool condition;
 
+        protected NodePort conditionPort;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            conditionPort = GetInputPort(nameof(condition));
+        }
+
         public abstract System.Type Type
         {
             get;
@@ -26,39 +35,31 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public T inputFalse;
 
-        public override System.Type Type
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
+        public override System.Type Type => typeof(T);
+  
 
-        public override void OnNodeEnable()
-        {
-            base.OnNodeEnable();
-            // Для удобства изменим подпись к стандартным flow портам
+        private NodePort outputPort;
+        private NodePort inputTruePort;
+        private NodePort inputFalsePort;
 
-            NodePort portTrue = GetInputPort(nameof(inputTrue));
-            if (portTrue != null)
-            {
-                portTrue.label = "True";
-            }
-            NodePort portFalse = GetInputPort(nameof(inputFalse));
-            if (portFalse != null)
-            {
-                portFalse.label = "False";
-            }
+        protected override void Init()
+        {
+            base.Init();
+
+            outputPort = GetOutputPort(nameof(output));
+            inputTruePort = GetInputPort(nameof(inputTrue));
+            inputFalsePort = GetInputPort(nameof(inputFalse));
+
+            inputTruePort.label = "True";
+            inputFalsePort.label = "False";
         }
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(output))
-            {
-                condition = GetInputValue(nameof(condition), condition);
-                return condition ? GetInputValue<object>(nameof(inputTrue), inputTrue) : GetInputValue<object>(nameof(inputFalse), inputFalse);
-            }
-            return null;
+            return
+                conditionPort.GetInputValue(condition) ?
+                inputTruePort.GetInputValue<object>(inputTrue) :
+                inputFalsePort.GetInputValue<object>(inputFalse);
         }
     }
 }

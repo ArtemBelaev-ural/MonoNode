@@ -88,13 +88,16 @@ namespace XMonoNode
         /// <summary> Remove all nodes and connections from the graph </summary>
         public void Clear()
         {
-            if (Application.isPlaying)
-            {
-                for (int i = 0; i < nodes.Length; i++)
-                {
-                    Destroy(nodes[i]);
-                }
-            }
+            //if (Application.isPlaying)
+            //{
+            //    foreach (MonoNode node in nodes)
+            //    {
+            //        if (nodes != null)
+            //        {
+            //            Destroy(node);
+            //        }
+            //    }
+            //}
             nodes = new MonoNode[0];
         }
 

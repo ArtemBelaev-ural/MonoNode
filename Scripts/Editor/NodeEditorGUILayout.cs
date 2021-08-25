@@ -461,8 +461,19 @@ namespace XMonoNodeEditor {
             {
                 SerializedProperty arrayData = serializedObject.FindProperty(fieldName);
                 list = CreateReorderableList(fieldName, dynamicPorts, arrayData, type, serializedObject, io, connectionType, typeConstraint, showBacking, buttonAttribute, onCreation);
-                if (reorderableListCache.TryGetValue(serializedObject.targetObject, out rlc)) rlc.Add(fieldName, list);
-                else reorderableListCache.Add(serializedObject.targetObject, new Dictionary<string, ReorderableList>() { { fieldName, list } });
+                if (reorderableListCache.TryGetValue(serializedObject.targetObject, out rlc))
+                {
+                    try
+                    {
+                        rlc.Add(fieldName, list);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        // nothing
+                    }
+                }
+                else
+                    reorderableListCache.Add(serializedObject.targetObject, new Dictionary<string, ReorderableList>() { { fieldName, list } });
             }
             list.list = dynamicPorts;
             list.DoLayoutList();
@@ -512,8 +523,6 @@ namespace XMonoNodeEditor {
                         }
                         else
                         {
-                            
-
                             switch (showBacking)
                             {
                                 case XMonoNode.ShowBackingValue.Unconnected:
