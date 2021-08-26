@@ -8,7 +8,7 @@ namespace XMonoNode
     /// <summary>
     /// Ћинейна€ интерпол€ци€ с неограниченным t
     /// </summary>
-    [CreateNodeMenu("Float/LerpUnclamped", 64)]
+    [CreateNodeMenu("Float/LerpUnclamped", -165)]
     [NodeWidth(160)]
     [ExecuteInEditMode]
     public class FloatLerpUnclamped : MonoNode

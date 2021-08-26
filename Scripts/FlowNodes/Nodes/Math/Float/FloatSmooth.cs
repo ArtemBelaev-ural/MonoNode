@@ -8,7 +8,7 @@ namespace XMonoNode
     /// <summary>
     /// ќбеспечивает плавное изменение параметра
     /// </summary>
-    [CreateNodeMenu("Float/Smooth", 66)]
+    [CreateNodeMenu("Float/Smooth", -163)]
     [NodeWidth(170)]
     [ExecuteInEditMode]
     public class FloatSmooth : FlowNodeInOut
@@ -29,10 +29,23 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public float            lerpDown = 5.0f;
         
+        private NodePort DefaultPort;
+        private NodePort inputPort;
+        private NodePort lerpUpPort;
+        private NodePort lerpDownPort;
 
         private void Reset()
         {
             Name = "FloatSmooth (game only)";
+        }
+
+        protected override void Init()
+        {
+            base.Init();
+            DefaultPort = GetInputPort(nameof(Default));
+            inputPort = GetInputPort(nameof(input));
+            lerpUpPort = GetInputPort(nameof(lerpUp));
+            lerpDownPort = GetInputPort(nameof(lerpDown));
         }
 
         public override void OnNodeEnable()
@@ -52,10 +65,10 @@ namespace XMonoNode
 
         private void Update()
         {
-            Default = GetInputValue(nameof(Default), Default);
-            input = GetInputValue(nameof(input), input);
-            lerpUp = GetInputValue(nameof(lerpUp), lerpUp);
-            lerpDown = GetInputValue(nameof(lerpDown), lerpDown);
+            Default = DefaultPort.GetInputValue(Default);
+            input = inputPort.GetInputValue(input);
+            lerpUp = lerpUpPort.GetInputValue(lerpUp);
+            lerpDown = lerpDownPort.GetInputValue(lerpDown);
 
             if (!Mathf.Approximately(lerpOutput, input))
             {
@@ -65,12 +78,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(lerpOutput))
-            {
-                return lerpOutput;
-            }
-            else
-                return null;
+            return lerpOutput;
         }
     }
 }

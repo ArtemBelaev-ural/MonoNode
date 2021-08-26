@@ -5,7 +5,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Max", 72)]
+    [CreateNodeMenu("Float/Max", -158)]
     [NodeWidth(130)]
     public class FloatMax : MonoNode
     {

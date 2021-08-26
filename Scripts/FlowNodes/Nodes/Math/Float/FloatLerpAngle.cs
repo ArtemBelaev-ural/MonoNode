@@ -8,7 +8,7 @@ namespace XMonoNode
     /// <summary>
     /// Ћинейна€ интерпол€ци€, корректно работающа€ при переходе через 360 градусов
     /// </summary>
-    [CreateNodeMenu("Float/LerpAngle", 63)]
+    [CreateNodeMenu("Float/LerpAngle", -166)]
     [NodeWidth(160)]
     [ExecuteInEditMode]
     public class FloatLerpAngle : MonoNode

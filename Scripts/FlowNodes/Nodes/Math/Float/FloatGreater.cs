@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Greater", 51)]
+    [CreateNodeMenu("Float/Greater", -179)]
     [NodeWidth(160)]
     public class FloatGreater : MonoNode
     {

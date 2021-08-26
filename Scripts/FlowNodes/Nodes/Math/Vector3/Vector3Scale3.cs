@@ -10,7 +10,7 @@ namespace XMonoNode
         public Vector3  vector3;
 
         [Input(connectionType: ConnectionType.Override)]
-        public Vector3  scale;
+        public Vector3  scale = Vector3.one;
 
         [Output] public Vector3 scaled;
 

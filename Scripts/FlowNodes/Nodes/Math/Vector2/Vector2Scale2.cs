@@ -11,7 +11,7 @@ namespace XMonoNode
         public Vector2  vector2;
 
         [Input(connectionType: ConnectionType.Override)]
-        public Vector2  scale;
+        public Vector2  scale = Vector2.one;
 
         [Output] public Vector2 scaled;
 

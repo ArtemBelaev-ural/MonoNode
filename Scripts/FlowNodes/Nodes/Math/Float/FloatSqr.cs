@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Sqr", 11)]
+    [CreateNodeMenu("Float/Sqr", -191)]
     [NodeWidth(160)]
     public class FloatSqr : MonoNode
     {

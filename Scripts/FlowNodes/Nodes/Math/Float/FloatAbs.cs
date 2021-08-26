@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Abs", 13)]
+    [CreateNodeMenu("Float/Abs", -189)]
     [NodeWidth(160)]
     public class FloatAbs : MonoNode
     {

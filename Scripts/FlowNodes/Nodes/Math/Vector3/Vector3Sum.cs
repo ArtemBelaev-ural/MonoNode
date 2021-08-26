@@ -6,8 +6,11 @@ namespace XMonoNode
     [CreateNodeMenu("Vector3/Sum", 3)]
     public class Vector3Sum : MonoNode
     {
-        [Input] public Vector3 a;
-        [Input] public Vector3 b;
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3 a;
+
+        [Input(connectionType: ConnectionType.Override)]
+        public Vector3 b;
 
         [Output] public Vector3 sum;
 

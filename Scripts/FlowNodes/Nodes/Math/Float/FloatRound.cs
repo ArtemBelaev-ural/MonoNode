@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Round", 14)]
+    [CreateNodeMenu("Float/Round", -188)]
     [NodeWidth(160)]
     public class FloatRound : MonoNode
     {

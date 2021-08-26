@@ -5,7 +5,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Avg", 73)]
+    [CreateNodeMenu("Float/Avg", -157)]
     [NodeWidth(130)]
     public class FloatAvg : MonoNode
     {

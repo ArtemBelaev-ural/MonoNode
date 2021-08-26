@@ -9,7 +9,7 @@ namespace XMonoNode
     /// Определяет зависимость одного параметра от другого и плавность его изменения
     /// </summary>
     [AddComponentMenu("Math/FloatCurve")]
-    [CreateNodeMenu("Float/Curve", 61)]
+    [CreateNodeMenu("Float/Curve", -169)]
     [NodeWidth(185)]
     public class FloatCurve : MonoNode
     {
@@ -22,16 +22,19 @@ namespace XMonoNode
         [SerializeField]
         private AnimationCurve  curve = new AnimationCurve();
 
+        private NodePort inputPort;
+
+        protected override void Init()
+        {
+            base.Init();
+            inputPort = GetInputPort(nameof(input));
+        }
+
         public override object GetValue(NodePort port)
         {
-            UnityEngine.UIElements.Experimental.Easing.InBack(1);
-            if (port.fieldName == nameof(output))
-            {
-                input = GetInputValue(nameof(input), input);
-                output = curve.Evaluate(input);
-                return output;
-            }
-            else return null;
+            input = inputPort.GetInputValue(input);
+            output = curve.Evaluate(input);
+            return output;
         }
     }
 }

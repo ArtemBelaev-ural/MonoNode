@@ -8,7 +8,7 @@ namespace XMonoNode
     /// <summary>
     /// Ћинейна€ интерпол€ци€ с неограниченным t
     /// </summary>
-    [CreateNodeMenu("Float/InverseLerp", 65)]
+    [CreateNodeMenu("Float/InverseLerp", -164)]
     [NodeWidth(160)]
     [ExecuteInEditMode]
     public class FloatInverseLerp : MonoNode

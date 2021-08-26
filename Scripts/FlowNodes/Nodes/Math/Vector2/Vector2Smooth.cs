@@ -62,7 +62,7 @@ namespace XMonoNode
             input = inputPort.GetInputValue(input);
             lerpCoef = lerpCoefPort.GetInputValue(lerpCoef);
 
-            if (!Mathf.Approximately(Vector3.Distance(smooth, input), 0))
+            if (!Mathf.Approximately(Vector2.Distance(smooth, input), 0))
             {
                 smooth = Vector2.Lerp(smooth, input, Time.deltaTime * lerpCoef);
             }

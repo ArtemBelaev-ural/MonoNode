@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Diff", 2)]
+    [CreateNodeMenu("Float/Diff", -197)]
     [NodeWidth(160)]
     public class FloatDiff : MonoNode
     {

@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/NotEqual", 56)]
+    [CreateNodeMenu("Float/NotEqual", -174)]
     [NodeWidth(160)]
     public class FlotNotEqual : MonoNode
     {

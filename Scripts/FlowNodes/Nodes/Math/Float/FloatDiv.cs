@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Div", 4)]
+    [CreateNodeMenu("Float/Div", -195)]
     [NodeWidth(150)]
     public class FloatDiv : MonoNode
     {

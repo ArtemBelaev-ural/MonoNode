@@ -46,7 +46,7 @@ namespace XMonoNode
     /// Определяет зависимость одного параметра от другого по одной из зависимостей
     /// </summary>
     [AddComponentMenu("Math/Ease")]
-    [CreateNodeMenu("Float/Ease", 62)]
+    [CreateNodeMenu("Float/Ease", -168)]
     [NodeWidth(220)]
     public class FloatEase : MonoNode
     {
@@ -75,12 +75,10 @@ namespace XMonoNode
             base.Init();
 
             inputPort = GetInputPort(nameof(input));
-            outputPort = GetOutputPort(nameof(output));
             clampedPort = GetInputPort(nameof(clamped01));
         }
 
         private NodePort inputPort;
-        private NodePort outputPort;
         private NodePort clampedPort;
 
         public static float Ease(float t, EasingMode mode)
@@ -150,18 +148,14 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port == outputPort)
+            input = inputPort.GetInputValue(input);
+            if (Clamped01)
             {
-                input = inputPort.GetInputValue(input);
-                if (Clamped01)
-                {
-                    input = Mathf.Clamp01(input);
-                }
-                
-                output = Ease(input, easingMode);
-                return output;
+                input = Mathf.Clamp01(input);
             }
-            else return null;
+
+            output = Ease(input, easingMode);
+            return output;
         }
     }
 }

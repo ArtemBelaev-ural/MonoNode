@@ -5,7 +5,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Min", 71)]
+    [CreateNodeMenu("Float/Min", -159)]
     [NodeWidth(130)]
     public class FloatMin : MonoNode
     {

@@ -5,7 +5,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/ListSum", 74)]
+    [CreateNodeMenu("Float/ListSum", -156)]
     [NodeWidth(130)]
     public class FloatListSum : MonoNode
     {
@@ -18,8 +18,6 @@ namespace XMonoNode
 
         [Output]
         public float sum;
-
-        private NodePort portinput;
 
         private void Reset()
         {

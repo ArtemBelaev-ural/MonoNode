@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Sum", 1)]
+    [CreateNodeMenu("Float/Sum", -198)]
     [NodeWidth(160)]
     public class FloatSum : MonoNode
     {

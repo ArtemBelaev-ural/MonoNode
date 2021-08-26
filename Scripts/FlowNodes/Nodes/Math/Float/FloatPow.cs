@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Float/Pow", 6)]
+    [CreateNodeMenu("Float/Pow", -193)]
     [NodeWidth(160)]
     public class FloatPow : MonoNode
     {
