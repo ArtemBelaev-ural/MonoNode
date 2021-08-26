@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using XMonoNode;
+using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetImage", 409)]
+    [CreateNodeMenu("UI/GetTextMeshProUGUI", 414)]
     [NodeWidth(190)]
-    public class GetImage : MonoNode
+    public class GetTextMeshProUGUI : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]
         public Transform _transform;
         [Output]
-        public Image image;
+        public TextMeshProUGUI text;
 
         private NodePort transformPort;
 
@@ -24,7 +24,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "Get Image";
+            Name = "Get TextMeshProUGUI";
         }
 
         public override object GetValue(NodePort port)
@@ -36,9 +36,9 @@ namespace XMonoNode
                 return null;
             }
 
-            Image image = t.GetComponent<Image>();
+            var text = t.GetComponent<TextMeshProUGUI>();
 
-            return image;
+            return text;
             
         }
     }

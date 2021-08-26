@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using TMPro;
 
 namespace XMonoNode
 {
-    public abstract class TweenColorImageBase : TweenObjectValue<UnityEngine.UI.Graphic, Color>
+    public abstract class TweenColorTextMeshProUGUIBase : TweenObjectValue<TextMeshProUGUI, Color>
     {
         protected override void OnTweenTick(float tNormal)
         {
@@ -23,5 +24,7 @@ namespace XMonoNode
                 targetValue += delta;
             }
         }
+
+
     }
 }

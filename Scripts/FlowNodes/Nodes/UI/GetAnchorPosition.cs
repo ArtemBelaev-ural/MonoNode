@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetAnchorPosition", 413)]
+    [CreateNodeMenu("UI/GetAnchorPosition", 409)]
     [NodeWidth(200)]
     public class GetAnchorPosition : MonoNode
     {

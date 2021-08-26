@@ -267,6 +267,11 @@ namespace XMonoNode {
                 return null;
             }
             INode castedNode = connections[i].node as INode;
+            if (node == null)
+            {
+                return null;
+            }
+
             NodePort port = castedNode.GetPort(connections[i].fieldName);
             if (port == null) {
                 connections.RemoveAt(i);

@@ -36,7 +36,6 @@ namespace XMonoNode
         [NodeEnum]
         public EasingMode easingMode = EasingMode.Linear;
 
-
         protected abstract void OnTweenStart();
 
         protected abstract void OnTweenTick(float tNormal);
@@ -171,6 +170,16 @@ namespace XMonoNode
         public Val targetValue;
 
         protected Val startValue;
+
+        private NodePort targetValuePort;
+
+        protected override void Init()
+        {
+            base.Init();
+            targetValuePort = GetInputPort(nameof(targetValue));
+        }
+
+        protected NodePort TargetValuePort  => targetValuePort;
 
         protected abstract Val GetStartValue();
 

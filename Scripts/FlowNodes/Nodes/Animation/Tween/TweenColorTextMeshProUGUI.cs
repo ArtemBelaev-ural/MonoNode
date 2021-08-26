@@ -3,12 +3,12 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/ImageColor", 117)]
-    public class TweenImageColor : TweenColorImageBase
+    [CreateNodeMenu("Animation/Tween/TextMeshProUGUIColor", 120)]
+    public class TweenColorTextMeshProUGUI : TweenColorTextMeshProUGUIBase
     {
         private void Reset()
         {
-            Name = "Image Color";
+            Name = "TextMeshProUGUI Color";
         }
 
         protected override Color GetStartValue()
