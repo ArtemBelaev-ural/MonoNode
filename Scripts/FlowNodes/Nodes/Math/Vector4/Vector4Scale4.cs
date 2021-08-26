@@ -4,6 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector4/Scale4", 6)]
+    [NodeWidth(150)]
     public class Vector4Scale4 : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

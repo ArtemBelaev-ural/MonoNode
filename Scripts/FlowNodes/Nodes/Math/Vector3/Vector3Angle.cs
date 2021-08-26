@@ -4,6 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector3/Angle", 11)]
+    [NodeWidth(180)]
     public class Vector3Angle : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

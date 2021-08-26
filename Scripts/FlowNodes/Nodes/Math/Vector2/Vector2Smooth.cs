@@ -10,7 +10,7 @@ namespace XMonoNode
     /// </summary>
     [CreateNodeMenu("Vector2/Smooth", 31)]
     [ExecuteInEditMode]
-    [NodeWidth(150)]
+    [NodeWidth(135)]
     public class Vector2Smooth : FlowNodeInOut
     {
         [Input(connectionType: ConnectionType.Override)]

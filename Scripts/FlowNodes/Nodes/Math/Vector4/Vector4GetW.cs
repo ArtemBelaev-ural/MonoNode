@@ -3,13 +3,14 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Vector4/GetW", -7)]
+    [CreateNodeMenu("Vector4/GetW", -8)]
+    [NodeWidth(150)]
     public class Vector4GetW : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]
         public Vector4  a;
 
-        [Output] public float   z;
+        [Output] public float   w;
 
         NodePort inputPort;
 

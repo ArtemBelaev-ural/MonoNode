@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Left", 27)]
-    [NodeWidth(130)]
+    [NodeWidth(135)]
     public class Vector2Left : MonoNode
     {
         [Output] public Vector2 left;

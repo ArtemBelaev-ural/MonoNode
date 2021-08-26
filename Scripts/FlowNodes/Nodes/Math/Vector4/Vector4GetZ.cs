@@ -3,7 +3,8 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Vector3/Get4", -7)]
+    [CreateNodeMenu("Vector4/GetZ", -7)]
+    [NodeWidth(150)]
     public class Vector4GetZ : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

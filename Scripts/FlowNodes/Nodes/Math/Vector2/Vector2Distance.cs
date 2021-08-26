@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Distance", 10)]
-    [NodeWidth(150)]
+    [NodeWidth(135)]
     public class Vector2Distance : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

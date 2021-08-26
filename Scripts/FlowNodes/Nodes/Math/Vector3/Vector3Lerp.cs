@@ -9,6 +9,7 @@ namespace XMonoNode
     /// Ћинейна€ интерпол€ци€
     /// </summary>
     [CreateNodeMenu("Vector3/Lerp", 32)]
+    [NodeWidth(180)]
     public class Vector3Lerp : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

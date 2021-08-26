@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Angle", 11)]
-    [NodeWidth(150)]
+    [NodeWidth(135)]
     public class Vector2Angle : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

@@ -10,6 +10,7 @@ namespace XMonoNode
     /// </summary>
     [CreateNodeMenu("Vector4/Smooth", 31)]
     [ExecuteInEditMode]
+    [NodeWidth(150)]
     public class Vector4Smooth : FlowNodeInOut
     {
         [Input(connectionType: ConnectionType.Override)]
@@ -32,7 +33,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "VectorSmooth (game only)";
+            Name = "Vector 4 Smooth";
         }
 
         protected override void Init()

@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Join", 1)]
-    [NodeWidth(150)]
+    [NodeWidth(135)]
     public class Vector2Join : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

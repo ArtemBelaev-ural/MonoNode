@@ -9,7 +9,7 @@ namespace XMonoNode
     /// Project a vector onto plane defined a normal
     /// </summary>
     [CreateNodeMenu("Vector3/ProjectOnPlane", 37)]
-    [ExecuteInEditMode]
+    [NodeWidth(180)]
     public class Vector3ProjectOnPlane: MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

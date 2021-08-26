@@ -9,6 +9,7 @@ namespace XMonoNode
     /// Project a vector into another vector
     /// </summary>
     [CreateNodeMenu("Vector4/Project", 36)]
+    [NodeWidth(150)]
     public class Vector4Project: MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

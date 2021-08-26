@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Expose", 2)]
-    [NodeWidth(150)]
+    [NodeWidth(135)]
     public class Vector2Expose : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

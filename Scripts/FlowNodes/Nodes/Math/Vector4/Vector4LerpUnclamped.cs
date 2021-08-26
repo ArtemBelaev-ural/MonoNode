@@ -9,6 +9,7 @@ namespace XMonoNode
     /// Ћинейна€ интерпол€ци€ без ограниченний t
     /// </summary>
     [CreateNodeMenu("Vector4/LerpUnclamped", 33)]
+    [NodeWidth(150)]
     public class Vector4LerpUnclamped : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

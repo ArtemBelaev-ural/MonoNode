@@ -9,6 +9,7 @@ namespace XMonoNode
     /// Ћинейна€ сферическа€ интерпол€ци€ без ограничений t
     /// </summary>
     [CreateNodeMenu("Vector3/SlerpUnclamped", 35)]
+    [NodeWidth(180)]
     public class Vector3SlerpUnclamped : MonoNode
     {
 

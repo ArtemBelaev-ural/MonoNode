@@ -4,6 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector3/Cross", 13)]
+    [NodeWidth(180)]
     public class Vector3Cross : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

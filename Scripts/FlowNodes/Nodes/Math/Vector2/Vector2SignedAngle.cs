@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/SignedAngle", 12)]
-    [NodeWidth(150)]
+    [NodeWidth(135)]
     public class Vector2SignedAngle : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

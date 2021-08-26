@@ -9,7 +9,7 @@ namespace XMonoNode
     /// Reflects a vector of the plane defined by a normal
     /// </summary>
     [CreateNodeMenu("Vector2/Reflect", 38)]
-    [ExecuteInEditMode]
+    [NodeWidth(135)]
     public class Vector2Reflect: MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]

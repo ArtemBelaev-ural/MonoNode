@@ -10,7 +10,7 @@ namespace XMonoNode
     /// </summary>
     [CreateNodeMenu("Vector2/Lerp", 32)]
     [ExecuteInEditMode]
-    [NodeWidth(150)]
+    [NodeWidth(135)]
     public class Vector2Lerp : MonoNode
     {
         [Input(connectionType: ConnectionType.Override)]
