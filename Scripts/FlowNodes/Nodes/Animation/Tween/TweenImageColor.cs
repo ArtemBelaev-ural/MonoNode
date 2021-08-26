@@ -1,5 +1,5 @@
-﻿#if DOTWEEN_SUPPORTED
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro;
 
 namespace XMonoNode
 {
@@ -22,4 +22,3 @@ namespace XMonoNode
         }
     }
 }
-#endif

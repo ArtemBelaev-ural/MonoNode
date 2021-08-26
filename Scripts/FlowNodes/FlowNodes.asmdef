@@ -2,7 +2,8 @@
     "name": "FlowNodes",
     "rootNamespace": "",
     "references": [
-        "XMonoNode"
+        "XMonoNode",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

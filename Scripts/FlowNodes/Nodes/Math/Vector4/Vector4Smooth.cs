@@ -13,6 +13,7 @@ namespace XMonoNode
     [NodeWidth(150)]
     public class Vector4Smooth : FlowNodeInOut
     {
+
         [Input(connectionType: ConnectionType.Override)]
         public Vector4          Default = Vector3.zero;
 

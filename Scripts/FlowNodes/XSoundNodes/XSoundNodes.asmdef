@@ -5,7 +5,8 @@
         "XMonoNodeEditor",
         "FlowNodes",
         "FlowNodesEditor",
-        "XMonoNode"
+        "XMonoNode",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

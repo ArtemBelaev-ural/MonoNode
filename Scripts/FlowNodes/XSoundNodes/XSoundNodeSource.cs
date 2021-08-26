@@ -43,6 +43,11 @@ namespace XMonoNode
                 }
 
                 IXSoundsLibrary sounds = IXSoundsLibraryInstance.Get();
+
+                if (sounds == null)
+                {
+                    Debug.LogErrorFormat("IXSoundsLibraryInstance is null {0}.{1}", gameObject.name, Name);
+                }
    
                 if (soundId == -1)
                 {

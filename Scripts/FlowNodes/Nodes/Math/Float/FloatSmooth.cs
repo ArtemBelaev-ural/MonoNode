@@ -10,7 +10,6 @@ namespace XMonoNode
     /// </summary>
     [CreateNodeMenu("Float/Smooth", -163)]
     [NodeWidth(170)]
-    [ExecuteInEditMode]
     public class FloatSmooth : FlowNodeInOut
     {
 

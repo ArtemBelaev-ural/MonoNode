@@ -37,11 +37,6 @@ namespace XMonoNode
             }
 
             Image image = t.GetComponent<Image>();
-            if (image == null)
-            {
-                Debug.LogErrorFormat("Image component is null {0}.{1}", gameObject.name, Name);
-                return null;
-            }
 
             return image;
             
