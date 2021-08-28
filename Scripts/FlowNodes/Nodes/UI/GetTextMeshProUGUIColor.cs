@@ -5,19 +5,12 @@ using TMPro;
 namespace XMonoNode
 {
     [CreateNodeMenu("UI/GetTextMeshProUGUIColor", 415)]
-    [NodeWidth(190)]
-    public class GetTextMeshProUGUIColor : MonoNode
+    [NodeWidth(220)]
+    public class GetTextMeshProUGUIColor : GetObjectParameter<TextMeshProUGUI, Color>
     {
-        [Input(connectionType: ConnectionType.Override)]
-        public TextMeshProUGUI TMProUGUI;
-
-        [Output]
-        public Color color;
-
-        public override object GetValue(NodePort port)
+        protected override Color GetValue(TextMeshProUGUI obj)
         {
-            var obj = GetInputValue(nameof(TMProUGUI), TMProUGUI);
-            return obj ? obj.color : Color.black;
+            return obj.color;
         }
     }
 }

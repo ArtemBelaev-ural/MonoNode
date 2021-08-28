@@ -101,22 +101,26 @@ namespace XMonoNodeEditor.Internal {
             return null;
         }
 
-		private static void CacheCustomEditors() {
+		private static void CacheCustomEditors()
+        {
 			editorTypes = new Dictionary<Type, Type>();
 
-			//Get all classes deriving from NodeEditor via reflection
-			Type[] nodeEditors = typeof(T).GetDerivedTypes();
-			for (int i = 0; i < nodeEditors.Length; i++) {
-				if (nodeEditors[i].IsAbstract) continue;
-				var attribs = nodeEditors[i].GetCustomAttributes(typeof(A), false);
-				if (attribs == null || attribs.Length == 0) continue;
-				A attrib = attribs[0] as A;
-				editorTypes.Add(attrib.GetInspectedType(), nodeEditors[i]);
-			}
-		}
+            //Get all classes deriving from NodeEditor via reflection
+            Type[] nodeEditors = typeof(T).GetDerivedTypes();
+            for (int i = 0; i < nodeEditors.Length; i++)
+            {
+                if (nodeEditors[i].IsAbstract)
+                    continue;
+                var attribs = nodeEditors[i].GetCustomAttributes(typeof(A), false);
+                if (attribs == null || attribs.Length == 0)
+                    continue;
+                A attrib = attribs[0] as A;
+                editorTypes[attrib.GetInspectedType()] = nodeEditors[i];
+            }
+        }
 
-		/// <summary> Called on creation, after references have been set </summary>
-		public virtual void OnCreate() { }
+        /// <summary> Called on creation, after references have been set </summary>
+        public virtual void OnCreate() { }
 
 		public interface INodeEditorAttrib {
 			Type GetInspectedType();

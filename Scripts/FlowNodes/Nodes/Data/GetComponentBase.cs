@@ -22,6 +22,9 @@ namespace XMonoNode
 
             objPort = GetInputPort(nameof(obj));
             componentPort = GetOutputPort(nameof(component));
+
+            objPort.label = "Transform";
+            componentPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ComponemtType).PrettyName());
         }
 
         public override object GetValue(NodePort port)

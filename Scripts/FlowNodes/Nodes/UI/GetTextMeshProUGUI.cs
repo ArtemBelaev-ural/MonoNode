@@ -32,7 +32,6 @@ namespace XMonoNode
             Transform t = transformPort.GetInputValue(_transform);
             if (t == null)
             {
-                Debug.LogErrorFormat("Transform is null {0}.{1}", gameObject.name, Name);
                 return null;
             }
 

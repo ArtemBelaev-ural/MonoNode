@@ -11,18 +11,18 @@ namespace XMonoNode
         [Input(backingValue: ShowBackingValue.Never, connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.None)]
         public Object value = null;
 
-        [Output, NodeInspectorButton] public Flow notNull;
+        [Output, NodeInspectorButton] public Flow Null;
 
         NodePort _objectPort;
-        NodePort notNullPort;
+        NodePort nullPort;
 
         protected override void Init()
         {
             base.Init();
-            FlowOutputPort.label = "Null";
+            FlowOutputPort.label = "notNull";
 
             _objectPort = GetInputPort(nameof(value));
-            notNullPort = GetOutputPort(nameof(notNull));
+            nullPort = GetOutputPort(nameof(Null));
         }
 
         public override void TriggerFlow()
@@ -32,7 +32,7 @@ namespace XMonoNode
 
         public override void Flow(NodePort flowPort)
         {
-            NodePort output = _objectPort.GetInputValue(value) == null ? FlowOutputPort : notNullPort;
+            NodePort output = _objectPort.GetInputValue(value) != null ? FlowOutputPort : nullPort;
             FlowUtils.FlowOutput(output);
         }
 

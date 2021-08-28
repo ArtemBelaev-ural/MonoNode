@@ -467,7 +467,7 @@ namespace XMonoNodeEditor {
                     {
                         rlc.Add(fieldName, list);
                     }
-                    catch (ArgumentException e)
+                    catch (ArgumentException )
                     {
                         // nothing
                     }

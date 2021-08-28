@@ -211,16 +211,18 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Returns generated color for a type. This color is editable in preferences </summary>
-        public virtual Color GetTypeColor(Type type) {
+        public virtual Color GetTypeColor(Type type)
+        {
             return NodeEditorPreferences.GetTypeColor(type);
         }
 
         /// <summary> Override to display custom tooltips </summary>
-        public virtual string GetPortTooltip(XMonoNode.NodePort port) {
+        public virtual string GetPortTooltip(XMonoNode.NodePort port)
+        {
             Type portType = port.ValueType;
-            string tooltip = "";
-            tooltip = portType.PrettyName();
-            if (port.IsOutput) {
+            string tooltip = XMonoNode.NodeUtilities.PrettyName(portType);
+            if (port.IsOutput)
+            {
                 object obj = port.node.GetValue(port);
                 tooltip += " = " + (obj != null ? obj.ToString() : "null");
             }

@@ -168,15 +168,16 @@ namespace FlowNodesEditor
             GUILayout.EndHorizontal();
         }
     }
-
-    [CustomNodeEditor(typeof(AnimateFloatEase))]
-    public class AnimateFloatEaseEditor : NodeEditor
+   
+    public class AnimateEaseEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
             base.OnBodyGUI();
 
-            AnimateFloatEase node = target as AnimateFloatEase;
+            AnimateValue node = target as AnimateValue;
+
+            node.EasingMode = (EasingMode)EditorGUILayout.EnumPopup(new GUIContent(ObjectNames.NicifyVariableName(nameof(AnimateValue.EasingMode))), node.EasingMode);
 
             Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode);
 
@@ -187,22 +188,19 @@ namespace FlowNodesEditor
         }
     }
 
-    [CustomNodeEditor(typeof(AnimateVector3Ease))]
-    public class AnimateVector3EaseEditor : NodeEditor
+    [CustomNodeEditor(typeof(AnimateFloatEase))]
+    public class AnimateFloatEaseEditor : AnimateEaseEditor
     {
-        public override void OnBodyGUI()
-        {
-            base.OnBodyGUI();
+    }
 
-            AnimateVector3Ease node = target as AnimateVector3Ease;
+    [CustomNodeEditor(typeof(AnimateVector3Ease))]
+    public class AnimateVector3EaseEditor : AnimateEaseEditor
+    {
+    }
 
-            Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode);
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
-            GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
-            GUILayout.EndHorizontal();
-        }
+    [CustomNodeEditor(typeof(AnimateColorEase))]
+    public class AnimateColorEaseEditor : AnimateEaseEditor
+    {
     }
 
 

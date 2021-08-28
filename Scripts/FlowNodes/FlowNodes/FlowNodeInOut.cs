@@ -23,8 +23,12 @@ namespace XMonoNode
 
         public override void TriggerFlow()
         {
-            FlowUtils.FlowOutput(FlowOutputPort);
+            FlowOut();
         }
 
+        public void FlowOut()
+        {
+            FlowUtils.FlowOutput(FlowOutputPort);
+        }
     }
 }

@@ -218,7 +218,7 @@ namespace XMonoNodeEditor {
 
             //Display type colors. Save them if they are edited by the user
             foreach (var type in typeColorKeys) {
-                string typeColorKey = NodeEditorUtilities.PrettyName(type);
+                string typeColorKey = XMonoNode.NodeUtilities.PrettyName(type);
                 Color col = typeColors[type];
                 EditorGUI.BeginChangeCheck();
                 EditorGUILayout.BeginHorizontal();
@@ -269,7 +269,7 @@ namespace XMonoNodeEditor {
             if (type == null) return Color.gray;
             Color col;
             if (!typeColors.TryGetValue(type, out col)) {
-                string typeName = type.PrettyName();
+                string typeName = XMonoNode.NodeUtilities.PrettyName(type);
                 if (settings[lastKey].typeColors.ContainsKey(typeName)) typeColors.Add(type, settings[lastKey].typeColors[typeName]);
                 else {
 #if UNITY_5_4_OR_NEWER

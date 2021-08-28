@@ -171,12 +171,22 @@ namespace XMonoNode
 
         protected Val startValue;
 
+        private NodePort targetPort;
         private NodePort targetValuePort;
 
         protected override void Init()
         {
             base.Init();
+            targetPort = GetInputPort(nameof(target));
             targetValuePort = GetInputPort(nameof(targetValue));
+
+            targetPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(Obj).PrettyName());
+            targetValuePort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(Val).PrettyName());
+        }
+
+        private void Reset()
+        {
+            Name = $"{UnityEditor.ObjectNames.NicifyVariableName(typeof(Val).PrettyName())} {UnityEditor.ObjectNames.NicifyVariableName(typeof(Obj).PrettyName())}";
         }
 
         protected NodePort TargetValuePort  => targetValuePort;
@@ -187,7 +197,7 @@ namespace XMonoNode
 
         protected override void OnTweenStart()
         {
-            target = GetInputValue(nameof(target), target);
+            target = targetPort.GetInputValue(target);
             if (target == null)
             {
                 Debug.LogErrorFormat("Tween node target is null ({0}.{1})", gameObject.name, Name);

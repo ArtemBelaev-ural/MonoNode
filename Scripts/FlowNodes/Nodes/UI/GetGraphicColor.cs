@@ -4,20 +4,13 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetGraphicColor", 415)]
+    [CreateNodeMenu("UI/GetGraphicColor", 417)]
     [NodeWidth(190)]
-    public class GetGraphicColor : MonoNode
+    public class GetGraphicColor : GetObjectParameter<Graphic, Color>
     {
-        [Input(connectionType: ConnectionType.Override)]
-        public Graphic graphic;
-
-        [Output]
-        public Color color;
-
-        public override object GetValue(NodePort port)
+        protected override Color GetValue(Graphic obj)
         {
-            var obj = GetInputValue(nameof(graphic), graphic);
-            return obj ? obj.color : Color.black;
+            return obj.color;
         }
     }
 }

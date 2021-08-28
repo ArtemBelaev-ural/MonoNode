@@ -5,10 +5,44 @@ namespace XMonoNode
 {
     public abstract class AnimateValue : FlowNodeInOut
     {
+        [Inline]
+        [Input(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.None), NodeInspectorButton]
+        public Flow stop;
+
+        [Output(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.None), NodeInspectorButton]
+        public Flow tick;
+
+        [SerializeField, NodeEnum, HideInNodeInspector]
+        private EasingMode      easingMode = EasingMode.Linear;
+
+        public EasingMode EasingMode
+        {
+            get => easingMode;
+            set => easingMode = value;
+        }
+
+        private NodePort stopPort;
+        private NodePort tickPort;
+
+        public NodePort StopPort => stopPort;
+        public NodePort TickPort => tickPort;
+
         public enum State
         {
             Stopped = 0,
             Started = 1,
+        }
+
+        protected override void Init()
+        {
+            base.Init();
+
+            stopPort = GetInputPort(nameof(stop));
+            tickPort = GetOutputPort(nameof(tick));
         }
 
         public abstract System.Type Type
@@ -24,17 +58,6 @@ namespace XMonoNode
 
     public abstract class AnimateValue<T> : AnimateValue
     {
-        [Inline]
-        [Input(backingValue: ShowBackingValue.Never,
-            connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.None), NodeInspectorButton]
-        public Flow stop;
-
-        [Output(backingValue: ShowBackingValue.Never,
-            connectionType: ConnectionType.Multiple,
-            typeConstraint: TypeConstraint.None), NodeInspectorButton]
-        public Flow tick;
-
         [Output]
         public T value;
 
@@ -47,26 +70,12 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public float duration = 1;
 
-        [SerializeField, NodeEnum]
-        private EasingMode      easingMode = EasingMode.Linear;
 
-        public EasingMode EasingMode
-        {
-            get => easingMode;
-            set => easingMode = value;
-        }
-
-        public override System.Type Type => typeof(T);
-
-        public NodePort StopPort => stopPort;
-        public NodePort TickPort => tickPort;
+        public override System.Type Type => typeof(T);      
 
         public NodePort FromPort  => fromPort;
         public NodePort ToPort => toPort;
         public NodePort DurationPort  => durationPort;
-
-        private NodePort stopPort;
-        private NodePort tickPort;
 
         private NodePort valuePort;
         private NodePort fromPort;
@@ -80,9 +89,6 @@ namespace XMonoNode
         protected override void Init()
         {
             base.Init();
-
-            stopPort = GetInputPort(nameof(stop));
-            tickPort = GetOutputPort(nameof(tick));
 
             fromPort = GetInputPort(nameof(from));
             toPort = GetInputPort(nameof(to));
@@ -101,7 +107,7 @@ namespace XMonoNode
             {
                 StartTimer();
             }
-            else if (flowPort == stopPort)
+            else if (flowPort == StopPort)
             {
                 StopTimer();
             }
@@ -133,7 +139,7 @@ namespace XMonoNode
         private void StartTimer()
         {
             state = State.Started;
-            FlowUtils.FlowOutput(tickPort);
+            FlowUtils.FlowOutput(TickPort);
             duration = durationPort.GetInputValue(duration);
             remainingSec = duration;
             from = fromPort.GetInputValue(from);
@@ -154,7 +160,7 @@ namespace XMonoNode
         private void TickTimer()
         {
             remainingSec -= Time.deltaTime;
-            FlowUtils.FlowOutput(tickPort);
+            FlowUtils.FlowOutput(TickPort);
             if (remainingSec <= 0.0f || duration <= 0f)
             {
                 TimerCompleted();

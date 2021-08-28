@@ -7,6 +7,7 @@ namespace XMonoNode
 {
     [AddComponentMenu("FlowNode/Variables/Color", 3)]
     [CreateNodeMenu("Variables/Color", 3)]
+    [NodeWidth(170)]
     public class VariableColor : VariableNode<Color>
     {
     }
