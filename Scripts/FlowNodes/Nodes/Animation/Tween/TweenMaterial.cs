@@ -12,11 +12,32 @@ namespace XMonoNode
 
         public NodePort NamePort => namePort;
 
+        protected int Id
+        {
+            get;
+            set;
+        }
+
+        protected string Name
+        {
+            get;
+            set;
+        }
+
         protected override void Init()
         {
             base.Init();
 
             namePort = GetInputPort(nameof(paramName));
+        }
+
+        protected override void OnTweenStart()
+        {
+            base.OnTweenStart();
+
+            Name = NamePort.GetInputValue(paramName);
+
+            Id = Shader.PropertyToID(Name);
         }
 
     }

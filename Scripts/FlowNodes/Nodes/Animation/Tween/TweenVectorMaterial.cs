@@ -34,7 +34,7 @@ namespace XMonoNode
 
         protected override void SetValue(Vector4 value)
         {
-            target.SetVector(NamePort.GetInputValue(paramName), value);
+            target.SetVector(Id, value);
         }
 
     }

@@ -10,7 +10,7 @@ namespace XMonoNode
     {
         protected override int GetValue(Material obj)
         {
-            return obj.GetInt(NamePort.GetInputValue(paramName));
+            return obj.GetInteger(NamePort.GetInputValue(paramName));
         }
     }
 }

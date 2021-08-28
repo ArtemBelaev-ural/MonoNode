@@ -34,7 +34,7 @@ namespace XMonoNode
 
         protected override void SetValue(float value)
         {
-            target.SetFloat(NamePort.GetInputValue(paramName), value);
+            target.SetFloat(Id, value);
         }
 
     }

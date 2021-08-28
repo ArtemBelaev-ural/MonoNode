@@ -34,7 +34,7 @@ namespace XMonoNode
 
         protected override void SetValue(Color value)
         {
-            target.SetColor(NamePort.GetInputValue(paramName), value);
+            target.SetColor(Id, value);
         }
 
     }
