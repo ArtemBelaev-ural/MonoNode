@@ -10,7 +10,7 @@ namespace XMonoNode
         /// <summary>
         /// Значение параметра
         /// </summary>
-        public abstract object GetTestValue();
+        public abstract object GetDefaultValue();
     }
 
     /// <summary>
@@ -20,51 +20,47 @@ namespace XMonoNode
     [NodeWidth(200)]
     public abstract class InputFlowParameter<T> : InputFlowParameter
     {
-        [Output] public T   output;
+        [Output(backingValue: ShowBackingValue.Always)] public T   output;
 
-        [SerializeField, HideInInspector]
-        private T           testValue = default(T);
+        
 
         /// <summary>
-        /// Значение, используемое для тестирования в редакторе
+        /// Значение, используемое по умолчанию
         /// </summary>
-        public T TestValue
+        public T DefaultValue
         {
-            get => testValue;
-            set
-            {
-                testValue = value;
-            }
+            get => output;
+            set => output = value;
         }
 
         private void Reset()
         {
-            Name = "Input Parameter: " + typeof(T).Name;
+            Name = "Input Param: " + NodeUtilities.PrettyName(typeof(T));
         }
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(output))
+            FlowNodeGraph flowGraph = graph as FlowNodeGraph;
+            if (flowGraph != null)
             {
-                FlowNodeGraph flowGraph = graph as FlowNodeGraph;
-                if (flowGraph != null)
+                if (flowGraph.OutputFlowParametersDict.TryGetValue(Name, out object value))
                 {
-                    if (flowGraph.OutputFlowParametersDict.TryGetValue(Name, out object value))
-                    {
-                        return value;
-                    }
-                    else
-                    {
-                        return flowGraph.FlowParametersArray.Get<T>();
-                    }
+                    return value;
+                }
+                else
+                {
+                    
+                    value = flowGraph.FlowParametersArray.Get<T>();
+                    return !Equals(value, default(T)) ? value : output;
                 }
             }
-            return null;
+  
+            return output;
         }
 
-        public override object GetTestValue()
+        public override object GetDefaultValue()
         {
-            return testValue;
+            return output;
         }
     }
 }

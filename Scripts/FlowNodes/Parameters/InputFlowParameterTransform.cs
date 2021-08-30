@@ -8,6 +8,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("FlowNode/Input/Parameter/Transform", 1)]
     [CreateNodeMenu("Parameter/Input/Transform", 1)]
+    [NodeWidth(220)]
     public class InputFlowParameterTransform : InputFlowParameter<Transform>
     {
     }

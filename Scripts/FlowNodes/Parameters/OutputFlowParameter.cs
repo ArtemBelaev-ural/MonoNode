@@ -45,7 +45,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "Output: " + typeof(T).Name;
+            Name = "Output: " + NodeUtilities.PrettyName(typeof(T));
         }
 
         protected override void Init()

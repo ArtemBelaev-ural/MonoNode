@@ -8,6 +8,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/Input/GameObject", 2)]
     [CreateNodeMenu("Parameter/Input/GameObject", 2)]
+    [NodeWidth(220)]
     public class InputFlowParameterGameObject : InputFlowParameter<GameObject>
     {
     }

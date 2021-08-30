@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [NodeWidth(110)]
+    [NodeWidth(80)]
     [CreateNodeMenu("Null/Null", 1010)]
     public class Null : MonoNode
     {

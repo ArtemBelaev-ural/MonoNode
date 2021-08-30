@@ -17,7 +17,6 @@ namespace XMonoNode
 
         [Output] public string value;
 
-
         private void Reset()
         {
             Name = "Parameter: At"; // в оригинале получается single
@@ -27,12 +26,12 @@ namespace XMonoNode
         {
             if (port.fieldName == nameof(value))
             {
-                return GetTestValue();
+                return GetDefaultValue();
             }
             return null;
         }
 
-        public override object GetTestValue()
+        public override object GetDefaultValue()
         {
             FlowNodeGraph flowGraph = graph as FlowNodeGraph;
             if (flowGraph != null && at >= 0 && at < flowGraph.FlowParametersArray.Length)

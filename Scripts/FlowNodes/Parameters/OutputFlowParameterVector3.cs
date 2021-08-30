@@ -8,6 +8,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("FlowNode/Parameter/Output/Vector3", 0)]
     [CreateNodeMenu("Parameter/Output/Vector3", 0)]
+    [NodeWidth(160)]
     public class OutputFlowParameterVector3 : OutputFlowParameter<Vector3>
     {
     }

@@ -119,7 +119,7 @@ namespace XMonoNode
             for (int i = 0; i < paramNodes.Length; ++i)
             {
                 //FlowParametersArray[i] = paramNodes[i].GetTestValue();
-                dict[paramNodes[i].Name] = paramNodes[i].GetTestValue();
+                dict[paramNodes[i].Name] = paramNodes[i].GetDefaultValue();
             }
             OutputFlowParametersDict = dict;
             OnUpdateInputParametersNodes();
