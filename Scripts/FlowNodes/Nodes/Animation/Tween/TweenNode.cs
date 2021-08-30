@@ -180,13 +180,17 @@ namespace XMonoNode
             targetPort = GetInputPort(nameof(target));
             targetValuePort = GetInputPort(nameof(targetValue));
 
+#if UNITY_EDITOR
             targetPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(Obj).PrettyName());
             targetValuePort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(Val).PrettyName());
+#endif
         }
 
         private void Reset()
         {
+#if UNITY_EDITOR
             Name = $"{UnityEditor.ObjectNames.NicifyVariableName(typeof(Val).PrettyName())} {UnityEditor.ObjectNames.NicifyVariableName(typeof(Obj).PrettyName())}";
+#endif
         }
 
         protected NodePort TargetValuePort  => targetValuePort;

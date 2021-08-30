@@ -25,8 +25,10 @@ namespace XMonoNode
             objectPort = GetInputPort(nameof(_object));
             parameterPort = GetOutputPort(nameof(parameter));
 
+#if UNITY_EDITOR
             objectPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ObjType).PrettyName());
             parameterPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ParamType).PrettyName());
+#endif
         }
 
         public override object GetValue(NodePort port)

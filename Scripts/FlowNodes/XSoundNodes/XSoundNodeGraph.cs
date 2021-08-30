@@ -8,20 +8,20 @@ namespace XMonoNode
 {
     [ExecuteInEditMode]
     [AddComponentMenu("X Sound Node/SoundNodeGraph", 1)]
-    [RequireNode(typeof(OnFlowEventNode), typeof(XSoundNodePlay))]
-    [RequireComponent(typeof(OnFlowEventNode), typeof(XSoundNodePlay))]
+    [RequireNode(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(FlowEnd))]
+    [RequireComponent(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(FlowEnd))]
     public class XSoundNodeGraph : FlowNodeGraph
     {
         private void Reset()
         {
-            // Execute добавлен автоматически
+            // OnFlowStart добавлен автоматически
             OnFlowEventNode start = GetComponent<OnFlowEventNode>();
             if (start != null)
             {
                 start.graph = this;
                 if (start.Name == null || start.Name.Trim() == "")
                 {
-                    start.Name = "OnFlow";
+                    start.Name = "OnFlowStart";
                 }
                 start.Position = new Vector2(-300.0f, -100.0f);
             }
@@ -65,6 +65,28 @@ namespace XMonoNode
                     }
 
 
+                }
+            }
+
+            // OnFlowStart добавлен автоматически
+            FlowEnd end = GetComponent<FlowEnd>();
+            if (end != null)
+            {
+                end.graph = this;
+                if (end.Name == null || end.Name.Trim() == "")
+                {
+                    end.Name = "FlowEnd";
+                }
+                end.Position = new Vector2(450.0f, -100.0f);
+
+                if (play != null)
+                {
+                    NodePort playEnd = play.GetOutputPort(nameof(play.onEnd));
+                    NodePort endFlowInput = end.GetInputPort(nameof(play.FlowInput));
+                    if (endFlowInput != null && playEnd != null)
+                    {
+                        playEnd.Connect(endFlowInput);
+                    }
                 }
             }
         } 

@@ -102,11 +102,27 @@ namespace XMonoNode
             }
         }
 
+        public void Flow(System.Action<string> onEndAction, string state, params object[] parameters)
+        {
+            if (CheckContainer())
+            {
+                GetContainer().Flow(graphId, onEndAction, state, parameters);
+            }
+        }
+
         public void Flow(Dictionary<string, object> parameters)
         {
             if (CheckContainer())
             {
                 GetContainer().Flow(graphId, parameters);
+            }
+        }
+
+        public void Flow(System.Action<string> onEndAction, string state, Dictionary<string, object> parameters)
+        {
+            if (CheckContainer())
+            {
+                GetContainer().Flow(graphId, onEndAction, state, parameters);
             }
         }
 

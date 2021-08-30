@@ -11,10 +11,19 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("Flow Nodes/FlowNodeGraph", 1)]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(OnFlowEventNode))]
-    [RequireNode(typeof(OnFlowEventNode))]
+    [RequireComponent(typeof(OnFlowEventNode), typeof(FlowEnd))]
+    [RequireNode(typeof(OnFlowEventNode), typeof(FlowEnd))]
     public class FlowNodeGraph : MonoNodeGraph
     {
+        /// <summary>
+        /// state parameter of Flow() methods
+        /// </summary>
+        public string State
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Параметры, передаваемые в метод FlowNodeGraph.Flow()
         /// </summary>
@@ -57,6 +66,35 @@ namespace XMonoNode
         }
 
         private Dictionary<string, object> outputFlowParametersDict = new Dictionary<string, object>();
+
+        private void Reset()
+        {
+            // OnFlowStart добавлен автоматически
+            OnFlowEventNode start = GetComponent<OnFlowEventNode>();
+            if (start != null)
+            {
+                start.graph = this;
+                if (start.Name == null || start.Name.Trim() == "")
+                {
+                    start.Name = "OnFlowStart";
+                }
+                start.Position = new Vector2(-300.0f, -100.0f);
+            }
+
+
+            // OnFlowStart добавлен автоматически
+            FlowEnd end = GetComponent<FlowEnd>();
+            if (end != null)
+            {
+                end.graph = this;
+                if (end.Name == null || end.Name.Trim() == "")
+                {
+                    end.Name = "FlowEnd";
+                }
+                end.Position = new Vector2(450.0f, -100.0f);
+
+            }
+        }
 
         private void OnUpdateInputParametersNodes()
         {
@@ -127,6 +165,17 @@ namespace XMonoNode
 
         public const string ALL_EXECUTE_NODES = ":- all execute nodes";
 
+        private void InitEndNodes(Action<string> onEndAction, string state)
+        {
+            State = state;
+            FlowEnd[] endNodes = GetComponents<FlowEnd>();
+
+            foreach (var node in endNodes)
+            {
+                node.Action = onEndAction;
+            }
+        }
+
         /// <summary>
         /// Starts flow of the graph
         /// </summary>
@@ -141,20 +190,46 @@ namespace XMonoNode
         /// Starts flow of the graph
         /// </summary>
         /// <param name="parameters">Custom graph parameters<seealso cref="InputFlowParameter"/></param>
+        /// <param name="onEndAction">Action that invokes when flow reachs the FlowEnd node</param>
+        /// <param name="state">value of action's parameter</param>
+        public virtual void Flow(Action<string> onEndAction, string state, params object[] parameters)
+        {
+            UpdateInputParameters(parameters);
+            Flow(onEndAction, state);
+        }
+
+        /// <summary>
+        /// Starts flow of the graph
+        /// </summary>
+        /// <param name="parameters">Custom graph parameters<seealso cref="InputFlowParameter"/></param>
         public virtual void Flow(Dictionary<string, object> parameters)
         {
             UpdateInputParameters(parameters);
             Flow();
         }
 
+        /// <summary>
+        /// Starts flow of the graph
+        /// </summary>
+        /// <param name="onEndAction">Action that invokes when flow reachs the FlowEnd node</param>
+        /// <param name="state">value of action's parameter</param>
+        /// <param name="parameters">Custom graph parameters<seealso cref="InputFlowParameter"/></param>
+        public virtual void Flow(Action<string> onEndAction, string state, Dictionary<string, object> parameters)
+        {
+            UpdateInputParameters(parameters);
+            Flow(onEndAction, state);
+        }
+
         [ContextMenu("Flow")]
-        public virtual void Flow()
+        public virtual void Flow(Action<string> onEndAction = null, string state = "")
         {
             OnFlowEventNode[] eventNodes = GetComponents<OnFlowEventNode>();
             if (eventNodes.Length == 0)
             {
                 Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't OnExecute nodes");
             }
+
+            InitEndNodes(onEndAction, state);
 
             foreach (var node in eventNodes)
             {

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace XMonoNode
 {
     /// <summary>
@@ -89,12 +88,32 @@ namespace XMonoNode
             return graph;
         }
 
+        public FlowNodeGraph Flow(string id, System.Action<string> onEndAction, string state, params object[] parameters)
+        {
+            FlowNodeGraph graph = Get(id);
+            if (graph != null)
+            {
+                graph.Flow(onEndAction, state, parameters);
+            }
+            return graph;
+        }
+
         public FlowNodeGraph Flow(string id, Dictionary<string, object> parameters)
         {
             FlowNodeGraph graph = Get(id);
             if (graph != null)
             {
                 graph.Flow(parameters);
+            }
+            return graph;
+        }
+
+        public FlowNodeGraph Flow(string id, System.Action<string> onEndAction, string state, Dictionary<string, object> parameters)
+        {
+            FlowNodeGraph graph = Get(id);
+            if (graph != null)
+            {
+                graph.Flow(onEndAction, state, parameters);
             }
             return graph;
         }
