@@ -4,7 +4,7 @@ using UnityEngine;
 namespace XMonoNode
 {
     [NodeWidth(110)]
-    [CreateNodeMenu("Null/IsNull", 1011)]
+    [CreateNodeMenu("Null/IsNull", 1012)]
     public class IsNull : MonoNode
     {
         [Inline]
