@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Shaders/GetRenderer", 417)]
+    [CreateNodeMenu("Shaders/GetRenderer", 469)]
     [NodeWidth(190)]
     public class GetRenderer : GetComponentBase<Renderer>
     {

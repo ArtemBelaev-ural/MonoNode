@@ -260,20 +260,23 @@ namespace XMonoNode {
             return result;
         }
 
-        public NodePort GetConnection(int i) {
+        public NodePort GetConnection(int i)
+        {
             //If the connection is broken for some reason, remove it.
-            if (connections[i].node == null || string.IsNullOrEmpty(connections[i].fieldName)) {
+            if (connections[i].node == null || string.IsNullOrEmpty(connections[i].fieldName))
+            {
                 connections.RemoveAt(i);
                 return null;
             }
             INode castedNode = connections[i].node as INode;
-            if (node == null)
+            if (castedNode == null)
             {
                 return null;
             }
 
             NodePort port = castedNode.GetPort(connections[i].fieldName);
-            if (port == null) {
+            if (port == null)
+            {
                 connections.RemoveAt(i);
                 return null;
             }

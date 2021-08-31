@@ -3,13 +3,13 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/GetTransformPosition", 417)]
+    [CreateNodeMenu("Transform/GetPosition", 451)]
     public class GetTransformPosition : MonoNode
     {
-        [Input(connectionType:ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public Transform _transform;
         [Output]
-        public Vector3 localPosition;
+        public Vector3 _position;
 
         private NodePort transformPort;
 
@@ -26,8 +26,7 @@ namespace XMonoNode
             Transform target = transformPort.GetInputValue(_transform);
             if (target == null)
             {
-                Debug.LogErrorFormat("Transform is null {0}.{1}", gameObject.name, Name);
-                return null;
+                return Vector3.zero;
             }
 
             return target.position;

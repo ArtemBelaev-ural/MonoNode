@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Shaders/GetMaterialMainColor", 419)]
+    [CreateNodeMenu("Shaders/GetMaterialMainColor", 471)]
     [NodeWidth(190)]
     public class GetMaterialMainColor : GetObjectParameter<Material, Color>
     {

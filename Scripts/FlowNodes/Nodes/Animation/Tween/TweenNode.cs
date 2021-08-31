@@ -163,10 +163,10 @@ namespace XMonoNode
 
     public abstract class TweenObjectValue<Obj, Val> : TweenNode where Obj : UnityEngine.Object
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public Obj target;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public Val targetValue;
 
         protected Val startValue;

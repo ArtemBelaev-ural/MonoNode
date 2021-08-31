@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/ThisTransform", 402)]
+    [CreateNodeMenu("Transform/ThisTransform", 440)]
     [NodeWidth(140)]
     public class ThisTransform : MonoNode
     {

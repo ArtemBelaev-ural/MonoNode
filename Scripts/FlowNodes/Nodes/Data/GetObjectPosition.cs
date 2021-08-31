@@ -4,9 +4,11 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/GetPosition", 416)]
-    public class GetPosition : MonoNode
+    public class GetObjectPosition : MonoNode
     {
-        [Input] public GameObject Target;
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        public GameObject Target;
+
         [Output] public Vector3 _position;
         [Output] public Vector3 x;
         [Output] public Vector3 y;

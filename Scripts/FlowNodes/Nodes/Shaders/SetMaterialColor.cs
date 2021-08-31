@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Shaders/SetMaterialColor", 425)]
+    [CreateNodeMenu("Shaders/SetMaterialColor", 479)]
     [NodeWidth(190)]
     public class SetMaterialColor : SetMaterialNamedParameter<Color>
     {

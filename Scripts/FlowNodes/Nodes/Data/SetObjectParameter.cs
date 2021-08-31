@@ -6,10 +6,10 @@ namespace XMonoNode
 {
     public abstract class SetObjectParameter<ObjType, ParamType> : FlowNodeInOut where ObjType : Object
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public ObjType _object;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public ParamType parameter;
 
         public NodePort ObjectPort => objectPort;

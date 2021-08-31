@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/"+nameof(DestroyObject))]
+    [CreateNodeMenu("GameObject/DestroyObject", 402)]
     public class DestroyObject : FlowNodeInOut
     {
         [Input]

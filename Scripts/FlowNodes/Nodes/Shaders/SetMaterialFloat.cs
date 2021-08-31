@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Shaders/SetMaterialFloat", 423)]
+    [CreateNodeMenu("Shaders/SetMaterialFloat", 476)]
     [NodeWidth(190)]
     public class SetMaterialFloat : SetMaterialNamedParameter<float>
     {

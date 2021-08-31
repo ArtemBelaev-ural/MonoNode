@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/GetTransformLocalPosition", 416)]
+    [CreateNodeMenu("Transform/GetLocalPosition", 453)]
     public class GetTransformLocalPosition : MonoNode
     {
         [Input(connectionType:ConnectionType.Override)]
@@ -26,8 +26,7 @@ namespace XMonoNode
             Transform target = transformPort.GetInputValue(_transform);
             if (target == null)
             {
-                Debug.LogErrorFormat("Transform is null {0}.{1}", gameObject.name, Name);
-                return null;
+                return Vector3.zero;
             }
 
             return target.localPosition;

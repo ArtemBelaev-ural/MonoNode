@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Shaders/GetMaterialVector", 427)]
+    [CreateNodeMenu("Shaders/GetMaterialVector", 477)]
     [NodeWidth(190)]
     public class GetMaterialVector : GetMaterialNamedParameter<Vector4>
     {

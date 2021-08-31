@@ -3,16 +3,16 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/ParentTransform", 403)]
+    [CreateNodeMenu("Transform/ThisParentTransform", 441)]
     [NodeWidth(140)]
-    public class ParentTransform : MonoNode
+    public class ThisParentTransform : MonoNode
     {
         [Output] public Transform parent;
 
 
         private void Reset()
         {
-            Name = "Parent Transform";
+            Name = "This Parent Transform";
         }
 
         public override object GetValue(NodePort port)
