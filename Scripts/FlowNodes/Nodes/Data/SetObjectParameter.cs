@@ -6,7 +6,7 @@ namespace XMonoNode
 {
     public abstract class SetObjectParameter<ObjType, ParamType> : FlowNodeInOut where ObjType : Object
     {
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override)]
         public ObjType _object;
 
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
@@ -42,11 +42,19 @@ namespace XMonoNode
 
         public override void Flow(NodePort flowPort)
         {
-            ObjType obj = ObjectPort.GetInputValue(_object);
-            if (obj != null)
+            object obj = ObjectPort.GetInputValue();
+            if (obj is ObjType)
             {
-                SetValue(obj, parameterPort.GetInputValue(parameter));
-                
+                _object = obj as ObjType;
+            }
+            else if (obj is Component)
+            {
+                _object = (obj as Component).GetComponent<ObjType>();
+            }
+
+            if (_object != null)
+            {
+                SetValue(_object, parameterPort.GetInputValue(parameter));
             }
             FlowOut();
         }

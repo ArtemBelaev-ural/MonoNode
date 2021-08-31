@@ -163,7 +163,7 @@ namespace XMonoNode
 
     public abstract class TweenObjectValue<Obj, Val> : TweenNode where Obj : UnityEngine.Object
     {
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override)]
         public Obj target;
 
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
@@ -201,7 +201,18 @@ namespace XMonoNode
 
         protected override void OnTweenStart()
         {
-            target = targetPort.GetInputValue(target);
+            object objTarget = targetPort.GetInputValue();
+
+            if (objTarget is Obj)
+            {
+                target = objTarget as Obj;
+            }
+            else if (objTarget is Component)
+            {
+                target = (objTarget as Component).GetComponent<Obj>();
+            }
+            
+            
             if (target == null)
             {
                 Debug.LogErrorFormat("Tween node target is null ({0}.{1})", gameObject.name, Name);

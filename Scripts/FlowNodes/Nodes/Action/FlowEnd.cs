@@ -10,8 +10,6 @@ namespace XMonoNode
     [NodeWidth(100)]
     public class FlowEnd : FlowNodeIn
     {
-        
-
         public System.Action<string> Action
         {
             get;
