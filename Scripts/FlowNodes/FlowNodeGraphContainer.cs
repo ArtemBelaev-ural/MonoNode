@@ -118,6 +118,16 @@ namespace XMonoNode
             return graph;
         }
 
+        public virtual FlowNodeGraph CustomEvent(string id, string eventName)
+        {
+            FlowNodeGraph graph = Get(id);
+            if (graph != null)
+            {
+                graph.CustomEvent(eventName);
+            }
+            return graph;
+        }
+
         public FlowNodeGraph Get(string id)
         {
             if (Items.TryGetValue(id, out FlowNodeGraphContainerItem item))

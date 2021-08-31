@@ -237,6 +237,34 @@ namespace XMonoNode
             }
         }
 
+        /// <summary>
+        /// Custom start of flow. 
+        /// </summary>
+        /// <param name="eventName">Name of the CustomEvent node witch starts the flow</param>
+        public virtual void CustomEvent(string eventName)
+        {
+            OnCustomEventNode[] eventNodes = GetComponents<OnCustomEventNode>();
+            if (eventNodes.Length == 0)
+            {
+                Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't CustomEvent nodes");
+            }
+
+            int triggeredCount = 0;
+            foreach (var node in eventNodes)
+            {
+                if (node.Name == eventName)
+                {
+                    ++triggeredCount;
+                    node.TriggerFlow();
+                }
+            }
+
+            if (triggeredCount == 0)
+            {
+                Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't CustomEvent node with name \"" + eventName + "\"");
+            }
+        }
+
         [ContextMenu("Stop")]
         public virtual void Stop()
         {

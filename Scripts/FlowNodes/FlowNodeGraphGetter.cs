@@ -126,6 +126,14 @@ namespace XMonoNode
             }
         }
 
+        public void CustomEvent(string eventName)
+        {
+            if (CheckContainer())
+            {
+                GetContainer().CustomEvent(graphId, eventName);
+            }
+        }
+
         public void UpdateInputParameters(params object[] parameters)
         {
             if (CheckContainer())

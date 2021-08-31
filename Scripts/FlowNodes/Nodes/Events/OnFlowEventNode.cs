@@ -17,7 +17,7 @@ namespace XMonoNode
             NodePort portIn = GetOutputPort(nameof(FlowOutput));
             if (portIn != null)
             {
-                portIn.label = "On Flow Start";
+                portIn.label = "Flow";
             }
         }
 
