@@ -4,14 +4,13 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetButton", 413)]
+    [CreateNodeMenu("UI/GetChildrenImage", 416)]
     [NodeWidth(190)]
-    public class GetButtonComponent : GetComponentBase<Button>
+    public class GetChildrenImageComponent : GetComponentInChildren<Image>
     {
-
         private void Reset()
         {
-            Name = "Get Button";
+            Name = "Get Children Image";
         }
     }
 }

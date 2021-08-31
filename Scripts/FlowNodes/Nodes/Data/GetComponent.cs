@@ -4,12 +4,12 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/GetComponent", 408)]
+    [CreateNodeMenu("Transform/GetComponent", 501)]
     [NodeWidth(220)]
     public class GetComponent : GetComponentBase<Component>
     {
         [Input(connectionType: ConnectionType.Override)]
-        public string type;
+        public string typeName;
 
         private void Reset()
         {
@@ -25,15 +25,20 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            Transform t = objPort.GetInputValue(obj);
+            Component t = objPort.GetInputValue() as Component;
+            if (t == null)
+            {
+                t = obj;
+            }
+
             if (t == null)
             {
                 return null;
             }
 
-            type = GetInputValue(nameof(type), type);
+            typeName = GetInputValue(nameof(typeName), typeName);
 
-            return t.GetComponent(type);
+            return t.GetComponent(typeName);
         }
     }
 }

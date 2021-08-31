@@ -4,7 +4,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetGraphicComponent", 410)]
+    [CreateNodeMenu("UI/GetGraphic", 410)]
     [NodeWidth(190)]
     public class GetGraphicComponent : GetComponentBase<Graphic>
     {
@@ -18,7 +18,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "Get Graphic Component";
+            Name = "Get Graphic";
         }
     }
 }

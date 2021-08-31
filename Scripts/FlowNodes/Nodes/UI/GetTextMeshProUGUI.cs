@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetTextMeshProUGUI", 414)]
+    [CreateNodeMenu("UI/GetTextMeshProUGUI", 417)]
     [NodeWidth(190)]
     public class GetTextMeshProUGUI : MonoNode
     {

@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/SetGraphicColor", 418)]
+    [CreateNodeMenu("UI/SetGraphicColor", 422)]
     [NodeWidth(190)]
     public class SetGraphicColor : SetObjectParameter<Graphic, Color>
     {
