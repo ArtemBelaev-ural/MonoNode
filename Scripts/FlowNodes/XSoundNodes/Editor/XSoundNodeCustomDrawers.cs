@@ -18,8 +18,9 @@ namespace XMonoNodeEditor
             {
                 if (source == null)
                 {
-                    source = new AudioSource();
-                    source.gameObject.hideFlags = HideFlags.HideAndDontSave;
+                    GameObject obj = new GameObject();
+                    source = obj.AddComponent<AudioSource>();
+                    obj.hideFlags = HideFlags.HideAndDontSave;
                 }
                 return source;
             }
