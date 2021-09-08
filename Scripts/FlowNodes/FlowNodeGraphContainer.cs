@@ -24,7 +24,7 @@ namespace XMonoNode
 
         private FlowNodeGraph   instanciated = null;
 
-        public FlowNodeGraph Get()
+        public FlowNodeGraph Get(Transform parent = null)
         {
             if (graph == null)
             {
@@ -34,7 +34,14 @@ namespace XMonoNode
 
             if (instanciated == null)
             {
-                instanciated = GameObject.Instantiate(graph);
+                if (parent == null)
+                {
+                    instanciated = GameObject.Instantiate(graph);
+                }
+                else
+                {
+                    instanciated = GameObject.Instantiate(graph, parent);
+                }
 #if UNITY_EDITOR
                 if (Application.isEditor)
                 {
@@ -59,6 +66,13 @@ namespace XMonoNode
 
         public List<FlowNodeGraphContainerItem>                 ItemsList => itemsList;
 
+        public Transform GraphParent
+        {
+            get;
+            set;
+        } = null;
+
+
         private Dictionary<string, FlowNodeGraphContainerItem>  items = null;
         private Dictionary<string, FlowNodeGraphContainerItem>  Items
         {
@@ -80,7 +94,7 @@ namespace XMonoNode
 
         public FlowNodeGraph Flow(string id, params object[] parameters)
         {
-            FlowNodeGraph graph = Get(id);
+            FlowNodeGraph graph = Get(id, GraphParent);
             if (graph != null)
             {
                 graph.Flow(parameters);
@@ -90,7 +104,7 @@ namespace XMonoNode
 
         public FlowNodeGraph Flow(string id, System.Action<string> onEndAction, string state, params object[] parameters)
         {
-            FlowNodeGraph graph = Get(id);
+            FlowNodeGraph graph = Get(id, GraphParent);
             if (graph != null)
             {
                 graph.Flow(onEndAction, state, parameters);
@@ -100,7 +114,7 @@ namespace XMonoNode
 
         public FlowNodeGraph Flow(string id, Dictionary<string, object> parameters)
         {
-            FlowNodeGraph graph = Get(id);
+            FlowNodeGraph graph = Get(id, GraphParent);
             if (graph != null)
             {
                 graph.Flow(parameters);
@@ -110,7 +124,7 @@ namespace XMonoNode
 
         public FlowNodeGraph Flow(string id, System.Action<string> onEndAction, string state, Dictionary<string, object> parameters)
         {
-            FlowNodeGraph graph = Get(id);
+            FlowNodeGraph graph = Get(id, GraphParent);
             if (graph != null)
             {
                 graph.Flow(onEndAction, state, parameters);
@@ -118,9 +132,9 @@ namespace XMonoNode
             return graph;
         }
 
-        public virtual FlowNodeGraph CustomEvent(string id, string eventName)
+        public virtual FlowNodeGraph CustomEvent(string id, string eventName, Transform parent = null)
         {
-            FlowNodeGraph graph = Get(id);
+            FlowNodeGraph graph = Get(id, parent);
             if (graph != null)
             {
                 graph.CustomEvent(eventName);
@@ -128,11 +142,11 @@ namespace XMonoNode
             return graph;
         }
 
-        public FlowNodeGraph Get(string id)
+        public FlowNodeGraph Get(string id, Transform parent = null)
         {
             if (Items.TryGetValue(id, out FlowNodeGraphContainerItem item))
             {
-                return item.Get();
+                return item.Get(parent);
             }
             else
             {

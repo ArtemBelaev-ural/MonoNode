@@ -94,6 +94,46 @@ namespace XMonoNode
             return false;
         }
 
+        public void Flow(Transform parent, params object[] parameters)
+        {
+            if (CheckContainer())
+            {
+                FlowNodeGraphContainer container = GetContainer();
+                container.GraphParent = parent;
+                container.Flow(graphId, parameters);
+            }
+        }
+
+        public void Flow(Transform parent, System.Action<string> onEndAction, string state, params object[] parameters)
+        {
+            if (CheckContainer())
+            {
+                FlowNodeGraphContainer container = GetContainer();
+                container.GraphParent = parent;
+                container.Flow(graphId, onEndAction, state, parameters);
+            }
+        }
+
+        public void Flow(Transform parent, Dictionary<string, object> parameters)
+        {
+            if (CheckContainer())
+            {
+                FlowNodeGraphContainer container = GetContainer();
+                container.GraphParent = parent;
+                container.Flow(graphId, parameters);
+            }
+        }
+
+        public void Flow(Transform parent, System.Action<string> onEndAction, string state, Dictionary<string, object> parameters)
+        {
+            if (CheckContainer())
+            {
+                FlowNodeGraphContainer container = GetContainer();
+                container.GraphParent = parent;
+                container.Flow(graphId, onEndAction, state, parameters);
+            }
+        }
+
         public void Flow(params object[] parameters)
         {
             if (CheckContainer())
@@ -173,5 +213,72 @@ namespace XMonoNode
             GetContainer().Stop(graphId);
         }
 
+    }
+
+    public static class FlowNodeGetterExtensionMethods
+    {
+        public static void SafeFlow(this FlowNodeGraphGetter getter, Transform parent, params object[] parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(parent, parameters);
+            }
+        }
+
+        public static void SafeFlow(this FlowNodeGraphGetter getter, Transform parent, System.Action<string> onEndAction, string state, params object[] parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(parent, onEndAction, state, parameters);
+            }
+        }
+
+        public static void SafeFlow(this FlowNodeGraphGetter getter, Transform parent, Dictionary<string, object> parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(parent, parameters);
+            }
+        }
+
+        public static void SafeFlow(this FlowNodeGraphGetter getter, Transform parent, System.Action<string> onEndAction, string state, Dictionary<string, object> parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(parent, onEndAction, state, parameters);
+            }
+        }
+
+        public static void SafeFlow(this FlowNodeGraphGetter getter, params object[] parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(parameters);
+            }
+        }
+
+        public static void SafeFlow(this FlowNodeGraphGetter getter, System.Action<string> onEndAction, string state, params object[] parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(onEndAction, state, parameters);
+            }
+        }
+
+        public static void SafeFlow(this FlowNodeGraphGetter getter, Dictionary<string, object> parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(parameters);
+            }
+        }
+
+        public static void SafeFlow(this FlowNodeGraphGetter getter, System.Action<string> onEndAction, string state, Dictionary<string, object> parameters)
+        {
+            if (getter != null && !getter.IsEmpty)
+            {
+                getter.Flow(onEndAction, state, parameters);
+            }
+        }
     }
 }

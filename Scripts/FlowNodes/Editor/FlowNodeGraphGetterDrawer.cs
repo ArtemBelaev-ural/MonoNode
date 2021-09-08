@@ -58,7 +58,8 @@ namespace FlowNodesEditor
             position.x += position.width;
 
             // Draw graphId popup
-            string[] graphIds = GetGraphIds(pathToContainers + containerFileName, out FlowNodeGraphContainer container);
+            string slash = pathToContainers.Length > 0 && pathToContainers[pathToContainers.Length - 1] != '/' ? "/" : "";
+            string[] graphIds = GetGraphIds(pathToContainers + slash + containerFileName, out FlowNodeGraphContainer container);
             string id = property.FindPropertyRelative("graphId").stringValue;
             int index = System.Array.IndexOf(graphIds, id);
             index = EditorGUI.Popup(position, index, graphIds);
@@ -83,6 +84,10 @@ namespace FlowNodesEditor
                 if (GUI.Button(position, new GUIContent(">", "Play")))
                 {
                     EditorGUIUtility.PingObject(container.GetPrefab(id));
+                    if (property.serializedObject.targetObject is Component)
+                    {
+                        container.GraphParent = (property.serializedObject.targetObject as Component).transform;
+                    }
                     container.Flow(id);
                 }
 
@@ -108,7 +113,6 @@ namespace FlowNodesEditor
         private string[] GetGraphIds(string containerFullName, out FlowNodeGraphContainer container)
         {
             container = Resources.Load<FlowNodeGraphContainer>(containerFullName);
-
             if (container == null)
             {
                 Debug.LogError("Container is null! " + containerFullName);
