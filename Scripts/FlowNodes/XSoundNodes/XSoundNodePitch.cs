@@ -8,13 +8,13 @@ namespace XMonoNode
     /// <summary>
     /// Изменяет свойство pitch
     /// </summary>
-    [AddComponentMenu("X Sound Node/Pitch", 53)]
-    [CreateNodeMenu("Sound/Pitch", 53)]
+    [AddComponentMenu("X Sound Node/Pitch", 54)]
+    [CreateNodeMenu("Sound/Pitch", 54)]
     [NodeWidth(160)]
     public class XSoundNodePitch : FlowNodeInOut
     {
         [Inline]
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
         public AudioSources audioInput;
 
         [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]

@@ -39,17 +39,26 @@ namespace XMonoNode
         [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
         public AudioSources audioOutput;
 
+        private NodePort inputPort;
+        private NodePort outputPort;
+
+        protected NodePort InputPort => inputPort;
+        protected NodePort OutputPort => outputPort;
+
         protected override void Init()
         {
             base.Init();
 
-            GetInputPort(nameof(audioInput)).label = "Input";
-            GetOutputPort(nameof(audioOutput)).label = "Output";
+            inputPort = GetInputPort(nameof(audioInput));
+            inputPort.label = "Input";
+
+            outputPort = GetOutputPort(nameof(audioOutput));
+            outputPort.label = "Output";
         }
 
         protected AudioSources GetAudioInput()
         {
-            AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput));
+            AudioSources sources = inputPort.GetInputValue<AudioSources>();
             if (sources == null)
             {
                 sources = new AudioSources();

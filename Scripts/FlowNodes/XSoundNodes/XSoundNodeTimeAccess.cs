@@ -35,22 +35,17 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(audioOutput))
+            double currentTime = CurrentTime();
+            timeAccess = GetInputValue(nameof(timeAccess), timeAccess);
+
+            if (currentTime - lastTime < timeAccess)
             {
-                double currentTime = CurrentTime();
-                timeAccess = GetInputValue(nameof(timeAccess), timeAccess);
-
-                if (currentTime - lastTime < timeAccess)
-                {
-                    return new AudioSources();
-                }
-
-                lastTime = currentTime;
-
-                return GetAudioInput();
+                return new AudioSources();
             }
 
-            return null;
+            lastTime = currentTime;
+
+            return GetAudioInput();
         }
     }
 }
