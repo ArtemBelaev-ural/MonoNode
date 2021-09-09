@@ -275,6 +275,17 @@ namespace XMonoNode
                 node.Stop();
             }
         }
+
+        public Coroutine StartStaticCoroutine(IEnumerator coroutine)
+        {
+            if (this == null)
+            {
+                return null;
+            }
+
+            return StartCoroutine(coroutine);
+        }
+
     }
 
 
@@ -351,5 +362,6 @@ namespace XMonoNode
             }
             return result;
         }
+
     }
 }

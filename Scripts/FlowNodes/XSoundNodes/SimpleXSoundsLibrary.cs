@@ -105,7 +105,7 @@ namespace XMonoNode
         {
             string name = clip.name;
 #if UNITY_EDITOR
-            name = string.Format("AudioSource:{0}", name);
+            name = string.Format("AudioSource: {0}", name);
 #endif
             return name;
         }
@@ -117,7 +117,7 @@ namespace XMonoNode
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
-                source.gameObject.hideFlags = HideFlags.HideAndDontSave;
+                source.gameObject.hideFlags = HideFlags.DontSave;
             }
 #endif
             source.transform.SetParent(transform);

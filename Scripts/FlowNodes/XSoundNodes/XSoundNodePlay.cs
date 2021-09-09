@@ -41,6 +41,11 @@ namespace XMonoNode
         protected NodePort wnilePlayPort;
         protected NodePort onEndPort;
 
+        public AudioSources PlayingSources()
+        {
+            return playing;
+        }
+
         public override void Flow(NodePort flowPort)
         {
             if (flowPort == FlowInputPort)
@@ -183,8 +188,7 @@ namespace XMonoNode
         {
             if (port.fieldName == nameof(Playing))
             {
-                Playing = playing;
-                return playing;
+                return PlayingSources();
             }
             else
             {

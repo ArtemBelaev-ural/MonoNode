@@ -20,6 +20,8 @@ namespace XMonoNode
         [SerializeField]
         protected bool          drawPathToContainers = true;
 
+        public string GraphId => graphId;
+
         // alternative usage - link to prefab directly
         [SerializeField]
         private FlowNodeGraph   graphPrefab = null;
@@ -58,7 +60,7 @@ namespace XMonoNode
 
         private FlowNodeGraphContainer instanciatedContainer = null;
 
-        private FlowNodeGraphContainer GetContainer()
+        public FlowNodeGraphContainer GetContainer()
         {
             if (instanciatedContainer == null)
             {

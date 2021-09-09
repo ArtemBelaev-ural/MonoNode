@@ -18,9 +18,9 @@ namespace XMonoNodeEditor
             {
                 if (source == null)
                 {
-                    GameObject obj = new GameObject();
+                    GameObject obj = new GameObject("AudioSource");
                     source = obj.AddComponent<AudioSource>();
-                    obj.hideFlags = HideFlags.HideAndDontSave;
+                    obj.hideFlags = HideFlags.DontSave;
                 }
                 return source;
             }
@@ -50,14 +50,29 @@ namespace XMonoNodeEditor
                 position.height = buttonWidth;
                 string path = "Sounds/" + property.stringValue;
                 AudioClip clip = Resources.Load<AudioClip>(path);
-
+                
                 bool guiEnabled = GUI.enabled;
     
                 GUI.enabled = clip != null;
                 string tooltip = clip != null ? "play" : ("No audio clip at path: \"" + path + "\"");
+
                 if (GUI.Button(position, new GUIContent("", tooltip), clip != null ? FlowNodeEditorResources.styles.playButton : FlowNodeEditorResources.styles.errorButton))
                 {
-                    Source.PlayOneShot(clip);
+                    if (!Source.isPlaying)
+                    {
+                        Source.gameObject.SetActive(true);
+                        Source.PlayOneShot(clip);
+                        Source.gameObject.name = "AudioSource: " + clip.name;
+                    }
+                    else
+                    {
+                        Source.Stop();
+                        Source.gameObject.SetActive(false);
+                    }
+                }
+                else if (!Source.isPlaying)
+                {
+                    Source.gameObject.SetActive(false);
                 }
 
                 GUI.enabled = guiEnabled;
