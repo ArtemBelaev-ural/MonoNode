@@ -40,7 +40,15 @@ namespace XMonoNode
             }
         }
 
-        private string FullPath => pathToContainers + containerFileName;
+        private string FullPath
+        {
+            get
+            {
+              return pathToContainers +
+                    (pathToContainers.EndsWith("/") ? "" : "/") +
+                    containerFileName;
+            }
+        }
 
         public FlowNodeGraphGetter()
         {
