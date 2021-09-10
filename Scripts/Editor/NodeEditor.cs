@@ -34,7 +34,8 @@ namespace XMonoNodeEditor {
         protected internal static bool inNodeEditor = false;
 #endif
 
-        public virtual void OnHeaderGUI() {
+        public virtual void OnHeaderGUI()
+        {
             GUILayout.Label(Target.Name, NodeEditorResources.styles.nodeHeader, GUILayout.Height(30));
         }
 

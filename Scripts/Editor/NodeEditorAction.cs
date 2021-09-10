@@ -732,6 +732,7 @@ namespace XMonoNodeEditor {
             Vector2 size;
             if (nodeSizes.TryGetValue(node, out size)) width = size.x;
             else width = 200;
+            width -= 18 + NodeEditorResources.styles.nodeBody.padding.right;
             Rect windowRect = new Rect(nodePos, new Vector2(width / zoom, 30 / zoom));
             return windowRect.Contains(mousePos);
         }

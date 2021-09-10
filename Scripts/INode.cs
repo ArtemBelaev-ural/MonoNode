@@ -56,6 +56,12 @@ namespace XMonoNode
             set;
         }
 
+        bool Minimized
+        {
+            get;
+            set;
+        }
+
         IEnumerable<NodePort> DynamicInputs
         {
             get;

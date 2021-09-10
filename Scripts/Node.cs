@@ -172,6 +172,10 @@ namespace XMonoNode {
         [SerializeField] public NodeGraph graph;
         /// <summary> Position on the <see cref="NodeGraph"/> </summary>
         [SerializeField] public Vector2 position;
+        /// <summary>
+        /// Is the node's advanced ports and other controls is hidden
+        /// </summary>
+        [SerializeField, HideInNodeInspector] public bool minimized = true;
         /// <summary> It is recommended not to modify these at hand. Instead, see <see cref="InputAttribute"/> and <see cref="OutputAttribute"/> </summary>
         [SerializeField] private NodePortDictionary ports = new NodePortDictionary();
 
@@ -195,6 +199,12 @@ namespace XMonoNode {
             {
                 position = value;
             }
+        }
+
+        public bool Minimized
+        {
+            get => minimized;
+            set => minimized = value;
         }
 
         protected void OnEnable()

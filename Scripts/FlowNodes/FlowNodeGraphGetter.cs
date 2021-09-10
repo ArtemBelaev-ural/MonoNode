@@ -11,11 +11,12 @@ namespace XMonoNode
 
         // Common usage: link to FlowNodeGraph container item by graphId
         [SerializeField]
+        private string          graphId = "";
+        [SerializeField]
         private string          pathToContainers = "";
         [SerializeField]
         private string          containerFileName = "";
-        [SerializeField]
-        private string          graphId = "";
+        
 
         [SerializeField]
         protected bool          drawPathToContainers = true;

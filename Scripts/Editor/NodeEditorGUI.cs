@@ -753,23 +753,28 @@ namespace XMonoNodeEditor {
             if (Event.current.type != EventType.Layout && currentActivity == NodeActivity.DragGrid) selectedReroutes = selection;
         }
 
-        private void DrawNodes() {
+        private void DrawNodes()
+        {
             Event e = Event.current;
-            if (e.type == EventType.Layout) {
+            if (e.type == EventType.Layout)
+            {
                 selectionCache = new List<UnityEngine.Object>(Selection.objects);
             }
 
             System.Reflection.MethodInfo onValidate = null;
-            if (Selection.activeObject != null && Selection.activeObject is XMonoNode.INode) {
+            if (Selection.activeObject != null && Selection.activeObject is XMonoNode.INode)
+            {
                 onValidate = Selection.activeObject.GetType().GetMethod("OnValidate");
-                if (onValidate != null) EditorGUI.BeginChangeCheck();
+                if (onValidate != null)
+                    EditorGUI.BeginChangeCheck();
             }
 
             BeginZoomed(position, zoom, topPadding);
 
             Vector2 mousePos = Event.current.mousePosition;
 
-            if (e.type != EventType.Layout) {
+            if (e.type != EventType.Layout)
+            {
                 hoveredNode = null;
                 hoveredPort = null;
             }
@@ -779,8 +784,16 @@ namespace XMonoNodeEditor {
             // Selection box stuff
             Vector2 boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
             Vector2 boxSize = mousePos - boxStartPos;
-            if (boxSize.x < 0) { boxStartPos.x += boxSize.x; boxSize.x = Mathf.Abs(boxSize.x); }
-            if (boxSize.y < 0) { boxStartPos.y += boxSize.y; boxSize.y = Mathf.Abs(boxSize.y); }
+            if (boxSize.x < 0)
+            {
+                boxStartPos.x += boxSize.x;
+                boxSize.x = Mathf.Abs(boxSize.x);
+            }
+            if (boxSize.y < 0)
+            {
+                boxStartPos.y += boxSize.y;
+                boxSize.y = Mathf.Abs(boxSize.y);
+            }
             Rect selectionBox = new Rect(boxStartPos, boxSize);
 
             //Save guiColor so we can revert it
@@ -788,32 +801,43 @@ namespace XMonoNodeEditor {
 
             List<XMonoNode.NodePort> removeEntries = new List<XMonoNode.NodePort>();
 
-            if (e.type == EventType.Layout) culledNodes.Clear();
+            if (e.type == EventType.Layout)
+                culledNodes.Clear();
 
             NodeEditorUtilities.ClearPortButtonPressed();
 
             XMonoNode.INode[] nodes = (graph as XMonoNode.INodeGraph).GetNodes();
 
-            for (int n = 0; n < nodes.Length; n++) {
+            for (int n = 0; n < nodes.Length; n++)
+            {
                 // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
-                if ((nodes[n] as UnityEngine.Object) == null) continue;
-                if (n >= nodes.Length) return;
+                if ((nodes[n] as UnityEngine.Object) == null)
+                    continue;
+                if (n >= nodes.Length)
+                    return;
                 XMonoNode.INode node = nodes[n];
 
                 // Culling
-                if (e.type == EventType.Layout) {
+                if (e.type == EventType.Layout)
+                {
                     // Cull unselected nodes outside view
-                    if (!Selection.Contains(node as UnityEngine.Object) && ShouldBeCulled(node)) {
+                    if (!Selection.Contains(node as UnityEngine.Object) && ShouldBeCulled(node))
+                    {
                         culledNodes.Add(node);
                         continue;
                     }
-                } else if (culledNodes.Contains(node)) continue;
+                }
+                else if (culledNodes.Contains(node))
+                    continue;
 
-                if (e.type == EventType.Repaint) {
+                if (e.type == EventType.Repaint)
+                {
                     removeEntries.Clear();
                     foreach (var kvp in _portConnectionPoints)
-                        if (kvp.Key.node == node) removeEntries.Add(kvp.Key);
-                    foreach (var k in removeEntries) _portConnectionPoints.Remove(k);
+                        if (kvp.Key.node == node)
+                            removeEntries.Add(kvp.Key);
+                    foreach (var k in removeEntries)
+                        _portConnectionPoints.Remove(k);
                 }
 
                 NodeEditor nodeEditor = NodeEditor.GetEditor(node, this);
@@ -828,9 +852,12 @@ namespace XMonoNodeEditor {
 
                 GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeEditor.GetWidth(), 4000)));
 
+                
+
                 bool selected = selectionCache.Contains(nodes[n] as UnityEngine.Object);
 
-                if (selected) {
+                if (selected)
+                {
                     GUIStyle style = new GUIStyle(nodeEditor.GetBodyStyle());
                     GUIStyle highlightStyle = new GUIStyle(nodeEditor.GetBodyHighlightStyle());
                     highlightStyle.padding = style.padding;
@@ -839,7 +866,9 @@ namespace XMonoNodeEditor {
                     GUILayout.BeginVertical(style);
                     GUI.color = NodeEditorPreferences.GetSettings().highlightColor;
                     GUILayout.BeginVertical(new GUIStyle(highlightStyle));
-                } else {
+                }
+                else
+                {
                     GUIStyle style = new GUIStyle(nodeEditor.GetBodyStyle());
                     GUI.color = nodeEditor.GetTint();
                     GUILayout.BeginVertical(style);
@@ -848,27 +877,31 @@ namespace XMonoNodeEditor {
                 GUI.color = guiColor;
                 EditorGUI.BeginChangeCheck();
 
-                //Draw node contents
-                nodeEditor.OnHeaderGUI();
+                GUILayout.Label("", NodeEditorResources.styles.nodeHeader, GUILayout.Height(30));
                 nodeEditor.OnBodyGUI();
 
                 //If user changed a value, notify other scripts through onUpdateNode
                 if (EditorGUI.EndChangeCheck())
                 {
-                    if (NodeEditor.onUpdateNode != null) NodeEditor.onUpdateNode(node);
+                    if (NodeEditor.onUpdateNode != null)
+                        NodeEditor.onUpdateNode(node);
                     EditorUtility.SetDirty(node as UnityEngine.Object);
                     nodeEditor?.serializedObject.ApplyModifiedProperties();
                 }
 
                 GUILayout.EndVertical();
-
+                
                 //Cache data about the node for next frame
-                if (e.type == EventType.Repaint) {
+                if (e.type == EventType.Repaint)
+                {
                     Vector2 size = GUILayoutUtility.GetLastRect().size;
-                    if (nodeSizes.ContainsKey(node)) nodeSizes[node] = size;
-                    else nodeSizes.Add(node, size);
+                    if (nodeSizes.ContainsKey(node))
+                        nodeSizes[node] = size;
+                    else
+                        nodeSizes.Add(node, size);
 
-                    foreach (var kvp in NodeEditor.portPositions) {
+                    foreach (var kvp in NodeEditor.portPositions)
+                    {
                         Vector2 portHandlePos = kvp.Value;
                         portHandlePos += node.Position;
                         Rect rect = new Rect(portHandlePos.x - 8, portHandlePos.y - 8, 16, 16);
@@ -876,46 +909,86 @@ namespace XMonoNodeEditor {
                     }
                 }
 
-                if (selected) GUILayout.EndVertical();
+                if (selected)
+                    GUILayout.EndVertical();
 
-                if (e.type != EventType.Layout) {
+                if (e.type != EventType.Layout)
+                {
                     //Check if we are hovering this node
                     Vector2 nodeSize = GUILayoutUtility.GetLastRect().size;
                     Rect windowRect = new Rect(nodePos, nodeSize);
-                    if (windowRect.Contains(mousePos)) hoveredNode = node;
+                    if (windowRect.Contains(mousePos))
+                        hoveredNode = node;
 
                     //If dragging a selection box, add nodes inside to selection
-                    if (currentActivity == NodeActivity.DragGrid) {
-                        if (windowRect.Overlaps(selectionBox)) preSelection.Add(node as UnityEngine.Object);
+                    if (currentActivity == NodeActivity.DragGrid)
+                    {
+                        if (windowRect.Overlaps(selectionBox))
+                            preSelection.Add(node as UnityEngine.Object);
                     }
 
                     //Check if we are hovering any of this nodes ports
                     //Check input ports
-                    foreach (XMonoNode.NodePort input in node.Inputs) {
+                    foreach (XMonoNode.NodePort input in node.Inputs)
+                    {
                         //Check if port rect is available
-                        if (!portConnectionPoints.ContainsKey(input)) continue;
+                        if (!portConnectionPoints.ContainsKey(input))
+                            continue;
                         Rect r = GridToWindowRectNoClipped(portConnectionPoints[input]);
-                        if (r.Contains(mousePos)) hoveredPort = input;
+                        if (r.Contains(mousePos))
+                            hoveredPort = input;
                     }
                     //Check all output ports
-                    foreach (XMonoNode.NodePort output in node.Outputs) {
+                    foreach (XMonoNode.NodePort output in node.Outputs)
+                    {
                         //Check if port rect is available
-                        if (!portConnectionPoints.ContainsKey(output)) continue;
+                        if (!portConnectionPoints.ContainsKey(output))
+                            continue;
                         Rect r = GridToWindowRectNoClipped(portConnectionPoints[output]);
-                        if (r.Contains(mousePos)) hoveredPort = output;
+                        if (r.Contains(mousePos))
+                            hoveredPort = output;
                     }
+                }
+
+                GUILayout.EndArea();
+
+                int buttonWidth = 18;
+                int margin = NodeEditorResources.styles.nodeBody.padding.right + NodeEditorResources.styles.nodeBody.padding.left;
+
+                GUILayout.BeginArea(
+                    new Rect(nodePos + 6 * Vector2.right,
+                    new Vector2(nodeEditor.GetWidth() - buttonWidth - NodeEditorResources.styles.nodeBody.padding.right - 6, 4000)));
+
+                GUIStyle headerStyle = new GUIStyle(nodeEditor.GetBodyStyle());
+                headerStyle.normal.background = null;
+                GUILayout.BeginVertical(headerStyle);
+                //Draw node contents
+                nodeEditor.OnHeaderGUI();
+
+                GUILayout.EndVertical();
+
+                GUILayout.EndArea();
+
+                Vector2 buttonPos = new Vector2(nodeEditor.GetWidth() - buttonWidth + 5 - NodeEditorResources.styles.nodeBody.padding.left, NodeEditorResources.styles.nodeBody.padding.top + 5);
+                GUILayout.BeginArea(new Rect(nodePos + buttonPos, new Vector2(buttonWidth, 4000)));
+
+                if (GUILayout.Button(nodeEditor.Target.Minimized ? new GUIContent("+", "Maximize") : new GUIContent("-", "Minimize"), NodeEditorResources.styles.minimizeButtonSimple, GUILayout.Width(18)))
+                {
+                    nodeEditor.Target.Minimized = !nodeEditor.Target.Minimized;
                 }
 
                 GUILayout.EndArea();
             }
 
-            if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid) Selection.objects = preSelection.ToArray();
+            if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
+                Selection.objects = preSelection.ToArray();
             EndZoomed(position, zoom, topPadding);
 
             //If a change in is detected in the selected node, call OnValidate method.
             //This is done through reflection because OnValidate is only relevant in editor,
             //and thus, the code should not be included in build.
-            if (onValidate != null && EditorGUI.EndChangeCheck()) onValidate.Invoke(Selection.activeObject, null);
+            if (onValidate != null && EditorGUI.EndChangeCheck())
+                onValidate.Invoke(Selection.activeObject, null);
         }
 
         private bool ShouldBeCulled(XMonoNode.INode node) {
