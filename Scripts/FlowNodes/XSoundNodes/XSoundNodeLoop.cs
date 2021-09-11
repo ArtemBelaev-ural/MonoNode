@@ -13,7 +13,7 @@ namespace XMonoNode
     [NodeWidth(130)]
     public class XSoundNodeLoop : XSoundNodeSimpleOutput
     {
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]
         public bool                    loop = true;
 
         private void Reset()

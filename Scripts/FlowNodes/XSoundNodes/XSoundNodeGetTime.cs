@@ -16,7 +16,7 @@ namespace XMonoNode
         [Output]
         public float                    time = 0.0f;
 
-        [Input]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]
         public bool                     normalized = true;
 
         private void Reset()

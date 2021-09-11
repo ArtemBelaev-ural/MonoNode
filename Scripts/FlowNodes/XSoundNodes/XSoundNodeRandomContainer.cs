@@ -9,13 +9,13 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Random Container", 303)]
     [CreateNodeMenu("Sound/Random Container", 303)]
-    [NodeWidth(150)]
+    [NodeWidth(140)]
     public class XSoundNodeRandomContainer : XSoundNodesList
     {
         [Input(
             backingValue: ShowBackingValue.Unconnected,
             connectionType: ConnectionType.Override,
-            typeConstraint: TypeConstraint.Inherited)]
+            typeConstraint: TypeConstraint.Inherited), Hiding]
         public int                      randomCount = 1; // unique random elements count
 
         private List<NodePort>          denyPorts = new List<NodePort>();

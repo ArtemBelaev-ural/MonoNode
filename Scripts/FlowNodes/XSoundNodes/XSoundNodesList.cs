@@ -10,15 +10,15 @@ namespace XMonoNode
     [NodeWidth(180)]
     public abstract class XSoundNodesList : XSoundNodeBase
     {
+        [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
+        public AudioSources output;
+
         [Input(
             backingValue: ShowBackingValue.Never, 
             connectionType: ConnectionType.Override, 
             typeConstraint: TypeConstraint.Inherited, 
             dynamicPortList: true)]
         public List<AudioSources> inputs = new List<AudioSources>();
-
-        [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
-        public AudioSources output;
 
         public override object GetValue(NodePort port)
         {

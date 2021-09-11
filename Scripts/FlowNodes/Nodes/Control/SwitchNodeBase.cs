@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [NodeWidth(280)]
-    public abstract class CaseNodeBase<T> : FlowNodeInOut
+    public abstract class SwitchNodeBase<T> : FlowNodeInOut
     {
         [Input(connectionType: ConnectionType.Override)]
         public T    Switch = default(T);

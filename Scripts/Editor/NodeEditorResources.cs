@@ -105,18 +105,22 @@ namespace XMonoNodeEditor {
                 outputPort.normal.background = dotOuter;
 
                 nodeHeader = new GUIStyle();
-                nodeHeader.alignment = TextAnchor.MiddleCenter;
+                nodeHeader.alignment = TextAnchor.MiddleLeft;//MiddleCenter;
                 nodeHeader.fontStyle = FontStyle.Bold;
                 nodeHeader.normal.textColor = Color.white;
+                nodeHeader.margin = new RectOffset(0, 0, 3, 0);
+                nodeHeader.padding = new RectOffset(0, 0, 0, 0);
+                nodeHeader.clipping = TextClipping.Clip;
 
                 nodeBody = new GUIStyle();
                 nodeBody.normal.background = NodeEditorResources.nodeBody;
                 nodeBody.border = new RectOffset(32, 32, 32, 32);
                 nodeBody.padding = new RectOffset(16, 16, 4, 16);
+                
 
                 nodeHighlight = new GUIStyle();
                 nodeHighlight.normal.background = NodeEditorResources.nodeHighlight;
-                nodeHighlight.border = new RectOffset(32, 32, 32, 32);
+                nodeHighlight.border = new RectOffset(16, 16, 16, 16);
 
                 tooltip = new GUIStyle("helpBox");
                 tooltip.alignment = TextAnchor.MiddleCenter;

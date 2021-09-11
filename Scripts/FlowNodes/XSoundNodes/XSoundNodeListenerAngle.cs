@@ -8,14 +8,14 @@ namespace XMonoNode
     /// <summary>
     /// Возвращает угол между осью oz камеры и инаправлением от камеры на источник звука
     /// </summary>
-    [AddComponentMenu("X Sound Node/GetListenerAngle", 225)]
-    [CreateNodeMenu("Sound/GetListenerAngle", 225)]
+    [AddComponentMenu("X Sound Node/ListenerAngle", 225)]
+    [CreateNodeMenu("Sound/ListenerAngle", 225)]
     [NodeWidth(150)]
-    public class XSoundNodeGetListenerAngle: XSoundNodeSimple
+    public class XSoundNodeListenerAngle: XSoundNodeSimple
     {
         [Output]
         public float  listenerAngle;
-        [Input]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]
         public bool normalized = true;
 
         private void Reset()

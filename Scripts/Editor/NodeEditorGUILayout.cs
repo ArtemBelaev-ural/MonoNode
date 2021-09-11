@@ -50,12 +50,20 @@ namespace XMonoNodeEditor {
             if (property == null)
                 throw new NullReferenceException();
 
+            NodeEditorUtilities.GetCachedAttrib(node.GetType(), property.name, out XMonoNode.HidingAttribute hidding);
+            
 
             NodeEditorUtilities.GetCachedAttrib(node.GetType(), property.name, out XMonoNode.NodeInspectorButtonAttribute buttonAttribute);
-
+            
             // If property is not a port, display a regular property field
             if (port == null)
             {
+                if (node.ShowState == XMonoNode.INode.ShowAttribState.Minimize ||
+                    (hidding != null && node.ShowState == XMonoNode.INode.ShowAttribState.ShowBase))
+                {// Пропускаем скрытые свойства
+                    return;
+                }
+
                 if (NodeEditorPreferences.GetSettings().showPortButton(buttonAttribute))
                 {
                     GUILayout.Button(label != null ? label : new GUIContent(property.displayName));
@@ -67,6 +75,15 @@ namespace XMonoNodeEditor {
             }
             else
             {
+                if (port.ConnectionCount == 0 && node.ShowState == XMonoNode.INode.ShowAttribState.Minimize)
+                {// Нода скрыта - пропускаем все несоединенные порты
+                    return; 
+                }
+                if (port.ConnectionCount == 0 && hidding != null && node.ShowState == XMonoNode.INode.ShowAttribState.ShowBase)
+                {// Нода частично скрыта - пропускаем скрытые несоединенные порты
+                    return;
+                }
+
                 Rect rect = new Rect();
 
                 List<PropertyAttribute> propertyAttributes = NodeEditorUtilities.GetCachedPropertyAttribs(port.node.GetType(), property.name);

@@ -3,8 +3,9 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Utils/"+nameof(GetUniqueDeviceIdentifier))]
-    public class GetUniqueDeviceIdentifier : MonoNode
+    [CreateNodeMenu("Utils/"+nameof(UniqueDeviceIdentifier))]
+    [NodeWidth(190)]
+    public class UniqueDeviceIdentifier : MonoNode
     {
         [Output] public string deviceId;
 

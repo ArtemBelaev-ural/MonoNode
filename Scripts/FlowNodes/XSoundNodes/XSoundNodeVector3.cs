@@ -10,7 +10,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Position Binding", 205)]
     [CreateNodeMenu("Sound/Position Binding", 205)]
-    [NodeWidth(240)]
+    [NodeWidth(180)]
     public class XSoundNodeVector3 : XSoundNodeSimpleOutput
     {
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]

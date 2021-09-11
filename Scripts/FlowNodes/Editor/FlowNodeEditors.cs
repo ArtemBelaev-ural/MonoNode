@@ -68,7 +68,7 @@ namespace FlowNodesEditor
         {
             base.OnBodyGUI();
 
-            if (Target.Minimized)
+            if (Target.ShowState != INode.ShowAttribState.ShowAll)
             {
                 return;
             }
@@ -90,7 +90,7 @@ namespace FlowNodesEditor
         {
             base.OnBodyGUI();
 
-            if (Target.Minimized)
+            if (Target.ShowState != INode.ShowAttribState.ShowAll)
             {
                 return;
             }
@@ -129,7 +129,7 @@ namespace FlowNodesEditor
         {
             base.OnBodyGUI();
 
-            if (Target.Minimized)
+            if (Target.ShowState != INode.ShowAttribState.ShowAll)
             {
                 return;
             }

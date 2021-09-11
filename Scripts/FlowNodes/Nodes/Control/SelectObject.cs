@@ -5,8 +5,8 @@ using UnityEngine;
 namespace XMonoNode
 {
     [AddComponentMenu("FlowNode/Control/SelectObject", 15)]
-    [CreateNodeMenu("Control/SelectObject", 15)]
-    public class SelectNodeObject  : SelectNode<Object>
+    [CreateNodeMenu("Control/Select Object", 15)]
+    public class SelectObject  : SelectNode<Object>
     {
     }
 }

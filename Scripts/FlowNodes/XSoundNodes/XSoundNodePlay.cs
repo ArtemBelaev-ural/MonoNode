@@ -15,16 +15,16 @@ namespace XMonoNode
     [ExecuteInEditMode]
     public class XSoundNodePlay : FlowNodeInOut
     {
-        [Output, NodeInspectorButton] public Flow whilePlay;
+        [Output, NodeInspectorButton, Hiding] public Flow whilePlay;
         
         [Inline]
-        [Input(backingValue: ShowBackingValue.Never), NodeInspectorButton] public Flow stop;
-        [Output, NodeInspectorButton] public Flow onEnd;
+        [Input(backingValue: ShowBackingValue.Never), NodeInspectorButton, Hiding] public Flow stop;
+        [Output, NodeInspectorButton, Hiding] public Flow onEnd;
 
         [Inline]
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
         public AudioSources audioInput = new AudioSources();
-        [Output(typeConstraint: TypeConstraint.Inherited)]
+        [Output(typeConstraint: TypeConstraint.Inherited), Hiding]
         public AudioSources Playing;
 
         public XSoundNodeGraph SoundGraph => graph as XSoundNodeGraph;

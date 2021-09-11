@@ -56,7 +56,14 @@ namespace XMonoNode
             set;
         }
 
-        bool Minimized
+        public enum ShowAttribState
+        {
+            ShowBase = 0,
+            ShowAll = 1,
+            Minimize = 2,
+        }
+
+        ShowAttribState ShowState
         {
             get;
             set;

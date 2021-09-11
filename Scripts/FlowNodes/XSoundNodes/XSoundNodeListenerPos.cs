@@ -8,17 +8,17 @@ namespace XMonoNode
     /// <summary>
     /// Возвращает
     /// </summary>
-    [AddComponentMenu("X Sound Node/GetListenerPos", 222)]
-    [CreateNodeMenu("Sound/GetListenerPos", 222)]
+    [AddComponentMenu("X Sound Node/ListenerPos", 222)]
+    [CreateNodeMenu("Sound/ListenerPos", 222)]
     [NodeWidth(150)]
-    public class XSoundNodeGetListenerPos : MonoNode
+    public class XSoundNodeListenerPos : MonoNode
     {
         [Output]
-        public Vector3  listenerPosition;
+        public Vector3  listenerPos;
 
         private void Reset()
         {
-            Name = "Listener Position";
+            Name = "Listener Pos";
         }
 
         public override object GetValue(NodePort port)

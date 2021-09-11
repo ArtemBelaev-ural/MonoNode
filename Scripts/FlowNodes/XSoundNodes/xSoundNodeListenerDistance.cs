@@ -10,6 +10,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Listener Distance", 201)]
     [CreateNodeMenu("Sound/Listener Distance", 201)]
+    [NodeWidth(160)]
     public class XSoundNodelistenerDistance : XSoundNodeSimpleOutput
     {
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]

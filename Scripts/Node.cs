@@ -175,7 +175,7 @@ namespace XMonoNode {
         /// <summary>
         /// Is the node's advanced ports and other controls is hidden
         /// </summary>
-        [SerializeField, HideInNodeInspector] public bool minimized = true;
+        [SerializeField, HideInNodeInspector] public INode.ShowAttribState showState = INode.ShowAttribState.ShowBase;
         /// <summary> It is recommended not to modify these at hand. Instead, see <see cref="InputAttribute"/> and <see cref="OutputAttribute"/> </summary>
         [SerializeField] private NodePortDictionary ports = new NodePortDictionary();
 
@@ -201,10 +201,10 @@ namespace XMonoNode {
             }
         }
 
-        public bool Minimized
+        public INode.ShowAttribState ShowState
         {
-            get => minimized;
-            set => minimized = value;
+            get => showState;
+            set => showState = value;
         }
 
         protected void OnEnable()

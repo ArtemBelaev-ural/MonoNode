@@ -56,7 +56,7 @@ namespace XMonoNode
         [Output]
         public float            output;
 
-        [Input]
+        [Input, Hiding]
         public bool clamped01 = true;
 
         [SerializeField, NodeEnum]

@@ -9,14 +9,14 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public float Duration = 1;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), Hiding]
         public float DelaySeconds = 0;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), Hiding]
         public int LoopsAmount;
 
 
-        [NodeEnum]
+        [NodeEnum, Hiding]
         public LoopType Loop;
 
         [NodeEnum]

@@ -11,7 +11,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Mixer", 206)]
     [CreateNodeMenu("Sound/Mixer", 206)]
-    [NodeWidth(270)]
+    [NodeWidth(200)]
     public class XSoundNodeMixer : XSoundNodeSimpleOutput
     {
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]

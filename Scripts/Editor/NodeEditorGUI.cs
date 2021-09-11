@@ -73,7 +73,7 @@ namespace XMonoNodeEditor {
             GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeWidth, 500)));
 
             GUIStyle style = new GUIStyle(NodeEditorResources.styles.nodeBody);
-            style.padding.top = 8;
+            style.padding.top = 11;
             GUI.color = NodeEditor.GetTint(draggedNodeType);
             GUILayout.BeginVertical(style);
 
@@ -852,8 +852,6 @@ namespace XMonoNodeEditor {
 
                 GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeEditor.GetWidth(), 4000)));
 
-                
-
                 bool selected = selectionCache.Contains(nodes[n] as UnityEngine.Object);
 
                 if (selected)
@@ -890,7 +888,7 @@ namespace XMonoNodeEditor {
                 }
 
                 GUILayout.EndVertical();
-                
+
                 //Cache data about the node for next frame
                 if (e.type == EventType.Repaint)
                 {
@@ -952,32 +950,7 @@ namespace XMonoNodeEditor {
 
                 GUILayout.EndArea();
 
-                int buttonWidth = 18;
-                int margin = NodeEditorResources.styles.nodeBody.padding.right + NodeEditorResources.styles.nodeBody.padding.left;
-
-                GUILayout.BeginArea(
-                    new Rect(nodePos + 6 * Vector2.right,
-                    new Vector2(nodeEditor.GetWidth() - buttonWidth - NodeEditorResources.styles.nodeBody.padding.right - 6, 4000)));
-
-                GUIStyle headerStyle = new GUIStyle(nodeEditor.GetBodyStyle());
-                headerStyle.normal.background = null;
-                GUILayout.BeginVertical(headerStyle);
-                //Draw node contents
-                nodeEditor.OnHeaderGUI();
-
-                GUILayout.EndVertical();
-
-                GUILayout.EndArea();
-
-                Vector2 buttonPos = new Vector2(nodeEditor.GetWidth() - buttonWidth + 5 - NodeEditorResources.styles.nodeBody.padding.left, NodeEditorResources.styles.nodeBody.padding.top + 5);
-                GUILayout.BeginArea(new Rect(nodePos + buttonPos, new Vector2(buttonWidth, 4000)));
-
-                if (GUILayout.Button(nodeEditor.Target.Minimized ? new GUIContent("+", "Maximize") : new GUIContent("-", "Minimize"), NodeEditorResources.styles.minimizeButtonSimple, GUILayout.Width(18)))
-                {
-                    nodeEditor.Target.Minimized = !nodeEditor.Target.Minimized;
-                }
-
-                GUILayout.EndArea();
+                DrawHeader(nodeEditor, nodePos);
             }
 
             if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
@@ -989,6 +962,61 @@ namespace XMonoNodeEditor {
             //and thus, the code should not be included in build.
             if (onValidate != null && EditorGUI.EndChangeCheck())
                 onValidate.Invoke(Selection.activeObject, null);
+        }
+
+        private static GUIContent buttonMinimizeContent(XMonoNode.INode.ShowAttribState state)
+        {
+            switch (state)
+            {
+                case XMonoNode.INode.ShowAttribState.ShowAll:
+                    return new GUIContent("v", "Minimize");
+                case XMonoNode.INode.ShowAttribState.ShowBase:
+                    return new GUIContent(">", "Show all attributes");
+                default:// Minimize:
+                    return new GUIContent("^", "Show base attributes");
+            }
+        }
+
+        private static XMonoNode.INode.ShowAttribState nextState(XMonoNode.INode.ShowAttribState state)
+        {
+            switch (state)
+            {
+                case XMonoNode.INode.ShowAttribState.ShowAll:
+                    return XMonoNode.INode.ShowAttribState.Minimize;
+                case XMonoNode.INode.ShowAttribState.ShowBase:
+                    return XMonoNode.INode.ShowAttribState.ShowAll;
+                default:// Minimize:
+                    return XMonoNode.INode.ShowAttribState.ShowBase;
+            }
+        }
+
+        private void DrawHeader(NodeEditor nodeEditor, Vector2 nodePos)
+        {
+            int buttonWidth = 18;
+
+            Vector2 pos = nodePos + new Vector2(NodeEditorResources.styles.nodeBody.padding.left, NodeEditorResources.styles.nodeHeader.margin.top);
+            Vector2 size = new Vector2(nodeEditor.GetWidth() - buttonWidth - NodeEditorResources.styles.nodeBody.padding.left - NodeEditorResources.styles.nodeBody.padding.right, 4000);
+            GUILayout.BeginArea(new Rect(pos, size));
+
+           // GUIStyle headerStyle = new GUIStyle(nodeEditor.GetBodyStyle());
+            //headerStyle.normal.background = null;
+            GUILayout.BeginVertical(/*headerStyle*/);
+            //Draw node contents
+            nodeEditor.OnHeaderGUI();
+
+            GUILayout.EndVertical();
+
+            GUILayout.EndArea();
+
+            Vector2 buttonPos = new Vector2(nodeEditor.GetWidth() - buttonWidth + 5 - NodeEditorResources.styles.nodeBody.padding.left, NodeEditorResources.styles.nodeBody.padding.top + 5);
+            GUILayout.BeginArea(new Rect(nodePos + buttonPos, new Vector2(buttonWidth, 4000)));
+
+            if (GUILayout.Button(buttonMinimizeContent(nodeEditor.Target.ShowState), NodeEditorResources.styles.minimizeButtonSimple, GUILayout.Width(18)))
+            {
+                nodeEditor.Target.ShowState = nextState(nodeEditor.Target.ShowState);
+            }
+
+            GUILayout.EndArea();
         }
 
         private bool ShouldBeCulled(XMonoNode.INode node) {

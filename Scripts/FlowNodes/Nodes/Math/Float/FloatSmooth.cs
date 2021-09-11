@@ -9,7 +9,7 @@ namespace XMonoNode
     /// ќбеспечивает плавное изменение параметра
     /// </summary>
     [CreateNodeMenu("Float/Smooth", -163)]
-    [NodeWidth(170)]
+    [NodeWidth(190)]
     public class FloatSmooth : FlowNodeInOut
     {
 
@@ -30,12 +30,13 @@ namespace XMonoNode
         
         private NodePort DefaultPort;
         private NodePort inputPort;
+        private NodePort outputPort;
         private NodePort lerpUpPort;
         private NodePort lerpDownPort;
 
         private void Reset()
         {
-            Name = "FloatSmooth (game only)";
+            Name = "FloatSmooth";
         }
 
         protected override void Init()
@@ -43,8 +44,11 @@ namespace XMonoNode
             base.Init();
             DefaultPort = GetInputPort(nameof(Default));
             inputPort = GetInputPort(nameof(input));
+            outputPort = GetOutputPort(nameof(lerpOutput));
             lerpUpPort = GetInputPort(nameof(lerpUp));
             lerpDownPort = GetInputPort(nameof(lerpDown));
+
+            outputPort.label = "Output";
         }
 
         public override void OnNodeEnable()

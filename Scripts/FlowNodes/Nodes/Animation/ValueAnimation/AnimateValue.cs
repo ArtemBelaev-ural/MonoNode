@@ -58,11 +58,11 @@ namespace XMonoNode
 
     public abstract class AnimateValue<T> : AnimateValue
     {
+        [Input(connectionType: ConnectionType.Override), Inline]
+        public T from = default(T);
+
         [Output]
         public T value;
-
-        [Input(connectionType: ConnectionType.Override)]
-        public T from = default(T);
 
         [Input(connectionType: ConnectionType.Override)]
         public T to = default(T);

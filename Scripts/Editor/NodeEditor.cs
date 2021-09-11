@@ -120,8 +120,15 @@ namespace XMonoNodeEditor {
 #endif
 
             // Iterate through dynamic ports and draw them in the order in which they are serialized
-            foreach (XMonoNode.NodePort dynamicPort in Target.DynamicPorts) {
+            foreach (XMonoNode.NodePort dynamicPort in Target.DynamicPorts)
+            {
                 if (NodeEditorGUILayout.IsDynamicPortListPort(dynamicPort)) continue;
+
+                if (Target.ShowState == XMonoNode.INode.ShowAttribState.Minimize  && dynamicPort.ConnectionCount == 0)
+                {// Пропускаем скрытые свойства
+                    continue;
+                }
+
                 NodeEditorGUILayout.PortField(dynamicPort);
             }
 

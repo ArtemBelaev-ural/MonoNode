@@ -30,6 +30,11 @@ namespace XMonoNode
         private NodePort portB;
         private NodePort portT;
 
+        private void Reset()
+        {
+            Name = "Lerp Unclamped";
+        }
+
         protected override void Init()
         {
             base.Init();

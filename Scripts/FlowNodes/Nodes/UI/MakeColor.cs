@@ -16,8 +16,8 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public float b;
 
-        [Input(connectionType: ConnectionType.Override)]
-        public float a;
+        [Input(connectionType: ConnectionType.Override), Hiding]
+        public float a  = 1.0f;
 
         [Output] public Color color;
 

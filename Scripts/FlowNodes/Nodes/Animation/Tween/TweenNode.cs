@@ -24,13 +24,13 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public float duration = 1f;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), Hiding]
         public float delay = 0f;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), Hiding]
         public int loopsAmount;
 
-        [NodeEnum]
+        [NodeEnum, Hiding]
         public LoopType loop = LoopType.Restart;
 
         [NodeEnum]

@@ -12,7 +12,7 @@ namespace XMonoNode
     [NodeWidth(150)]
     public class XSoundNodeSequenceContainer : XSoundNodesList
     {
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]
         public float                    timeToReset = -1f;
 
         private int                     index = 0;

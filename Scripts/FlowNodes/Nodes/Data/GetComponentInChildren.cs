@@ -6,10 +6,10 @@ namespace XMonoNode
 {
     public abstract class GetComponentInChildren<ComponemtType> : GetComponentBase<ComponemtType> where ComponemtType : Component
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), Hiding]
         public string objectName;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), Hiding]
         public bool includeInactive;
 
         protected override void Init()
