@@ -50,10 +50,6 @@ namespace XMonoNode
             get;
         }
 
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow(); 
-        }
     }
 
     public abstract class AnimateValue<T> : AnimateValue

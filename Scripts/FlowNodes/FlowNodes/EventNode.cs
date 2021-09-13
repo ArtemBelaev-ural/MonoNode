@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    public abstract class EventNode : MonoNode
+    public abstract class EventNode : MonoNode, IFlowNode
     {
         [Output, NodeInspectorButton(NodeInspectorButtonShow.Always)] public Flow FlowOutput;
 
@@ -21,7 +21,7 @@ namespace XMonoNode
             FlowOutputPort = GetOutputPort(nameof(FlowOutput));
         }
 
-        public void TriggerFlow()
+        public virtual void TriggerFlow()
         {
             FlowUtils.FlowOutput(FlowOutputPort);
         }
@@ -29,6 +29,16 @@ namespace XMonoNode
         public override object GetValue(NodePort port)
         {
             return null;
+        }
+
+        public virtual void Flow(NodePort flowPort)
+        {
+            FlowUtils.FlowOutput(FlowOutputPort);
+        }
+
+        public virtual void Stop()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

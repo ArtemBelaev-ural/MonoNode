@@ -15,6 +15,7 @@ namespace XMonoNode
             var target = GetInputValue(nameof(Target), Target);
             var text = GetInputValue<object>(nameof(Text), Text);
             target.text = $"{text}";
+            FlowOut();
         }
 
         // Return the correct value of an output port when requested

@@ -50,6 +50,7 @@ namespace XMonoNode
         public override void Flow(NodePort flowPort)
         {
             changePitch();
+            FlowOut();
         }
 
         public override object GetValue(NodePort port)

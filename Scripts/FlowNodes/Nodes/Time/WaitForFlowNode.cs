@@ -4,7 +4,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Time/WaitForFlow", 535)]
+    [CreateNodeMenu("Time/Wait For Flow", 535)]
     [NodeWidth(160)]
     public class WaitForFlowNode : FlowNodeInOut
     {
@@ -32,11 +32,6 @@ namespace XMonoNode
             exitPort.label = "Exit";
         }
 
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow(); 
-        }
-
         public override void Flow(NodePort flowPort)
         {
             if (flowPort == enterPort)
@@ -45,7 +40,7 @@ namespace XMonoNode
             }
             else if (flowPort == onFlowPort && triggered)
             {
-                FlowUtils.FlowOutput(FlowOutputPort);
+                FlowOut();
                 triggered = false;
             }
         }

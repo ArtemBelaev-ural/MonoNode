@@ -4,11 +4,16 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/Instantiate", 401)]
+    [NodeWidth(170)]
     public class InstantiateNode : FlowNodeInOut
     {
-        [Input] public GameObject Prefab;
-        [Input] public Transform Parent;
+        [Input(connectionType: ConnectionType.Override)]
+        public GameObject Prefab;
+
         [Output] public GameObject Instance;
+
+        [Input(connectionType: ConnectionType.Override), Hiding]
+        public Transform Parent;
 
         public override void Flow(NodePort flowPort)
         {
@@ -22,6 +27,7 @@ namespace XMonoNode
             {
                 Instance = Instantiate(prefab);
             }
+            FlowOut();
         }
 
         // Return the correct value of an output port when requested

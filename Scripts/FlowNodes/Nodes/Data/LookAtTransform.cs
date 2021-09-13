@@ -3,7 +3,8 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/LookAt (Transform)", 464)]
+    [CreateNodeMenu("Transform/Look At (Transform)", 464)]
+    [NodeWidth(170)]
     public class LookAtTransform : SetObjectParameter<Transform, Transform> 
     {
         protected override void Init()

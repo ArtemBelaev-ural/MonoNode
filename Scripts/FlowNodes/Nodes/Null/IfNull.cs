@@ -25,11 +25,6 @@ namespace XMonoNode
             nullPort = GetOutputPort(nameof(Null));
         }
 
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow();
-        }
-
         public override void Flow(NodePort flowPort)
         {
             NodePort output = _objectPort.GetInputValue(value) != null ? FlowOutputPort : nullPort;

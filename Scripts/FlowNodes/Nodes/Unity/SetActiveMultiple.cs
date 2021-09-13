@@ -4,6 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/SetActiveMultiple", 405)]
+    [NodeWidth(170)]
     public class SetActiveMultiple : FlowNodeInOut 
     {
         public enum ActiveOptions
@@ -25,6 +26,7 @@ namespace XMonoNode
                 var isActive = Options == ActiveOptions.Enable ? true : Options == ActiveOptions.Disable ? false : !target.activeSelf;
                 target.SetActive(isActive);
             }
+            FlowOut();
         }
 
         // Return the correct value of an output port when requested

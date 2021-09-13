@@ -29,11 +29,6 @@ namespace XMonoNode
             elsePort.label = "No";
         }
 
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow();
-        }
-
         public override void Flow(NodePort flowPort)
         {
             bool check = Random.Range(0f, 1f) < probabilityPort.GetInputValue(probability);

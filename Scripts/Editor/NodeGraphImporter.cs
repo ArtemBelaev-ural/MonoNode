@@ -20,7 +20,7 @@ namespace XMonoNodeEditor {
                 // Get attributes
                 Type graphType = graph.GetType();
                 XMonoNode.RequireNodeAttribute[] attribs = Array.ConvertAll(
-                    graphType.GetCustomAttributes(typeof(XMonoNode.RequireNodeAttribute), true), x => x as XMonoNode.RequireNodeAttribute);
+                    graphType.GetCustomAttributes(typeof(XMonoNode.RequireNodeAttribute), false), x => x as XMonoNode.RequireNodeAttribute);
 
                 Vector2 position = Vector2.zero;
                 foreach (XMonoNode.RequireNodeAttribute attrib in attribs) {

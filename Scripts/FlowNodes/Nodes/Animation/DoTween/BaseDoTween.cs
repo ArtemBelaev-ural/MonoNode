@@ -24,11 +24,6 @@ namespace XMonoNode
 
         protected Tweener tween;
 
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow();
-        }
-
         // Return the correct value of an output port when requested
         public override object GetValue(NodePort port)
         {
@@ -46,7 +41,7 @@ namespace XMonoNode
 
         protected void OnTweenComplete()
         {
-            base.TriggerFlow();
+            FlowOut();
             tween = null;
         }
     }

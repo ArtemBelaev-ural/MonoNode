@@ -51,7 +51,8 @@ namespace XMonoNode
         protected override void Init()
         {
             base.Init();
-
+            FlowInputPort.label = "Begin";
+            FlowOutputPort.label = "End";
             GetInputPort(nameof(duration)).label = "Duration (sec)";
             GetInputPort(nameof(delay)).label = "Delay (sec)";
         }
@@ -59,11 +60,6 @@ namespace XMonoNode
         public override object GetValue(NodePort port)
         {
             return null;
-        }
-
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow();
         }
 
         public override void Flow(NodePort flowPort)
@@ -130,7 +126,7 @@ namespace XMonoNode
                     OnNextLoop(loop);
                     if (loopsCount == loopsAmount || loopsAmount == 0)  // stop
                     {
-                        FlowUtils.FlowOutput(FlowOutputPort);
+                        FlowOut();
                         remainingSec = 0.0f;
                         _state = State.Stopped;
                         OnTweenEnd();

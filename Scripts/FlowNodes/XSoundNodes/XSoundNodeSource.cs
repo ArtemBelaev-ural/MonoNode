@@ -14,12 +14,12 @@ namespace XMonoNode
     [NodeTint(70, 100, 70)]
     public class XSoundNodeSource : XSoundNodeBase
     {
+        [Output(ShowBackingValue.Never, ConnectionType.Multiple, TypeConstraint.Inherited)]
+        public AudioSources audioOutput;
+
         [XSoundSelector]
         [SerializeField]
         private int                 soundId = -1;
-
-        [Output(ShowBackingValue.Never, ConnectionType.Multiple, TypeConstraint.Inherited)] 
-        public AudioSources audioOutput;
 
         private void Reset()
         {

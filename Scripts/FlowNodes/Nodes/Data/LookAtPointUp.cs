@@ -4,9 +4,10 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Transform/LookAt (worldPosition, Up)", 467)]
+    [NodeWidth(180)]
     public class LookAtPointUp : SetObjectParameter<Transform, Vector3> 
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]
         public Vector3 worldUp = Vector3.up;
 
         private NodePort worldUpPort;

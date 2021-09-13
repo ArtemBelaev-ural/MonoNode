@@ -24,15 +24,6 @@ namespace XMonoNode
                     FlowInput(inputPort);
                 }
             }
-
-            for (int i = 0; i < connectedInputPorts.Count; i++)
-            {
-                var flowNode = connectedInputPorts[i].node as IFlowNode;
-                if (flowNode != null)
-                {
-                    flowNode.TriggerFlow();
-                }
-            }
         }
 
         public static void FlowInput(NodePort port)

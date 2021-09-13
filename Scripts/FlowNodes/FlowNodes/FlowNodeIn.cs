@@ -27,7 +27,7 @@ namespace XMonoNode
 
         public virtual void TriggerFlow()
         {
-            
+            Flow(flowInputPort);
         }
 
         /// <summary>

@@ -15,6 +15,7 @@ namespace XMonoNode
             var target = GetInputValue(nameof(Target), Target);
             var fillAmount = GetInputValue(nameof(Fill), Fill);
             target.fillAmount = fillAmount;
+            FlowOut();
         }
 
         // Return the correct value of an output port when requested

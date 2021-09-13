@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [NodeWidth(160)]
+    [NodeWidth(150)]
     public abstract class WaitBase : FlowNodeInOut
     {
         [Input] public bool condition;
@@ -25,12 +25,6 @@ namespace XMonoNode
             FlowInputPort.label = "Enter";
             FlowOutputPort.label = "Exit";
         }
-
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow();
-        }
-
 
         public override object GetValue(NodePort port)
         {

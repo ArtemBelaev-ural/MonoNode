@@ -3,7 +3,8 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/GetPosition", 451)]
+    [CreateNodeMenu("Transform/Get Position", 451)]
+    [NodeWidth(180)]
     public class GetTransformPosition : MonoNode
     {
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
@@ -12,6 +13,11 @@ namespace XMonoNode
         public Vector3 _position;
 
         private NodePort transformPort;
+
+        private void Reset()
+        {
+            Name = "Get Position";
+        }
 
         protected override void Init()
         {

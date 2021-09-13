@@ -70,15 +70,10 @@ namespace XMonoNode
             return Value;
         }
 
-        public override void TriggerFlow()
-        {
-            
-        }
-
         public override void Flow(NodePort flowPort)
         {
             AssignValue();
-            FlowUtils.FlowOutput(FlowOutputPort);
+            FlowOut();
         }
 
     }

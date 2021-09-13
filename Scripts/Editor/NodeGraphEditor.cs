@@ -275,7 +275,7 @@ namespace XMonoNodeEditor {
             // Check graph attributes to see if this node is required
             Type graphType = target.GetType();
             XMonoNode.RequireNodeAttribute[] attribs = Array.ConvertAll(
-                graphType.GetCustomAttributes(typeof(XMonoNode.RequireNodeAttribute), true), x => x as XMonoNode.RequireNodeAttribute);
+                graphType.GetCustomAttributes(typeof(XMonoNode.RequireNodeAttribute), false), x => x as XMonoNode.RequireNodeAttribute);
             if (attribs.Any(x => x.Requires(node.GetType()))) {
                 if (Target.GetNodes().Count(x => x.GetType() == node.GetType()) <= 1) {
                     return false;

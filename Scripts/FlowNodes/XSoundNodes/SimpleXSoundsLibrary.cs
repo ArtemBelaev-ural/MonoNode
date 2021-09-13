@@ -67,6 +67,19 @@ namespace XMonoNode
             source.clip = sound.Clip;
             source.loop = parameters.Get<bool>();
             source.transform.position = parameters.Get<Vector3>();
+
+            source.volume = 1f;
+            source.pitch = 1f;
+            source.panStereo = 0f;
+            source.spatialBlend = 0f;
+            source.spatialBlend = 0f;
+            source.reverbZoneMix = 1f;
+
+            source.dopplerLevel = 1.0f;
+            source.spread = 0f;
+            source.minDistance = 1f;
+            source.maxDistance = 500f;
+
             source.Play();
 
             if (Application.isPlaying && source.loop != true)

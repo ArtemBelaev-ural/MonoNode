@@ -3,7 +3,9 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("GameObject/DestroyObject", 402)]
+    [CreateNodeMenu("GameObject/Destroy Object", 402)]
+    [AddComponentMenu("GameObject/Destroy Object", 402)]
+    [NodeWidth(170)]
     public class DestroyObject : FlowNodeInOut
     {
         [Input]
@@ -13,6 +15,7 @@ namespace XMonoNode
         {
             var toDestroy = GetInputValue(nameof(Target), Target);
             Destroy(toDestroy);
+            FlowOut();
         }
 
         public override object GetValue(NodePort port) {

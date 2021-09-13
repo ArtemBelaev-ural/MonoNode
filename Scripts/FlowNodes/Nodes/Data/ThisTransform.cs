@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/ThisTransform", 440)]
+    [CreateNodeMenu("Transform/This", 440)]
     [NodeWidth(140)]
     public class ThisTransform : MonoNode
     {
@@ -11,7 +11,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "This Transform";
+            Name = "This";
         }
 
         public override object GetValue(NodePort port)

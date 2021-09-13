@@ -14,6 +14,7 @@ namespace XMonoNode
             var target = GetInputValue(nameof(Target), Target);
             var sprite = GetInputValue(nameof(MySprite), MySprite);
             target.sprite = sprite;
+            FlowOut();
         }
 
         public override object GetValue(NodePort port)

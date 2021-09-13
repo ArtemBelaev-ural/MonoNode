@@ -8,13 +8,14 @@ namespace XMonoNode
 {
     [ExecuteInEditMode]
     [AddComponentMenu("X Sound Node/SoundNodeGraph", 1)]
-    [RequireNode(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(FlowEnd))]
-    [RequireComponent(typeof(OnFlowEventNode), typeof(XSoundNodePlay), typeof(FlowEnd))]
+    [RequireNode(/*typeof(OnFlowEventNode), */typeof(XSoundNodePlay)/*, typeof(FlowEnd)*/)]
+    [RequireComponent(/*typeof(OnFlowEventNode), */typeof(XSoundNodePlay)/*, typeof(FlowEnd)*/)]
     public class XSoundNodeGraph : FlowNodeGraph
     {
         private void Reset()
         {
-            // OnFlowStart добавлен автоматически
+#if UNITY_EDITOR
+            // OnFlowStart
             OnFlowEventNode start = GetComponent<OnFlowEventNode>();
             if (start != null)
             {
@@ -35,15 +36,16 @@ namespace XMonoNode
                 {
                     play.Name = "Play";
                 }
-                play.Position = new Vector2(100.0f, -50.0f);
+                play.Position = new Vector2(88.0f, -56.0f);
             }
+
 
             XSoundNodeSource source = gameObject.AddComponent<XSoundNodeSource>();
             // ƒобавить Source и соединить с Play, а Play с Flow
             if (source != null)
             {
                 source.Name = "Source";
-                source.Position = new Vector2(-400.0f, 50.0f);
+                source.Position = new Vector2(-376.0f, -56.0f);
 
                 OnBeforeSerialize();
                 if (play != null)
@@ -63,8 +65,10 @@ namespace XMonoNode
                             startFlowOutput.Connect(playFlowInput);
                         }
                     }
-
-
+                    else
+                    {
+                        play.showState = INode.ShowAttribState.Minimize;
+                    }
                 }
             }
 
@@ -89,6 +93,21 @@ namespace XMonoNode
                     }
                 }
             }
-        } 
+#endif
+        }
+
+        protected override IFlowNode[] GetFlowEventNodes()
+        {
+            IFlowNode[] result =  base.GetFlowEventNodes();
+
+            if (result.Length != 0)
+            {
+                return result;
+            }
+            else
+            {
+                return GetComponents<XSoundNodePlay>();
+            }
+        }
     }
 }

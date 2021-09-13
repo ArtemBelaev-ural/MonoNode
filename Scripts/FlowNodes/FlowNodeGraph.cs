@@ -11,7 +11,7 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("Flow Nodes/FlowNodeGraph", 1)]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(OnFlowEventNode), typeof(FlowEnd))]
+    [RequireComponent(/*typeof(OnFlowEventNode), */typeof(FlowEnd))]
     [RequireNode(typeof(OnFlowEventNode), typeof(FlowEnd))]
     public class FlowNodeGraph : MonoNodeGraph
     {
@@ -69,8 +69,9 @@ namespace XMonoNode
 
         private void Reset()
         {
+#if UNITY_EDITOR
             // OnFlowStart добавлен автоматически
-            OnFlowEventNode start = GetComponent<OnFlowEventNode>();
+            OnFlowEventNode start = gameObject.AddComponent<OnFlowEventNode>();
             if (start != null)
             {
                 start.graph = this;
@@ -80,7 +81,6 @@ namespace XMonoNode
                 }
                 start.Position = new Vector2(-300.0f, -100.0f);
             }
-
 
             // OnFlowStart добавлен автоматически
             FlowEnd end = GetComponent<FlowEnd>();
@@ -94,6 +94,7 @@ namespace XMonoNode
                 end.Position = new Vector2(450.0f, -100.0f);
 
             }
+#endif
         }
 
         private void OnUpdateInputParametersNodes()
@@ -220,10 +221,15 @@ namespace XMonoNode
             Flow(onEndAction, state);
         }
 
+        protected virtual IFlowNode[] GetFlowEventNodes()
+        {
+            return GetComponents<OnFlowEventNode>();
+        }
+
         [ContextMenu("Flow")]
         public virtual void Flow(Action<string> onEndAction = null, string state = "")
         {
-            OnFlowEventNode[] eventNodes = GetComponents<OnFlowEventNode>();
+            IFlowNode[] eventNodes = GetFlowEventNodes();
             if (eventNodes.Length == 0)
             {
                 Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't OnExecute nodes");

@@ -15,6 +15,7 @@ namespace XMonoNode
             var target = GetInputValue(nameof(Target), Target);
             var sprite = GetInputValue(nameof(MySprite), MySprite);
             target.sprite = sprite;
+            FlowOut();
         }
 
         // Return the correct value of an output port when requested

@@ -3,9 +3,15 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/SetEulerAngles", 456)] 
+    [CreateNodeMenu("Transform/Set Euler Angles", 456)]
+    [NodeWidth(180)]
     public class SetTransformEulerAngles : SetObjectParameter<Transform, Vector3>
     {
+        private void Reset()
+        {
+            Name = "Set Euler Angles";
+        }
+
         protected override void Init()
         {
             base.Init();

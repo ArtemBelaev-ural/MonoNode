@@ -58,13 +58,8 @@ namespace XMonoNode
 
             if (caseDefault)
             {
-                FlowUtils.FlowOutput(FlowOutputPort);
+                FlowOut();
             }
-        }
-
-        public override void TriggerFlow()
-        {
-            
         }
 
         // Return the correct value of an output port when requested

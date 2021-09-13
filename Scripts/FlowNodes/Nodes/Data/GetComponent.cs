@@ -4,8 +4,8 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/GetComponent", 501)]
-    [NodeWidth(220)]
+    [CreateNodeMenu("Transform/Get Component", 501)]
+    [NodeWidth(200)]
     public class GetComponent : GetComponentBase<Component>
     {
         [Input(connectionType: ConnectionType.Override)]

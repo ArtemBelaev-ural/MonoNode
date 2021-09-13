@@ -4,13 +4,14 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/GetLocalPosition", 415)]
+    [NodeWidth(170)]
     public class GetLocalPosition : MonoNode
     {
         [Input] public GameObject Target;
         [Output] public Vector3 localPosition;
-        [Output] public Vector3 x;
-        [Output] public Vector3 y;
-        [Output] public Vector3 z;
+        [Output, Hiding] public Vector3 x;
+        [Output, Hiding] public Vector3 y;
+        [Output, Hiding] public Vector3 z;
 
         // Return the correct value of an output port when requested
         public override object GetValue(NodePort port)

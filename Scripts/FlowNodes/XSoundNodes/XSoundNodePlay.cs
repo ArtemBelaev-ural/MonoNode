@@ -58,11 +58,6 @@ namespace XMonoNode
             }
         }
 
-        public override void TriggerFlow()
-        {
-            // не вызывать base.TriggerFlow() - это приведет к бесконечной рекурсии
-        }
-
         private void Reset()
         {
             Name = "Play";

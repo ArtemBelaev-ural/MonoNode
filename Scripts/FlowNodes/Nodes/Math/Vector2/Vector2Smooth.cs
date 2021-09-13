@@ -54,6 +54,7 @@ namespace XMonoNode
         public override void Flow(NodePort flowPort)
         {
             smooth = Default;
+            FlowOut();
         }
 
         private void Update()

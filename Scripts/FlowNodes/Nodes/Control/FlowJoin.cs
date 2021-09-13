@@ -26,11 +26,6 @@ namespace XMonoNode
             FlowInputPort.label = "Reset";
         }
 
-        public override void TriggerFlow()
-        {
-            
-        }
-
         public override void Flow(NodePort flowPort)
         {
             if (flowPort == FlowInputPort)
@@ -42,7 +37,7 @@ namespace XMonoNode
                 activePorts[flowPort] = true;
                 if (activePorts.Count == waitAll.Length) // all inputs activated
                 {
-                    FlowUtils.FlowOutput(FlowOutputPort);
+                    FlowOut();
                     ResetInputPorts();
                 }
             }

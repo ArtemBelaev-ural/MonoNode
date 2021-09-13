@@ -6,7 +6,8 @@ namespace XMonoNode
     [CreateNodeMenu("Utils/Log", 521)]
     public class LogNode : FlowNodeInOut 
     {
-        [Input] public string Text;
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        public string Text;
 
         public override void Flow(NodePort flowPort) 
         {
@@ -30,6 +31,7 @@ namespace XMonoNode
                     Debug.LogFormat("<color=brown>{0}) </color>" + input[i], i);
                 }
             }
+            FlowOut();
         }
 
         public override object GetValue(NodePort port) 

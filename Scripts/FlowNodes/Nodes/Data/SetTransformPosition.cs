@@ -3,9 +3,15 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/SetPosition", 452)]
+    [CreateNodeMenu("Transform/Set Position", 452)]
+    [NodeWidth(180)]
     public class SetTransformPosition : SetObjectParameter<Transform, Vector3>
     {
+        private void Reset()
+        {
+            Name = "Set Position";
+        }
+
         protected override void Init()
         {
             base.Init();

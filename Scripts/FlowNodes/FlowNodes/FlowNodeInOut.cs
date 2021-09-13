@@ -21,11 +21,6 @@ namespace XMonoNode
             flowOutputPort.label = "Exit";
         }
 
-        public override void TriggerFlow()
-        {
-            FlowOut();
-        }
-
         public void FlowOut()
         {
             FlowUtils.FlowOutput(FlowOutputPort);

@@ -13,6 +13,7 @@ namespace XMonoNodeEditor {
 
         private static readonly Dictionary<UnityEngine.Object, Dictionary<string, ReorderableList>> reorderableListCache = new Dictionary<UnityEngine.Object, Dictionary<string, ReorderableList>>();
         private static int reorderableListIndex = -1;
+        public static bool hasHiddenProperty = false;
 
         /// <summary> Make a field for a serialized property. Automatically displays relevant node port. </summary>
         public static void PropertyField(SerializedProperty property, bool includeChildren = true, params GUILayoutOption[] options)
@@ -61,6 +62,7 @@ namespace XMonoNodeEditor {
                 if (node.ShowState == XMonoNode.INode.ShowAttribState.Minimize ||
                     (hidding != null && node.ShowState == XMonoNode.INode.ShowAttribState.ShowBase))
                 {// Пропускаем скрытые свойства
+                    NodeEditorGUILayout.hasHiddenProperty = true;
                     return;
                 }
 
@@ -77,10 +79,12 @@ namespace XMonoNodeEditor {
             {
                 if (port.ConnectionCount == 0 && node.ShowState == XMonoNode.INode.ShowAttribState.Minimize)
                 {// Нода скрыта - пропускаем все несоединенные порты
+                    NodeEditorGUILayout.hasHiddenProperty = true;
                     return; 
                 }
                 if (port.ConnectionCount == 0 && hidding != null && node.ShowState == XMonoNode.INode.ShowAttribState.ShowBase)
                 {// Нода частично скрыта - пропускаем скрытые несоединенные порты
+                    NodeEditorGUILayout.hasHiddenProperty = true;
                     return;
                 }
 

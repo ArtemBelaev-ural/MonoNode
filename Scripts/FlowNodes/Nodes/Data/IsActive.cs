@@ -4,6 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("GameObject/IsActive", 403)]
+    [NodeWidth(170)]
     public class IsActive : MonoNode
     {
         [Input] public GameObject Target;

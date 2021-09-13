@@ -40,7 +40,9 @@ namespace XMonoNodeEditor {
         }
 
         /// <summary> Draws standard field editors for all public fields </summary>
-        public virtual void OnBodyGUI() {
+        public virtual int OnBodyGUI()
+        {
+            int propertyCount = 0;
 #if ODIN_INSPECTOR
             inNodeEditor = true;
 #endif
@@ -49,7 +51,7 @@ namespace XMonoNodeEditor {
             // serializedObject.Update(); must go at the start of an inspector gui, and
             // serializedObject.ApplyModifiedProperties(); goes at the end.
             serializedObject?.Update();
-            string[] excludes = { "m_Script", "graph", "position", "ports" , "_name"};
+            string[] excludes = { "m_Script", "graph", "position", "ports" , "_name", "showState"};
 
 #if ODIN_INSPECTOR
             try
@@ -93,6 +95,8 @@ namespace XMonoNodeEditor {
                 if (excludes.Contains(iterator.name))
                     continue;
 
+                ++propertyCount;
+
                 // Draw two fields in one row
                 if (inlineStarted == false && NodeEditorUtilities.GetCachedAttrib(iterator, out XMonoNode.InlineAttribute inlineAttr))
                 {
@@ -124,8 +128,12 @@ namespace XMonoNodeEditor {
             {
                 if (NodeEditorGUILayout.IsDynamicPortListPort(dynamicPort)) continue;
 
+                ++propertyCount;
+
                 if (Target.ShowState == XMonoNode.INode.ShowAttribState.Minimize  && dynamicPort.ConnectionCount == 0)
                 {// Пропускаем скрытые свойства
+                    NodeEditorGUILayout.hasHiddenProperty = true;
+
                     continue;
                 }
 
@@ -145,6 +153,7 @@ namespace XMonoNodeEditor {
 #if ODIN_INSPECTOR
             inNodeEditor = false;
 #endif
+            return propertyCount;
         }
 
         public virtual int GetWidth() {

@@ -3,7 +3,8 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/GetLocalPosition", 453)]
+    [CreateNodeMenu("Transform/Get Loca lPosition", 453)]
+    [NodeWidth(180)]
     public class GetTransformLocalPosition : MonoNode
     {
         [Input(connectionType:ConnectionType.Override)]
@@ -12,6 +13,11 @@ namespace XMonoNode
         public Vector3 localPosition;
 
         private NodePort transformPort;
+
+        private void Reset()
+        {
+            Name = "Get Local Position";
+        }
 
         protected override void Init()
         {

@@ -3,9 +3,15 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Transform/SetLocalScale", 460)] 
+    [CreateNodeMenu("Transform/Set Local Scale", 460)]
+    [NodeWidth(180)]
     public class SetTransformLocalScale : SetObjectParameter<Transform, Vector3>
     {
+        private void Reset()
+        {
+            Name = "Set Local Scale";
+        }
+
         protected override void Init()
         {
             base.Init();

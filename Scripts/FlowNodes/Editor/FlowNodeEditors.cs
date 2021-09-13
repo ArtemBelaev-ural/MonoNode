@@ -11,26 +11,35 @@ namespace FlowNodesEditor
     public class XFlowNodeFloatParameterEditor : NodeEditor
     {
         private InputFlowParameterFloat node = null;
-        public override void OnBodyGUI()
+        public override int OnBodyGUI()
         {
-            base.OnBodyGUI();
+            int propertyCount = base.OnBodyGUI();
 
             if (node == null)
             {
                 node = target as InputFlowParameterFloat;
                 if (node == null)
                 {
-                    return;
+                    return propertyCount;
                 }
             }
             serializedObject.Update();
 
-            GUILayout.BeginHorizontal();
+            if (Target.ShowState == INode.ShowAttribState.ShowAll)
+            {
+                GUILayout.BeginHorizontal();
 
-            float newValue = GUILayout.HorizontalSlider(node.DefaultValue, 0.0f, 1.0f, GUILayout.MinHeight(10));
-            UpdateValue(newValue);
+                float newValue = GUILayout.HorizontalSlider(node.DefaultValue, 0.0f, 1.0f, GUILayout.MinHeight(10));
+                UpdateValue(newValue);
+                GUILayout.EndHorizontal();
+            }
+            else
+            {
+                NodeEditorGUILayout.hasHiddenProperty = true;
+            }
 
-            GUILayout.EndHorizontal();
+            ++propertyCount;
+            return propertyCount;
         }
 
         private void UpdateValue(float newValue)
@@ -54,57 +63,62 @@ namespace FlowNodesEditor
     {
         public ButtonNode Node => target as ButtonNode;
 
-        public override void OnBodyGUI()
+        public override int OnBodyGUI()
         {
             Node.FlowOutputPort.label = Node.ButtonText;
-            base.OnBodyGUI();
+            return base.OnBodyGUI();
         }
     }
 
     [CustomNodeEditor(typeof(FloatEase))]
     public class FloatEaseEditor : NodeEditor
     {
-        public override void OnBodyGUI()
+        public override int OnBodyGUI()
         {
-            base.OnBodyGUI();
-
-            if (Target.ShowState != INode.ShowAttribState.ShowAll)
+            int propertyCount = base.OnBodyGUI();
+            ++propertyCount;
+            if (Target.ShowState == INode.ShowAttribState.ShowAll)
             {
-                return;
+                FloatEase node = target as FloatEase;
+                Texture2D tex = node.Clamped01 ? FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode) : FlowNodeEditorResources.EaseTexture(node.EasingMode);
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+                GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+                GUILayout.EndHorizontal();
+            }
+            else
+            {
+                NodeEditorGUILayout.hasHiddenProperty = true;
             }
 
-            FloatEase node = target as FloatEase;
-
-            Texture2D tex = node.Clamped01 ? FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode) : FlowNodeEditorResources.EaseTexture(node.EasingMode);
-             
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
-            GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
-            GUILayout.EndHorizontal();
+            return propertyCount;
         }
     }
    
     public class AnimateEaseEditor : NodeEditor
     {
-        public override void OnBodyGUI()
+        public override int OnBodyGUI()
         {
-            base.OnBodyGUI();
-
-            if (Target.ShowState != INode.ShowAttribState.ShowAll)
+            int propertyCount = base.OnBodyGUI();
+            ++propertyCount;
+            if (Target.ShowState == INode.ShowAttribState.ShowAll)
             {
-                return;
+                AnimateValue node = target as AnimateValue;
+
+                node.EasingMode = (EasingMode)EditorGUILayout.EnumPopup(new GUIContent(ObjectNames.NicifyVariableName(nameof(AnimateValue.EasingMode))), node.EasingMode);
+
+                Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode);
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+                GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+                GUILayout.EndHorizontal();
             }
-
-            AnimateValue node = target as AnimateValue;
-
-            node.EasingMode = (EasingMode)EditorGUILayout.EnumPopup(new GUIContent(ObjectNames.NicifyVariableName(nameof(AnimateValue.EasingMode))), node.EasingMode);
-
-            Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode);
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
-            GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
-            GUILayout.EndHorizontal();
+            else
+            {
+                NodeEditorGUILayout.hasHiddenProperty = true;
+            }
+            return propertyCount;
         }
     }
 
@@ -125,23 +139,26 @@ namespace FlowNodesEditor
 
     public class TweenNodeEditor : NodeEditor
     {
-        public override void OnBodyGUI()
+        public override int OnBodyGUI()
         {
-            base.OnBodyGUI();
-
-            if (Target.ShowState != INode.ShowAttribState.ShowAll)
+            int propertyCount = base.OnBodyGUI();
+            ++propertyCount;
+            if (Target.ShowState == INode.ShowAttribState.ShowAll)
             {
-                return;
+                TweenNode node = target as TweenNode;
+
+                Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.easingMode);
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+                GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+                GUILayout.EndHorizontal();
             }
-
-            TweenNode node = target as TweenNode;
-
-            Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.easingMode);
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
-            GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
-            GUILayout.EndHorizontal();
+            else
+            {
+                NodeEditorGUILayout.hasHiddenProperty = true;
+            }
+            return propertyCount;
         }
     }
 

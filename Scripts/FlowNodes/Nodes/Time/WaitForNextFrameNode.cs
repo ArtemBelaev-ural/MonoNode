@@ -4,7 +4,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Time/WaitForNextFrame", 536)]
+    [CreateNodeMenu("Time/Wait For Next Frame", 536)]
     [NodeWidth(160)]
     public class WaitForNextFrameNode : FlowNodeInOut
     {
@@ -20,11 +20,6 @@ namespace XMonoNode
 
             FlowInputPort.label = "Enter";
             FlowOutputPort.label = "Exit";
-        }
-
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow(); 
         }
 
         public override void Flow(NodePort flowPort)

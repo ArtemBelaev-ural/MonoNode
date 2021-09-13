@@ -28,11 +28,6 @@ namespace XMonoNode
             elsePort.label = "else";
         }
 
-        public override void TriggerFlow()
-        {
-            //base.TriggerFlow();
-        }
-
         public override void Flow(NodePort flowPort)
         {
             NodePort output = conditionPort.GetInputValue(condition) ? ifPort : elsePort;

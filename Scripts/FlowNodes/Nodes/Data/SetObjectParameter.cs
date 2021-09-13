@@ -35,11 +35,6 @@ namespace XMonoNode
             return null;
         }
 
-        public override void TriggerFlow()
-        {
-            
-        }
-
         public override void Flow(NodePort flowPort)
         {
             object obj = ObjectPort.GetInputValue();

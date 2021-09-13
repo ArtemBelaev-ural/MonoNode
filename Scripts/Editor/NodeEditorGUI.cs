@@ -876,7 +876,16 @@ namespace XMonoNodeEditor {
                 EditorGUI.BeginChangeCheck();
 
                 GUILayout.Label("", NodeEditorResources.styles.nodeHeader, GUILayout.Height(30));
-                nodeEditor.OnBodyGUI();
+
+                NodeEditorGUILayout.hasHiddenProperty = false;
+                int propertyCount = nodeEditor.OnBodyGUI();
+                if (NodeEditorGUILayout.hasHiddenProperty)
+                {// пометка, о том, что есть скрытые элементы
+                    if (GUILayout.Button(new GUIContent(NodeEditorResources.hiddenMark), NodeEditorResources.styles.hiddenAttributeMark, GUILayout.MaxHeight(6), GUILayout.ExpandWidth(true)))
+                    {
+                        SetShowAllState(nodeEditor);
+                    }
+                }
 
                 //If user changed a value, notify other scripts through onUpdateNode
                 if (EditorGUI.EndChangeCheck())
@@ -950,7 +959,7 @@ namespace XMonoNodeEditor {
 
                 GUILayout.EndArea();
 
-                DrawHeader(nodeEditor, nodePos);
+                DrawHeader(nodeEditor, nodePos, propertyCount > 1);
             }
 
             if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
@@ -990,9 +999,9 @@ namespace XMonoNodeEditor {
             }
         }
 
-        private void DrawHeader(NodeEditor nodeEditor, Vector2 nodePos)
+        private void DrawHeader(NodeEditor nodeEditor, Vector2 nodePos, bool drawMinimizedButton)
         {
-            int buttonWidth = 18;
+            int buttonWidth = drawMinimizedButton ? 18 : 0;
 
             Vector2 pos = nodePos + new Vector2(NodeEditorResources.styles.nodeBody.padding.left, NodeEditorResources.styles.nodeHeader.margin.top);
             Vector2 size = new Vector2(nodeEditor.GetWidth() - buttonWidth - NodeEditorResources.styles.nodeBody.padding.left - NodeEditorResources.styles.nodeBody.padding.right, 4000);
@@ -1008,15 +1017,28 @@ namespace XMonoNodeEditor {
 
             GUILayout.EndArea();
 
-            Vector2 buttonPos = new Vector2(nodeEditor.GetWidth() - buttonWidth + 5 - NodeEditorResources.styles.nodeBody.padding.left, NodeEditorResources.styles.nodeBody.padding.top + 5);
-            GUILayout.BeginArea(new Rect(nodePos + buttonPos, new Vector2(buttonWidth, 4000)));
-
-            if (GUILayout.Button(buttonMinimizeContent(nodeEditor.Target.ShowState), NodeEditorResources.styles.minimizeButtonSimple, GUILayout.Width(18)))
+            if (drawMinimizedButton)
             {
-                nodeEditor.Target.ShowState = nextState(nodeEditor.Target.ShowState);
-            }
+                Vector2 buttonPos = new Vector2(nodeEditor.GetWidth() - buttonWidth + 5 - NodeEditorResources.styles.nodeBody.padding.left, NodeEditorResources.styles.nodeBody.padding.top + 5);
+                GUILayout.BeginArea(new Rect(nodePos + buttonPos, new Vector2(buttonWidth, 4000)));
 
-            GUILayout.EndArea();
+                if (GUILayout.Button(buttonMinimizeContent(nodeEditor.Target.ShowState), NodeEditorResources.styles.minimizeButtonSimple, GUILayout.Width(18)))
+                {
+                    NextState(nodeEditor);
+                }
+
+                GUILayout.EndArea();
+            }
+        }
+
+        public static void NextState(NodeEditor nodeEditor)
+        {
+            nodeEditor.Target.ShowState = nextState(nodeEditor.Target.ShowState);
+        }
+
+        public static void SetShowAllState(NodeEditor nodeEditor)
+        {
+            nodeEditor.Target.ShowState = XMonoNode.INode.ShowAttribState.ShowAll;
         }
 
         private bool ShouldBeCulled(XMonoNode.INode node) {
