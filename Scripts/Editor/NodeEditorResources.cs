@@ -44,32 +44,6 @@ namespace XMonoNodeEditor {
         }
         static Texture2D _home = null;
 
-        //public static Texture2D minimize
-        //{
-        //    get
-        //    {
-        //        return _minimize != null ? _minimize : _minimize = Resources.Load<Texture2D>("minimize");
-        //    }
-        //}
-        //static Texture2D _minimize = null;
-
-        //public static Texture2D minimizeHover
-        //{
-        //    get
-        //    {
-        //        return _minimizeHover != null ? _minimizeHover : _minimizeHover = Resources.Load<Texture2D>("minimize_hover");
-        //    }
-        //}
-        //static Texture2D _minimizeHover = null;
-
-        //public static Texture2D minimizeActive
-        //{
-        //    get
-        //    {
-        //        return _minimizeActive != null ? _minimizeActive : _minimizeActive = Resources.Load<Texture2D>("minimize_active");
-        //    }
-        //}
-        //static Texture2D _minimizeActive = null;
 
         public static Texture2D hiddenMark
         {
@@ -137,13 +111,6 @@ namespace XMonoNodeEditor {
 
                 nodePaletteFoldout = new GUIStyle(EditorStyles.foldout);
                 nodePaletteFoldout.fontStyle = FontStyle.Bold;
-
-                //minimizeButton = new GUIStyle(GUI.skin.button);
-                //minimizeButton.alignment = TextAnchor.MiddleCenter;
-                //minimizeButton.active.background = minimizeActive;
-                //minimizeButton.normal.background = minimize;
-                //minimizeButton.hover.background = minimizeHover;
-                //minimizeButton.margin = new RectOffset(0, 0, 5, 0); 
 
                 minimizeButtonSimple = new GUIStyle(EditorStyles.miniButton);
                 minimizeButtonSimple.margin = new RectOffset(0, 0, 5, 0);

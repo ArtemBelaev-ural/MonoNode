@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Time/WaitWhile", 534)]
+    [CreateNodeMenu("Time/Wait While", 534)]
     public class WaitWhileNode : WaitBase
     {
         private void Reset()

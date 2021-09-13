@@ -5,15 +5,23 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Time/GetDeltaTime", 539)]
+    [CreateNodeMenu("Time/Delta Time", 539)]
     [NodeWidth(150)]
     public class GetDeltaTime : MonoNode
     {
-        [Output] public float deltaTime;
-        [Output] public float fixedDeltaTime;
+        [Output]
+        public float deltaTime;
+
+        [Output, Hiding]
+        public float fixedDeltaTime;
 
         private NodePort deltaTimePort;
         private NodePort fixedDeltaTimePort;
+
+        private void Reset()
+        {
+            Name = "Delta Time";
+        }
 
         protected override void Init()
         {
