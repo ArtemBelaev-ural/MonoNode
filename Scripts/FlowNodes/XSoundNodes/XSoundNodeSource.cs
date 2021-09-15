@@ -57,7 +57,7 @@ namespace XMonoNode
 
                 AudioSource source = sounds.Play(soundId, PlayParameters);
                 source.transform.parent = transform.parent;
-                source.transform.position = Vector3.zero;
+                source.transform.localPosition = Vector3.zero;
 
                 if (source != null)
                 {
