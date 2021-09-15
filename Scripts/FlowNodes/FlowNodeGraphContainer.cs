@@ -49,6 +49,10 @@ namespace XMonoNode
                 }
 #endif
                 instanciated.name = $"(FlowNodeGraphContainer id=\"{id}\")";
+                if (parent != null)
+                {
+                    instanciated.transform.parent = parent;
+                }
                 instanciated.transform.localPosition = Vector3.zero;
             }
             return instanciated;
@@ -170,7 +174,7 @@ namespace XMonoNode
 
         public void UpdateInputParameters(string id, params object[] parameters)
         {
-            FlowNodeGraph graph = Get(id);
+            FlowNodeGraph graph = Get(id, parameters.Get<Transform>());
             if (graph != null)
             {
                 graph.UpdateInputParameters(parameters);
