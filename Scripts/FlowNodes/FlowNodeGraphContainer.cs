@@ -45,16 +45,17 @@ namespace XMonoNode
 #if UNITY_EDITOR
                 if (Application.isEditor)
                 {
-                    instanciated.gameObject.hideFlags = HideFlags.HideAndDontSave;
+                    instanciated.gameObject.hideFlags = HideFlags.DontSave;
                 }
 #endif
-                instanciated.name = $"(FlowNodeGraphContainer id=\"{id}\")";
-                if (parent != null)
-                {
-                    instanciated.transform.parent = parent;
-                }
-                instanciated.transform.localPosition = Vector3.zero;
+                instanciated.name = $"(FlowNodeGraphContainer id=\"{id}\")";   
             }
+
+            if (parent != null)
+            {
+                instanciated.transform.parent = parent;
+            }
+            instanciated.transform.localPosition = Vector3.zero;
             return instanciated;
         }
     }
