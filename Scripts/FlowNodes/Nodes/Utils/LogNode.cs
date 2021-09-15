@@ -6,7 +6,7 @@ namespace XMonoNode
     [CreateNodeMenu("Utils/Log", 521)]
     public class LogNode : FlowNodeInOut 
     {
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input]
         public string Text;
 
         public override void Flow(NodePort flowPort) 
