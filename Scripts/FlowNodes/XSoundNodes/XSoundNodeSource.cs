@@ -56,6 +56,7 @@ namespace XMonoNode
                 }
 
                 AudioSource source = sounds.Play(soundId, PlayParameters);
+                source.transform.parent = transform.parent;
 
                 if (source != null)
                 {
