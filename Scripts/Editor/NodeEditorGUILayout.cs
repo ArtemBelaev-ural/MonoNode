@@ -114,7 +114,10 @@ namespace XMonoNodeEditor {
                         dynamicPortList = inputAttribute.dynamicPortList;
                         showBacking = inputAttribute.backingValue;
                         typeConstraint = inputAttribute.typeConstraint;
-                        label = portGuiContent(port);
+                        if (hideLabelAttribute == null)
+                        {
+                            label = portGuiContent(port);
+                        }
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||
@@ -204,7 +207,10 @@ namespace XMonoNodeEditor {
                         dynamicPortList = outputAttribute.dynamicPortList;
                         showBacking = outputAttribute.backingValue;
                         typeConstraint = outputAttribute.typeConstraint;
-                        label = portGuiContent(port);
+                        if (hideLabelAttribute == null)
+                        {
+                            label = portGuiContent(port);
+                        }
                     }
 
                     bool usePropertyAttributes = dynamicPortList ||

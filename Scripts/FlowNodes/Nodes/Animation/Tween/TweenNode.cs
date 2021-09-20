@@ -162,7 +162,7 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public Obj target;
 
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), HideLabel]
         public Val targetValue;
 
         protected Val startValue;

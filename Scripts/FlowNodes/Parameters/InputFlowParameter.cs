@@ -33,6 +33,13 @@ namespace XMonoNode
             set => output = value;
         }
 
+        protected override void Init()
+        {
+            base.Init();
+
+            GetOutputPort(nameof(output)).label = "Default";
+        }
+
         private void Reset()
         {
             Name = "Input Param: " + NodeUtilities.PrettyName(typeof(T));

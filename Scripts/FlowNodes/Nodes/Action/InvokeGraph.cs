@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [NodeWidth(350)]
+    [NodeWidth(250)]
     [CreateNodeMenu("Action/Invoke Graph", 14)]
     public class InvokeGraph : FlowNodeInOut
     {
