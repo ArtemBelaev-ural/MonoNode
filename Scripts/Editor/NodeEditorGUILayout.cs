@@ -55,7 +55,15 @@ namespace XMonoNodeEditor {
             
 
             NodeEditorUtilities.GetCachedAttrib(node.GetType(), property.name, out XMonoNode.NodeInspectorButtonAttribute buttonAttribute);
-            
+
+            NodeEditorUtilities.GetCachedAttrib(node.GetType(), property.name, out XMonoNode.HideLabelAttribute hideLabelAttribute);
+
+            if (hideLabelAttribute != null)
+            {
+                label = new GUIContent();
+            }
+
+
             // If property is not a port, display a regular property field
             if (port == null)
             {
@@ -73,6 +81,7 @@ namespace XMonoNodeEditor {
                 else
                 {
                     EditorGUILayout.PropertyField(property, label, includeChildren, GUILayout.MinWidth(30));
+                    
                 }
             }
             else

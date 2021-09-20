@@ -15,14 +15,26 @@ namespace FlowNodesEditor
             {
                 return;
             }
-
+            
+            
             EditorGUI.BeginProperty(position, label, property);
+
+            // ¬ключаем/выключаем показ кнопок
+            bool buttonsShown = property.FindPropertyRelative("showButtons").boolValue;
+
+            Event e = Event.current;
+            if (e.type == EventType.MouseDown && e.button == 2 && position.Contains(e.mousePosition))
+            {
+                buttonsShown = !buttonsShown;
+                property.FindPropertyRelative("showButtons").boolValue = buttonsShown;
+            }
+
             // Draw label
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-            int playButtonWidth = 20;
-            int stopButtonWidth = 20;
-            int pinButtonWidth = 30;
+            int playButtonWidth = buttonsShown ? 20 : 0;
+            int stopButtonWidth = buttonsShown ? 20 : 0;
+            int pinButtonWidth = buttonsShown ? 30 : 0;
             
             position.width -= stopButtonWidth + playButtonWidth + pinButtonWidth;
 
@@ -34,7 +46,7 @@ namespace FlowNodesEditor
             {
                 position.width /= 3; // чтобы влезли: путь к контейнерам, контейнер, Id
                 //Rect pathRect = new Rect(position.x, position.y, position.width, position.height);
-                pathToContainers = EditorGUI.TextField(position, pathToContainers);
+                pathToContainers = EditorGUI.TextField(position, new GUIContent("", "Path to containers"), pathToContainers);
                 property.FindPropertyRelative("pathToContainers").stringValue = pathToContainers;
                 position.x += position.width;
             }
@@ -70,7 +82,7 @@ namespace FlowNodesEditor
             id = graphIds[index];
             property.FindPropertyRelative("graphId").stringValue = id;
 
-            if (container != null)
+            if (container != null && buttonsShown)
             {
                 position.x += position.width;
                 position.width = stopButtonWidth;

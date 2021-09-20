@@ -9,6 +9,9 @@ namespace XMonoNode
     {
         public static string NO_CONTAINER = "-: None";
 
+        [SerializeField]
+        private bool showButtons = true;
+
         // Common usage: link to FlowNodeGraph container item by graphId
         [SerializeField]
         private string          graphId = "";
@@ -51,8 +54,23 @@ namespace XMonoNode
             }
         }
 
-        public FlowNodeGraphGetter()
+        public bool ShowButtons
         {
+            get => showButtons;
+            set => showButtons = value;
+        }
+
+        public FlowNodeGraphGetter(bool showButtons = true)
+        {
+            this.showButtons = showButtons;
+        }
+
+        public FlowNodeGraphGetter(bool showButtons, string pathToContainers, string containerFileName = "", string graphId = "")
+        {
+            this.showButtons = showButtons;
+            this.pathToContainers = pathToContainers;
+            this.containerFileName = containerFileName;
+            this.graphId = graphId;
         }
 
         public FlowNodeGraphGetter(string pathToContainers, string containerFileName = "", string graphId = "")

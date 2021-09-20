@@ -279,6 +279,11 @@ namespace XMonoNode {
             else return null;
         }
 
+        public NodePort GetPortFromList(string fieldName, long index)
+        {
+            return GetPort(fieldName + " " + index);
+        }
+
         public bool HasPort(string fieldName) {
             return ports.ContainsKey(fieldName);
         }
