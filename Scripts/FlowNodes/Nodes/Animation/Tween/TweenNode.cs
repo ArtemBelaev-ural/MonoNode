@@ -21,6 +21,11 @@ namespace XMonoNode
         public State state => _state;
         private State _state = State.Stopped;
 
+        [Output(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.None), NodeInspectorButton, Hiding]
+        public Flow onStart;
+
         [Input(connectionType: ConnectionType.Override)]
         public float duration = 1f;
 
@@ -48,6 +53,8 @@ namespace XMonoNode
         private float waitRemainingSec = 0.0f;
         private int loopsCount = 0;
 
+        private NodePort    onStartPort = null;
+
         protected override void Init()
         {
             base.Init();
@@ -55,6 +62,7 @@ namespace XMonoNode
             FlowOutputPort.label = "End";
             GetInputPort(nameof(duration)).label = "Duration (sec)";
             GetInputPort(nameof(delay)).label = "Delay (sec)";
+            onStartPort = GetOutputPort(nameof(onStart));
         }
 
         public override object GetValue(NodePort port)
@@ -100,6 +108,7 @@ namespace XMonoNode
             else
             {
                 _state = State.Started;
+                FlowUtils.FlowOutput(onStartPort);
                 OnTweenStart();
             }
         }
@@ -162,7 +171,7 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override)]
         public Obj target;
 
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), HideLabel]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public Val targetValue;
 
         protected Val startValue;
