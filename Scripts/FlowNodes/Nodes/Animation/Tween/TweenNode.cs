@@ -108,8 +108,8 @@ namespace XMonoNode
             else
             {
                 _state = State.Started;
-                FlowUtils.FlowOutput(onStartPort);
                 OnTweenStart();
+                FlowUtils.FlowOutput(onStartPort);
             }
         }
 
@@ -121,8 +121,9 @@ namespace XMonoNode
                 if (waitRemainingSec <= 0.0f)
                 {
                     _state = State.Started;
-                    remainingSec += waitRemainingSec; // погрешность
+                    remainingSec += waitRemainingSec; // погрешность    
                     OnTweenStart();
+                    FlowUtils.FlowOutput(onStartPort);
                 }
             }
 
