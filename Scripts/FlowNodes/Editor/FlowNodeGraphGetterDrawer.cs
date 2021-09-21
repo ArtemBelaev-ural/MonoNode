@@ -98,7 +98,11 @@ namespace FlowNodesEditor
                     EditorGUIUtility.PingObject(container.GetPrefab(id));
                     if (property.serializedObject.targetObject is Component)
                     {
-                        container.GraphParent = (property.serializedObject.targetObject as Component).transform;
+                        Transform parent = (property.serializedObject.targetObject as Component).transform;
+                        if (!EditorUtility.IsPersistent(parent.gameObject))
+                        {
+                            container.GraphParent = parent;
+                        } 
                     }
                     container.Flow(id);
                 }
