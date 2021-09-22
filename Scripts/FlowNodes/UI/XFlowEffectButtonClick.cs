@@ -29,7 +29,7 @@ namespace XMonoNode
 
         protected void OnClickReaction()
         {
-            effect.SafeFlow(CurrentButton.transform);
+            effect.SafeFlow();
         }
 
         protected void Awake()

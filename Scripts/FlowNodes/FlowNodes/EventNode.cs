@@ -38,7 +38,7 @@ namespace XMonoNode
 
         public virtual void Stop()
         {
-            throw new System.NotImplementedException();
+            // dummy
         }
     }
 }
