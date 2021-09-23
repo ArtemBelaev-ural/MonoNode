@@ -633,8 +633,10 @@ namespace XMonoNodeEditor {
             InsertDuplicateNodes(copyBuffer, pos);
         }
 
-        private void InsertDuplicateNodes(XMonoNode.INode[] nodes, Vector2 topLeft) {
-            if (nodes == null || nodes.Length == 0) return;
+        private void InsertDuplicateNodes(XMonoNode.INode[] nodes, Vector2 topLeft)
+        {
+            if (nodes == null || nodes.Length == 0)
+                return;
 
             // Get top-left node
             Vector2 topLeftNode = nodes.Select(x => x.Position).Aggregate((x, y) => new Vector2(Mathf.Min(x.x, y.x), Mathf.Min(x.y, y.y)));
@@ -642,16 +644,20 @@ namespace XMonoNodeEditor {
 
             UnityEngine.Object[] newNodes = new UnityEngine.Object[nodes.Length];
             Dictionary<XMonoNode.INode, XMonoNode.INode> substitutes = new Dictionary<XMonoNode.INode, XMonoNode.INode>();
-            for (int i = 0; i < nodes.Length; i++) {
+            for (int i = 0; i < nodes.Length; i++)
+            {
                 XMonoNode.INode srcNode = nodes[i];
-                if ((srcNode as UnityEngine.Object) == null) continue;
+                if ((srcNode as UnityEngine.Object) == null)
+                    continue;
 
                 // Check if user is allowed to add more of given node type
                 XMonoNode.DisallowMultipleNodesAttribute disallowAttrib;
                 Type nodeType = srcNode.GetType();
-                if (NodeEditorUtilities.GetAttrib(nodeType, out disallowAttrib)) {
+                if (NodeEditorUtilities.GetAttrib(nodeType, out disallowAttrib))
+                {
                     int typeCount = (graph as XMonoNode.INodeGraph).GetNodes().Count(x => x.GetType() == nodeType);
-                    if (typeCount >= disallowAttrib.max) continue;
+                    if (typeCount >= disallowAttrib.max)
+                        continue;
                 }
 
                 XMonoNode.INode newNode = graphEditor.CopyNode(srcNode);
@@ -661,22 +667,28 @@ namespace XMonoNodeEditor {
             }
 
             // Walk through the selected nodes again, recreate connections, using the new nodes
-            for (int i = 0; i < nodes.Length; i++) {
+            for (int i = 0; i < nodes.Length; i++)
+            {
                 XMonoNode.INode srcNode = nodes[i];
-                if ((srcNode as UnityEngine.Object) == null) continue;
-                foreach (XMonoNode.NodePort port in srcNode.Ports) {
-                    for (int c = 0; c < port.ConnectionCount; c++) {
+                if ((srcNode as UnityEngine.Object) == null)
+                    continue;
+                foreach (XMonoNode.NodePort port in srcNode.Ports)
+                {
+                    for (int c = 0; c < port.ConnectionCount; c++)
+                    {
                         XMonoNode.NodePort inputPort = port.direction == XMonoNode.NodePort.IO.Input ? port : port.GetConnection(c);
                         XMonoNode.NodePort outputPort = port.direction == XMonoNode.NodePort.IO.Output ? port : port.GetConnection(c);
 
                         XMonoNode.INode newNodeIn, newNodeOut;
-                        if (substitutes.TryGetValue(inputPort.node, out newNodeIn) && substitutes.TryGetValue(outputPort.node, out newNodeOut)) {
+                        if (substitutes.TryGetValue(inputPort.node, out newNodeIn) && substitutes.TryGetValue(outputPort.node, out newNodeOut))
+                        {
                             newNodeIn.UpdatePorts();
                             newNodeOut.UpdatePorts();
                             inputPort = newNodeIn.GetInputPort(inputPort.fieldName);
                             outputPort = newNodeOut.GetOutputPort(outputPort.fieldName);
                         }
-                        if (!inputPort.IsConnectedTo(outputPort)) inputPort.Connect(outputPort);
+                        if (!inputPort.IsConnectedTo(outputPort))
+                            inputPort.Connect(outputPort);
                     }
                 }
             }

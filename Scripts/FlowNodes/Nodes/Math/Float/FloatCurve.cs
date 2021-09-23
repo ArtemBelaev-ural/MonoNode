@@ -8,21 +8,26 @@ namespace XMonoNode
     /// <summary>
     /// Определяет зависимость одного параметра от другого и плавность его изменения
     /// </summary>
-    [AddComponentMenu("Math/FloatCurve")]
+    [AddComponentMenu("Math/Curve")]
     [CreateNodeMenu("Float/Curve", -169)]
-    [NodeWidth(185)]
+    [NodeWidth(110)]
     public class FloatCurve : MonoNode
     {
         [Inline]
-        [Input]
+        [Input, HideLabel]
         public float            input = 0.0f;
-        [Output]
+        [Output, HideLabel]
         public float            output;
 
-        [SerializeField]
+        [SerializeField, HideLabel]
         private AnimationCurve  curve = new AnimationCurve();
 
         private NodePort inputPort;
+
+        private void Reset()
+        {
+            Name = "Curve";
+        }
 
         protected override void Init()
         {

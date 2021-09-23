@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 namespace XMonoNode
 {
@@ -58,14 +59,26 @@ namespace XMonoNode
         /// <summary> Creates a copy of the original node in the graph </summary>
         public virtual INode CopyNode(INode original)
         {
-            MonoNode castedNode = original as MonoNode;
-            if(castedNode == null)
+            MonoNode originalNode = original as MonoNode;
+            if(originalNode == null)
             {
-                throw new ArgumentException("NodeGraph can only copy nodes scriptable objects");
+                throw new ArgumentException("MonoNodeGraph can only copy MonoNodes");
             }
 
             MonoNode.graphHotfix = this;
             MonoNode node = gameObject.AddComponent(original.GetType()) as MonoNode;
+
+            // Copy values
+            FieldInfo[] fields =  node.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            foreach (FieldInfo field in fields)
+            {
+                if (field.Name != "ports")
+                {
+                    Debug.Log(field.Name);
+                    field.SetValue(node, field.GetValue(originalNode));
+                }
+            }
+
             node.graph = this;
             node.ClearConnections();
             var nodesList = new List<MonoNode>(nodes);
