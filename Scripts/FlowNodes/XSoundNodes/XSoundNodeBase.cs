@@ -35,7 +35,7 @@ namespace XMonoNode
 
             foreach (AudioSource source in list)
             {
-                if (source == null)
+                if (source == null || source.gameObject == null)
                     continue;
                 Object.DestroyImmediate(source.gameObject);
             }

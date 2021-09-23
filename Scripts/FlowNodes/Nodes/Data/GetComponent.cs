@@ -5,7 +5,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Transform/Get Component", 501)]
-    [NodeWidth(200)]
+    [NodeWidth(230)]
     public class GetComponent : GetComponentBase<Component>
     {
         [Input(connectionType: ConnectionType.Override)]

@@ -6,7 +6,7 @@ namespace XMonoNode
 {
     public abstract class GetComponentBase<ComponemtType> : MonoNode where ComponemtType : Component
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel, Inline]
         public Transform obj;
 
         protected NodePort objPort;

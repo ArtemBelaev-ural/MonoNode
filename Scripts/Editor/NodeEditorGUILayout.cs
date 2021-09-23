@@ -174,14 +174,14 @@ namespace XMonoNodeEditor {
                             case XMonoNode.ShowBackingValue.Unconnected:
                                 // Display a label if port is connected
                                 if (port.IsConnected)
-                                    GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip));
+                                    GUILayout.Label(label != null && label.text != "" ? label : new GUIContent(property.displayName, tooltip));
                                 // Display an editable property field if port is not connected
                                 else
                                     PropertyField(property, label, includeChildren);
                                 break;
                             case XMonoNode.ShowBackingValue.Never:
                                 // Display a label
-                                GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip));
+                                GUILayout.Label(label != null && label.text != "" ? label : new GUIContent(property.displayName, tooltip));
                                 break;
                             case XMonoNode.ShowBackingValue.Always:
                                 // Display an editable property field
@@ -265,7 +265,7 @@ namespace XMonoNodeEditor {
                             case XMonoNode.ShowBackingValue.Unconnected:
                                 if (port.IsConnected)
                                 {
-                                    GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
+                                    GUILayout.Label(label != null && label.text != "" ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
                                 }
                                 else
                                 {
@@ -273,7 +273,7 @@ namespace XMonoNodeEditor {
                                 }
                                 break;
                             case XMonoNode.ShowBackingValue.Never:
-                                GUILayout.Label(label != null ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
+                                GUILayout.Label(label != null && label.text != "" ? label : new GUIContent(property.displayName, tooltip), NodeEditorResources.OutputPort, GUILayout.MinWidth(30));
                                 break;
                             case XMonoNode.ShowBackingValue.Always:
                                 PropertyField(property, label, includeChildren);

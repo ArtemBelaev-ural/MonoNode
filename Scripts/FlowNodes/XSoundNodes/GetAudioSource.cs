@@ -4,21 +4,21 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetGraphic", 410)]
+    [CreateNodeMenu("UI/Get AudioSource", 310)]
     [NodeWidth(210)]
-    public class GetGraphicComponent : GetComponentBase<Graphic>
+    public class GetAudioSource : GetComponentBase<AudioSource>
     {
         protected override void Init()
         {
             base.Init();
 
             objPort.label = "Transform";
-            componentPort.label = "Graphic";
+            componentPort.label = "AudioSource";
         }
 
         private void Reset()
         {
-            Name = "Get Graphic";
+            Name = "Get AudioSource";
         }
     }
 }

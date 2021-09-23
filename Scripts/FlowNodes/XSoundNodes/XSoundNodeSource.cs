@@ -8,8 +8,8 @@ namespace XMonoNode
     /// <summary>
     /// Ќода-источник звуков. ћожет воспроизводить soundId или заданные источники звуков
     /// </summary>
-    [AddComponentMenu("X Sound Node/Source", 0)]
-    [CreateNodeMenu("Sound/Source", 0)]
+    [AddComponentMenu("X Sound Node/Id Source", 0)]
+    [CreateNodeMenu("Sound/Id Source", 0)]
     [NodeWidth(240)]
     [NodeTint(70, 100, 70)]
     public class XSoundNodeSource : XSoundNodeBase
@@ -23,7 +23,7 @@ namespace XMonoNode
 
         private void Reset()
         {
-            Name = "Audio Source";
+            Name = "Id Source";
         }
 
         public override object GetValue(NodePort port)
