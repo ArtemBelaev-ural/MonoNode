@@ -74,7 +74,6 @@ namespace XMonoNode
             {
                 if (field.Name != "ports")
                 {
-                    Debug.Log(field.Name);
                     field.SetValue(node, field.GetValue(originalNode));
                 }
             }

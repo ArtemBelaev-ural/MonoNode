@@ -28,52 +28,45 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(audioOutput)) 
+            if (audioOutput == null)
             {
-                if (audioOutput == null)
-                {
-                    audioOutput = new AudioSources();
-                }
+                audioOutput = new AudioSources();
+            }
 
-                audioOutput.List.Clear();
+            audioOutput.List.Clear();
 
-                if (port.ConnectionCount == 0)
-                {
-                    return audioOutput;
-                }
-
-                IXSoundsLibrary sounds = IXSoundsLibraryInstance.Get();
-
-                if (sounds == null)
-                {
-                    Debug.LogErrorFormat("IXSoundsLibraryInstance is null {0}.{1}", gameObject.name, Name);
-                }
-   
-                if (soundId == -1)
-                {
-                    Debug.LogErrorFormat(this, "Лёха!!! У ноды сурса звука id -1! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
-                    return audioOutput;
-                }
-
-                AudioSource source = sounds.Play(soundId, PlayParameters);
-                source.transform.parent = transform.parent;
-                source.transform.localPosition = Vector3.zero;
-
-                if (source != null)
-                {
-                    audioOutput.List.Add(source);
-                }
-                else
-                {
-                    Debug.LogErrorFormat("Attempt to play the sound '{0}' failed".Color(Color.magenta), name);
-                }
-
+            if (port.ConnectionCount == 0)
+            {
                 return audioOutput;
+            }
+
+            IXSoundsLibrary sounds = IXSoundsLibraryInstance.Get();
+
+            if (sounds == null)
+            {
+                Debug.LogErrorFormat("IXSoundsLibraryInstance is null {0}.{1}", gameObject.name, Name);
+            }
+
+            if (soundId == -1)
+            {
+                Debug.LogErrorFormat(this, "Лёха!!! У ноды сурса звука id -1! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
+                return audioOutput;
+            }
+
+            AudioSource source = sounds.Play(soundId, PlayParameters);
+            source.transform.parent = transform.parent;
+            source.transform.localPosition = Vector3.zero;
+
+            if (source != null)
+            {
+                audioOutput.List.Add(source);
             }
             else
             {
-                return null;
+                Debug.LogErrorFormat("Attempt to play the sound '{0}' failed".Color(Color.magenta), name);
             }
+
+            return audioOutput;
         }
     }
 }

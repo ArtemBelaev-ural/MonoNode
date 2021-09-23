@@ -25,7 +25,7 @@ namespace XMonoNode
     [NodeWidth(200)]
     public abstract class VariableNode<T> : VariableNode
     {
-        [Input, Inline]
+        [Input, Inline, HideLabel]
         public T inputValue = default(T);
 
         [Output]

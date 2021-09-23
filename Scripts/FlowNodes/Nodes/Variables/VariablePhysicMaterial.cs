@@ -7,7 +7,7 @@ namespace XMonoNode
 {
     [AddComponentMenu("FlowNode/Variables/PhysicMaterial", 4)]
     [CreateNodeMenu("Variables/PhysicMaterial", 4)]
-    [NodeWidth(220)]
+    [NodeWidth(190)]
     public class VariablePhysicMaterial : VariableNode<PhysicMaterial>
     {
     }

@@ -10,10 +10,10 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/Transform Binding", 204)]
     [CreateNodeMenu("Sound/Transform Binding", 204)]
-    [NodeWidth(220)]
+    [NodeWidth(180)]
     public class XSoundNodeTransform : XSoundNodeSimpleOutput
     {
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), HideLabel]
         public Transform                    parentTransform = null;
 
         private void Reset()

@@ -10,11 +10,11 @@ namespace XMonoNode
     /// </summary>
     [AddComponentMenu("X Sound Node/ClipSource", 1)]
     [CreateNodeMenu("Sound/ClipSource", 1)]
-    [NodeWidth(240)]
+    [NodeWidth(180)]
     [NodeTint(70, 100, 70)]
     public class XSoundNodeClipSource : XSoundNodeBase
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public AudioClip clip = null;
 
         [Output(ShowBackingValue.Never, ConnectionType.Multiple, TypeConstraint.Inherited)] 
