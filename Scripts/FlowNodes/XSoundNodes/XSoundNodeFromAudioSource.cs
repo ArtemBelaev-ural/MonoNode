@@ -6,7 +6,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Нода-источник звуков. Может воспроизводить soundId или заданные источники звуков
+    /// Нода-источник звуков, которая создаёт звуки по префабу
     /// </summary>
     [CreateNodeMenu("Sound/Audio Source", 2)]
     [NodeWidth(180)]

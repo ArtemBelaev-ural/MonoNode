@@ -7,7 +7,7 @@ namespace XMonoNode
     [NodeWidth(180)]
     public class PlayClip : FlowNodeInOut 
     {
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), HideLabel]
         public AudioClip Audio;
 
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]

@@ -18,7 +18,7 @@ namespace XMonoNode
         [Output, NodeInspectorButton, Hiding] public Flow whilePlay;
         
         [Inline]
-        [Input(backingValue: ShowBackingValue.Never), NodeInspectorButton, Hiding] public Flow stop;
+        [Input(backingValue: ShowBackingValue.Never), NodeInspectorButton] public Flow stop;
         [Output, NodeInspectorButton, Hiding] public Flow onEnd;
 
         [Inline]
@@ -113,7 +113,7 @@ namespace XMonoNode
         public void Play(params object[] parameters)
         {
             playingState = true;
-            TriggerOnStart();
+            
 
             if (SoundGraph != null)
             {
@@ -146,6 +146,8 @@ namespace XMonoNode
             playing.List.RemoveAll(s => s == null || (!s.loop && !s.isPlaying));
             
             playing.List.AddRange(sources.List);
+
+            TriggerOnStart();
         }
 
         [ContextMenu("Play")]

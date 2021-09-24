@@ -8,10 +8,10 @@ namespace XMonoNode
     /// <summary>
     /// ¬оспроизводит звук, расположенный не далее distance
     /// </summary>
-    [AddComponentMenu("X Sound Node/Listener Distance", 201)]
-    [CreateNodeMenu("Sound/Listener Distance", 201)]
+    [AddComponentMenu("X Sound Node/Listener Distance", 190)]
+    [CreateNodeMenu("Sound/Listener Distance", 190)]
     [NodeWidth(160)]
-    public class XSoundNodelistenerDistance : XSoundNodeSimpleOutput
+    public class XSoundNodeListenerDistance : XSoundNodeSimpleOutput
     {
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited)]
         public float                    maxDistance = 50f;

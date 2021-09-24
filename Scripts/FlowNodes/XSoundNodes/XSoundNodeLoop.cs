@@ -8,8 +8,8 @@ namespace XMonoNode
     /// <summary>
     /// Изменяет свойство loop
     /// </summary>
-    [AddComponentMenu("X Sound Node/Loop", 202)]
-    [CreateNodeMenu("Sound/Loop", 202)]
+    [AddComponentMenu("X Sound Node/Loop", 200)]
+    [CreateNodeMenu("Sound/Loop", 200)]
     [NodeWidth(130)]
     public class XSoundNodeLoop : XSoundNodeSimpleOutput
     {

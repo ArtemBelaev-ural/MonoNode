@@ -6,32 +6,28 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Воспроизводит звук, расположенный не далее distance
+    /// Воозвращает длину звука
     /// </summary>
-    [AddComponentMenu("X Sound Node/Get Time", 202)]
-    [CreateNodeMenu("Sound/Get Time", 202)]
+    [AddComponentMenu("X Sound Node/Get Length", 201)]
+    [CreateNodeMenu("Sound/Get Length", 201)]
     [NodeWidth(140)]
-    public class XSoundNodeGetTime : XSoundNodeSimple
+    public class XSoundNodeGetLength : XSoundNodeSimple
     {
         [Output]
-        public float                    time = 0.0f;
-
-        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]
-        public bool                     normalized = false;
+        public float                    length = 0.0f;
 
         private void Reset()
         {
-            Name = "Get Time";
+            Name = "Get Length";
         }
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(time))
+            if (port.fieldName == nameof(length))
             {
-                time = 0.0f;
+                length = 0.0f;
 
                 AudioSources sources = GetAudioInput();
-                normalized = GetInputValue(nameof(normalized), normalized);
                 if (sources.List.Count != 0)
                 {
                     AudioSource source = sources.List[sources.List.Count-1];
@@ -39,11 +35,10 @@ namespace XMonoNode
                         source.clip != null &&
                         Mathf.Approximately(source.clip.length, 0.0f) == false)
                     {
-                        time = source.time;
-                        time /= normalized ? source.clip.length : 1.0f;
+                        length = source.clip.length;
                     }
                 }
-                return time;
+                return length;
             }
 
             return null;
