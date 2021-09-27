@@ -18,7 +18,7 @@ namespace XMonoNode
             for (int i = 0; i < output.ConnectionCount; ++i)
             {
                 var inputPort = output.GetConnection(i);
-                if (inputPort.ValueType == typeof(Flow))
+                if (inputPort != null && inputPort.ValueType == typeof(Flow))
                 {
                     connectedInputPorts.Add(inputPort);
                     FlowInput(inputPort);

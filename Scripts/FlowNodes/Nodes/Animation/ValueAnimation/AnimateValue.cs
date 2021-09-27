@@ -140,7 +140,7 @@ namespace XMonoNode
             remainingSec = duration;
             from = fromPort.GetInputValue(from);
             to = toPort.GetInputValue(to);
-            value = to;
+            value = from;
         }
 
         private void StopTimer()
