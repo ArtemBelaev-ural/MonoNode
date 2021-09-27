@@ -148,6 +148,7 @@ namespace XMonoNode
             playing.List.AddRange(sources.List);
 
             TriggerOnStart();
+            TriggerWhilePlay();
         }
 
         [ContextMenu("Play")]
