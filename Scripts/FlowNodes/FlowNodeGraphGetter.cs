@@ -121,7 +121,7 @@ namespace XMonoNode
             return instanciatedContainer;
         }
 
-        private bool CheckContainer()
+        protected bool CheckContainer()
         {
             if (GetContainer() != null)
             {
