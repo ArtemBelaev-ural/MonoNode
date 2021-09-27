@@ -87,7 +87,7 @@ namespace XMonoNode
 
         private FlowNodeGraphContainer instanciatedContainer = null;
 
-        public FlowNodeGraphContainer GetContainer()
+        public FlowNodeGraphContainer GetContainer(Transform parent = null)
         {
             if (instanciatedContainer == null)
             {
@@ -96,7 +96,15 @@ namespace XMonoNode
                 {
                     if (Application.isPlaying)
                     {
-                        instanciatedContainer = GameObject.Instantiate(res);
+                        if (parent != null)
+                        {
+                            instanciatedContainer = GameObject.Instantiate(res, parent);
+                            instanciatedContainer.transform.localPosition = Vector3.zero;
+                        }
+                        else
+                        {
+                            instanciatedContainer = GameObject.Instantiate(res);
+                        }
 #if UNITY_EDITOR
                         if (Application.isEditor)
                         {
