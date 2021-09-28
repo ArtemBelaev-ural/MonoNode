@@ -21,6 +21,28 @@ namespace XMonoNode
         [SerializeField, HideLabel]
         private int                 soundId = -1;
 
+        [Input(connectionType: ConnectionType.Override), Hiding]
+        public bool customParameters = false;
+
+        [Input(connectionType: ConnectionType.Override), Hiding, Range(0f, 1f)]
+        public float volume = 1f;
+
+        [Input(connectionType: ConnectionType.Override), Hiding, Range(-3f, 3f)]
+        public float pitch = 1f;
+
+        private NodePort customParamsPort = null;
+        private NodePort volumePort = null;
+        private NodePort pitchPort = null;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            customParamsPort = GetInputPort(nameof(customParameters));
+            volumePort = GetInputPort(nameof(volume));
+            pitchPort = GetInputPort(nameof(pitch));
+        }
+
         private void Reset()
         {
             Name = "Id Source";
@@ -54,6 +76,13 @@ namespace XMonoNode
             }
 
             AudioSource source = sounds.Play(soundId, PlayParameters);
+
+            if (customParamsPort.GetInputValue(customParameters) == true)
+            {
+                source.volume = volumePort.GetInputValue(volume);
+                source.pitch = pitchPort.GetInputValue(pitch);
+            }
+
             source.transform.parent = transform.parent;
             source.transform.localPosition = Vector3.zero;
 
