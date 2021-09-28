@@ -227,7 +227,12 @@ namespace XMonoNode
         }
 
         [ContextMenu("Flow")]
-        public virtual void Flow(Action<string> onEndAction = null, string state = "")
+        public virtual void Flow()
+        {
+            Flow(null, "");
+        }
+
+        public virtual void Flow(Action<string> onEndAction, string state = "")
         {
             IFlowNode[] eventNodes = GetFlowEventNodes();
             if (eventNodes.Length == 0)
