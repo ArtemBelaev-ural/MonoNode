@@ -24,9 +24,6 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override), Range(0f, 60f)]
         public float duration = 1f;
 
-        [Input(connectionType: ConnectionType.Override), Range(0f, 1f)]
-        public float volume = 1f;
-
         [Inline]
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
@@ -61,10 +58,11 @@ namespace XMonoNode
         private NodePort stopPort;
         private NodePort completedPort;
         private NodePort durationPort;
-        private NodePort volumePort;
         private float remainingSec = 0.0f;
 
         private State state = State.Stopped;
+
+        private Dictionary<AudioSource, float> initialVolume = new Dictionary<AudioSource, float>();
 
         private void Reset()
         {
@@ -79,7 +77,6 @@ namespace XMonoNode
             stopPort = GetInputPort(nameof(stop));
             completedPort = GetOutputPort(nameof(completed));
             durationPort = GetInputPort(nameof(duration));
-            volumePort = GetInputPort(nameof(volume));
 
             FlowInputPort.label = "Start";
             FlowOutputPort.label = "Started";
@@ -135,14 +132,13 @@ namespace XMonoNode
 
             state = State.Started;
             duration = durationPort.GetInputValue(duration);
-            volume = volumePort.GetInputValue(volume);
             remainingSec = duration;
 
             foreach (AudioSource source in playing.List)
             {
                 if (source != null)
                 {
-                    source.volume = 0f;
+                    initialVolume[source] = source.volume;
                 }
             }
             FlowOut(); // Started
@@ -167,7 +163,7 @@ namespace XMonoNode
             {
                 if (source != null && source.isPlaying)
                 {
-                    source.volume = fade * volume;
+                    source.volume = fade * initialVolume[source];
                 }
             }
         }
@@ -178,7 +174,7 @@ namespace XMonoNode
             {
                 if (source != null)
                 {
-                    source.volume = volume;
+                    source.volume = initialVolume[source];
                 }
             }
             Stop();
