@@ -6,32 +6,6 @@ using XMonoNodeEditor;
 
 namespace XMonoNode
 {
-    //[CustomNodeEditor(typeof(XSoundNodePlay))]
-    //public class XSoundNodePlayEditor : NodeEditor
-    //{
-    //    private XSoundNodePlay node = null;
-
-    //    public override void OnBodyGUI()
-    //    {
-    //        base.OnBodyGUI();
-
-            
-
-    //        serializedObject.Update();
-
-    //        EditorGUILayout.BeginHorizontal();
-    //        if (EditorGUILayout.LinkButton("[play]"))
-    //        {
-    //            node.TestPlay();
-    //        }
-    //        if (EditorGUILayout.LinkButton("[stop]"))
-    //        {
-    //            node.Stop();
-    //        }
-    //        EditorGUILayout.EndHorizontal();
-    //    }
-    //}
-
     [CustomPropertyDrawer(typeof(XSoundSelectorAttribute))]
     public class XSoundSelectorDrawer: PropertyDrawer
     {
@@ -94,6 +68,62 @@ namespace XMonoNode
             EditorGUI.indentLevel = indent;
 
             EditorGUI.EndProperty();
+        }
+    }
+
+    [CustomNodeEditor(typeof(XSoundNodeFadeIn))]
+    public class XSoundNodeFadeInEditor : NodeEditor
+    {
+        public override int OnBodyGUI()
+        {
+            int propertyCount = base.OnBodyGUI();
+            ++propertyCount;
+            if (Target.ShowState == INode.ShowAttribState.ShowAll)
+            {
+                XSoundNodeFadeIn node = target as XSoundNodeFadeIn;
+
+                node.EasingMode = (EasingMode)EditorGUILayout.EnumPopup(new GUIContent(ObjectNames.NicifyVariableName(nameof(XSoundNodeFadeOut.EasingMode))), node.EasingMode);
+
+                Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode, false);
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+                GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+                GUILayout.EndHorizontal();
+            }
+            else
+            {
+                NodeEditorGUILayout.hasHiddenProperty = true;
+            }
+            return propertyCount;
+        }
+    }
+
+    [CustomNodeEditor(typeof(XSoundNodeFadeOut))]
+    public class XSoundNodeFadeOutEditor : NodeEditor
+    {
+        public override int OnBodyGUI()
+        {
+            int propertyCount = base.OnBodyGUI();
+            ++propertyCount;
+            if (Target.ShowState == INode.ShowAttribState.ShowAll)
+            {
+                XSoundNodeFadeOut node = target as XSoundNodeFadeOut;
+
+                node.EasingMode = (EasingMode)EditorGUILayout.EnumPopup(new GUIContent(ObjectNames.NicifyVariableName(nameof(XSoundNodeFadeOut.EasingMode))), node.EasingMode);
+
+                Texture2D tex = FlowNodeEditorResources.EaseTextureClamped01(node.EasingMode, true);
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("", GUILayout.ExpandWidth(true), GUILayout.MinWidth(50));
+                GUILayout.Label(new GUIContent(tex), GUILayout.MinWidth(tex.width + 2), GUILayout.Height(tex.height + 2));
+                GUILayout.EndHorizontal();
+            }
+            else
+            {
+                NodeEditorGUILayout.hasHiddenProperty = true;
+            }
+            return propertyCount;
         }
     }
 }

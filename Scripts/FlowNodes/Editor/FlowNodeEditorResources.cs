@@ -63,18 +63,30 @@ namespace XMonoNodeEditor
         }
         private static Texture2D iconError16 = null;
 
-        public static Texture2D EaseTextureClamped01(XMonoNode.EasingMode mode)
+        public static Texture2D EaseTextureClamped01(XMonoNode.EasingMode mode, bool reverse = false)
         {
             Texture2D tex;
-            if (!easeTexturesClamped01.TryGetValue(mode, out tex) || tex == null)
+            if (reverse)
             {
-                tex = GenerateEaseTexture(mode, true);
-                easeTexturesClamped01[mode] = tex;
+                if (!easeTexturesClamped01Reverse.TryGetValue(mode, out tex) || tex == null)
+                {
+                    tex = GenerateEaseTexture(mode, true, reverse);
+                    easeTexturesClamped01Reverse[mode] = tex;
+                }
+            }
+            else
+            {
+                if (!easeTexturesClamped01.TryGetValue(mode, out tex) || tex == null)
+                {
+                    tex = GenerateEaseTexture(mode, true, reverse);
+                    easeTexturesClamped01[mode] = tex;
+                }
             }
             return tex;
         }
 
         private static Dictionary<XMonoNode.EasingMode, Texture2D> easeTexturesClamped01 = new Dictionary<XMonoNode.EasingMode, Texture2D>();
+        private static Dictionary<XMonoNode.EasingMode, Texture2D> easeTexturesClamped01Reverse = new Dictionary<XMonoNode.EasingMode, Texture2D>();
 
         public static Texture2D EaseTexture(XMonoNode.EasingMode mode)
         {
@@ -198,7 +210,7 @@ namespace XMonoNodeEditor
             return min <= value && value <= max;
         }
 
-        private static Texture2D GenerateEaseTexture(XMonoNode.EasingMode mode, bool clamped01)
+        private static Texture2D GenerateEaseTexture(XMonoNode.EasingMode mode, bool clamped01, bool reverse = false)
         {
             Color backColor = new Color(0.15f, 0.15f, 0.15f, 0.5f);
             Color borderColor = Color.black;
@@ -236,6 +248,11 @@ namespace XMonoNodeEditor
             for (int x_ = -padding; x_ < width; ++x_)
             {
                 float t = x_ / (float)areaWidth;
+                if (reverse)
+                {
+                    t = 1.0f - t;
+                }
+
                 if (clamped01)
                 {
                     t = Mathf.Clamp01(t);

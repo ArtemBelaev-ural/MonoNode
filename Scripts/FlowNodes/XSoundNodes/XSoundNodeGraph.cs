@@ -16,7 +16,10 @@ namespace XMonoNode
         {
 #if UNITY_EDITOR
             // OnFlowStart
-            OnFlowEventNode start = GetComponent<OnFlowEventNode>();
+            if (!TryGetComponent(out OnFlowEventNode start))
+            {
+                start = gameObject.AddComponent<OnFlowEventNode>();
+            }
             if (start != null)
             {
                 start.graph = this;
@@ -24,11 +27,14 @@ namespace XMonoNode
                 {
                     start.Name = "OnFlowStart";
                 }
-                start.Position = new Vector2(-300.0f, -100.0f);
+                start.Position = new Vector2(-312.0f, -56.0f);
             }
 
             // Play добавлен автоматически
-            XSoundNodePlay play = GetComponent<XSoundNodePlay>();
+            if (!TryGetComponent(out XSoundNodePlay play))
+            {
+                play = gameObject.AddComponent<XSoundNodePlay>();
+            }
             if (play != null)
             {
                 play.graph = this;
@@ -39,13 +45,15 @@ namespace XMonoNode
                 play.Position = new Vector2(88.0f, -56.0f);
             }
 
-
-            XSoundNodeSource source = gameObject.AddComponent<XSoundNodeSource>();
             // ƒобавить Source и соединить с Play, а Play с Flow
+            if (!TryGetComponent(out XSoundNodeSource source))
+            {
+                source = gameObject.AddComponent<XSoundNodeSource>();
+            }
             if (source != null)
             {
                 source.Name = "Source";
-                source.Position = new Vector2(-376.0f, -56.0f);
+                source.Position = new Vector2(-376.0f, 40.0f);
 
                 OnBeforeSerialize();
                 if (play != null)
@@ -81,7 +89,7 @@ namespace XMonoNode
                 {
                     end.Name = "FlowEnd";
                 }
-                end.Position = new Vector2(450.0f, -100.0f);
+                end.Position = new Vector2(440.0f, -56.0f);
 
                 if (play != null)
                 {

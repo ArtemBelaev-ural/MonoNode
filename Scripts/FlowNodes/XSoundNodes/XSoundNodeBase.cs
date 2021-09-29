@@ -20,7 +20,7 @@ namespace XMonoNode
         {
             foreach (AudioSource source in list)
             {
-                if (!source)
+                if (source == null)
                     continue;
                 source.Stop();
             }
