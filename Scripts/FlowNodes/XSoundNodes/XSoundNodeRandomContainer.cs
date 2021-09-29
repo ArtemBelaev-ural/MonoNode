@@ -32,7 +32,7 @@ namespace XMonoNode
             NodePort randomInputPort = inputs.RandomElement();
             while (denyPorts.Contains(randomInputPort))
             {
-                randomInputPort = denyPorts.RandomElement();
+                randomInputPort = inputs.RandomElement();
             }
             denyPorts.Add(randomInputPort);
             return randomInputPort;
