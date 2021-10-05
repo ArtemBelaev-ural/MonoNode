@@ -232,6 +232,11 @@ namespace XMonoNode
             Flow(null, "");
         }
 
+        public void FlowAnimationFix()
+        {
+            Flow(null, "");
+        }
+
         public virtual void Flow(Action<string> onEndAction, string state = "")
         {
             IFlowNode[] eventNodes = GetFlowEventNodes();
