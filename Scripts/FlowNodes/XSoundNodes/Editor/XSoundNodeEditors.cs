@@ -21,6 +21,11 @@ namespace XMonoNode
 
         private void Init(Dictionary<int, string> soundsDict)
         {
+            if (values != null && values.Length > 0)
+            {
+                return;
+            }
+
             values = new string[soundsDict.Count + 1];
             identificators = new List<int>(values.Length);
 

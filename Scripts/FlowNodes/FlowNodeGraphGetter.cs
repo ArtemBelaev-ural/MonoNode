@@ -59,6 +59,11 @@ namespace XMonoNode
             get => showButtons;
             set => showButtons = value;
         }
+        public string ContainerFileName
+        {
+            get => containerFileName;
+            set => containerFileName = value;
+        }
 
         public FlowNodeGraphGetter()
         {
