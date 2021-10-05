@@ -103,9 +103,9 @@ namespace XMonoNode
                         playing.DestroySourcesIfStopped();
                     }
                 }
-                if (!playingState) // если нода не запустила сама себя, очищаем список
+                if (!playingState && Application.isFocused) // нельзя удалять, если приложение не в фокусе - звуки могут быть приостановлены
                 {
-                    playing.List.Clear(); // нельзя удалять loop звуки, т.к. stop может быть вызван unity при переходе в другое окно
+                    playing.List.Clear(); 
                 }
             }
         }
