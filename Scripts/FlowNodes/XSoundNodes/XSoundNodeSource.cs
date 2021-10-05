@@ -83,7 +83,7 @@ namespace XMonoNode
                 source.pitch = pitchPort.GetInputValue(pitch);
             }
 
-            source.transform.parent = transform.parent;
+            source.transform.parent = transform? transform.parent : null;
             source.transform.localPosition = Vector3.zero;
 
             if (source != null)

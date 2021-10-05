@@ -105,7 +105,7 @@ namespace XMonoNode
                 }
                 if (!playingState) // если нода не запустила сама себя, очищаем список
                 {
-                    playing.List.RemoveAll(s => s == null || s.loop == false); // нельзя удалять loop звуки, т.к. stop может быть вызван unity при переходе в другое окно
+                    playing.List.Clear(); // нельзя удалять loop звуки, т.к. stop может быть вызван unity при переходе в другое окно
                 }
             }
         }
@@ -175,7 +175,7 @@ namespace XMonoNode
             {
                 playing.DestroySourcesIfStopped();
             }
-            playing.DestroySourcesIfLoop();
+            //playing.DestroySourcesIfLoop();
             playing.List.Clear();
         }
 

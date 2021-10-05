@@ -48,7 +48,7 @@ namespace XMonoNode
             {
                 if (source != null && source.loop)
                 {
-                    Object.DestroyImmediate(source.gameObject);
+                    Object.Destroy(source.gameObject);
                 }
             }
             list.Clear();
