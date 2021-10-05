@@ -14,9 +14,10 @@ namespace XMonoNode
         }
 
         public XSoundGetter() :
-            base("Sounds/XContainers/", "", "")
+            base()
         {
             drawPathToContainers = false;
+            PathToContainers = "Sounds/XContainers/";
         }
 
         public void OnAfterDeserialize()

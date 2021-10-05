@@ -60,6 +60,11 @@ namespace XMonoNode
             set => showButtons = value;
         }
 
+        public FlowNodeGraphGetter()
+        {
+            this.showButtons = true;
+        }
+
         public FlowNodeGraphGetter(bool showButtons = true)
         {
             this.showButtons = showButtons;
