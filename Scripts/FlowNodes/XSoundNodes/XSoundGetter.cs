@@ -20,12 +20,12 @@ namespace XMonoNode
             PathToContainers = "Sounds/XContainers/";
         }
 
-        public void OnAfterDeserialize()
+        public virtual void OnAfterDeserialize()
         {
             drawPathToContainers = false;
         }
 
-        public void OnBeforeSerialize()
+        public virtual void OnBeforeSerialize()
         {
            // throw new System.NotImplementedException();
         }
