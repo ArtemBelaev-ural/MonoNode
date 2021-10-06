@@ -9,8 +9,8 @@ namespace XMonoNode
     /// <summary>
     /// Запрещает воспроизводить звук чаще заданного значения
     /// </summary>
-    [AddComponentMenu("Control/Time Access", 20)]
-    [CreateNodeMenu("Control/Time Access", 20)]
+    [AddComponentMenu("Control/Time Access", 24)]
+    [CreateNodeMenu("Control/Time Access", 24)]
     [NodeWidth(210)]
     public class TimeAccessFlow : FlowNodeInOut
     {

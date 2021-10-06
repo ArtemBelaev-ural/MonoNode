@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace XMonoNode
 {
     [NodeWidth(110)]
-    [CreateNodeMenu("Control/Join", 18)]
+    [CreateNodeMenu("Control/Join", 21)]
     public class FlowJoin : FlowNodeInOut
     {
         [Input(dynamicPortList: true), NodeInspectorButton]

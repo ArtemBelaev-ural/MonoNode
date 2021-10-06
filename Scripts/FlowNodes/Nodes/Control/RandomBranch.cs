@@ -3,7 +3,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Control/" + nameof(RandomBranch), 19)]
+    [CreateNodeMenu("Control/" + nameof(RandomBranch), 23)]
     [NodeWidth(130)]
     public class RandomBranch : MonoNode, IFlowNode
     {
