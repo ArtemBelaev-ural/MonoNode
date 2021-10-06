@@ -23,7 +23,6 @@ namespace XMonoNode
         public void OnAfterDeserialize()
         {
             drawPathToContainers = false;
-            PathToContainers = "Sounds/XContainers/";
         }
 
         public void OnBeforeSerialize()
