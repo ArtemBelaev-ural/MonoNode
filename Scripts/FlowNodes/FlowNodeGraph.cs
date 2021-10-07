@@ -15,6 +15,19 @@ namespace XMonoNode
     [RequireNode(typeof(OnFlowEventNode), typeof(FlowEnd))]
     public class FlowNodeGraph : MonoNodeGraph
     {
+        public void DestroySelf()
+        {
+            Stop();
+#if UNITY_EDITOR
+            if (Application.isPlaying)
+            {
+#endif
+                Destroy(gameObject);
+#if UNITY_EDITOR
+            }
+#endif
+        }
+
         /// <summary>
         /// state parameter of Flow() methods
         /// </summary>

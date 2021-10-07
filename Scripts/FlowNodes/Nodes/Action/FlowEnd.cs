@@ -7,9 +7,15 @@ namespace XMonoNode
 
     [CreateNodeMenu("Action/FlowEnd", 13)]
     [NodeTint(40, 60, 105)]
-    [NodeWidth(100)]
+    [NodeWidth(130)]
     public class FlowEnd : FlowNodeIn
     {
+        /// <summary>
+        /// Deletes the graph
+        /// </summary>
+        [Input(connectionType: ConnectionType.Override)]
+        public bool deleteGraph = false;
+
         public System.Action<string> Action
         {
             get;
@@ -23,10 +29,14 @@ namespace XMonoNode
 
         public override void Flow(NodePort flowPort)
         {
+            FlowNodeGraph flowGraph = graph as FlowNodeGraph;
             if (Action != null)
             {
-                FlowNodeGraph flowGraph = graph as FlowNodeGraph;
                 Action.Invoke(flowGraph != null ? flowGraph.State : "");
+            }
+            if (GetInputValue(nameof(deleteGraph), deleteGraph))
+            {
+                flowGraph.DestroySelf();
             }
         }
 
