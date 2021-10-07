@@ -30,7 +30,9 @@ namespace XMonoNodeEditor {
         public XMonoNode.INode HoveredNode { get { XMonoNode.INode result = hoveredNode; return result; } }
 
         public Type HoveredNodeType => hoveredNodeType;
-        
+
+        public Vector2 LastMousePosition => lastMousePosition;
+
         private XMonoNode.INode hoveredNode = null;
         private Type hoveredNodeType = null;
         private Type draggedNodeType = null;
@@ -79,6 +81,7 @@ namespace XMonoNodeEditor {
                     if (e.type == EventType.DragPerform)
                     {
                         DragAndDrop.AcceptDrag();
+                        lastMousePosition = e.mousePosition;
                         graphEditor.OnDropObjects(DragAndDrop.objectReferences);
                     }
                     break;
@@ -674,10 +677,14 @@ namespace XMonoNodeEditor {
                     continue;
                 foreach (XMonoNode.NodePort port in srcNode.Ports)
                 {
+                    
                     for (int c = 0; c < port.ConnectionCount; c++)
                     {
                         XMonoNode.NodePort inputPort = port.direction == XMonoNode.NodePort.IO.Input ? port : port.GetConnection(c);
                         XMonoNode.NodePort outputPort = port.direction == XMonoNode.NodePort.IO.Output ? port : port.GetConnection(c);
+
+                        if (inputPort == null || outputPort == null)
+                            continue;
 
                         XMonoNode.INode newNodeIn, newNodeOut;
                         if (substitutes.TryGetValue(inputPort.node, out newNodeIn) && substitutes.TryGetValue(outputPort.node, out newNodeOut))
@@ -686,6 +693,9 @@ namespace XMonoNodeEditor {
                             newNodeOut.UpdatePorts();
                             inputPort = newNodeIn.GetInputPort(inputPort.fieldName);
                             outputPort = newNodeOut.GetOutputPort(outputPort.fieldName);
+
+                            if (inputPort == null || outputPort == null)
+                                continue;
                         }
                         if (!inputPort.IsConnectedTo(outputPort))
                             inputPort.Connect(outputPort);

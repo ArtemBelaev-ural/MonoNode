@@ -14,6 +14,10 @@ namespace XMonoNode
     [NodeTint(70, 100, 70)]
     public class XSoundNodeSource : XSoundNodeBase
     {
+        public XSoundNodeSource()
+        {
+        }
+
         [Output(ShowBackingValue.Never, ConnectionType.Multiple, TypeConstraint.Inherited)]
         public AudioSources audioOutput;
 
@@ -37,7 +41,7 @@ namespace XMonoNode
         protected override void Init()
         {
             base.Init();
-
+            
             customParamsPort = GetInputPort(nameof(customParameters));
             volumePort = GetInputPort(nameof(volume));
             pitchPort = GetInputPort(nameof(pitch));
@@ -76,7 +80,6 @@ namespace XMonoNode
             }
 
             AudioSource source = sounds.Play(soundId, PlayParameters);
-
             if (customParamsPort.GetInputValue(customParameters) == true)
             {
                 source.volume = volumePort.GetInputValue(volume);

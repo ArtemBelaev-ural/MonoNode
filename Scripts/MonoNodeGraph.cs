@@ -56,11 +56,149 @@ namespace XMonoNode
             return node;
         }
 
+        //public static T DeepCopy<T>(T obj)
+        //{
+        //    if (obj == null)
+        //        throw new ArgumentNullException("Object cannot be null");
+        //    return (T)Process(obj, 0);
+        //}
+
+        //private static string levelIndent(int level)
+        //{
+        //    string levelIndent = "";
+        //    for (int i = 0; i < level; ++i)
+        //    {
+        //        levelIndent += "    ";
+        //    }
+        //    return levelIndent;
+        //}
+
+        //static object Process(object obj, int level = 1)
+        //{
+        //    if (obj == null)
+        //        return null;
+
+        //    Type type=obj.GetType();
+
+        //    // FIXME
+        //    string indent = levelIndent(level);
+
+        //    if (type.IsValueType || type == typeof(string))
+        //    {
+        //        Debug.LogFormat("  {0}{1} : {2} - VALUE", indent, obj.ToString(), type.Name);
+        //        return obj;
+        //    }
+        //    else if (type.IsArray)
+        //    {
+        //        Debug.LogFormat("  {0}{1} : {2} - ARRAY", indent, obj.ToString(), type.Name);
+        //        Type elementType=Type.GetType( type.FullName.Replace("[]",string.Empty));
+
+        //        if (elementType == null || elementType == typeof(NodePort) || elementType.GetCustomAttribute(typeof(System.SerializableAttribute)) == null)
+        //        {
+        //            return null;
+        //        }
+
+        //        var array=obj as Array;
+        //        Array copied= null;
+
+        //        try
+        //        {
+        //            copied = Array.CreateInstance(elementType, array.Length);
+        //        }
+        //        catch
+        //        {
+        //            Debug.Log("catch " + type.Name);
+        //            throw new ArgumentException("Activator.CreateInstance(elementType)");
+        //        }
+
+        //        for (int i = 0; i < array.Length; i++)
+        //        {
+        //            object value = array.GetValue(i);
+        //            object valueCopy = Process(value, level + 1);
+        //            copied.SetValue(valueCopy, i);
+        //        }
+        //        return Convert.ChangeType(copied, obj.GetType());
+        //    }
+        //    else if (type.IsClass)
+        //    {
+        //        Debug.LogFormat("  {0}{1} : {2} - CLASS", indent, obj.ToString(), type.Name);
+        //        //object toret = null;
+        //        //try
+        //        //{
+        //        //    toret = Activator.CreateInstance(obj.GetType());
+        //        //}
+        //        //catch
+        //        //{
+        //        //    Debug.Log("catch " + type.Name);
+        //        //    throw new ArgumentException("Activator.CreateInstance(obj.GetType())");
+        //        //}
+        //        FieldInfo[] fields=type.GetFields(BindingFlags.Public|
+        //                    BindingFlags.NonPublic|BindingFlags.Instance);
+        //        //foreach (FieldInfo field in fields)
+        //        //{
+        //        //    Debug.LogFormat("  {0}{1} {2} {3}", indent, indent, field.FieldType.Name, field.Name);
+        //        //}
+
+        //        foreach (FieldInfo field in fields)
+        //        {
+        //            object fieldValue=field.GetValue(obj);
+        //            if (fieldValue == null || field.Name == "ports" || field.Name == "graph" ||
+        //                field.FieldType == typeof(NodePort) || field.FieldType == typeof(List<NodePort>))
+        //                continue;
+        //            object newValue = Process(fieldValue, level + 1);
+        //            //if (newValue != null)
+        //            //{
+        //            //    field.SetValue(toret, newValue);
+        //            //}
+        //        }
+
+        //        return null;//toret;
+        //    }
+        //    else
+        //        throw new ArgumentException("Unknown type");
+        //}
+
+
+        ///// <summary> Creates a copy of the original node in the graph </summary>
+        //public virtual INode CopyNode(INode original)
+        //{
+        //    MonoNode originalNode = original as MonoNode;
+        //    if (originalNode == null)
+        //    {
+        //        throw new ArgumentException("MonoNodeGraph can only copy MonoNodes");
+        //    }
+
+        //    MonoNode.graphHotfix = this;
+        //    MonoNode node = gameObject.AddComponent(original.GetType()) as MonoNode;
+
+        //    // Copy values
+        //    FieldInfo[] fields =  node.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        //    foreach (FieldInfo field in fields)
+        //    {
+
+        //        object fieldValue=field.GetValue(originalNode);
+        //        if (fieldValue == null || !field.FieldType.IsSerializable || field.Name == "ports" || field.Name == "graph" || field.FieldType == typeof(NodePort))
+        //            continue;
+        //        object newValue = Process(fieldValue);
+        //        if (newValue != null)
+        //        {
+        //            field.SetValue(node, newValue);
+        //        }
+        //    }
+
+        //    node.graph = this;
+        //    node.ClearConnections();
+        //    var nodesList = new List<MonoNode>(nodes);
+        //    nodesList.Add(node);
+        //    nodes = nodesList.ToArray();
+        //    return node;
+        //}
+
         /// <summary> Creates a copy of the original node in the graph </summary>
         public virtual INode CopyNode(INode original)
         {
             MonoNode originalNode = original as MonoNode;
-            if(originalNode == null)
+            if (originalNode == null)
             {
                 throw new ArgumentException("MonoNodeGraph can only copy MonoNodes");
             }
@@ -77,6 +215,7 @@ namespace XMonoNode
                     field.SetValue(node, field.GetValue(originalNode));
                 }
             }
+
 
             node.graph = this;
             node.ClearConnections();
@@ -129,21 +268,28 @@ namespace XMonoNode
 
         public void OnBeforeSerialize()
         {
-            try // GetComponents() causes NullreferenceException in reset()
-            {
-                nodes = GetComponents<MonoNode>();
-            }
-            catch {}
-
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                nodes[i].OnNodeEnable();
-                nodes[i].graph = this;
-            }
+            OnAfterDeserialize();
         }
 
         public void OnAfterDeserialize()
         {
+            try // GetComponents() causes NullreferenceException in reset()
+            {
+                nodes = GetComponents<MonoNode>();
+            }
+            catch
+            {
+            }
+            MonoNode.graphHotfix = this;
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                if (nodes[i] != null)
+                {
+                    nodes[i].OnNodeEnable();
+                    nodes[i].graph = this;
+                }
+            }
+            MonoNode.graphHotfix = null;
         }
 
         public System.Type getNodeType()

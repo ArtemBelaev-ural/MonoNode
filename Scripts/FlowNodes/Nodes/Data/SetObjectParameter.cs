@@ -24,9 +24,16 @@ namespace XMonoNode
 
             objectPort = GetInputPort(nameof(_object));
             parameterPort = GetInputPort(nameof(parameter));
+
 #if UNITY_EDITOR
-            objectPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ObjType).PrettyName());
-            parameterPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ParamType).PrettyName());
+            try
+            {
+                objectPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ObjType).PrettyName());
+                parameterPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ParamType).PrettyName());
+            }
+            catch
+            {
+            }
 #endif
         }
 

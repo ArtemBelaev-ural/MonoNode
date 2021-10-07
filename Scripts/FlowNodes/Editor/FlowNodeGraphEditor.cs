@@ -131,6 +131,27 @@ namespace FlowNodesEditor
             }
         }
 
+        public override void OnDropObjects(UnityEngine.Object[] objects)
+        {
+            Vector2 posDelta = new Vector2(32, 32);
+            Vector2 pos = window.WindowToGridPosition(window.LastMousePosition);
+            foreach (UnityEngine.Object obj in objects)
+            {
+                if (obj is GameObject)
+                {
+                    GameObject gameObject = obj as GameObject;
+
+                    if (gameObject.TryGetComponent(out FlowNodeGraph refGraph))
+                    {
+                        InvokeGraphByRef refNode = CreateNode(typeof(InvokeGraphByRef), pos) as InvokeGraphByRef;
+                        refNode.graphPrefab = refGraph;
+
+                        pos += posDelta;
+                    }
+                }
+            }
+        }
+
     }
 
     /// <summary>

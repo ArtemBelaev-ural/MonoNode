@@ -10,6 +10,15 @@ namespace XMonoNode
     [System.Serializable]
     public class FlowNodeGraphContainerItem
     {
+        public FlowNodeGraphContainerItem()
+        {}
+
+        public FlowNodeGraphContainerItem(FlowNodeGraph graphPrefab, string id)
+        {
+            graph = graphPrefab;
+            this.id = id;
+        }
+
         [SerializeField]
         [Header("graph id")]
         private string          id = "";
@@ -18,7 +27,12 @@ namespace XMonoNode
         [Header("Graph prefab")]
         private FlowNodeGraph   graph = null;
 
-        public string           Id => id;
+        public string Id
+        {
+            get => id;
+            set => id = value;
+        }
+
 
         public Object           Prefab => graph;
 
@@ -48,7 +62,7 @@ namespace XMonoNode
                     instanciated.gameObject.hideFlags = HideFlags.DontSave;
                 }
 #endif
-                instanciated.name = $"(FlowNodeGraphContainer id=\"{id}\")";   
+                instanciated.name = $"(Node Graph id=\"{id}\")";   
             }
 
             if (parent != null)
@@ -57,6 +71,11 @@ namespace XMonoNode
             }
             instanciated.transform.localPosition = Vector3.zero;
             return instanciated;
+        }
+
+        public void SetGraphPrefab(FlowNodeGraph graph)
+        {
+            this.graph = graph;
         }
     }
 

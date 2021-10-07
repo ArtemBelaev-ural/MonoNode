@@ -4,8 +4,8 @@ using XMonoNode;
 namespace XMonoNode
 {
     [NodeWidth(250)]
-    [CreateNodeMenu("Action/Invoke Graph", 14)]
-    public class InvokeGraph : FlowNodeInOut
+    [CreateNodeMenu("Action/Invoke Graph By Getter", 14)]
+    public class InvokeGraphByGetter : FlowNodeInOut
     {
         [Output, Hiding]
         public Flow                 onEnd;

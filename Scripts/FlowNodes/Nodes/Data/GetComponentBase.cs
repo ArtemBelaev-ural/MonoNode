@@ -24,8 +24,16 @@ namespace XMonoNode
             componentPort = GetOutputPort(nameof(component));
 
             objPort.label = "Transform";
+
+
 #if UNITY_EDITOR
-            componentPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ComponemtType).PrettyName());
+            try
+            {
+                componentPort.label = UnityEditor.ObjectNames.NicifyVariableName(typeof(ComponemtType).PrettyName());
+            }
+            catch
+            {
+            }
 #endif
         }
 
