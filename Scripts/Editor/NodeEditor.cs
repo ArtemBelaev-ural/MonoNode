@@ -105,6 +105,12 @@ namespace XMonoNodeEditor {
                     inlineCounter = 0;
                 }
 
+                // Stop inline by InlineEnd Attribute
+                if (inlineStarted && inlineCounter == 1 && NodeEditorUtilities.GetCachedAttrib(iterator, out XMonoNode.InlineEndAttribute inlineEndAttr))
+                {
+                    inlineStarted = false;
+                    GUILayout.EndHorizontal();
+                }
                 NodeEditorGUILayout.PropertyField(iterator, true);
 
                 if (inlineStarted)

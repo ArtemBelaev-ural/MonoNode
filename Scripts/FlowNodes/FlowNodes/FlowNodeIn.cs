@@ -5,6 +5,7 @@ namespace XMonoNode
 {
     public abstract class FlowNodeIn : MonoNode, IFlowNode
     {
+        [Inline]
         [Input(backingValue: ShowBackingValue.Never,
             connectionType: ConnectionType.Multiple,
             typeConstraint: TypeConstraint.None), NodeInspectorButton]

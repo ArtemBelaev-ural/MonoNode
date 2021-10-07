@@ -10,6 +10,7 @@ namespace XMonoNode
     [NodeWidth(130)]
     public class FlowEnd : FlowNodeIn
     {
+        [InlineEnd]
         /// <summary>
         /// Deletes the graph
         /// </summary>

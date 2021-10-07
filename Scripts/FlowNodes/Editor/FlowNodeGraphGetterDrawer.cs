@@ -131,7 +131,7 @@ namespace FlowNodesEditor
             container = Resources.Load<FlowNodeGraphContainer>(containerFullName);
             if (container == null)
             {
-                Debug.LogError("Container is null! " + containerFullName);
+                //Debug.LogError("Container is null! " + containerFullName);
                 return new string[1];
             }
 
