@@ -268,29 +268,14 @@ namespace XMonoNode
 
         public void OnBeforeSerialize()
         {
-            OnAfterDeserialize();
+
         }
 
         public void OnAfterDeserialize()
         {
-            try // GetComponents() causes NullreferenceException in reset()
-            {
-                nodes = GetComponents<MonoNode>();
-            }
-            catch
-            {
-            }
-            MonoNode.graphHotfix = this;
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                if (nodes[i] != null)
-                {
-                    nodes[i].OnNodeEnable();
-                    nodes[i].graph = this;
-                }
-            }
-            MonoNode.graphHotfix = null;
+
         }
+
 
         public System.Type getNodeType()
         {
