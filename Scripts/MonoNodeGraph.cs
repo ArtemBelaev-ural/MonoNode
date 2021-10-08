@@ -48,8 +48,8 @@ namespace XMonoNode
         {
             MonoNode.graphHotfix = this;
             MonoNode node = gameObject.AddComponent(type) as MonoNode;
-            node.OnNodeEnable();
             node.graph = this;
+            node.OnNodeEnable();
             var nodesList = new List<MonoNode>(nodes);
             nodesList.Add(node);
             nodes = nodesList.ToArray();
@@ -218,6 +218,12 @@ namespace XMonoNode
 
 
             node.graph = this;
+#if (UNITY_EDITOR)
+            if (Application.isEditor)
+            {
+                node.OnNodeEnable();
+            }
+#endif
             node.ClearConnections();
             var nodesList = new List<MonoNode>(nodes);
             nodesList.Add(node);
