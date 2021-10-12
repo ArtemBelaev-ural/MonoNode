@@ -49,7 +49,7 @@ namespace XMonoNode
         [ContextMenu("FadeOut")]
         public void FadeOut()
         {
-            if (playNode != null && fadeOut)
+            if (playNode != null && fadeOut && graph != null && graph.gameObject.activeInHierarchy)
             {
                 graph.StartStaticCoroutine(FadeOut(fadeOutTime, playNode.PlayingSources().List));
             }
