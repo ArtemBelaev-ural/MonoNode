@@ -14,6 +14,9 @@ namespace XMonoNode
         [SerializeField]
         private bool                playOnEnable = false;
 
+        [SerializeField]
+        private bool                fadeOut = false;
+
         [SerializeField, Range(0f, 5f)]
         private float               fadeOutTime = 0.5f;
 
@@ -46,7 +49,7 @@ namespace XMonoNode
         [ContextMenu("FadeOut")]
         public void FadeOut()
         {
-            if (playNode != null)
+            if (playNode != null && fadeOut)
             {
                 graph.StartStaticCoroutine(FadeOut(fadeOutTime, playNode.PlayingSources().List));
             }
