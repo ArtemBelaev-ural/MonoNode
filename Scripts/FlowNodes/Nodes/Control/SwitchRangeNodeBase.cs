@@ -53,12 +53,6 @@ namespace XMonoNode
             continuousPort = GetInputPort(nameof(continuous));
         }
 
-        public override void OnNodeEnable()
-        {
-            base.OnNodeEnable();
-            // Для удобства изменим подпись к стандартным flow портам
-        }
-
         public override void Flow(NodePort flowPort)
         {
             if (flowPort == resetPort)

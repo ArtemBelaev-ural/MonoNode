@@ -9,11 +9,9 @@ namespace XMonoNode
     [NodeTint(40, 60, 105)]
     public class OnFlowEventNode : EventNode
     {
-        public override void OnNodeEnable()
+        protected override void Init()
         {
-            base.OnNodeEnable();
-            // Для удобства изменим подпись к стандартным flow портам
-
+            base.Init();
             NodePort portIn = GetOutputPort(nameof(FlowOutput));
             if (portIn != null)
             {

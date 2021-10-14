@@ -4,25 +4,34 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("String/" + nameof(ConcatString))]
+    [NodeWidth(180)]
     public class ConcatString : MonoNode
     {
-        [Input] public string First;
-        [Input] public string Second;
+        [Input(connectionType: ConnectionType.Override), HideLabel]
+        public string First;
+        [Input(connectionType: ConnectionType.Override), HideLabel]
+        public string Second;
+
         [Output] public string Result;
 
+        private NodePort FirstPort;
+        private NodePort SecondPort;
+
+        protected override void Init()
+        {
+            base.Init();
+            FirstPort = GetInputPort(nameof(First));
+            SecondPort = GetInputPort(nameof(Second));
+        }
 
         // Return the correct value of an output port when requested
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(Result))
-            {
-                var first = GetInputValue(nameof(First), First as object);
-                var second = GetInputValue(nameof(Second), Second as object);
-                Result = $"{first}{second}";
+            var first = FirstPort.GetInputValue(First as object);
+            var second = SecondPort.GetInputValue(Second as object);
 
-                return Result;
-            }
-            return null; // Replace this
+            return $"{first}{second}";
+
         }
     }
 }

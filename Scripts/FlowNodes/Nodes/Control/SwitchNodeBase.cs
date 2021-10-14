@@ -27,12 +27,6 @@ namespace XMonoNode
             }
         }
 
-        public override void OnNodeEnable()
-        {
-            base.OnNodeEnable();
-            // Для удобства изменим подпись к стандартным flow портам
-        }
-
         public override void Flow(NodePort flowPort)
         {
             if (Case.Length <= 0)

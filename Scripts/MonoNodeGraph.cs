@@ -218,12 +218,9 @@ namespace XMonoNode
 
 
             node.graph = this;
-#if (UNITY_EDITOR)
-            if (Application.isEditor)
-            {
-                node.OnNodeEnable();
-            }
-#endif
+
+            node.OnNodeEnable();
+
             node.ClearConnections();
             var nodesList = new List<MonoNode>(nodes);
             nodesList.Add(node);

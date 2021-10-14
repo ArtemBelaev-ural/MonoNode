@@ -24,31 +24,24 @@ namespace XMonoNode
         }
         public override object GetValue(NodePort port)
         {
-            Debug.Log(port.fieldName);
-            if (port.fieldName == nameof(audioOutput))
+            if (listener == null)
             {
-                if (listener == null)
-                {
-                    listener = FindObjectOfType<AudioListener>();
-                }
-
-                maxDistance = GetInputValue<float>("maxDistance", maxDistance);
-
-                AudioSources sources = GetAudioInput();
-                AudioSources result = new AudioSources();
-                foreach (AudioSource source in sources.List)
-                {
-                    if (listener == null ||
-                        Vector3.Distance(source.transform.position, listener.transform.position) <= maxDistance)
-                    {
-                        result.List.Add(source);
-                    }
-                }
-                audioOutput = result;
-                return result;
+                listener = FindObjectOfType<AudioListener>();
             }
 
-            return null;
+            maxDistance = GetInputValue("maxDistance", maxDistance);
+
+            AudioSources sources = GetAudioInput();
+            AudioSources result = new AudioSources();
+            foreach (AudioSource source in sources.List)
+            {
+                if (listener == null ||
+                    Vector3.Distance(source.transform.position, listener.transform.position) <= maxDistance)
+                {
+                    result.List.Add(source);
+                }
+            }
+            return result;
         }
     }
 }

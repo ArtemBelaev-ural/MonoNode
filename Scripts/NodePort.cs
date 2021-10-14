@@ -232,21 +232,50 @@ namespace XMonoNode {
 
         /// <summary> Connect this <see cref="NodePort"/> to another </summary>
         /// <param name="port">The <see cref="NodePort"/> to connect to</param>
-        public void Connect(NodePort port) {
-            if (connections == null) connections = new List<PortConnection>();
-            if (port == null) { Debug.LogWarning("Cannot connect to null port"); return; }
-            if (port == this) { Debug.LogWarning("Cannot connect port to self."); return; }
-            if (IsConnectedTo(port)) { Debug.LogWarning("Port already connected. "); return; }
-            if (direction == port.direction) { Debug.LogWarning("Cannot connect two " + (direction == IO.Input ? "input" : "output") + " connections"); return; }
+        public void Connect(NodePort port, bool undo = true)
+        {
+            if (connections == null)
+                connections = new List<PortConnection>();
+            if (port == null)
+            {
+                Debug.LogWarning("Cannot connect to null port");
+                return;
+            }
+            if (port == this)
+            {
+                Debug.LogWarning("Cannot connect port to self.");
+                return;
+            }
+            if (IsConnectedTo(port))
+            {
+                Debug.LogWarning("Port already connected. ");
+                return;
+            }
+            if (direction == port.direction)
+            {
+                Debug.LogWarning("Cannot connect two " + (direction == IO.Input ? "input" : "output") + " connections");
+                return;
+            }
 #if UNITY_EDITOR
-            UnityEditor.Undo.RecordObject(node as UnityEngine.Object, "Connect Port");
-            UnityEditor.Undo.RecordObject(port.node as UnityEngine.Object, "Connect Port");
+            if (undo)
+            {
+                UnityEditor.Undo.RecordObject(node as UnityEngine.Object, "Connect Port");
+                UnityEditor.Undo.RecordObject(port.node as UnityEngine.Object, "Connect Port");
+            }
 #endif
-            if (port.connectionType == ConnectionType.Override && port.ConnectionCount != 0) { port.ClearConnections(); }
-            if (connectionType == ConnectionType.Override && ConnectionCount != 0) { ClearConnections(); }
+            if (port.connectionType == ConnectionType.Override && port.ConnectionCount != 0)
+            {
+                port.ClearConnections();
+            }
+            if (connectionType == ConnectionType.Override && ConnectionCount != 0)
+            {
+                ClearConnections();
+            }
             connections.Add(new PortConnection(port));
-            if (port.connections == null) port.connections = new List<PortConnection>();
-            if (!port.IsConnectedTo(this)) port.connections.Add(new PortConnection(this));
+            if (port.connections == null)
+                port.connections = new List<PortConnection>();
+            if (!port.IsConnectedTo(this))
+                port.connections.Add(new PortConnection(this));
             node.OnCreateConnection(this, port);
             port.node.OnCreateConnection(this, port);
         }

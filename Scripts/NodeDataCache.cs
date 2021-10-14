@@ -70,7 +70,7 @@ namespace XMonoNode {
                         for (int i = 0; i < reconnectConnections.Count; i++) {
                             NodePort connection = reconnectConnections[i];
                             if (connection == null) continue;
-                            if (port.CanConnectTo(connection)) port.Connect(connection);
+                            if (port.CanConnectTo(connection)) port.Connect(connection, false);
                         }
                     }
                     ports.Add(staticPort.fieldName, port);

@@ -23,7 +23,8 @@ namespace XMonoNode {
     /// </code>
     /// </example>
     [Serializable]
-    public abstract class MonoNode : MonoBehaviour, INode {
+    public abstract class MonoNode : MonoBehaviour, INode, ISerializationCallbackReceiver
+    {
 
         /// <summary> Iterate over all dynamic ports on this node. </summary>
         public IEnumerable<NodePort> DynamicPorts
@@ -131,6 +132,16 @@ namespace XMonoNode {
         {
             get => showState;
             set => showState = value;
+        }
+
+        public void OnBeforeSerialize()
+        {
+
+        }
+
+        public void OnAfterDeserialize()
+        {
+            OnNodeEnable();
         }
 
         private void OnEnable()

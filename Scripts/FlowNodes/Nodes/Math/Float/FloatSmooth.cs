@@ -48,17 +48,13 @@ namespace XMonoNode
             lerpUpPort = GetInputPort(nameof(lerpUp));
             lerpDownPort = GetInputPort(nameof(lerpDown));
 
-            outputPort.label = "Output";
-        }
-
-        public override void OnNodeEnable()
-        {
-            base.OnNodeEnable();
             NodePort flowInputPort = GetInputPort(nameof(FlowInput));
             if (flowInputPort != null)
             {
                 flowInputPort.label = "Set Default";
             }
+
+            outputPort.label = "Output";
         }
 
         public override void Flow(NodePort flowPort)
