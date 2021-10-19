@@ -8,7 +8,7 @@ namespace XMonoNode
     {
         private void Reset()
         {
-            Name = "Image Color";
+            Name = "Graphic Color";
         }
 
         protected override Color GetStartValue()

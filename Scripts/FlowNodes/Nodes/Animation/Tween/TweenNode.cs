@@ -177,8 +177,8 @@ namespace XMonoNode
 
         protected Val startValue;
 
-        private NodePort targetPort;
-        private NodePort targetValuePort;
+        protected NodePort targetPort;
+        protected NodePort targetValuePort;
 
         protected override void Init()
         {
