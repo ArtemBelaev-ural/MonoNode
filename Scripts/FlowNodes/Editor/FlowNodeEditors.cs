@@ -201,6 +201,11 @@ namespace FlowNodesEditor
     {
     }
 
+    [CustomNodeEditor(typeof(TweenCanvasGroupAlpha))]
+    public class TweenCanvasGroupAlphaEditor : TweenNodeEditor
+    {
+    }
+
     [CustomNodeEditor(typeof(TweenLocalPosition))]
     public class TweenLocalPositionEditor : TweenNodeEditor
     {
