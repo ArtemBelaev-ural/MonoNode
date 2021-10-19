@@ -68,8 +68,10 @@ namespace XMonoNode
             pitch = GetInputValue(nameof(pitch), pitch);
 
             AudioSources sources = GetAudioInput();
+
             foreach (AudioSource source in sources.List)
             {
+                if (source == null) continue;
                 source.pitch = pitch;
             }
             return sources;
