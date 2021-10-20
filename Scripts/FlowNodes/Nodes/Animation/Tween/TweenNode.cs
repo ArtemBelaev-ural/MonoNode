@@ -89,10 +89,6 @@ namespace XMonoNode
         private void StartTimer()
         {
             duration = GetInputValue(nameof(duration), duration);
-            if (duration <= 0.0f)
-            {
-                return;
-            }
 
             delay = GetInputValue(nameof(delay), delay);
             loopsAmount = GetInputValue(nameof(loopsAmount), loopsAmount);
@@ -109,6 +105,16 @@ namespace XMonoNode
             {
                 _state = State.Started;
                 OnTweenStart();
+                if (duration > 0f)
+                {
+                    OnTweenTick(FloatEase.Ease(0f, easingMode));
+                }
+                else
+                {
+                    OnTweenTick(FloatEase.Ease(1f, easingMode));
+                    OnNextLoop(loop);
+                    OnTweenEnd();
+                }
                 FlowUtils.FlowOutput(onStartPort);
             }
         }
