@@ -279,7 +279,12 @@ namespace XMonoNodeEditor {
                     Root.SetExpanded(false);
                 }
 
+                EditorGUI.BeginChangeCheck();
                 nodeNameFilter = GUILayout.TextField(nodeNameFilter);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Root.SetExpanded(nodeNameFilter != "");
+                }
 
                 buttonStyle.fontSize = 10;
                 if (GUILayout.Button(new GUIContent("clear", "Clear the search field"),/* buttonStyle,*/ GUILayout.MaxWidth(40)))

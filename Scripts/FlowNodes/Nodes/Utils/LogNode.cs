@@ -43,15 +43,15 @@ namespace XMonoNode
 
             if (count == 0)
             {
-                LogFormat(type, "<color=brown>{0}.{1}: </color>" + Text, name, Name); // <Объект>.<Нода>: <Text>
+                LogFormat(type, "<color=brown>[{0}] {1}: </color>" + Text, name, Name); // <Объект>.<Нода>: <Text>
             }
             else if (count == 1)
             {
-                LogFormat(type, "<color=brown>{0}.{1}: </color>" + port.GetInputValue<object>(), name, Name);
+                LogFormat(type, "<color=brown>[{0}] {1}: </color>" + port.GetInputValue<object>(), name, Name);
             }
             else
             {
-                LogFormat(type, "<color=brown>{0}.{1} ({2} inputs):</color>", name, Name, count);
+                LogFormat(type, "<color=brown>[{0}] {1} ({2} inputs):</color>", name, Name, count);
                 for (int i = 0; i < count; ++i)
                 {
                     object[] input = port.GetInputValues();
