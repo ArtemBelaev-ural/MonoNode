@@ -4,10 +4,37 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Utils/Log", 521)]
+    [NodeWidth(150)]
     public class LogNode : FlowNodeInOut 
     {
-        [Input]
+        public enum LogType
+        {
+            Info,
+            Warning,
+            Error,
+        }
+
+        [Input, HideLabel]
         public string Text;
+
+        [SerializeField, Hiding, HideLabel]
+        private LogType type = LogType.Info;
+
+        private void LogFormat(LogType type, string format, params object[] args)
+        {
+            switch (type)
+            {
+                case LogType.Info:
+                    Debug.LogFormat(format, args);
+                    break;
+                case LogType.Warning:
+                    Debug.LogWarningFormat(format, args);
+                    break;
+                case LogType.Error:
+                    Debug.LogErrorFormat(format, args);
+                    break;
+            }
+        }
 
         public override void Flow(NodePort flowPort) 
         {
@@ -16,19 +43,19 @@ namespace XMonoNode
 
             if (count == 0)
             {
-                Debug.LogFormat("<color=brown>{0}: </color>" + Text, Name);
+                LogFormat(type, "<color=brown>{0}.{1}: </color>" + Text, name, Name); // <Объект>.<Нода>: <Text>
             }
             else if (count == 1)
             {
-                Debug.LogFormat("<color=brown>{0}: </color>" + port.GetInputValue<object>(), Name);
+                LogFormat(type, "<color=brown>{0}.{1}: </color>" + port.GetInputValue<object>(), name, Name);
             }
             else
             {
-                Debug.LogFormat("<color=brown>{0} ({1} inputs):</color>", Name, count);
+                LogFormat(type, "<color=brown>{0}.{1} ({2} inputs):</color>", name, Name, count);
                 for (int i = 0; i < count; ++i)
                 {
                     object[] input = port.GetInputValues();
-                    Debug.LogFormat("<color=brown>{0}) </color>" + input[i], i);
+                    LogFormat(type, "<color=brown>{0}) </color>" + input[i], i);
                 }
             }
             FlowOut();
