@@ -105,16 +105,8 @@ namespace XMonoNode
             {
                 _state = State.Started;
                 OnTweenStart();
-                if (duration > 0f)
-                {
-                    OnTweenTick(FloatEase.Ease(0f, easingMode));
-                }
-                else
-                {
-                    OnTweenTick(FloatEase.Ease(1f, easingMode));
-                    OnNextLoop(loop);
-                    OnTweenEnd();
-                }
+                TickTimer();
+
                 FlowUtils.FlowOutput(onStartPort);
             }
         }
@@ -135,11 +127,20 @@ namespace XMonoNode
 
             if (state == State.Started)
             {
+                float time = (duration != 0) ? (duration - remainingSec) / duration : 1.0f; // время [0..1]
+
+                if (loop == LoopType.Yoyo && (loopsCount % 2) == 1) // время в обратную сторону
+                {
+                    time = 1.0f - time;
+                }
+
+                OnTweenTick(FloatEase.Ease(time, easingMode));
+
                 remainingSec -= Time.deltaTime;
                 if (remainingSec <= 0.0f)
                 {
                     ++loopsCount;
-                    OnNextLoop(loop);
+                    
                     if (loopsCount == loopsAmount || loopsAmount == 0)  // stop
                     {
                         FlowOut();
@@ -150,18 +151,12 @@ namespace XMonoNode
                     }
                     else // next loop
                     {
-                        remainingSec = duration + remainingSec; // начинаем отсчет сначала (+погрешность)
+                        remainingSec += duration; // начинаем отсчет сначала 
+                        OnNextLoop(loop);
                     }
                 }
 
-                float time = (duration - remainingSec) / duration; // время [0..1]
-
-                if (loop == LoopType.Yoyo && (loopsCount % 2) == 1) // время в обратную сторону
-                {
-                    time = 1.0f - time;
-                }
-
-                OnTweenTick(FloatEase.Ease(time, easingMode));
+                
             }
         }
 
