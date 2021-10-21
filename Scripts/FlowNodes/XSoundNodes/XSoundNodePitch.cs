@@ -71,7 +71,8 @@ namespace XMonoNode
 
             foreach (AudioSource source in sources.List)
             {
-                if (source == null) continue;
+                if (source == null)
+                    continue;
                 source.pitch = pitch;
             }
             return sources;

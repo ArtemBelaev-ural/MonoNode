@@ -31,6 +31,9 @@ namespace XMonoNode
                 AudioSources sources = GetAudioInput();
                 foreach (AudioSource source in sources.List)
                 {
+                    if (source == null)
+                        continue;
+
                     source.outputAudioMixerGroup = audioMixerGroup;
                 }
                 return sources;

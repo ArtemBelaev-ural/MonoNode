@@ -105,6 +105,9 @@ namespace XMonoNode
             AudioSources sources = GetAudioInput();
             foreach (AudioSource source in sources.List)
             {
+                if (source == null)
+                    continue;
+
                 source.spatialBlend = spatialBlendPort.GetInputValue(spatialBlend);
                 source.reverbZoneMix = reverbZoneMixPort.GetInputValue(reverbZoneMix);
                 source.dopplerLevel = dopplerLevelPort.GetInputValue(dopplerLevel);

@@ -30,6 +30,9 @@ namespace XMonoNode
         {
             foreach (AudioSource source in sources.List)
             {
+                if (source == null)
+                    continue;
+
                 source.pitch = randomValue;
             }
         }

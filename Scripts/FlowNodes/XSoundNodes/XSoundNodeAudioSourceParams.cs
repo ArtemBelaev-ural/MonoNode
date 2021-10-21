@@ -101,6 +101,9 @@ namespace XMonoNode
             AudioSources sources = GetAudioInput();
             foreach (AudioSource source in sources.List)
             {
+                if (source == null)
+                    continue;
+
                 source.outputAudioMixerGroup = mixerGroupPort.GetInputValue(mixerGroup);
                 source.loop = loopPort.GetInputValue(loop);
                 source.volume = volumePort.GetInputValue(volume);

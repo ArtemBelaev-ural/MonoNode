@@ -35,6 +35,9 @@ namespace XMonoNode
             AudioSources result = new AudioSources();
             foreach (AudioSource source in sources.List)
             {
+                if (source == null)
+                    continue;
+
                 if (listener == null ||
                     Vector3.Distance(source.transform.position, listener.transform.position) <= maxDistance)
                 {

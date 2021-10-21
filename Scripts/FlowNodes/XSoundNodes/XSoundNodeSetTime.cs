@@ -83,7 +83,7 @@ namespace XMonoNode
 
             foreach (AudioSource source in sources.List)
             {
-                if (source.clip == null || source.clip.length == 0f)
+                if (source == null ||source.clip == null || source.clip.length == 0f)
                     continue;
                 float _time = time;
                 if (normalized)
