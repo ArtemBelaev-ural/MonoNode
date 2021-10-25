@@ -11,7 +11,7 @@ namespace XMonoNode
     {
         /// <summary> All nodes in the graph. <para/>
         /// See: <see cref="AddNode{T}"/> </summary>
-        [SerializeField, HideInInspector] public MonoNode[] nodes = new MonoNode[0];
+        [SerializeField/*, HideInInspector*/] public MonoNode[] nodes = new MonoNode[0];
 
         public int NodesCount => nodes.Length;
 
@@ -271,12 +271,18 @@ namespace XMonoNode
 
         public void OnBeforeSerialize()
         {
-
+            try // GetComponents() causes NullreferenceException in reset()
+            {
+                nodes = GetComponents<MonoNode>();
+            }
+            catch
+            {
+            }
         }
 
         public void OnAfterDeserialize()
         {
-
+            
         }
 
 
