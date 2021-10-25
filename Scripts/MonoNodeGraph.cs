@@ -278,6 +278,16 @@ namespace XMonoNode
             catch
             {
             }
+            MonoNode.graphHotfix = this;
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                if (nodes[i] != null)
+                {
+                    nodes[i].OnNodeEnable();
+                    nodes[i].graph = this;
+                }
+            }
+            MonoNode.graphHotfix = null;
         }
 
         public void OnAfterDeserialize()
