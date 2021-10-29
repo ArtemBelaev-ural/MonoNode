@@ -6,7 +6,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// Воспроизводит звук, расположенный не далее distance
+    /// Располагает звук в точке
     /// </summary>
     [AddComponentMenu("X Sound Node/Position Binding", 205)]
     [CreateNodeMenu("Sound/Position Binding", 205)]
@@ -30,7 +30,7 @@ namespace XMonoNode
                 AudioSources sources = GetAudioInput();
                 foreach (AudioSource source in sources.List)
                 {
-                    source.transform.localPosition = position;
+                    source.transform.position = position;
                 }
                 return sources;
             }
