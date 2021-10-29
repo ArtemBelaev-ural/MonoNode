@@ -108,6 +108,20 @@ namespace XMonoNode
 
         private void Update()
         {
+            if (graph.UpdateMode == AnimatorUpdateMode.AnimatePhysics)
+                return;
+
+            if (state == State.Started)
+            {
+                TickTimer();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (graph.UpdateMode != AnimatorUpdateMode.AnimatePhysics)
+                return;
+
             if (state == State.Started)
             {
                 TickTimer();
@@ -140,7 +154,7 @@ namespace XMonoNode
 
         private void TickTimer()
         {
-            remainingSec -= Time.deltaTime;
+            remainingSec -= graph.DeltaTime;
             if (remainingSec <= 0.0f || duration <= 0f)
             {
                 TimerCompleted();

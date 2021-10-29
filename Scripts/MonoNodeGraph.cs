@@ -9,9 +9,28 @@ namespace XMonoNode
     [Serializable]
     public class MonoNodeGraph : MonoBehaviour, INodeGraph, ISerializationCallbackReceiver
     {
+        [SerializeField]
+        private AnimatorUpdateMode updateMode = AnimatorUpdateMode.Normal;
+
+        public AnimatorUpdateMode UpdateMode => updateMode;
+
+        public float DeltaTime
+        {
+            get
+            {
+                switch (updateMode)
+                {
+                    case AnimatorUpdateMode.Normal:         return Time.deltaTime;
+                    case AnimatorUpdateMode.AnimatePhysics: return Time.fixedDeltaTime;
+                    // case AnimatorUpdateMode.UnscaledTime: return Time.unscaledDeltaTime;
+                }
+                return Time.unscaledDeltaTime;
+            }
+        }
+
         /// <summary> All nodes in the graph. <para/>
         /// See: <see cref="AddNode{T}"/> </summary>
-        [SerializeField/*, HideInInspector*/] public MonoNode[] nodes = new MonoNode[0];
+        [SerializeField, HideInInspector] public MonoNode[] nodes = new MonoNode[0];
 
         public int NodesCount => nodes.Length;
 

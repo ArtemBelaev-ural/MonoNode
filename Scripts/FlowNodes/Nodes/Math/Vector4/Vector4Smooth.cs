@@ -60,13 +60,29 @@ namespace XMonoNode
 
         private void Update()
         {
+            if (graph.UpdateMode == AnimatorUpdateMode.AnimatePhysics)
+                return;
+
+            ConditionalUpdate();
+        }
+
+        private void FixedUpdate()
+        {
+            if (graph.UpdateMode != AnimatorUpdateMode.AnimatePhysics)
+                return;
+
+            ConditionalUpdate();
+        }
+
+        private void ConditionalUpdate()
+        {
             Default = DefaultPort.GetInputValue(Default);
             input = inputPort.GetInputValue(input);
             lerpCoef = lerpCoefPort.GetInputValue(lerpCoef);
 
             if (!Mathf.Approximately(Vector4.Distance(smooth, input), 0))
             {
-                smooth = Vector4.Lerp(smooth, input, Time.deltaTime * lerpCoef);
+                smooth = Vector4.Lerp(smooth, input, graph.DeltaTime * lerpCoef);
             }
         }
 

@@ -65,6 +65,22 @@ namespace XMonoNode
 
         private void Update()
         {
+            if (graph.UpdateMode == AnimatorUpdateMode.AnimatePhysics)
+                return;
+
+            ConditionalUpdate();
+        }
+
+        private void FixedUpdate()
+        {
+            if (graph.UpdateMode != AnimatorUpdateMode.AnimatePhysics)
+                return;
+
+            ConditionalUpdate();
+        }
+
+        private void ConditionalUpdate()
+        {
             Default = DefaultPort.GetInputValue(Default);
             input = inputPort.GetInputValue(input);
             lerpUp = lerpUpPort.GetInputValue(lerpUp);
@@ -72,7 +88,7 @@ namespace XMonoNode
 
             if (!Mathf.Approximately(lerpOutput, input))
             {
-                lerpOutput = Mathf.Lerp(lerpOutput, input, Time.deltaTime * (input > lerpOutput ? lerpUp : lerpDown));
+                lerpOutput = Mathf.Lerp(lerpOutput, input, graph.DeltaTime * (input > lerpOutput ? lerpUp : lerpDown));
             }
         }
 

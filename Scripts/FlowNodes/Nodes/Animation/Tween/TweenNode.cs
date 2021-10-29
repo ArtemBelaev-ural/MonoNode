@@ -80,6 +80,20 @@ namespace XMonoNode
 
         private void Update()
         {
+            if (graph.UpdateMode == AnimatorUpdateMode.AnimatePhysics)
+                return;
+
+            if (state != State.Stopped)
+            {
+                TickTimer();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (graph.UpdateMode != AnimatorUpdateMode.AnimatePhysics)
+                return;
+
             if (state != State.Stopped)
             {
                 TickTimer();
@@ -115,7 +129,7 @@ namespace XMonoNode
         {
             if (state == State.Wait)
             {
-                waitRemainingSec -= Time.deltaTime;
+                waitRemainingSec -= graph.DeltaTime;
                 if (waitRemainingSec <= 0.0f)
                 {
                     _state = State.Started;
@@ -136,7 +150,7 @@ namespace XMonoNode
 
                 OnTweenTick(FloatEase.Ease(time, easingMode));
 
-                remainingSec -= Time.deltaTime;
+                remainingSec -= graph.DeltaTime;
                 if (remainingSec <= 0.0f)
                 {
                     ++loopsCount;

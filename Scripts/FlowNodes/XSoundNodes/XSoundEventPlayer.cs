@@ -94,7 +94,7 @@ namespace XMonoNode
 
             while (time > 0f)
             {
-                time -= Time.deltaTime;
+                time -= (graph.UpdateMode == AnimatorUpdateMode.Normal ? Time.deltaTime : Time.unscaledDeltaTime);
 
                 int i = 0;
                 foreach (AudioSource source in sources)

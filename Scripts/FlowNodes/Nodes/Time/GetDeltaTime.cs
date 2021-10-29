@@ -15,8 +15,12 @@ namespace XMonoNode
         [Output, Hiding]
         public float fixedDeltaTime;
 
+        [Output, Hiding]
+        public float unscaledDeltaTime;
+
         private NodePort deltaTimePort;
         private NodePort fixedDeltaTimePort;
+        private NodePort unscaledDeltaTimePort;
 
         private void Reset()
         {
@@ -29,6 +33,7 @@ namespace XMonoNode
 
             deltaTimePort = GetOutputPort(nameof(deltaTime));
             fixedDeltaTimePort = GetOutputPort(nameof(fixedDeltaTime));
+            unscaledDeltaTimePort = GetOutputPort(nameof(unscaledDeltaTime));
         }
 
         public override object GetValue(NodePort port)
@@ -40,6 +45,10 @@ namespace XMonoNode
             else if (port == fixedDeltaTimePort)
             {
                 return Time.fixedDeltaTime;
+            }
+            else if (port == unscaledDeltaTimePort)
+            {
+                return Time.unscaledDeltaTime;
             }
 
             return null;
