@@ -30,7 +30,7 @@ namespace XMonoNode
                 AudioSources sources = GetAudioInput();
                 foreach (AudioSource source in sources.List)
                 {
-                    source.transform.position = position;
+                    source.transform.position = Vector3;
                 }
                 return sources;
             }
