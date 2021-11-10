@@ -38,7 +38,12 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            object obj = ObjectPort.GetInputValue(_object);
+            object obj = ObjectPort.GetInputValue();
+            if (obj == null)
+            {
+                obj = _object;
+            }
+
             if (obj is ObjType)
             {
                 _object = obj as ObjType;
