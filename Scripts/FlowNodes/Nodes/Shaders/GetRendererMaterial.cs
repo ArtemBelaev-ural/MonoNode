@@ -10,7 +10,11 @@ namespace XMonoNode
     {
         protected override Material GetValue(Renderer obj)
         {
+#if UNITY_EDITOR
+            return Application.isPlaying ? obj.material : obj.sharedMaterial;
+#else
             return obj.material;
+#endif
         }
     }
 }
