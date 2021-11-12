@@ -8,9 +8,18 @@ namespace XMonoNode
     [NodeWidth(150)]
     public class WaitForSecondsNode : FlowNodeInOut
     {
+        [Input(backingValue: ShowBackingValue.Never,
+            connectionType: ConnectionType.Multiple,
+            typeConstraint: TypeConstraint.None),
+            NodeInspectorButton,
+            Hiding]
+        public Flow stop;
+
         [Input] public float WaitSeconds;
 
         private bool flow = false;
+
+        private NodePort stopPort = null;
 
         private void Reset()
         {
@@ -22,15 +31,23 @@ namespace XMonoNode
             base.Init();
             GetInputPort(nameof(FlowInput)).label = "Enter";
             GetOutputPort(nameof(FlowOutput)).label = "Exit";
+            stopPort = GetInputPort(nameof(stop));
         }
 
         public override async void Flow(NodePort flowPort)
         {
-            var secondsToWait = GetInputValue(nameof(WaitSeconds), WaitSeconds);
-            if (secondsToWait >= 0)
+            if (flowPort == FlowInputPort)
             {
-                flow = true;
-                await DoWait((int)(secondsToWait * 1000));
+                var secondsToWait = GetInputValue(nameof(WaitSeconds), WaitSeconds);
+                if (secondsToWait >= 0)
+                {
+                    flow = true;
+                    await DoWait((int)(secondsToWait * 1000));
+                }
+            }
+            else if (flowPort == stopPort)
+            {
+                Stop();
             }
         }
 
