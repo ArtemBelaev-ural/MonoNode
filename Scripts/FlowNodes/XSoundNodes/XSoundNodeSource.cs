@@ -71,6 +71,7 @@ namespace XMonoNode
             if (sounds == null)
             {
                 Debug.LogErrorFormat("IXSoundsLibraryInstance is null {0}.{1}", gameObject.name, Name);
+                return audioOutput;
             }
 
             if (soundId == -1)
