@@ -150,7 +150,7 @@ namespace XMonoNode
 
                 OnTweenTick(FloatEase.Ease(time, easingMode));
 
-                remainingSec -= graph.DeltaTime;
+                
                 if (remainingSec <= 0.0f)
                 {
                     ++loopsCount;
@@ -169,8 +169,9 @@ namespace XMonoNode
                         OnNextLoop(loop);
                     }
                 }
+                remainingSec -= graph.DeltaTime;
 
-                
+
             }
         }
 

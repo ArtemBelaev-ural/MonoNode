@@ -58,7 +58,7 @@ namespace XMonoNode
                 {
                     
                     value = flowGraph.FlowParametersArray.Get<T>();
-                    return !Equals(value, default(T)) ? value : output;
+                    return (typeof(T).IsValueType || !Equals(value, default(T))) ? value : output;
                 }
             }
   
