@@ -157,6 +157,7 @@ namespace XMonoNode
                     
                     if (loopsCount == loopsAmount || loopsAmount == 0)  // stop
                     {
+                        OnTweenTick(loop == LoopType.Yoyo && (loopsCount % 2) == 0 ? 0f : 1f); // исключаем погрешность - приводим к целевому показателю
                         FlowOut();
                         remainingSec = 0.0f;
                         _state = State.Stopped;
