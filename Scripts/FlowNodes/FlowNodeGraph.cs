@@ -356,9 +356,9 @@ namespace XMonoNode
             return "<color=" + color + ">" + need + "</color>";
         }
 
-        public static T Get<T>(this object[] parameters, int index = 0)
+        public static T Get<T>(this object[] parameters, T def = default(T), int index = 0)
         {
-            T result = default(T);
+            T result = def;
             int currentIndex = -1;
             Type targetType = typeof(T);
 #if NETFX_CORE
