@@ -14,7 +14,6 @@ namespace XMonoNode
         protected override void Init()
         {
             base.Init();
-
             exposedParamPort = GetInputPort(nameof(exposedParam));
         }
 
@@ -22,6 +21,7 @@ namespace XMonoNode
         {
             string param = exposedParamPort.GetInputValue(exposedParam);
             bool ok = target.GetFloat(param, out float value);
+            
             if (!ok)
             {
                 Debug.LogErrorFormat("Mixer {0} hasn't parameter \"{1}\"", target.name, param);
