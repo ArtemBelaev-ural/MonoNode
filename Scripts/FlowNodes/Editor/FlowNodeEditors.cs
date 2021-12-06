@@ -270,7 +270,7 @@ namespace FlowNodesEditor
     {
     }
 
-    [CustomNodeEditor(typeof(FloatAudioMixer))]
+    [CustomNodeEditor(typeof(MixerParameterTime))]
     public class FloatAudioMixerEditor : TweenNodeEditor
     {
     }

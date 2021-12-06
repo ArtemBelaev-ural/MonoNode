@@ -7,7 +7,7 @@ namespace XMonoNode
     public abstract class GetObjectParameter<ObjType, ParamType> : MonoNode where ObjType : Object
     {
         [Input(connectionType: ConnectionType.Override)]
-        public ObjType _object;
+        public ObjType _object = null;
 
         [Output]
         public ParamType parameter;

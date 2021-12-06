@@ -3,8 +3,8 @@ using UnityEngine.Audio;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/FloatAudioMixer", 127)]
-    public class FloatAudioMixer : TweenFloat<AudioMixer>
+    [CreateNodeMenu("Sound/MixerParameterTime", 10014)]
+    public class MixerParameterTime : TweenFloat<AudioMixer>
     {
         [Input(connectionType: ConnectionType.Override)]
         public string exposedParam;
@@ -24,7 +24,7 @@ namespace XMonoNode
             
             if (!ok)
             {
-                Debug.LogErrorFormat("Mixer {0} hasn't parameter \"{1}\"", target.name, param);
+                Debug.LogErrorFormat("Mixer \"{0}\" hasn't parameter \"{1}\"", target.name, param);
             }
 
             return value;
