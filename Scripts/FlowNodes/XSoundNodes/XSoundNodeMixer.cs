@@ -7,7 +7,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     /// <summary>
-    /// ¬оспроизводит звук, расположенный не далее distance
+    /// ”станавливает миксер дл€ звука
     /// </summary>
     [AddComponentMenu("X Sound Node/Mixer", 206)]
     [CreateNodeMenu("Sound/Mixer", 206)]
