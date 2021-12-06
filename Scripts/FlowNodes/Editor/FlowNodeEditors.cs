@@ -270,4 +270,9 @@ namespace FlowNodesEditor
     {
     }
 
+    [CustomNodeEditor(typeof(FloatAudioMixer))]
+    public class FloatAudioMixerEditor : TweenNodeEditor
+    {
+    }
+
 }
