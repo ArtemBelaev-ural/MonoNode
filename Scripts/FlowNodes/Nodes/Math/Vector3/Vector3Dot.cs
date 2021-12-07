@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector3/Dot", 7)]
-    [NodeWidth(180)]
+    [NodeWidth(150)]
     public class Vector3Dot : MonoNode
     {
         [Input(connectionType: ConnectionType.Override), HideLabel]

@@ -275,4 +275,49 @@ namespace FlowNodesEditor
     {
     }
 
+    [CustomNodeEditor(typeof(TweenLocalPosX))]
+    public class TweenLocalPosXEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenLocalPosY))]
+    public class TweenLocalPosYEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenLocalPosZ))]
+    public class TweenLocalPosZEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenPosX))]
+    public class TweenPosXEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenPosY))]
+    public class TweenPosYEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenPosZ))]
+    public class TweenPosZEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenLocalScaleX))]
+    public class TweenLocalScaleXEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenLocalScaleY))]
+    public class TweenLocalScaleYEditor : TweenNodeEditor
+    {
+    }
+
+    [CustomNodeEditor(typeof(TweenLocalScaleZ))]
+    public class TweenLocalScaleZEditor : TweenNodeEditor
+    {
+    }
+
 }

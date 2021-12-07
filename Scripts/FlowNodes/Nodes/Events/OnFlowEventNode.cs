@@ -3,7 +3,7 @@
 namespace XMonoNode
 {
     [ExecuteInEditMode]
-    [NodeWidth(150)]
+    [NodeWidth(110)]
     [CreateNodeMenu("Events/OnFlowStart", 0)]
     [AddComponentMenu("Mono Node/OnFlow", 0)]
     [NodeTint(40, 60, 105)]

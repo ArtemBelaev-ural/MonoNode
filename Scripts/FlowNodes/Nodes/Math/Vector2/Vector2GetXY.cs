@@ -4,10 +4,10 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/GetXY", -6)]
-    [NodeWidth(135)]
+    [NodeWidth(140)]
     public class Vector2GetXY : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel, Inline]
         public Vector2  a;
 
         [Output] public float   x;

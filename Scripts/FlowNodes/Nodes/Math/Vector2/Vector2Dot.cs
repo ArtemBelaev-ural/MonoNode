@@ -4,13 +4,13 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Dot", 7)]
-    [NodeWidth(135)]
+    [NodeWidth(130)]
     public class Vector2Dot : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector2  a;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector2  b;
 
         [Output] public Vector2 dot;

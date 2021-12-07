@@ -7,7 +7,7 @@ namespace XMonoNode
     [NodeWidth(135)]
     public class Vector2Normalized : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector2  vector2;
 
         [Output] public Vector2 normalized;

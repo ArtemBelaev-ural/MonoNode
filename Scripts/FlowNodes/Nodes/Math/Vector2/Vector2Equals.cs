@@ -7,10 +7,10 @@ namespace XMonoNode
     [NodeWidth(135)]
     public class Vector2Equals : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector2  a;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector2  b;
 
         [Output] public bool equals;

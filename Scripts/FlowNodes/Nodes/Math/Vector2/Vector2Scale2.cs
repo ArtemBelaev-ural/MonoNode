@@ -4,10 +4,10 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Scale2", 6)]
-    [NodeWidth(150)]
+    [NodeWidth(130)]
     public class Vector2Scale2 : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector2  vector2;
 
         [Input(connectionType: ConnectionType.Override)]

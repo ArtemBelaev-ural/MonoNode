@@ -9,13 +9,13 @@ namespace XMonoNode
     /// Линейная сферическая интерполяция
     /// </summary>
     [CreateNodeMenu("Vector3/Slerp", 34)]
-    [NodeWidth(180)]
+    [NodeWidth(150)]
     public class Vector3Slerp : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector3      a;
 
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel]
         public Vector3      b;
 
         [Input(connectionType: ConnectionType.Override)]

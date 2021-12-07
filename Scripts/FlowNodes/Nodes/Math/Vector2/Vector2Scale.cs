@@ -4,13 +4,16 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector2/Scale", 5)]
-    [NodeWidth(150)]
+    [NodeWidth(130)]
     public class Vector2Scale : MonoNode
     {
-        [Input] public Vector2  vector2;
-        [Input] public float    scale;
+        [Input, HideLabel]
+        public Vector2  vector2;
+        [Input, HideLabel]
+        public float    scale;
 
-        [Output] public Vector2 scaled;
+        [Output]
+        public Vector2 scaled;
 
         private NodePort vector2Port;
         private NodePort scalePort;

@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector3/Equals", 14)]
-    [NodeWidth(180)]
+    [NodeWidth(150)]
     public class Vector3Equals : MonoNode
     {
         [Input(connectionType: ConnectionType.Override), HideLabel]

@@ -4,13 +4,13 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector3/GetY", -8)]
-    [NodeWidth(180)]
+    [NodeWidth(170)]
     public class Vector3GetY : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel, Inline]
         public Vector3  a;
 
-        [Output] public float   y;
+        [Output, HideLabel] public float   y;
 
         NodePort inputPort;
 

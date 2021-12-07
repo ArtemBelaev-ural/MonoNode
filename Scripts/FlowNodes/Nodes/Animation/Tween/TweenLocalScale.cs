@@ -2,7 +2,7 @@
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/LocalScale", 105)]
+    [CreateNodeMenu("Animation/Tween/LocalScale", 31)]
     public class TweenLocalScale : TweenVector3Transform
     {
         private void Reset()

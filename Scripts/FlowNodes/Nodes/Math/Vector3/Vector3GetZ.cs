@@ -4,10 +4,10 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector3/GetZ", -7)]
-    [NodeWidth(180)]
+    [NodeWidth(170)]
     public class Vector3GetZ : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel, Inline]
         public Vector3  a;
 
         [Output] public float   z;

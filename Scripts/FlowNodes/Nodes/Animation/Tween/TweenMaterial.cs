@@ -18,7 +18,7 @@ namespace XMonoNode
             set;
         }
 
-        protected string Name
+        protected string ParamName
         {
             get;
             set;
@@ -35,9 +35,9 @@ namespace XMonoNode
         {
             base.OnTweenStart();
 
-            Name = NamePort.GetInputValue(paramName);
+            ParamName = NamePort.GetInputValue(paramName);
 
-            Id = Shader.PropertyToID(Name);
+            Id = Shader.PropertyToID(ParamName);
         }
 
     }

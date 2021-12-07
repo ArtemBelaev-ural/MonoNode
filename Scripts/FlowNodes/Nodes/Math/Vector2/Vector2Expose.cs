@@ -7,7 +7,7 @@ namespace XMonoNode
     [NodeWidth(135)]
     public class Vector2Expose : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel, Inline]
         public Vector2      vector2;
 
         [Output] public float       x;

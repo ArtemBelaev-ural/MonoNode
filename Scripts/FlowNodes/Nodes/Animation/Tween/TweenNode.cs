@@ -240,8 +240,11 @@ namespace XMonoNode
             {
                 target = (objTarget as Component).GetComponent<Obj>();
             }
-            
-            
+            else if (objTarget is GameObject)
+            {
+                target = (objTarget as GameObject).GetComponent<Obj>();
+            }
+
             if (target == null)
             {
                 Debug.LogErrorFormat("Tween node target is null ({0}.{1})", gameObject.name, Name);

@@ -2,7 +2,7 @@
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("Animation/Tween/LocalPosition", 101)]
+    [CreateNodeMenu("Animation/Tween/LocalPosition", 11)]
     public class TweenLocalPosition : TweenVector3Transform
     {
 

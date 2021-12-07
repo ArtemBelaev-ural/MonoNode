@@ -7,7 +7,7 @@ namespace XMonoNode
     [NodeWidth(180)]
     public class Vector3GetXYZ : MonoNode
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override), HideLabel, Inline]
         public Vector3  a;
 
         [Output] public float   x;

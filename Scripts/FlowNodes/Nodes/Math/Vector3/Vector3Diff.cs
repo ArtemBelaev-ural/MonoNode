@@ -4,7 +4,7 @@ using XMonoNode;
 namespace XMonoNode
 {
     [CreateNodeMenu("Vector3/Diff", 4)]
-    [NodeWidth(180)]
+    [NodeWidth(150)]
     public class Vector3Diff : MonoNode
     {
         [Input(connectionType: ConnectionType.Override), HideLabel]
