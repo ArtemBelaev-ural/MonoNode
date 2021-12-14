@@ -160,7 +160,9 @@ namespace XMonoNode {
         /// <summary> Update static ports and dynamic ports managed by DynamicPortLists to reflect class fields. This happens automatically on enable or on redrawing a dynamic port list. </summary>
         public void UpdatePorts()
         {
+#if UNITY_EDITOR
             NodeDataCache.UpdatePorts(this, ports);
+#endif
         }
 
         /// <summary> Initialize node. Called on creation. </summary>
