@@ -95,7 +95,12 @@ namespace XMonoNode
             else if (playing.List.Count != 0) // звук завершился
             {
                 playingState = false;
-                TriggerOnEnd();
+
+                if (Application.isFocused)
+                {
+                    TriggerOnEnd();
+                }
+
                 if (SourcesIsPlaying == false) // не даем удалить запущенные по цепочке звуки (если следующая нода взяла звуки этой ноды)
                 {
                     if (Application.isPlaying == false)

@@ -61,8 +61,9 @@ namespace XMonoNode
                 {
                     instanciated.gameObject.hideFlags = HideFlags.DontSave;
                 }
+
+                instanciated.name = $"(Node Graph id=\"{id}\")";
 #endif
-                instanciated.name = $"(Node Graph id=\"{id}\")";   
             }
 
             if (parent != null)
