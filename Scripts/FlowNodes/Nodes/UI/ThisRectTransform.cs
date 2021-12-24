@@ -11,11 +11,17 @@ namespace XMonoNode
 
         private UnityEngine.UI.Graphic graphic = null;
 
+        private UnityEngine.UI.Graphic GetGraphic()
+        {
+            if (graphic == null)
+            {
+                graphic = GetComponent<UnityEngine.UI.Graphic>();
+            }
+            return graphic;
+        }
         protected override void Init()
         {
             base.Init();
-
-            graphic = GetComponent<UnityEngine.UI.Graphic>();
         }
 
         private void Reset()
@@ -25,6 +31,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
+            UnityEngine.UI.Graphic graphic = GetGraphic();
             if (graphic != null && port.fieldName == nameof(output))
             {
                 return graphic.rectTransform;
