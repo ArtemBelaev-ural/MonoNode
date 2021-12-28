@@ -6,5 +6,12 @@ namespace XMonoNode
     [AttributeUsage(AttributeTargets.Field)]
     public class InlineAttribute : Attribute
     {
+        public bool connectedOnly = false;
+
+        /// <param name="connectedOnly">Make port as inline only if it connected</param>
+        public InlineAttribute(bool connectedOnly = false)
+        {
+            this.connectedOnly = connectedOnly;
+        }
     }
 }

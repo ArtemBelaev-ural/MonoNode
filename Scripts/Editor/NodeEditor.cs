@@ -39,6 +39,20 @@ namespace XMonoNodeEditor {
             GUILayout.Label(Target.Name, NodeEditorResources.styles.nodeHeader, GUILayout.Height(30));
         }
 
+        private bool CheckInlineConected(SerializedProperty property, XMonoNode.InlineAttribute inlineAttr)
+        {
+            if (inlineAttr.connectedOnly)
+            {
+                XMonoNode.INode node = property.serializedObject.targetObject as XMonoNode.INode;
+                XMonoNode.NodePort port = node.GetPort(property.name);
+                if (port != null && !port.IsConnected)
+                {
+                    return false; // нельзя рисовать в одну строку, если порт не соединен
+                }
+            }
+            return true;
+        }
+
         /// <summary> Draws standard field editors for all public fields </summary>
         public virtual int OnBodyGUI()
         {
@@ -96,9 +110,10 @@ namespace XMonoNodeEditor {
                     continue;
 
                 ++propertyCount;
-
+                
                 // Draw two fields in one row
-                if (inlineStarted == false && NodeEditorUtilities.GetCachedAttrib(iterator, out XMonoNode.InlineAttribute inlineAttr))
+                if (inlineStarted == false && NodeEditorUtilities.GetCachedAttrib(iterator, out XMonoNode.InlineAttribute inlineAttr) &&
+                    CheckInlineConected(iterator, inlineAttr))
                 {
                     GUILayout.BeginHorizontal();
                     inlineStarted = true;

@@ -4,7 +4,7 @@ using TMPro;
 
 namespace XMonoNode
 {
-    [CreateNodeMenu("UI/GetTextMeshProUGUIColor", 423)]
+    [CreateNodeMenu("UI/Get TextMeshProUGUI Color", 423)]
     [NodeWidth(220)]
     public class GetTextMeshProUGUIColor : GetObjectParameter<TextMeshProUGUI, Color>
     {
