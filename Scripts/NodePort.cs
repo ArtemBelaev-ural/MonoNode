@@ -303,7 +303,7 @@ namespace XMonoNode {
                 return null;
             }
 
-            NodePort port = castedNode.GetPort(connections[i].fieldName);
+            NodePort port = connections[i].Port;//castedNode.GetPort(connections[i].fieldName);
             if (port == null)
             {
                 connections.RemoveAt(i);

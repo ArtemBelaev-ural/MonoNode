@@ -8,19 +8,19 @@ namespace XMonoNode
     {
         public static void FlowOutput(NodePort output)
         {
-            if (output == null)
-            {
-                return;
-            }
+            //if (output == null)
+            //{
+            //    return;
+            //}
 
-            var connectedInputPorts = new List<NodePort>();
+           // var connectedInputPorts = new List<NodePort>();
             
             for (int i = 0; i < output.ConnectionCount; ++i)
             {
                 var inputPort = output.GetConnection(i);
                 if (inputPort != null && inputPort.ValueType == typeof(Flow))
                 {
-                    connectedInputPorts.Add(inputPort);
+                   // connectedInputPorts.Add(inputPort);
                     FlowInput(inputPort);
                 }
             }
