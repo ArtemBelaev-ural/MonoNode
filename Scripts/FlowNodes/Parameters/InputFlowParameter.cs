@@ -25,7 +25,9 @@ namespace XMonoNode
 
         [Output(backingValue: ShowBackingValue.Always), HideLabel] public T   output;
 
-        
+        private long UpdateParametersTimes = -1;
+
+        private object cachedValue;
 
         /// <summary>
         /// Значение, используемое по умолчанию
@@ -53,30 +55,37 @@ namespace XMonoNode
             FlowNodeGraph flowGraph = graph as FlowNodeGraph;
             if (flowGraph != null)
             {
-                if (index > -1)
-                {
-                    if (index < flowGraph.FlowParametersArray.Length)
-                    {
-                        return flowGraph.FlowParametersArray[index];
-                    }
-                    else
-                    {
-                        Debug.LogErrorFormat("{0}.{1} Input parameter index out of bounds {2}", graph.gameObject.name, Name, index);
-                    }
-                }
-                if (flowGraph.OutputFlowParametersDict.TryGetValue(Name, out object value))
-                {
-                    return value;
-                }
-                else
-                {
-                    
-                    value = flowGraph.FlowParametersArray.Get<T>(output);
-                    return value;//return (typeof(T).IsValueType || !Equals(value, default(T))) ? value : output;
-                }
+                return GetCachedParamValue(flowGraph);
             }
-  
+
             return output;
+        }
+
+        private object GetCachedParamValue(FlowNodeGraph flowGraph)
+        {
+            if (UpdateParametersTimes == flowGraph.UpdateParametersTimes)
+            {
+                return cachedValue;
+            }
+
+            if (index > -1 && index < flowGraph.FlowParametersArray.Length)
+            {
+                cachedValue = flowGraph.FlowParametersArray[index];
+                UpdateParametersTimes = flowGraph.UpdateParametersTimes;
+                return cachedValue;
+            }
+            else if (flowGraph.OutputFlowParametersDict.TryGetValue(Name, out cachedValue))
+            {
+                UpdateParametersTimes = flowGraph.UpdateParametersTimes;
+                return cachedValue;
+            }
+            else
+            {
+                UpdateParametersTimes = flowGraph.UpdateParametersTimes;
+                cachedValue = flowGraph.FlowParametersArray.Get<T>(output);
+                return cachedValue;
+            }
+
         }
 
         public override object GetDefaultValue()

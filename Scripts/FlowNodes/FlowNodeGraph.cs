@@ -57,6 +57,12 @@ namespace XMonoNode
 
         }
 
+        public long UpdateParametersTimes
+        {
+            get;
+            private set;
+        } = 0;
+
         private object[]     outputFlowParametersArray = new object[0];
 
         /// <summary>
@@ -113,7 +119,9 @@ namespace XMonoNode
         private void OnUpdateInputParametersNodes()
         {
             OnUpdateParametersNode[] nodes = GetComponents<OnUpdateParametersNode>();
- 
+
+            ++UpdateParametersTimes;
+
             foreach (var node in nodes)
             {
                 node.TriggerFlow();

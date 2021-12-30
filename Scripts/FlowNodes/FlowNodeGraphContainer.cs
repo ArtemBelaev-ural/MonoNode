@@ -193,9 +193,9 @@ namespace XMonoNode
         }
 
 
-        public void UpdateInputParameters(string id, params object[] parameters)
+        public void UpdateInputParameters(string id, Transform transform, params object[] parameters)
         {
-            FlowNodeGraph graph = Get(id, parameters.Get<Transform>());
+            FlowNodeGraph graph = Get(id, transform);
             if (graph != null)
             {
                 graph.UpdateInputParameters(parameters);

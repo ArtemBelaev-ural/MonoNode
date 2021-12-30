@@ -205,13 +205,24 @@ namespace XMonoNode
             }
         }
 
+        public void UpdateInputParameters(Transform parent = null, params object[] parameters)
+        {
+            if (CheckContainer())
+            {
+                FlowNodeGraphContainer container = GetContainer();
+                container.GraphParent = parent;
+                container.UpdateInputParameters(graphId, parent, parameters);
+            }
+        }
+
+        [Obsolete]
         public void UpdateInputParameters(params object[] parameters)
         {
             if (CheckContainer())
             {
                 FlowNodeGraphContainer container = GetContainer();
                 container.GraphParent = parameters.Get<Transform>();
-                container.UpdateInputParameters(graphId, parameters);
+                container.UpdateInputParameters(graphId, container.GraphParent, parameters);
             }
         }
 
