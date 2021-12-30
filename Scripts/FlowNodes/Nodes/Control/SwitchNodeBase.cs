@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using XMonoNode;
+using System.Collections.Generic;
 
 namespace XMonoNode
 {
@@ -13,6 +14,8 @@ namespace XMonoNode
         public T[]  Case = new T[0];
 
         protected NodePort SwitchPort = null;
+
+        private List<NodePort>  CasePorts = null;
 
         protected override void Init()
         {
@@ -29,6 +32,13 @@ namespace XMonoNode
             }
 
             SwitchPort = GetInputPort(nameof(Switch));
+
+            CasePorts = new List<NodePort>();
+            CasePorts.Capacity = Case.Length;
+            for (int i = 0; i < Case.Length; ++i)
+            {
+                CasePorts.Add(GetOutputPort($"{nameof(Case)} {i}"));
+            }
         }
 
         public override void Flow(NodePort flowPort)
@@ -47,7 +57,12 @@ namespace XMonoNode
                 {
                     if (Switch.Equals(Case[i]))
                     {
-                        FlowUtils.FlowOutput(GetOutputPort($"{nameof(Case)} {i}"));
+
+                        //#if UNITY_EDITOR
+                        //                        FlowUtils.FlowOutput(GetOutputPort($"{nameof(Case)} {i}"));
+                        //#else
+                        FlowUtils.FlowOutput(CasePorts[i]);
+                        //#endif
                         caseDefault = false;
                         // return; may be multiple choices!
                     }

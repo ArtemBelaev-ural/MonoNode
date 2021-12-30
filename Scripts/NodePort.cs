@@ -181,7 +181,18 @@ namespace XMonoNode {
         public T GetInputValue<T>(T def)
         {
             object obj = GetInputValue();
-            return obj is T ? (T)obj : def;
+//#if UNITY_EDITOR
+//            return obj is T ? (T)obj : def;
+//#else
+            if (obj != null)
+            {
+                return (T)obj;
+            }
+            else
+            {
+                return def;
+            } 
+//#endif
         }
 
         /// <summary> Return the output values of all connected ports. </summary>
