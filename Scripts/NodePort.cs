@@ -291,24 +291,28 @@ namespace XMonoNode {
 
         public NodePort GetConnection(int i)
         {
+#if UNITY_EDITOR
             //If the connection is broken for some reason, remove it.
             if (connections[i].node == null || string.IsNullOrEmpty(connections[i].fieldName))
             {
                 connections.RemoveAt(i);
                 return null;
             }
+
             INode castedNode = connections[i].node as INode;
             if (castedNode == null)
             {
                 return null;
             }
-
+#endif
             NodePort port = connections[i].Port;//castedNode.GetPort(connections[i].fieldName);
+#if UNITY_EDITOR
             if (port == null)
             {
                 connections.RemoveAt(i);
                 return null;
             }
+#endif
             return port;
         }
 

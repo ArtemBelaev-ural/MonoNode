@@ -107,7 +107,7 @@ namespace XMonoNode
         protected override IFlowNode[] GetFlowEventNodes()
         {
             IFlowNode[] result =  base.GetFlowEventNodes();
-
+  
             if (result.Length != 0)
             {
                 return result;

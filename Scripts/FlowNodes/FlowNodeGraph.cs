@@ -116,13 +116,29 @@ namespace XMonoNode
 #endif
         }
 
+        [SerializeField, HideInInspector] private OnUpdateParametersNode[]  updateParametersNodes = null;
+        [SerializeField, HideInInspector] private FlowEnd[]                 endNodes = null;
+        private IFlowNode[]               eventNodes = null;
+
+        private void Awake()
+        {
+            eventNodes = GetFlowEventNodes();
+        }
+
+        protected override void Init()
+        {
+            base.Init();
+
+            updateParametersNodes = GetComponents<OnUpdateParametersNode>();
+            endNodes = GetComponents<FlowEnd>();
+        }
+
         private void OnUpdateInputParametersNodes()
         {
-            OnUpdateParametersNode[] nodes = GetComponents<OnUpdateParametersNode>();
-
+            //OnUpdateParametersNode[] nodes = GetComponents<OnUpdateParametersNode>();
             ++UpdateParametersTimes;
 
-            foreach (var node in nodes)
+            foreach (var node in updateParametersNodes)
             {
                 node.TriggerFlow();
             }
@@ -190,7 +206,6 @@ namespace XMonoNode
         private void InitEndNodes(Action<string> onEndAction, string state)
         {
             State = state;
-            FlowEnd[] endNodes = GetComponents<FlowEnd>();
 
             foreach (var node in endNodes)
             {
@@ -260,7 +275,6 @@ namespace XMonoNode
 
         public virtual void Flow(Action<string> onEndAction, string state = "")
         {
-            IFlowNode[] eventNodes = GetFlowEventNodes();
             if (eventNodes.Length == 0)
             {
                 Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't OnExecute nodes");

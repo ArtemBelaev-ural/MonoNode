@@ -288,11 +288,17 @@ namespace XMonoNode
             Clear();
         }
 
+        protected virtual void Init()
+        {
+
+        }
+
         public void OnBeforeSerialize()
         {
             try // GetComponents() causes NullreferenceException in reset()
             {
                 nodes = GetComponents<MonoNode>();
+                Init();
             }
             catch
             {
