@@ -7,8 +7,18 @@ namespace XMonoNode
     [NodeWidth(150)]
     public class OnUpdate : EventNode
     {
-        [Input]
+        [Input(connectionType: ConnectionType.Override)]
         public int Milliseconds;
+
+        protected NodePort MillisecondsPort = null;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            MillisecondsPort = GetInputPort(nameof(Milliseconds));
+        }
+
         private float _timestamp
         {
             get; set;
@@ -19,7 +29,7 @@ namespace XMonoNode
             if (Time.realtimeSinceStartup > _timestamp)
             {
                 TriggerFlow();
-                Milliseconds = GetInputValue(nameof(Milliseconds), Milliseconds);
+                Milliseconds = MillisecondsPort.GetInputValue(Milliseconds);
                 _timestamp = Time.realtimeSinceStartup + Milliseconds * 0.001f;
             }
         }

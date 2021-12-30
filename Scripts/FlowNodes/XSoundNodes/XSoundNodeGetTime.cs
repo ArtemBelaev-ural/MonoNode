@@ -19,19 +19,31 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited), Hiding]
         public bool                     normalized = false;
 
+        protected NodePort timePort = null;
+        protected NodePort normalizedPort = null;
+
         private void Reset()
         {
             Name = "Get Time";
         }
 
+        protected override void Init()
+        {
+            base.Init();
+
+            normalizedPort = GetInputPort(nameof(normalized));
+
+            timePort = GetOutputPort(nameof(time));
+        }
+
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(time))
+            if (port == timePort)
             {
                 time = 0.0f;
 
                 AudioSources sources = GetAudioInput();
-                normalized = GetInputValue(nameof(normalized), normalized);
+                normalized = normalizedPort.GetInputValue(normalized);
                 if (sources.List.Count != 0)
                 {
                     AudioSource source = sources.List[sources.List.Count-1];

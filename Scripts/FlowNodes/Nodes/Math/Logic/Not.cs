@@ -13,13 +13,18 @@ namespace XMonoNode
         [Output]
         public bool Result;
 
+        protected NodePort InputPort = null;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            InputPort = GetInputPort(nameof(Input));
+        }
+
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(Result))
-            {
-                return !GetInputValue(nameof(Input), Input);
-            }
-            return null; // Replace this
+            return !InputPort.GetInputValue(Input);
         }
     }
 }

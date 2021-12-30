@@ -26,7 +26,7 @@ namespace XMonoNode
 
         protected AudioSources GetAudioInput()
         {
-            AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput));
+            AudioSources sources = audioInputPort.GetInputValue<AudioSources>();
             if (sources == null)
             {
                 sources = new AudioSources();

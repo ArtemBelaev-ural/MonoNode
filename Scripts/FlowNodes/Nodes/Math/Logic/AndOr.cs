@@ -23,11 +23,21 @@ namespace XMonoNode
 
         public Operation MyOperation;
 
+        protected NodePort InputAPort = null;
+        protected NodePort InputBPort = null;
+
+        protected override void Init()
+        {
+            base.Init();
+
+            InputAPort = GetInputPort(nameof(InputA));
+            InputBPort = GetInputPort(nameof(InputB));
+        }
 
         public override object GetValue(NodePort port)
         {
-            var a = GetInputValue<bool>(nameof(InputA), InputA);
-            var b = GetInputValue<bool>(nameof(InputB), InputB);
+            var a = InputAPort.GetInputValue<bool>(InputA);
+            var b = InputBPort.GetInputValue<bool>(InputB);
             return MyOperation == Operation.And ? a && b : a || b;
         }
     }

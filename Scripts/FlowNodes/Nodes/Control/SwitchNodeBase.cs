@@ -12,6 +12,8 @@ namespace XMonoNode
         [Output(dynamicPortList: true, backingValue: ShowBackingValue.Always), NodeInspectorButton, FlowPort]
         public T[]  Case = new T[0];
 
+        protected NodePort SwitchPort = null;
+
         protected override void Init()
         {
             base.Init();
@@ -25,6 +27,8 @@ namespace XMonoNode
             {
                 portOut.label = "Default";
             }
+
+            SwitchPort = GetInputPort(nameof(Switch));
         }
 
         public override void Flow(NodePort flowPort)
@@ -35,7 +39,7 @@ namespace XMonoNode
                 return;
             }
 
-            Switch = GetInputValue(nameof(Switch), Switch);
+            Switch = SwitchPort.GetInputValue(Switch);
             bool caseDefault = true;
             if (Switch != null)
             {

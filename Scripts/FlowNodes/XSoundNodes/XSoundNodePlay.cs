@@ -36,6 +36,8 @@ namespace XMonoNode
         // Вспомогательный признак, позволяющий определить, что нода запустила сама себя
         private bool playingState = false;
 
+
+        protected NodePort audioInputPort = null;
         protected NodePort stopPort;
         protected NodePort playingPort;
         protected NodePort wnilePlayPort;
@@ -81,8 +83,9 @@ namespace XMonoNode
             playingPort = GetOutputPort(nameof(Playing));
             wnilePlayPort = GetOutputPort(nameof(whilePlay));
             onEndPort = GetOutputPort(nameof(onEnd));
+            audioInputPort = GetInputPort(nameof(audioInput));
 
-            GetInputPort(nameof(audioInput)).label = "Input";
+            audioInputPort.label = "Input";
             
         }
 
@@ -125,7 +128,7 @@ namespace XMonoNode
                 SoundGraph.FlowParametersArray = parameters;
             }
 
-            AudioSources sources = GetInputValue<AudioSources>(nameof(audioInput));
+            AudioSources sources = audioInputPort.GetInputValue<AudioSources>();
             if (sources == null) // только нуллы - ошибка. Пустой контейнер (sources.List.Count == 0) - это нормально
             {
                 Debug.LogErrorFormat(this, "An audio source is not attached to the Play node {0} ({1})".Color(Color.magenta), gameObject.name, Name);
