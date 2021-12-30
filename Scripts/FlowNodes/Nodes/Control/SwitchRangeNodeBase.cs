@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using XMonoNode;
+using System.Collections.Generic;
 
 namespace XMonoNode
 {
@@ -42,6 +43,8 @@ namespace XMonoNode
         private NodePort    continuousPort = null;
         private int         currRangeIndex = -2; // -2 запуск впервые, -1 значение не входит ни в какой диапазон
 
+        private List<NodePort>  RangesPorts = null;
+
         protected override void Init()
         {
             base.Init();
@@ -51,6 +54,13 @@ namespace XMonoNode
             resetPort = GetInputPort(nameof(reset));
             valuePort = GetInputPort(nameof(value));
             continuousPort = GetInputPort(nameof(continuous));
+
+            RangesPorts = new List<NodePort>();
+            RangesPorts.Capacity = Ranges.Length;
+            for (int i = 0; i < Ranges.Length; ++i)
+            {
+                RangesPorts.Add(GetOutputPort($"{nameof(Ranges)} {i}"));
+            }
         }
 
         public override void Flow(NodePort flowPort)
@@ -81,7 +91,11 @@ namespace XMonoNode
                             if (continuous || i != currRangeIndex)
                             {
                                 currRangeIndex = i; // запоминаем текущий диапазон
-                                FlowUtils.FlowOutput(GetOutputPort($"{nameof(Ranges)} {i}"));
+//#if UNITY_EDITOR
+//                                FlowUtils.FlowOutput(GetOutputPort($"{nameof(Ranges)} {i}"));
+//#else
+                                FlowUtils.FlowOutput(RangesPorts[i]);
+//#endif
                             }
                             return; // unable multiple choices!
                         }
