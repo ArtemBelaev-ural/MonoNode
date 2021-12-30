@@ -20,7 +20,10 @@ namespace XMonoNode
     [NodeWidth(200)]
     public abstract class InputFlowParameter<T> : InputFlowParameter
     {
-        [Output(backingValue: ShowBackingValue.Always)] public T   output;
+        [SerializeField]
+        public int index = -1;
+
+        [Output(backingValue: ShowBackingValue.Always), HideLabel] public T   output;
 
         
 
@@ -50,6 +53,17 @@ namespace XMonoNode
             FlowNodeGraph flowGraph = graph as FlowNodeGraph;
             if (flowGraph != null)
             {
+                if (index > -1)
+                {
+                    if (index < flowGraph.FlowParametersArray.Length)
+                    {
+                        return flowGraph.FlowParametersArray[index];
+                    }
+                    else
+                    {
+                        Debug.LogErrorFormat("{0}.{1} Input parameter index out of bounds {2}", graph.gameObject.name, Name, index);
+                    }
+                }
                 if (flowGraph.OutputFlowParametersDict.TryGetValue(Name, out object value))
                 {
                     return value;
