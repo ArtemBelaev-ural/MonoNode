@@ -138,7 +138,9 @@ namespace XMonoNode {
         /// <summary> Return the output value of this node through its parent nodes GetValue override method. </summary>
         /// <returns> <see cref="INode.GetValue(NodePort)"/> </returns>
         public object GetOutputValue() {
+#if UNITY_EDITOR
             if (direction == IO.Input) return null;
+#endif
             return node.GetValue(this);
         }
 

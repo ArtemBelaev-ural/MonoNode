@@ -120,9 +120,16 @@ namespace XMonoNode
         [SerializeField, HideInInspector] private FlowEnd[]                 endNodes = null;
         private IFlowNode[]               eventNodes = null;
 
-        private void Awake()
+        private IFlowNode[] EventNodes
         {
-            eventNodes = GetFlowEventNodes();
+            get
+            {
+                if (eventNodes == null)
+                {
+                    eventNodes = GetFlowEventNodes();
+                }
+                return eventNodes;
+            }
         }
 
         protected override void Init()
@@ -275,14 +282,15 @@ namespace XMonoNode
 
         public virtual void Flow(Action<string> onEndAction, string state = "")
         {
-            if (eventNodes.Length == 0)
+            IFlowNode[] flowNodes = EventNodes;
+            if (flowNodes.Length == 0)
             {
                 Debug.LogError(gameObject.name + ": FlowNodeGraph hasn't OnExecute nodes");
             }
 
             InitEndNodes(onEndAction, state);
 
-            foreach (var node in eventNodes)
+            foreach (var node in flowNodes)
             {
                 node.TriggerFlow();
             }
