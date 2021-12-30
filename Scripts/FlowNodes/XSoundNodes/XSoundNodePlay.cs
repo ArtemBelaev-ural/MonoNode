@@ -37,7 +37,7 @@ namespace XMonoNode
         private bool playingState = false;
 
         protected NodePort stopPort;
-
+        protected NodePort playingPort;
         protected NodePort wnilePlayPort;
         protected NodePort onEndPort;
 
@@ -78,7 +78,7 @@ namespace XMonoNode
             FlowOutputPort.label = "On Start";
 
             stopPort = GetInputPort(nameof(stop));
-
+            playingPort = GetOutputPort(nameof(Playing));
             wnilePlayPort = GetOutputPort(nameof(whilePlay));
             onEndPort = GetOutputPort(nameof(onEnd));
 
@@ -189,7 +189,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(Playing))
+            if (port == playingPort)
             {
                 return PlayingSources();
             }

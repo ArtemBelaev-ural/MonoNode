@@ -13,11 +13,15 @@ namespace XMonoNode
         [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.Inherited, backingValue: ShowBackingValue.Never)]
         public AudioSources audioInput;
 
+        protected NodePort audioInputPort = null;
+
         protected override void Init()
         {
             base.Init();
 
-            GetInputPort(nameof(audioInput)).label = "Input";
+            audioInputPort = GetInputPort(nameof(audioInput));
+
+            audioInputPort.label = "Input";
         }
 
         protected AudioSources GetAudioInput()

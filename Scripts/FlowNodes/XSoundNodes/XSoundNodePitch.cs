@@ -20,27 +20,34 @@ namespace XMonoNode
         [Output(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
         public AudioSources audioOutput;
 
+        [Input(connectionType: ConnectionType.Override)]
+        public float                    pitch = 1.0f;
+
+        protected NodePort audioInputPort = null;
+        protected NodePort audioOutputPort = null;
+        protected NodePort pitchPort = null;
+
         protected override void Init()
         {
             base.Init();
 
-            GetInputPort(nameof(audioInput)).label = "Input";
-            GetOutputPort(nameof(audioOutput)).label = "Output";
+            audioInputPort = GetInputPort(nameof(audioInput));
+            audioOutputPort = GetOutputPort(nameof(audioOutput));
+            pitchPort = GetInputPort(nameof(pitch));
+
+            audioInputPort.label = "Input";
+            audioOutputPort.label = "Output";
         }
 
         protected AudioSources GetAudioInput()
         {
-            AudioSources sources = GetInputValue(nameof(audioInput), audioInput);
+            AudioSources sources = audioInputPort.GetInputValue(audioInput);
             if (sources == null)
             {
                 sources = new AudioSources();
             }
             return sources;
         }
-
-
-        [Input(connectionType: ConnectionType.Override)]
-        public float                    pitch = 1.0f;
 
         private void Reset()
         {
@@ -55,7 +62,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(audioOutput))
+            if (port == audioOutputPort)
             {
                 return changePitch();
             }
@@ -65,7 +72,7 @@ namespace XMonoNode
 
         private object changePitch()
         {
-            pitch = GetInputValue(nameof(pitch), pitch);
+            pitch = pitchPort.GetInputValue(pitch);
 
             AudioSources sources = GetAudioInput();
 

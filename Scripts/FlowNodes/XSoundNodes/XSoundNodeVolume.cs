@@ -24,17 +24,25 @@ namespace XMonoNode
         [Range(0.0f, 1.0f)]
         public float                    volume = 1.0f;
 
+        protected NodePort audioInputPort = null;
+        protected NodePort audioOutputPort = null;
+        protected NodePort volumePort = null;
+
         protected override void Init()
         {
             base.Init();
 
-            GetInputPort(nameof(audioInput)).label = "Input";
-            GetOutputPort(nameof(audioOutput)).label = "Output";
+            audioInputPort = GetInputPort(nameof(audioInput));
+            audioOutputPort = GetOutputPort(nameof(audioOutput));
+            volumePort = GetInputPort(nameof(volume));
+
+            audioInputPort.label = "Input";
+            audioOutputPort.label = "Output";
         }
 
         private AudioSources GetAudioInput()
         {
-            AudioSources sources = GetInputValue(nameof(audioInput), audioInput);
+            AudioSources sources = audioInputPort.GetInputValue(audioInput);
             if (sources == null)
             {
                 sources = new AudioSources();
@@ -55,7 +63,7 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
-            if (port.fieldName == nameof(audioOutput))
+            if (port == audioOutputPort)
             {
                 return changeVolume();
             }
@@ -65,7 +73,7 @@ namespace XMonoNode
 
         private object changeVolume()
         {
-            volume = GetInputValue(nameof(volume), volume);
+            volume = volumePort.GetInputValue(volume);
 
             AudioSources sources = GetAudioInput();
             foreach (AudioSource source in sources.List)
