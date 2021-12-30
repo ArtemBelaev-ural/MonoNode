@@ -29,8 +29,8 @@ namespace XMonoNode
             base.Init();
 
             FloatAPort = GetInputPort(nameof(FloatA));
-            FloatBPort = GetOutputPort(nameof(FloatB));
-            ResultPort = GetInputPort(nameof(Result));
+            FloatBPort = GetInputPort(nameof(FloatB));
+            ResultPort = GetOutputPort(nameof(Result));
 
         }
 
