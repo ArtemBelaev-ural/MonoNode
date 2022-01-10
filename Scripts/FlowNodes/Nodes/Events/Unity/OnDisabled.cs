@@ -3,7 +3,7 @@
 namespace XMonoNode
 {
     [CreateNodeMenu("Events/Lifecicle/OnDisable", 18)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [NodeWidth(150)]
     public class OnDisabled : EventNode
     {

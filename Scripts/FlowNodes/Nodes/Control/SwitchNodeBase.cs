@@ -7,7 +7,7 @@ namespace XMonoNode
     [NodeWidth(280)]
     public abstract class SwitchNodeBase<T> : FlowNodeInOut
     {
-        [Input(connectionType: ConnectionType.Override)]
+        [Input(connectionType: ConnectionType.Override, typeConstraint: TypeConstraint.InheritedAny)]
         public T    Switch = default(T);
 
         [Output(dynamicPortList: true, backingValue: ShowBackingValue.Always), NodeInspectorButton, FlowPort]

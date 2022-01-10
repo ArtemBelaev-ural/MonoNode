@@ -9,7 +9,7 @@ namespace XMonoNode
     /// ќбеспечивает плавное изменение параметра
     /// </summary>
     [CreateNodeMenu("Vector3/Smooth", 31)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class Vector3Smooth : FlowNodeInOut
     {
         [Input(connectionType: ConnectionType.Override)]

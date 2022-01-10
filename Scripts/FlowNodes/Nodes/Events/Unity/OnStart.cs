@@ -3,7 +3,7 @@
 namespace XMonoNode
 {
     [CreateNodeMenu("Events/Lifecicle/OnStart", 13)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [NodeWidth(150)]
     public class OnStart : EventNode
     {

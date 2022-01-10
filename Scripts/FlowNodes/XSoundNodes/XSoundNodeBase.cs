@@ -16,6 +16,13 @@ namespace XMonoNode
 
         public List<AudioSource> List => list;
 
+        public int Count => list.Count;
+
+        public void Clear()
+        {
+            list.Clear();
+        }
+
         public void Stop()
         {
             foreach (AudioSource source in list)
@@ -58,6 +65,7 @@ namespace XMonoNode
         {
             get
             {
+                
                // Debug.Log("IsPlaying");
                 foreach (AudioSource source in list)
                 {

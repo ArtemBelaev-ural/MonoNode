@@ -10,7 +10,7 @@ namespace XMonoNode
     /// A convenient graph for use with flow nodes
     /// </summary>
     [AddComponentMenu("Flow Nodes/FlowNodeGraph", 1)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [RequireComponent(/*typeof(OnFlowEventNode), */typeof(FlowEnd))]
     [RequireNode(typeof(OnFlowEventNode), typeof(FlowEnd))]
     public class FlowNodeGraph : MonoNodeGraph

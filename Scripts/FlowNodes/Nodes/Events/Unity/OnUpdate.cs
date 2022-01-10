@@ -3,7 +3,7 @@
 namespace XMonoNode
 {
     [CreateNodeMenu("Events/Lifecicle/" + nameof(OnUpdate), 15)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [NodeWidth(150)]
     public class OnUpdate : EventNode
     {

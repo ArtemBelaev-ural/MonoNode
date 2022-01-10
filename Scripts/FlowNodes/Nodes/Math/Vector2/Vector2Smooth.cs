@@ -9,7 +9,7 @@ namespace XMonoNode
     /// ќбеспечивает плавное изменение параметра
     /// </summary>
     [CreateNodeMenu("Vector2/Smooth", 31)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [NodeWidth(135)]
     public class Vector2Smooth : FlowNodeInOut
     {

@@ -9,7 +9,7 @@ namespace XMonoNode
     /// ќбеспечивает плавное изменение параметра
     /// </summary>
     [CreateNodeMenu("Vector4/Smooth", 31)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [NodeWidth(150)]
     public class Vector4Smooth : FlowNodeInOut
     {

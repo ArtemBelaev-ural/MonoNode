@@ -9,7 +9,7 @@ namespace XMonoNode
     /// Ћинейна€ интерпол€ци€
     /// </summary>
     [CreateNodeMenu("Vector2/Lerp", 32)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [NodeWidth(110)]
     public class Vector2Lerp : MonoNode
     {

@@ -2,7 +2,7 @@
 
 namespace XMonoNode
 {
-    [ExecuteInEditMode]
+   // [ExecuteInEditMode]
     [NodeWidth(170)]
     [CreateNodeMenu("Events/CustomEventStart", 1)]
     [AddComponentMenu("Mono Node/CustomEvent", 1)]

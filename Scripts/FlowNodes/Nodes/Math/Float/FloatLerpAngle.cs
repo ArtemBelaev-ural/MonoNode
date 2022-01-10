@@ -10,7 +10,7 @@ namespace XMonoNode
     /// </summary>
     [CreateNodeMenu("Float/LerpAngle", -166)]
     [NodeWidth(160)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class FloatLerpAngle : MonoNode
     {
 

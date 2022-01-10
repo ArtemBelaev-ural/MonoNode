@@ -12,7 +12,7 @@ namespace XMonoNode
     [CreateNodeMenu("Sound/Play", 5)]
     [NodeTint(105, 65, 65)]
     [NodeWidth(150)]
-    [ExecuteInEditMode]
+   // [ExecuteInEditMode]
     public class XSoundNodePlay : FlowNodeInOut
     {
         [Inline]
@@ -95,7 +95,7 @@ namespace XMonoNode
             {
                 TriggerWhilePlay();
             }
-            else if (playing.List.Count != 0) // звук завершился
+            else if (playing.Count != 0) // звук завершился
             {
                 playingState = false;
 
@@ -113,7 +113,7 @@ namespace XMonoNode
                 }
                 if (!playingState && Application.isFocused) // нельзя удалять, если приложение не в фокусе - звуки могут быть приостановлены
                 {
-                    playing.List.Clear(); 
+                    playing.Clear(); 
                 }
             }
         }
@@ -122,7 +122,6 @@ namespace XMonoNode
         {
             playingState = true;
             
-
             if (SoundGraph != null)
             {
                 SoundGraph.FlowParametersArray = parameters;

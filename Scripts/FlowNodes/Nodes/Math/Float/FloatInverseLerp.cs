@@ -10,7 +10,7 @@ namespace XMonoNode
     /// </summary>
     [CreateNodeMenu("Float/InverseLerp", -164)]
     [NodeWidth(160)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class FloatInverseLerp : MonoNode
     {
 

@@ -10,7 +10,7 @@ namespace XMonoNode
     /// </summary>
     [CreateNodeMenu("Float/LerpUnclamped", -165)]
     [NodeWidth(160)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class FloatLerpUnclamped : MonoNode
     {
 

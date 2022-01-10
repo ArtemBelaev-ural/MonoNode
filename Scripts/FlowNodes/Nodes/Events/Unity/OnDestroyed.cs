@@ -3,7 +3,7 @@
 namespace XMonoNode
 {
     [CreateNodeMenu("Events/Lifecicle/OnDestroy", 19)]
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [NodeWidth(150)]
     public class OnDestroyed : EventNode
     {

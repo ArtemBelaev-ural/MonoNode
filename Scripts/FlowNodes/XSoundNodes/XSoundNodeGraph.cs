@@ -6,7 +6,7 @@ using XMonoNode;
 
 namespace XMonoNode
 {
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [AddComponentMenu("X Sound Node/SoundNodeGraph", 1)]
     [RequireNode(/*typeof(OnFlowEventNode), */typeof(XSoundNodePlay)/*, typeof(FlowEnd)*/)]
     [RequireComponent(/*typeof(OnFlowEventNode), */typeof(XSoundNodePlay)/*, typeof(FlowEnd)*/)]
