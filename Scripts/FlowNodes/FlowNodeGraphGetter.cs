@@ -106,7 +106,7 @@ namespace XMonoNode
                 var resourceContainer = ResourcesLoader.Load<FlowNodeGraphContainer>(FullPath);
                 if (resourceContainer != null)
                 {
-                    if (Application.isPlaying || !resourceContainer.IsStatic)
+                    if (Application.isPlaying && !resourceContainer.IsStatic)
                     {
                         instanciatedContainer = InstanciateContainer(parent, resourceContainer);
 #if UNITY_EDITOR
