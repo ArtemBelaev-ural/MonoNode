@@ -86,8 +86,12 @@ namespace XMonoNode
     [AddComponentMenu("X Mono Node/FlowNodeGraphContainer", 701)]
     public class FlowNodeGraphContainer : MonoBehaviour
     {
+        [SerializeField, Tooltip("Use for optimisation static sound. Co")]
+        private bool                                            isStatic = false;
         [SerializeField]
         private List<FlowNodeGraphContainerItem>                itemsList = null;
+
+        public bool IsStatic => isStatic;
 
         public List<FlowNodeGraphContainerItem>                 ItemsList => itemsList;
 

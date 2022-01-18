@@ -97,24 +97,18 @@ namespace XMonoNode
 
         private FlowNodeGraphContainer instanciatedContainer = null;
 
+
+
         public FlowNodeGraphContainer GetContainer(Transform parent = null)
         {
             if (instanciatedContainer == null)
             {
-                var res = ResourcesLoader.Load<FlowNodeGraphContainer>(FullPath);
-                if (res != null)
+                var resourceContainer = ResourcesLoader.Load<FlowNodeGraphContainer>(FullPath);
+                if (resourceContainer != null)
                 {
-                    if (Application.isPlaying)
+                    if (Application.isPlaying || !resourceContainer.IsStatic)
                     {
-                        if (parent != null)
-                        {
-                            instanciatedContainer = GameObject.Instantiate(res, parent);
-                            instanciatedContainer.transform.localPosition = Vector3.zero;
-                        }
-                        else
-                        {
-                            instanciatedContainer = GameObject.Instantiate(res);
-                        }
+                        instanciatedContainer = InstanciateContainer(parent, resourceContainer);
 #if UNITY_EDITOR
                         if (Application.isEditor)
                         {
@@ -124,11 +118,33 @@ namespace XMonoNode
                     }
                     else
                     {
-                        instanciatedContainer = res;
+                        instanciatedContainer = resourceContainer;
                     }
                 }
             }
             return instanciatedContainer;
+        }
+
+        private FlowNodeGraphContainer InstanciateContainer(Transform parent, FlowNodeGraphContainer res)
+        {
+            FlowNodeGraphContainer result = null;
+            if (res.IsStatic)
+            {
+
+            }
+            else
+            {
+                if (parent != null)
+                {
+                    result = GameObject.Instantiate(res, parent);
+                    result.transform.localPosition = Vector3.zero;
+                }
+                else
+                {
+                    result = GameObject.Instantiate(res);
+                }
+            }
+            return result;
         }
 
         protected bool CheckContainer()
