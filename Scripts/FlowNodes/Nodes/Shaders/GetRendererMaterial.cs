@@ -24,8 +24,7 @@ namespace XMonoNode
 
         protected override Material GetValue(Renderer obj)
         {
-            int index = materialIndexPort.GetInputValue(0);
-
+            int index = materialIndexPort.GetInputValue(materialIndex);
 #if UNITY_EDITOR
             return Application.isPlaying ?
                 (shared ? obj.sharedMaterials[index] : obj.materials[index]) :
