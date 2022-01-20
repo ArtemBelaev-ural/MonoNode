@@ -81,17 +81,18 @@ namespace XMonoNode
             }
 
             AudioSource source = sounds.Play(soundId, PlayParameters);
-            if (customParamsPort.GetInputValue(customParameters) == true)
-            {
-                source.volume = volumePort.GetInputValue(volume);
-                source.pitch = pitchPort.GetInputValue(pitch);
-            }
-
-            source.transform.parent = transform? transform.parent : null;
-            source.transform.localPosition = Vector3.zero;
-
+            
             if (source != null)
             {
+                if (customParamsPort.GetInputValue(customParameters) == true)
+                {
+                    source.volume = volumePort.GetInputValue(volume);
+                    source.pitch = pitchPort.GetInputValue(pitch);
+                }
+
+                source.transform.parent = transform ? transform.parent : null;
+                source.transform.localPosition = Vector3.zero;
+
                 audioOutput.List.Add(source);
             }
             else
