@@ -54,9 +54,19 @@ namespace XMonoNode
 
         public override object GetValue(NodePort port)
         {
+            if (this == null)
+            {
+                Debug.LogError("this is null");
+            }
+
             if (audioOutput == null)
             {
                 audioOutput = new AudioSources();
+            }
+
+            if (audioOutput.List == null)
+            {
+                Debug.LogError("audioOutput.List is null");
             }
 
             audioOutput.List.Clear();
@@ -70,13 +80,13 @@ namespace XMonoNode
 
             if (sounds == null)
             {
-                Debug.LogErrorFormat("IXSoundsLibraryInstance is null {0}.{1}", gameObject.name, Name);
+                Debug.LogErrorFormat("IXSoundsLibraryInstance is null {0}.{1}", gameObject != null ? gameObject.name : "null", Name);
                 return audioOutput;
             }
 
             if (soundId == -1)
             {
-                Debug.LogErrorFormat(this, "Лёха!!! У ноды сурса звука id -1! {0} ({1})".Color(Color.magenta), gameObject.name, Name);
+                Debug.LogErrorFormat(this, "Лёха!!! У ноды сурса звука id -1! {0} ({1})".Color(Color.magenta), gameObject != null ? gameObject.name : "null", Name);
                 return audioOutput;
             }
 
@@ -84,13 +94,13 @@ namespace XMonoNode
             
             if (source != null && customParamsPort != null)
             {
-                if (customParamsPort.GetInputValue(customParameters) == true)
+                if (customParamsPort.GetInputValue(customParameters) == true && volumePort != null && pitchPort != null)
                 {
                     source.volume = volumePort.GetInputValue(volume);
                     source.pitch = pitchPort.GetInputValue(pitch);
                 }
 
-                source.transform.parent = transform ? transform.parent : null;
+                source.transform.parent = transform != null ? transform.parent : null;
                 source.transform.localPosition = Vector3.zero;
 
                 audioOutput.List.Add(source);
