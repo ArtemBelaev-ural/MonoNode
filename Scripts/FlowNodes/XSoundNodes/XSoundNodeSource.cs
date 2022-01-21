@@ -61,7 +61,7 @@ namespace XMonoNode
 
             audioOutput.List.Clear();
 
-            if (port.ConnectionCount == 0)
+            if (port == null || port.ConnectionCount == 0)
             {
                 return audioOutput;
             }
@@ -82,7 +82,7 @@ namespace XMonoNode
 
             AudioSource source = sounds.Play(soundId, PlayParameters);
             
-            if (source != null)
+            if (source != null && customParamsPort != null)
             {
                 if (customParamsPort.GetInputValue(customParameters) == true)
                 {
