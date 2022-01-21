@@ -56,17 +56,12 @@ namespace XMonoNode
         {
             if (this == null)
             {
-                Debug.LogError("this is null");
+                return new AudioSources();
             }
 
             if (audioOutput == null)
             {
                 audioOutput = new AudioSources();
-            }
-
-            if (audioOutput.List == null)
-            {
-                Debug.LogError("audioOutput.List is null");
             }
 
             audioOutput.List.Clear();
